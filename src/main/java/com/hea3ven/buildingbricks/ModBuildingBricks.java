@@ -1,13 +1,12 @@
 package com.hea3ven.buildingbricks;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.block.BlockSandStone;
+import net.minecraft.block.BlockStone;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -18,18 +17,18 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
-import com.hea3ven.buildingbricks.core.KeyInputEventHandler;
+
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 import com.hea3ven.buildingbricks.core.TexturedModelLoader;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
-import com.hea3ven.buildingbricks.core.items.ItemArchitectTools;
+import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.network.ArchToolsRotateBlockTypeMessage;
+import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 
-@Mod(modid = ModBuildingBricks.MODID, version = ModBuildingBricks.VERSION)
+@Mod(modid = ModBuildingBricks.MODID, name = "Building Bricks", version = ModBuildingBricks.VERSION)
 public class ModBuildingBricks
 {
 	public static final String MODID = "buildingbricks";
@@ -47,7 +46,7 @@ public class ModBuildingBricks
 	public static Block redSandstoneStep;
 	public static Block andesiteCorner;
 	public static Block redSandstoneCorner;
-	public static ItemArchitectTools architectTools;
+	public static ItemTrowel trowel;
 
 	public static TexturedModelLoader tml;
 
@@ -59,7 +58,7 @@ public class ModBuildingBricks
 		ModelLoaderRegistry.registerLoader(tml);
 
 		netChannel = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
-		netChannel.registerMessage(ArchToolsRotateBlockTypeMessage.Handler.class, ArchToolsRotateBlockTypeMessage.class, 0, Side.SERVER);
+		netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class, TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);
 
 		andesiteMaterial = new Material("andesite");
 		andesiteMaterial.setTextureName("blocks/stone_andesite");
@@ -87,6 +86,8 @@ public class ModBuildingBricks
 		GameRegistry.registerBlock(redSandstoneStep, "red_sandstone_step");
 		GameRegistry.registerBlock(andesiteCorner, "andesite_corner");
 		GameRegistry.registerBlock(redSandstoneCorner, "red_sandstone_corner");
+		andesiteMaterial.setFullBlock(Blocks.stone, BlockStone.EnumType.ANDESITE.getMetadata());
+		redSandstoneMaterial.setFullBlock(Blocks.sandstone, BlockSandStone.EnumType.DEFAULT.getMetadata());
 		andesiteMaterial.setSlabBlock(andesiteSlab);
 		redSandstoneMaterial.setSlabBlock(redSandstoneSlab);
 		andesiteMaterial.setStepBlock(andesiteStep);
@@ -94,14 +95,14 @@ public class ModBuildingBricks
 		andesiteMaterial.setCornerBlock(andesiteCorner);
 		redSandstoneMaterial.setCornerBlock(redSandstoneCorner);
 
-		architectTools = new ItemArchitectTools();
-		GameRegistry.registerItem(architectTools, "architect_tools");
+		trowel = new ItemTrowel();
+		GameRegistry.registerItem(trowel, "trowel");
 		for (Material mat : MaterialRegistry.getAll()) {
 			ItemStack blockStack = new ItemStack(mat.getSlabBlock());
-			ItemStack archToolStack = new ItemStack(architectTools, 1, OreDictionary.WILDCARD_VALUE);
-			ItemStack bindedArchToolsStack = new ItemStack(architectTools);
-			architectTools.setBindedMaterial(bindedArchToolsStack, mat);
-			GameRegistry.addShapelessRecipe(bindedArchToolsStack, archToolStack, blockStack);
+			ItemStack trowelStack = new ItemStack(trowel, 1, OreDictionary.WILDCARD_VALUE);
+			ItemStack bindedTrowelStack = new ItemStack(trowel);
+			trowel.setBindedMaterial(bindedTrowelStack, mat);
+			GameRegistry.addShapelessRecipe(bindedTrowelStack, trowelStack, blockStack);
 		}
 
 		proxy.preInit();
@@ -111,13 +112,6 @@ public class ModBuildingBricks
 	public void init(FMLInitializationEvent event)
 	{
 		proxy.init();
-		MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(andesiteSlab), 0, new ModelResourceLocation(MODID+":andesite_slab", "inventory"));
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(redSandstoneSlab), 0, new ModelResourceLocation(MODID+":red_sandstone_slab", "inventory"));
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(andesiteStep), 0, new ModelResourceLocation(MODID+":andesite_step", "inventory"));
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(redSandstoneStep), 0, new ModelResourceLocation(MODID+":red_sandstone_step", "inventory"));
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(andesiteCorner), 0, new ModelResourceLocation(MODID+":andesite_corner", "inventory"));
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(redSandstoneCorner), 0, new ModelResourceLocation(MODID+":red_sandstone_corner", "inventory"));
 		// some example code
 		System.out.println("DIRT BLOCK >> " + Blocks.dirt.getUnlocalizedName());
 	}

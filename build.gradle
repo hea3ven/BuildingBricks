@@ -29,7 +29,7 @@ group = "com.hea3ven.buildingbricks" // http://maven.apache.org/guides/mini/guid
 archivesBaseName = "buildingbricks"
 
 minecraft {
-    version = "1.8-11.14.1.1322"
+    version = "1.8-11.14.2.1427"
     runDir = "eclipse"
 
     mappings = "snapshot_20141130"
@@ -42,6 +42,8 @@ configurations {
 dependencies {
     runmods "codechicken:CodeChickenCore:1.8-1.0.5.34:dev"
     runmods "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
+
+    testCompile "junit:junit:4.12"
 }
 
 processResources

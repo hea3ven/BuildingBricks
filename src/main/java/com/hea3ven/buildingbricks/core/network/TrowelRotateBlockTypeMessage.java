@@ -11,23 +11,23 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.hea3ven.buildingbricks.ModBuildingBricks;
 
-public class ArchToolsRotateBlockTypeMessage implements IMessage {
+public class TrowelRotateBlockTypeMessage implements IMessage {
 
 	public static void send(boolean forward) {
-		ModBuildingBricks.netChannel.sendToServer(new ArchToolsRotateBlockTypeMessage(forward));
+		ModBuildingBricks.netChannel.sendToServer(new TrowelRotateBlockTypeMessage(forward));
 	}
 
-	public static class Handler implements IMessageHandler<ArchToolsRotateBlockTypeMessage, IMessage> {
+	public static class Handler implements IMessageHandler<TrowelRotateBlockTypeMessage, IMessage> {
 
 		@Override
-		public IMessage onMessage(ArchToolsRotateBlockTypeMessage message, MessageContext ctx) {
+		public IMessage onMessage(TrowelRotateBlockTypeMessage message, MessageContext ctx) {
 			EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 			ItemStack stack = player.getCurrentEquippedItem();
-			if (stack.getItem() == ModBuildingBricks.architectTools) {
+			if (stack.getItem() == ModBuildingBricks.trowel) {
 				if (message.forward) {
-					ModBuildingBricks.architectTools.setNextBlockRotation(stack);
+					ModBuildingBricks.trowel.setNextBlockRotation(stack);
 				} else {
-					ModBuildingBricks.architectTools.setPrevBlockRotation(stack);
+					ModBuildingBricks.trowel.setPrevBlockRotation(stack);
 				}
 			}
 			return null;
@@ -36,10 +36,10 @@ public class ArchToolsRotateBlockTypeMessage implements IMessage {
 
 	private boolean forward;
 
-	public ArchToolsRotateBlockTypeMessage() {
+	public TrowelRotateBlockTypeMessage() {
 	}
 
-	private ArchToolsRotateBlockTypeMessage(boolean forward) {
+	private TrowelRotateBlockTypeMessage(boolean forward) {
 		this.forward = forward;
 	}
 

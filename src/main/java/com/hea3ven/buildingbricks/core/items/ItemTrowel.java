@@ -13,10 +13,11 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
-public class ItemArchitectTools extends Item {
+public class ItemTrowel extends Item {
 
-	public ItemArchitectTools() {
+	public ItemTrowel() {
 		setCreativeTab(CreativeTabs.tabTools);
+		setUnlocalizedName("trowel");
 	}
 
 	public void setBindedMaterial(ItemStack stack, Material mat) {
