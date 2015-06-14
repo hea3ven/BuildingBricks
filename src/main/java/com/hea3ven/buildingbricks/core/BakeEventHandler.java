@@ -24,7 +24,6 @@ import net.minecraftforge.client.model.TRSRTransformation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 
-import com.hea3ven.buildingbricks.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.client.model.ModelTrowel;
@@ -40,14 +39,14 @@ public class BakeEventHandler {
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event)
 	{
-		ModBuildingBricks.tml.loader = event.modelLoader;
-		ModBuildingBricks.tml.bakery = event.modelBakery;
-		// IModel model = ModelLoaderRegistry.getModel(new ResourceLocation(
-		// "minecraft:block/half_slab"));
 		for (Material material : MaterialRegistry.getAll()) {
-
-			IModel model = ModelLoaderRegistry.getModel(new ResourceLocation(
-					"buildingbricks:material/" + material.globalId + "_half_slab"));
+			HashMap<String, String> textures = new HashMap<String, String>();
+			textures.put("side", material.sideTextureLocation);
+			textures.put("top", material.topTextureLocation);
+			textures.put("bottom", material.bottomTextureLocation);
+			IRetexturableModel model = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
+					"minecraft:block/half_slab"));
+			model = (IRetexturableModel) model.retexture(ImmutableMap.copyOf(textures));
 			Object bakedModel = model.bake(new ModelLoader.UVLock(model.getDefaultState()),
 					Attributes.DEFAULT_BAKED_FORMAT, null);
 			event.modelRegistry.putObject(new ModelResourceLocation(
@@ -61,10 +60,12 @@ public class BakeEventHandler {
 								+ "#facing=" + facing.getName()), bakedModel);
 			}
 
-			model = ModelLoaderRegistry.getModel(new ResourceLocation(
-					"buildingbricks:material/" + material.globalId + "_step"));
-			IModel modelVertical = ModelLoaderRegistry.getModel(new ResourceLocation(
-					"buildingbricks:material/" + material.globalId + "_step_vertical"));
+			model = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
+					"buildingbricks:block/step_bottom"));
+			model = (IRetexturableModel) model.retexture(ImmutableMap.copyOf(textures));
+			IRetexturableModel modelVertical = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
+					"buildingbricks:block/step_vertical"));
+			modelVertical = (IRetexturableModel) modelVertical.retexture(ImmutableMap.copyOf(textures));
 			bakedModel = model.bake(new ModelLoader.UVLock(model.getDefaultState()),
 					Attributes.DEFAULT_BAKED_FORMAT, null);
 			event.modelRegistry.putObject(new ModelResourceLocation(
@@ -85,8 +86,9 @@ public class BakeEventHandler {
 				}
 			}
 
-			model = ModelLoaderRegistry.getModel(new ResourceLocation(
-					"buildingbricks:material/" + material.globalId + "_corner"));
+			model = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
+					"buildingbricks:block/corner_bottom"));
+			model = (IRetexturableModel) model.retexture(ImmutableMap.copyOf(textures));
 			bakedModel = model.bake(new ModelLoader.UVLock(model.getDefaultState()),
 					Attributes.DEFAULT_BAKED_FORMAT, null);
 			event.modelRegistry.putObject(new ModelResourceLocation(

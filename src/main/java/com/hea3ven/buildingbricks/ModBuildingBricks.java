@@ -6,7 +6,6 @@ import net.minecraft.block.BlockStone;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -19,7 +18,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
-import com.hea3ven.buildingbricks.core.TexturedModelLoader;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
@@ -48,15 +46,11 @@ public class ModBuildingBricks
 	public static Block redSandstoneCorner;
 	public static ItemTrowel trowel;
 
-	public static TexturedModelLoader tml;
 
 	private Material andesiteMaterial;
 	private Material redSandstoneMaterial;
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		tml = new TexturedModelLoader();
-		ModelLoaderRegistry.registerLoader(tml);
-
 		netChannel = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 		netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class, TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);
 
