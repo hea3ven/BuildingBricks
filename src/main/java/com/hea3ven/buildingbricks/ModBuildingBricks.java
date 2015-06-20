@@ -19,16 +19,15 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
+import com.hea3ven.buildingbricks.core.blocks.BlockVerticalSlab;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 
 @Mod(modid = ModBuildingBricks.MODID, name = "Building Bricks", version = ModBuildingBricks.VERSION)
-public class ModBuildingBricks
-{
+public class ModBuildingBricks {
 	public static final String MODID = "buildingbricks";
 	public static final String VERSION = "1.0.0";
 
@@ -38,7 +37,7 @@ public class ModBuildingBricks
 
 	public static SimpleNetworkWrapper netChannel;
 
-	public static Block andesiteSlab;
+	public static BlockVerticalSlab andesiteSlab;
 	public static Block redSandstoneSlab;
 	public static Block andesiteStep;
 	public static Block redSandstoneStep;
@@ -46,9 +45,9 @@ public class ModBuildingBricks
 	public static Block redSandstoneCorner;
 	public static ItemTrowel trowel;
 
-
 	private Material andesiteMaterial;
 	private Material redSandstoneMaterial;
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		netChannel = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
@@ -62,8 +61,8 @@ public class ModBuildingBricks
 		redSandstoneMaterial.bottomTextureLocation = "blocks/red_sandstone_bottom";
 		redSandstoneMaterial.sideTextureLocation = "blocks/red_sandstone_normal";
 		MaterialRegistry.registerMaterial(redSandstoneMaterial);
-		andesiteSlab = new BlockMaterialSlab("andesite_slab");
-		redSandstoneSlab = new BlockMaterialSlab("red_sandstone_slab");
+		andesiteSlab = new BlockVerticalSlab("andesite_slab");
+		redSandstoneSlab = new BlockVerticalSlab("red_sandstone_slab");
 		andesiteStep = new BlockMaterialStep("andesite_step");
 		redSandstoneStep = new BlockMaterialStep("red_sandstone_step");
 		andesiteCorner = new BlockMaterialCorner("andesite_corner");
@@ -71,11 +70,6 @@ public class ModBuildingBricks
 
 		GameRegistry.registerBlock(andesiteSlab, "andesite_slab");
 		GameRegistry.registerBlock(redSandstoneSlab, "red_sandstone_slab");
-//		try {
-//			GameRegistry.addSubstitutionAlias("minecraft:red_sandstone_slab", Type.BLOCK, redSandstoneSlab);
-//		} catch (ExistingSubstitutionException e) {
-//			e.printStackTrace();
-//		}
 		GameRegistry.registerBlock(andesiteStep, "andesite_step");
 		GameRegistry.registerBlock(redSandstoneStep, "red_sandstone_step");
 		GameRegistry.registerBlock(andesiteCorner, "andesite_corner");
@@ -103,8 +97,7 @@ public class ModBuildingBricks
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event)
-	{
+	public void init(FMLInitializationEvent event) {
 		proxy.init();
 		// some example code
 		System.out.println("DIRT BLOCK >> " + Blocks.dirt.getUnlocalizedName());

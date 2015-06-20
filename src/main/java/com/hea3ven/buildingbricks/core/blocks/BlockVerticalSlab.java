@@ -15,17 +15,15 @@ import net.minecraft.util.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockMaterialSlab extends BlockBuildingBricksBase {
-	public static final PropertyInteger MATERIAL = PropertyInteger.create("material", 1, 2);
-	public static final PropertyDirection FACING = PropertyDirection.create("facing");
+public class BlockVerticalSlab extends BlockBuildingBricksBase {
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
-	public BlockMaterialSlab(String name) {
+	public BlockVerticalSlab(String name) {
 		super(Material.rock);
 		setUnlocalizedName(name);
 
 		IBlockState blockState = this.blockState.getBaseState()
-				.withProperty(FACING, EnumFacing.DOWN);
-//				.withProperty(MATERIAL, 1);
+				.withProperty(FACING, EnumFacing.NORTH);
 		setDefaultState(blockState);
 	}
 
@@ -37,34 +35,33 @@ public class BlockMaterialSlab extends BlockBuildingBricksBase {
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int meta = 0;
-//		meta |= ((Integer) state.getValue(MATERIAL)) << 10;
-		meta |= ((EnumFacing) state.getValue(FACING)).getIndex();
+		meta |= 0x03 & (((EnumFacing) state.getValue(FACING)).getIndex() - 2);
 		return meta;
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState state = this.getDefaultState()
-//				.withProperty(MATERIAL, 1);
-				.withProperty(FACING, EnumFacing.getFront(meta & 0xf));
+				.withProperty(FACING, EnumFacing.getFront((meta & 0x03)+2));
 		return state;
 	}
 	
-	private int getMaterialFromState(IBlockAccess world, BlockPos pos) {
-		return (Integer)world.getBlockState(pos).getValue(MATERIAL);
+	public EnumFacing getFacingFromState(IBlockAccess world, BlockPos pos) {
+		return (EnumFacing)world.getBlockState(pos).getValue(FACING);
 	}
 	
-	private EnumFacing getFacingFromState(IBlockAccess world, BlockPos pos) {
-		return (EnumFacing)world.getBlockState(pos).getValue(FACING);
+	public IBlockState setStateFacing(IBlockState state, EnumFacing facing) {
+		return state.withProperty(FACING, facing);
 	}
 	
 	@Override
 	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
 			float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		EnumFacing blockFacing = facing.getOpposite();
+		if (!EnumFacing.Plane.HORIZONTAL.apply(blockFacing))
+			blockFacing = EnumFacing.NORTH;
 		IBlockState blockState = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer)
 				.withProperty(FACING, blockFacing);
-//				.withProperty(MATERIAL, 1);
 		return blockState;
 	}
 	
