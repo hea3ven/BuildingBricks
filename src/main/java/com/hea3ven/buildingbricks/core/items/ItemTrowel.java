@@ -40,11 +40,11 @@ public class ItemTrowel extends Item {
 		return MaterialRegistry.get(stack.getTagCompound().getInteger("material"));
 	}
 
-	private MaterialBlockType getCurrentBlockType(ItemStack stack) {
+	public MaterialBlockType getCurrentBlockType(ItemStack stack) {
 		return MaterialBlockType.getBlockType(stack.getTagCompound().getInteger("blockType"));
 	}
 
-	private void setCurrentBlockType(ItemStack stack, MaterialBlockType blockType) {
+	public void setCurrentBlockType(ItemStack stack, MaterialBlockType blockType) {
 		stack.getTagCompound().setInteger("blockType", blockType.ordinal());
 	}
 
