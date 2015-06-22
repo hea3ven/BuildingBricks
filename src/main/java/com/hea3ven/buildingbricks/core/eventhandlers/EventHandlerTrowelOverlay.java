@@ -5,7 +5,6 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -30,27 +29,25 @@ public class EventHandlerTrowelOverlay {
 				Material mat = ModBuildingBricks.trowel.getBindedMaterial(stack);
 				if (mat != null) {
 					MaterialBlockType type = ModBuildingBricks.trowel.getCurrentBlockType(stack);
-					renderTrowelOverlay(event.resolution, player.inventory.currentItem,
-							event.partialTicks, mat, type);
+					renderTrowelOverlay(event.resolution, event.partialTicks, mat, type);
 				}
 			}
 		}
 	}
 
-	private void renderTrowelOverlay(ScaledResolution sr, int slot, float partialTicks,
-			Material mat, MaterialBlockType type) {
+	private void renderTrowelOverlay(ScaledResolution sr, float partialTicks, Material mat,
+			MaterialBlockType type) {
 		int xPos = sr.getScaledWidth() / 2 - 88 + 10 * 20;
 		int yPos = sr.getScaledHeight() - 16 - 3;
 
-		Item item = mat.getBlockItem(type);
-		ItemStack stack = new ItemStack(item);
+		ItemStack stack1 = mat.getBlock(type).getStack();
 
 		Minecraft mc = Minecraft.getMinecraft();
 		mc.getTextureManager().bindTexture(widgetsTexture);
 		mc.ingameGUI.drawTexturedModalRect(xPos - 3, yPos - 3, 0, 0, 21, 22);
-		mc.ingameGUI.drawTexturedModalRect(xPos + 20, yPos - 3, 181, 0, 1, 22);
+		mc.ingameGUI.drawTexturedModalRect(xPos + 18, yPos - 3, 181, 0, 1, 22);
 
-		renderItem(partialTicks, xPos, yPos, stack);
+		renderItem(partialTicks, xPos, yPos, stack1);
 	}
 
 	private void renderItem(float partialTicks, int xPos, int yPos, ItemStack stack) {

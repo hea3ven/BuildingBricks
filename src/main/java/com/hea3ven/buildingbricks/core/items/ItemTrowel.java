@@ -9,6 +9,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.util.Constants.NBT;
+
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
@@ -24,7 +26,7 @@ public class ItemTrowel extends Item {
 		if (stack.getTagCompound() == null)
 			stack.setTagCompound(new NBTTagCompound());
 		if (mat != null) {
-			stack.getTagCompound().setInteger("material", mat.globalId);
+			stack.getTagCompound().setString("material", mat.materialId());
 			stack.getTagCompound().setInteger("blockType",
 					mat.getBlockRotation().getFirst().ordinal());
 		} else {
@@ -34,10 +36,10 @@ public class ItemTrowel extends Item {
 	}
 
 	public Material getBindedMaterial(ItemStack stack) {
-		if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("material"))
+		if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
 			return null;
 
-		return MaterialRegistry.get(stack.getTagCompound().getInteger("material"));
+		return MaterialRegistry.get(stack.getTagCompound().getString("material"));
 	}
 
 	public MaterialBlockType getCurrentBlockType(ItemStack stack) {
@@ -74,8 +76,8 @@ public class ItemTrowel extends Item {
 			return super.onItemUse(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
 		else {
 			MaterialBlockType blockType = getCurrentBlockType(stack);
-			Item item = mat.getBlockItem(blockType);
-			return item.onItemUse(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
+			ItemStack useStack = mat.getBlock(blockType).getStack().copy();
+			return useStack.getItem().onItemUse(useStack, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
 		}
 	}
 

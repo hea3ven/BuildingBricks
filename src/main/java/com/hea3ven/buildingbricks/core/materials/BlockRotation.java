@@ -1,19 +1,22 @@
 package com.hea3ven.buildingbricks.core.materials;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import net.minecraft.item.Item;
 
+import com.hea3ven.buildingbricks.core.lib.BlockDescription;
+
 public class BlockRotation {
 
-	private HashMap<MaterialBlockType, Item> items;
+	private HashMap<MaterialBlockType, BlockDescription> items;
 
 	public BlockRotation() {
-		items = new HashMap<MaterialBlockType, Item>();
+		items = new HashMap<MaterialBlockType, BlockDescription>();
 	}
 
-	public void add(MaterialBlockType blockType, Item item) {
-		items.put(blockType, item);
+	public void add(MaterialBlockType blockType, BlockDescription blockDesc) {
+		items.put(blockType, blockDesc);
 	}
 
 	public MaterialBlockType getFirst() {
@@ -46,6 +49,14 @@ public class BlockRotation {
 	}
 
 	public Item getItem(MaterialBlockType blockType) {
+		return items.get(blockType).getItem();
+	}
+
+	public Collection<BlockDescription> getAll() {
+		return items.values();
+	}
+
+	public BlockDescription get(MaterialBlockType blockType) {
 		return items.get(blockType);
 	}
 

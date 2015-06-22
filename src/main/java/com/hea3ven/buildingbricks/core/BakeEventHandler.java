@@ -28,6 +28,7 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.client.model.ModelTrowel;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
 public class BakeEventHandler {
@@ -37,77 +38,112 @@ public class BakeEventHandler {
 	};
 
 	@SubscribeEvent
-	public void onModelBakeEvent(ModelBakeEvent event)
-	{
+	public void onModelBakeEvent(ModelBakeEvent event) {
 		for (Material material : MaterialRegistry.getAll()) {
 			HashMap<String, String> textures = new HashMap<String, String>();
-			textures.put("side", material.sideTextureLocation);
-			textures.put("top", material.topTextureLocation);
-			textures.put("bottom", material.bottomTextureLocation);
-			IRetexturableModel model = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
-					"minecraft:block/half_slab"));
-			model = (IRetexturableModel) model.retexture(ImmutableMap.copyOf(textures));
-			Object bakedModel = model.bake(new ModelLoader.UVLock(model.getDefaultState()),
-					Attributes.DEFAULT_BAKED_FORMAT, null);
-			event.modelRegistry.putObject(new ModelResourceLocation(
-					GameData.getBlockRegistry().getNameForObject(material.getSlabBlock())
-							+ "#inventory"), bakedModel);
-			for (EnumFacing facing : EnumFacing.VALUES) {
-				bakedModel = model.bake(new ModelLoader.UVLock(getModelRotationFromFacing(facing)),
-						Attributes.DEFAULT_BAKED_FORMAT, null);
-				event.modelRegistry.putObject(new ModelResourceLocation(
-						GameData.getBlockRegistry().getNameForObject(material.getSlabBlock())
-								+ "#facing=" + facing.getName()), bakedModel);
-			}
+			textures.put("side", material.sideTextureLocation());
+			textures.put("top", material.topTextureLocation());
+			textures.put("bottom", material.bottomTextureLocation());
 
-			model = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
-					"buildingbricks:block/step_bottom"));
-			model = (IRetexturableModel) model.retexture(ImmutableMap.copyOf(textures));
-			IRetexturableModel modelVertical = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
-					"buildingbricks:block/step_vertical"));
-			modelVertical = (IRetexturableModel) modelVertical.retexture(ImmutableMap.copyOf(textures));
-			bakedModel = model.bake(new ModelLoader.UVLock(model.getDefaultState()),
-					Attributes.DEFAULT_BAKED_FORMAT, null);
-			event.modelRegistry.putObject(new ModelResourceLocation(
-					GameData.getBlockRegistry().getNameForObject(material.getStepBlock())
-							+ "#inventory"), bakedModel);
-			for (EnumBlockHalf half : EnumBlockHalf.values()) {
-				for (EnumRotation rot : EnumRotation.values()) {
-				bakedModel = model.bake(new ModelLoader.UVLock(getModelRotationFromFacing(rot, half)),
+			IRetexturableModel model;
+			Object bakedModel;
+			if (material.getBlock(MaterialBlockType.SLAB) != null) {
+				model = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
+						"minecraft:block/half_slab"));
+				model = (IRetexturableModel) model.retexture(ImmutableMap.copyOf(textures));
+				bakedModel = model.bake(new ModelLoader.UVLock(model.getDefaultState()),
 						Attributes.DEFAULT_BAKED_FORMAT, null);
-				event.modelRegistry.putObject(new ModelResourceLocation(
-						GameData.getBlockRegistry().getNameForObject(material.getStepBlock())
-								+ "#half=" + half.getName() + ",rotation=" + rot.getName() + ",vertical=false"), bakedModel);
-				bakedModel = modelVertical.bake(new ModelLoader.UVLock(getModelRotationVertical(rot)),
-						Attributes.DEFAULT_BAKED_FORMAT, null);
-				event.modelRegistry.putObject(new ModelResourceLocation(
-						GameData.getBlockRegistry().getNameForObject(material.getStepBlock())
-								+ "#half=" + half.getName() + ",rotation=" + rot.getName() + ",vertical=true"), bakedModel);
+				event.modelRegistry.putObject(new ModelResourceLocation(GameData.getBlockRegistry()
+						.getNameForObject(material.getBlock(MaterialBlockType.SLAB).getBlock())
+						+ "#inventory"), bakedModel);
+				for (EnumFacing facing : EnumFacing.VALUES) {
+					bakedModel = model.bake(new ModelLoader.UVLock(
+							getModelRotationFromFacing(facing)), Attributes.DEFAULT_BAKED_FORMAT,
+							null);
+					event.modelRegistry.putObject(
+							new ModelResourceLocation(GameData.getBlockRegistry().getNameForObject(
+									material.getBlock(MaterialBlockType.SLAB).getBlock())
+									+ "#facing=" + facing.getName()), bakedModel);
 				}
 			}
 
-			model = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
-					"buildingbricks:block/corner_bottom"));
-			model = (IRetexturableModel) model.retexture(ImmutableMap.copyOf(textures));
-			bakedModel = model.bake(new ModelLoader.UVLock(model.getDefaultState()),
-					Attributes.DEFAULT_BAKED_FORMAT, null);
-			event.modelRegistry.putObject(new ModelResourceLocation(
-					GameData.getBlockRegistry().getNameForObject(material.getCornerBlock())
-							+ "#inventory"), bakedModel);
-			for (EnumBlockHalf half : EnumBlockHalf.values()) {
-				for (EnumRotation rot : EnumRotation.values()) {
-				bakedModel = model.bake(new ModelLoader.UVLock(getModelRotationFromFacing(rot, half)),
+			if (material.getBlock(MaterialBlockType.STEP) != null) {
+				model = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
+						"buildingbricks:block/step_bottom"));
+				model = (IRetexturableModel) model.retexture(ImmutableMap.copyOf(textures));
+				IRetexturableModel modelVertical = (IRetexturableModel) ModelLoaderRegistry
+						.getModel(new ResourceLocation("buildingbricks:block/step_vertical"));
+				modelVertical = (IRetexturableModel) modelVertical.retexture(ImmutableMap
+						.copyOf(textures));
+				bakedModel = model.bake(new ModelLoader.UVLock(model.getDefaultState()),
 						Attributes.DEFAULT_BAKED_FORMAT, null);
-				event.modelRegistry.putObject(new ModelResourceLocation(
-						GameData.getBlockRegistry().getNameForObject(material.getCornerBlock())
-								+ "#half=" + half.getName() + ",rotation=" + rot.getName() + ""), bakedModel);
+				event.modelRegistry.putObject(new ModelResourceLocation(GameData.getBlockRegistry()
+						.getNameForObject(material.getBlock(MaterialBlockType.STEP).getBlock())
+						+ "#inventory"), bakedModel);
+				for (EnumBlockHalf half : EnumBlockHalf.values()) {
+					for (EnumRotation rot : EnumRotation.values()) {
+						bakedModel = model.bake(
+								new ModelLoader.UVLock(getModelRotationFromFacing(rot, half)),
+								Attributes.DEFAULT_BAKED_FORMAT, null);
+						event.modelRegistry.putObject(
+								new ModelResourceLocation(GameData.getBlockRegistry()
+										.getNameForObject(
+												material.getBlock(MaterialBlockType.STEP)
+														.getBlock())
+										+ "#half="
+										+ half.getName()
+										+ ",rotation="
+										+ rot.getName()
+										+ ",vertical=false"), bakedModel);
+						bakedModel = modelVertical.bake(new ModelLoader.UVLock(
+								getModelRotationVertical(rot)), Attributes.DEFAULT_BAKED_FORMAT,
+								null);
+						event.modelRegistry.putObject(
+								new ModelResourceLocation(GameData.getBlockRegistry()
+										.getNameForObject(
+												material.getBlock(MaterialBlockType.STEP)
+														.getBlock())
+										+ "#half="
+										+ half.getName()
+										+ ",rotation="
+										+ rot.getName()
+										+ ",vertical=true"), bakedModel);
+					}
+				}
+			}
+
+			if (material.getBlock(MaterialBlockType.CORNER) != null) {
+				model = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
+						"buildingbricks:block/corner_bottom"));
+				model = (IRetexturableModel) model.retexture(ImmutableMap.copyOf(textures));
+				bakedModel = model.bake(new ModelLoader.UVLock(model.getDefaultState()),
+						Attributes.DEFAULT_BAKED_FORMAT, null);
+				event.modelRegistry.putObject(new ModelResourceLocation(GameData.getBlockRegistry()
+						.getNameForObject(material.getBlock(MaterialBlockType.CORNER).getBlock())
+						+ "#inventory"), bakedModel);
+				for (EnumBlockHalf half : EnumBlockHalf.values()) {
+					for (EnumRotation rot : EnumRotation.values()) {
+						bakedModel = model.bake(
+								new ModelLoader.UVLock(getModelRotationFromFacing(rot, half)),
+								Attributes.DEFAULT_BAKED_FORMAT, null);
+						event.modelRegistry.putObject(
+								new ModelResourceLocation(GameData.getBlockRegistry()
+										.getNameForObject(
+												material.getBlock(MaterialBlockType.CORNER)
+														.getBlock())
+										+ "#half="
+										+ half.getName()
+										+ ",rotation="
+										+ rot.getName()
+										+ ""), bakedModel);
+					}
 				}
 			}
 		}
 
 		for (Material material : MaterialRegistry.getAll()) {
 			HashMap<String, String> textures = new HashMap<String, String>();
-			textures.put("all", material.sideTextureLocation);
+			textures.put("all", material.sideTextureLocation());
 			IRetexturableModel itemModel = (IRetexturableModel) event.modelLoader
 					.getModel(new ResourceLocation("block/cube_all"));
 			itemModel = (IRetexturableModel) itemModel.retexture(ImmutableMap.copyOf(textures));
@@ -120,15 +156,14 @@ public class BakeEventHandler {
 			IFlexibleBakedModel baseBakedItemModel = itemModel.bake(itemModel.getDefaultState(),
 					Attributes.DEFAULT_BAKED_FORMAT, null);
 
-			ModelTrowel.models.put(material, new ModelTrowel(baseBakedItemModel,
-					bakedItemModel));
+			ModelTrowel.models.put(material, new ModelTrowel(baseBakedItemModel, bakedItemModel));
 		}
 		IModel baseItemModel = event.modelLoader.getModel(new ResourceLocation(
 				"buildingbricks:item/trowel"));
 		IFlexibleBakedModel baseBakedItemModel = baseItemModel.bake(
 				baseItemModel.getDefaultState(), Attributes.DEFAULT_BAKED_FORMAT, null);
-		event.modelRegistry.putObject(new ModelResourceLocation(
-				"buildingbricks:trowel#inventory"), new ModelTrowel(baseBakedItemModel));
+		event.modelRegistry.putObject(new ModelResourceLocation("buildingbricks:trowel#inventory"),
+				new ModelTrowel(baseBakedItemModel));
 	}
 
 	private IModelState getModelRotationVertical(EnumRotation rot) {

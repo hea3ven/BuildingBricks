@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockSandStone;
 import net.minecraft.block.BlockStone;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -15,14 +14,15 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.oredict.OreDictionary;
 
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
 import com.hea3ven.buildingbricks.core.blocks.BlockVerticalSlab;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
+import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 
@@ -54,12 +54,10 @@ public class ModBuildingBricks {
 		netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class, TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);
 
 		andesiteMaterial = new Material("andesite");
-		andesiteMaterial.setTextureName("blocks/stone_andesite");
+		andesiteMaterial.setTexture("blocks/stone_andesite");
 		MaterialRegistry.registerMaterial(andesiteMaterial);
 		redSandstoneMaterial = new Material("red_sandstone");
-		redSandstoneMaterial.topTextureLocation = "blocks/red_sandstone_top";
-		redSandstoneMaterial.bottomTextureLocation = "blocks/red_sandstone_bottom";
-		redSandstoneMaterial.sideTextureLocation = "blocks/red_sandstone_normal";
+		redSandstoneMaterial.setTexture("blocks/red_sandstone_top","blocks/red_sandstone_bottom", "blocks/red_sandstone_normal");
 		MaterialRegistry.registerMaterial(redSandstoneMaterial);
 		andesiteSlab = new BlockVerticalSlab("andesite_slab");
 		redSandstoneSlab = new BlockVerticalSlab("red_sandstone_slab");
@@ -74,24 +72,17 @@ public class ModBuildingBricks {
 		GameRegistry.registerBlock(redSandstoneStep, "red_sandstone_step");
 		GameRegistry.registerBlock(andesiteCorner, "andesite_corner");
 		GameRegistry.registerBlock(redSandstoneCorner, "red_sandstone_corner");
-		andesiteMaterial.setFullBlock(Blocks.stone, BlockStone.EnumType.ANDESITE.getMetadata());
-		redSandstoneMaterial.setFullBlock(Blocks.sandstone, BlockSandStone.EnumType.DEFAULT.getMetadata());
-		andesiteMaterial.setSlabBlock(andesiteSlab);
-		redSandstoneMaterial.setSlabBlock(redSandstoneSlab);
-		andesiteMaterial.setStepBlock(andesiteStep);
-		redSandstoneMaterial.setStepBlock(redSandstoneStep);
-		andesiteMaterial.setCornerBlock(andesiteCorner);
-		redSandstoneMaterial.setCornerBlock(redSandstoneCorner);
+		andesiteMaterial.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.stone, BlockStone.EnumType.ANDESITE.getMetadata()));
+		redSandstoneMaterial.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.sandstone, BlockSandStone.EnumType.DEFAULT.getMetadata()));
+		andesiteMaterial.addBlock(MaterialBlockType.SLAB, new BlockDescription(andesiteSlab));
+		redSandstoneMaterial.addBlock(MaterialBlockType.SLAB, new BlockDescription(redSandstoneSlab));
+		andesiteMaterial.addBlock(MaterialBlockType.STEP, new BlockDescription(andesiteStep));
+		redSandstoneMaterial.addBlock(MaterialBlockType.STEP, new BlockDescription(redSandstoneStep));
+		andesiteMaterial.addBlock(MaterialBlockType.CORNER, new BlockDescription(andesiteCorner));
+		redSandstoneMaterial.addBlock(MaterialBlockType.CORNER, new BlockDescription(redSandstoneCorner));
 
 		trowel = new ItemTrowel();
 		GameRegistry.registerItem(trowel, "trowel");
-		for (Material mat : MaterialRegistry.getAll()) {
-			ItemStack blockStack = new ItemStack(mat.getSlabBlock());
-			ItemStack trowelStack = new ItemStack(trowel, 1, OreDictionary.WILDCARD_VALUE);
-			ItemStack bindedTrowelStack = new ItemStack(trowel);
-			trowel.setBindedMaterial(bindedTrowelStack, mat);
-			GameRegistry.addShapelessRecipe(bindedTrowelStack, trowelStack, blockStack);
-		}
 
 		proxy.preInit();
 	}
@@ -99,7 +90,6 @@ public class ModBuildingBricks {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.init();
-		// some example code
 		System.out.println("DIRT BLOCK >> " + Blocks.dirt.getUnlocalizedName());
 	}
 }

@@ -4,9 +4,6 @@ package com.hea3ven.buildingbricks.core.eventhandlers;
 import java.util.HashMap;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -20,7 +17,6 @@ import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.buildingbricks.ModBuildingBricks;
-import com.hea3ven.buildingbricks.core.blocks.BlockVerticalSlab;
 
 public class EventHandlerOverrideBlockPlacing {
 	public class SlabOverride {
@@ -38,7 +34,7 @@ public class EventHandlerOverrideBlockPlacing {
 	public void onPlayerInteractEvent(PlayerInteractEvent event) {
 		if (event.action == Action.RIGHT_CLICK_BLOCK) {
 			ItemStack stack = event.entityPlayer.getCurrentEquippedItem();
-			if (stack.getItem() == Item.getItemFromBlock(Blocks.stone_slab)) {
+			if (stack != null && stack.getItem() == Item.getItemFromBlock(Blocks.stone_slab)) {
 				if (!event.world.isRemote) {
 					if (event.face.getAxis() != Axis.Y) {
 						slabOverrides.put(event.entityPlayer, new SlabOverride(event.face.getOpposite()));

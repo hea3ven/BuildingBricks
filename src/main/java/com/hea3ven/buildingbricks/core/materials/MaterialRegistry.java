@@ -7,21 +7,19 @@ import java.util.Set;
 
 public class MaterialRegistry {
 	
-	private static int nextGlobalId = 1;
 	private static Set<Material> materials = new HashSet<Material>();
-	private static Map<Integer, Material> materialsById = new HashMap<Integer, Material>();
+	private static Map<String, Material> materialsById = new HashMap<String, Material>();
 
 	public static void registerMaterial(Material material) {
 		materials.add(material);
-		material.globalId = nextGlobalId++;
-		materialsById.put(material.globalId, material);
+		materialsById.put(material.materialId(), material);
 	}
 
 	public static Set<Material> getAll() {
 		return materials;
 	}
 
-	public static Material get(int materialId) {
+	public static Material get(String materialId) {
 		return materialsById.get(materialId);
 	}
 
