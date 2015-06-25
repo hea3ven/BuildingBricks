@@ -21,7 +21,9 @@ public class ProxyCommonBuildingBricks {
 	public void init() {
 		MinecraftForge.EVENT_BUS.register(new EventHandlerOverrideBlockPlacing());
 		MinecraftForge.EVENT_BUS.register(new EventHandlerTrowelOverlay());
+	}
 
+	public void postInit() {
 		addTrowelRecipes();
 	}
 
@@ -35,5 +37,4 @@ public class ProxyCommonBuildingBricks {
 			}
 		}
 	}
-
 }

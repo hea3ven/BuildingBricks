@@ -1,7 +1,7 @@
 package com.hea3ven.buildingbricks.compat.vanilla;
 
-import net.minecraft.block.BlockStoneSlab;
 import net.minecraft.block.BlockStone.EnumType;
+import net.minecraft.block.BlockStoneSlab;
 import net.minecraft.init.Blocks;
 
 import net.minecraftforge.fml.common.Mod;
@@ -22,14 +22,16 @@ public class ModBuildingBricksCompatVanilla {
 	public void preInit(FMLPreInitializationEvent event) {
 		Material mat = new Material("stone");
 		mat.setTexture("blocks/stone");
+		mat.setStructureMaterial(net.minecraft.block.material.Material.rock);
 		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.stone, EnumType.STONE.getMetadata()));
 //		mat.addBlock(MaterialBlockType.SLAB);
 //		mat.addBlock(MaterialBlockType.STEP);
-//		mat.addBlock(MaterialBlockType.CORNER);
+		mat.addBlock(MaterialBlockType.CORNER);
 		MaterialRegistry.registerMaterial(mat);
 		
 		mat = new Material("cobblestone");
 		mat.setTexture("blocks/cobblestone");
+		mat.setStructureMaterial(net.minecraft.block.material.Material.rock);
 		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.cobblestone));
 		mat.addBlock(MaterialBlockType.SLAB, new BlockDescription(Blocks.stone_slab, BlockStoneSlab.EnumType.COBBLESTONE.getMetadata()));
 		MaterialRegistry.registerMaterial(mat);
