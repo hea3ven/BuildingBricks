@@ -34,6 +34,7 @@ import net.minecraftforge.fml.common.registry.GameData;
 
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
+import com.hea3ven.buildingbricks.core.client.model.ModelItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.client.model.ModelTrowel;
 import com.hea3ven.buildingbricks.core.client.model.SmartModelCached;
 import com.hea3ven.buildingbricks.core.materials.Material;
@@ -52,9 +53,12 @@ public class BakeEventHandler {
 
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
-		for (Entry<MaterialBlockType, HashMap<net.minecraft.block.material.Material, Set<Material>>> entry : MaterialBlockRegistry.instance.getBlocksMaterials().entrySet()) {
-			SmartModelCached cornerModel = new SmartModelCached();
-			bakeBlockModels(event.modelRegistry, cornerModel, entry.getKey(), Iterables.concat(entry.getValue().values()));
+		for (Entry<MaterialBlockType, HashMap<net.minecraft.block.material.Material, Set<Material>>> entry : MaterialBlockRegistry.instance
+				.getBlocksMaterials().entrySet()) {
+			SmartModelCached model = new SmartModelCached();
+			ModelItemMaterialBlock itemModel = new ModelItemMaterialBlock();
+			bakeBlockModels(event.modelRegistry, model, itemModel, entry.getKey(),
+					Iterables.concat(entry.getValue().values()));
 		}
 		for (Material material : MaterialRegistry.getAll()) {
 			HashMap<String, String> textures = new HashMap<String, String>();
@@ -157,7 +161,8 @@ public class BakeEventHandler {
 	}
 
 	private void bakeBlockModels(IRegistry modelRegistry, SmartModelCached cacheModel,
-			MaterialBlockType blockType, Iterable<Material> materials) {
+			ModelItemMaterialBlock itemModel, MaterialBlockType blockType,
+			Iterable<Material> materials) {
 		for (Material mat : materials) {
 			IRetexturableModel baseModel = (IRetexturableModel) ModelLoaderRegistry
 					.getModel(blockType.baseModel());
@@ -170,9 +175,10 @@ public class BakeEventHandler {
 			IFlexibleBakedModel bakedModel = baseModel.bake(
 					new ModelLoader.UVLock(baseModel.getDefaultState()),
 					Attributes.DEFAULT_BAKED_FORMAT, null);
+			itemModel.put(mat.materialId(), bakedModel);
 			modelRegistry.putObject(new ModelResourceLocation(GameData.getBlockRegistry()
 					.getNameForObject(mat.getBlock(MaterialBlockType.CORNER).getBlock())
-					+ "#inventory"), bakedModel);
+					+ "#inventory"), itemModel);
 			cacheModel.setDefault(bakedModel);
 			for (IBlockState state : blockType.getValidBlockStates()) {
 				bakedModel = baseModel.bake(

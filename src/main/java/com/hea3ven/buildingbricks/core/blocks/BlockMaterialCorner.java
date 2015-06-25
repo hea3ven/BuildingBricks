@@ -11,8 +11,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -74,6 +76,25 @@ public class BlockMaterialCorner extends BlockCorner {
 			TileEntityMaterial teMat = (TileEntityMaterial) worldIn.getTileEntity(pos);
 			teMat.setMaterial(MaterialRegistry.get(stack.getTagCompound().getString("material")));
 		}
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) {
+		ItemStack stack = super.getPickBlock(target, world, pos);
+		stack.setTagInfo("material",
+				new NBTTagString(((TileEntityMaterial) world.getTileEntity(pos)).material()
+						.materialId()));
+		return stack;
+	}
+
+	@Override
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
+		ret.get(0).setTagInfo(
+				"material",
+				new NBTTagString(((TileEntityMaterial) world.getTileEntity(pos)).material()
+						.materialId()));
+		return ret;
 	}
 
 	@Override
