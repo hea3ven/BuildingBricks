@@ -12,25 +12,42 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.TRSRTransformation;
 
-import com.hea3ven.buildingbricks.core.blocks.BlockCorner;
+import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 
 public enum MaterialBlockType {
-	FULL, SLAB, STEP, CORNER;
+	FULL("minecraft:block/cube_bottom_top"),
+	SLAB("minecraft:block/half_slab"),
+	STEP("buildingbricks:block/step_bottom"),
+	CORNER("buildingbricks:block/corner_bottom");
 
 	public static MaterialBlockType getBlockType(int id) {
 		return values()[id];
 	}
 
 	private Block block;
+	private ResourceLocation baseModel;
+
+	private MaterialBlockType(String modelLocation) {
+		baseModel = new ResourceLocation(modelLocation);
+	}
 
 	public void setBlock(Block block) {
 		this.block = block;
 	}
 
 	public ResourceLocation baseModel() {
-		return new ResourceLocation("buildingbricks:block/corner_bottom");
+		return baseModel;
+	}
+
+	public ResourceLocation baseModel(IBlockState state) {
+		if (this == STEP) {
+			if (BlockProperties.getVertical(state)) {
+				return new ResourceLocation("buildingbricks:block/step_vertical");
+			}
+		}
+		return baseModel;
 	}
 
 	public Collection<IBlockState> getValidBlockStates() {
@@ -38,8 +55,24 @@ public enum MaterialBlockType {
 	}
 
 	public IModelState getModelStateFromBlockState(IBlockState state) {
-		return getModelRotationFromFacing(BlockCorner.getStateRotation(state),
-				BlockCorner.getStateHalf(state));
+		if (this == STEP) {
+			if (BlockProperties.getVertical(state)) {
+				return getModelRotationVertical(BlockProperties.getRotation(state));
+			} else {
+				return getModelRotationFromFacing(BlockProperties.getRotation(state),
+						BlockProperties.getHalf(state));
+			}
+
+		} else if (this == CORNER) {
+			return getModelRotationFromFacing(BlockProperties.getRotation(state),
+					BlockProperties.getHalf(state));
+		} else {
+			return null;
+		}
+	}
+
+	private IModelState getModelRotationVertical(EnumRotation rot) {
+		return ModelRotation.getModelRotation(0, rot.getAngleDeg());
 	}
 
 	private IModelState getModelRotationFromFacing(EnumRotation rot, EnumBlockHalf half) {

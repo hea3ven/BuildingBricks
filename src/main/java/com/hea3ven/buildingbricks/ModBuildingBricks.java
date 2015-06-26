@@ -17,7 +17,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
 import com.hea3ven.buildingbricks.core.blocks.BlockVerticalSlab;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
@@ -26,7 +25,7 @@ import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
-import com.hea3ven.buildingbricks.core.tileentity.TileEntityMaterial;
+import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 @Mod(modid = ModBuildingBricks.MODID, name = "Building Bricks", version = ModBuildingBricks.VERSION)
 public class ModBuildingBricks {
@@ -41,8 +40,6 @@ public class ModBuildingBricks {
 
 	public static BlockVerticalSlab andesiteSlab;
 	public static Block redSandstoneSlab;
-	public static Block andesiteStep;
-	public static Block redSandstoneStep;
 	public static ItemTrowel trowel;
 
 	private Material andesiteMaterial;
@@ -54,7 +51,7 @@ public class ModBuildingBricks {
 		netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class,
 				TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);
 
-		GameRegistry.registerTileEntity(TileEntityMaterial.class, "tile.material");
+		GameRegistry.registerTileEntity(TileMaterial.class, "tile.material");
 
 		MaterialBlockRegistry.instance.init();
 
@@ -69,19 +66,15 @@ public class ModBuildingBricks {
 		MaterialRegistry.registerMaterial(redSandstoneMaterial);
 		andesiteSlab = new BlockVerticalSlab("andesite_slab");
 		redSandstoneSlab = new BlockVerticalSlab("red_sandstone_slab");
-		andesiteStep = new BlockMaterialStep("andesite_step");
-		redSandstoneStep = new BlockMaterialStep("red_sandstone_step");
 
 		GameRegistry.registerBlock(andesiteSlab, "andesite_slab");
 		GameRegistry.registerBlock(redSandstoneSlab, "red_sandstone_slab");
-		GameRegistry.registerBlock(andesiteStep, "andesite_step");
-		GameRegistry.registerBlock(redSandstoneStep, "red_sandstone_step");
 		andesiteMaterial.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.stone, BlockStone.EnumType.ANDESITE.getMetadata()));
 		redSandstoneMaterial.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.sandstone, BlockSandStone.EnumType.DEFAULT.getMetadata()));
 		andesiteMaterial.addBlock(MaterialBlockType.SLAB, new BlockDescription(andesiteSlab));
 		redSandstoneMaterial.addBlock(MaterialBlockType.SLAB, new BlockDescription(redSandstoneSlab));
-		andesiteMaterial.addBlock(MaterialBlockType.STEP, new BlockDescription(andesiteStep));
-		redSandstoneMaterial.addBlock(MaterialBlockType.STEP, new BlockDescription(redSandstoneStep));
+		andesiteMaterial.addBlock(MaterialBlockType.STEP);
+		redSandstoneMaterial.addBlock(MaterialBlockType.STEP);
 		andesiteMaterial.addBlock(MaterialBlockType.CORNER);
 		redSandstoneMaterial.addBlock(MaterialBlockType.CORNER);
 

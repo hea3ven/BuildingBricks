@@ -32,8 +32,6 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 
-import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
-import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.client.model.ModelItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.client.model.ModelTrowel;
 import com.hea3ven.buildingbricks.core.client.model.SmartModelCached;
@@ -41,7 +39,7 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.tileentity.TileEntityMaterial;
+import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BakeEventHandler {
 	public static final BakeEventHandler instance = new BakeEventHandler();
@@ -88,50 +86,6 @@ public class BakeEventHandler {
 				}
 			}
 
-			if (material.getBlock(MaterialBlockType.STEP) != null) {
-				model = (IRetexturableModel) ModelLoaderRegistry.getModel(new ResourceLocation(
-						"buildingbricks:block/step_bottom"));
-				model = (IRetexturableModel) model.retexture(ImmutableMap.copyOf(textures));
-				IRetexturableModel modelVertical = (IRetexturableModel) ModelLoaderRegistry
-						.getModel(new ResourceLocation("buildingbricks:block/step_vertical"));
-				modelVertical = (IRetexturableModel) modelVertical.retexture(ImmutableMap
-						.copyOf(textures));
-				bakedModel = model.bake(new ModelLoader.UVLock(model.getDefaultState()),
-						Attributes.DEFAULT_BAKED_FORMAT, null);
-				event.modelRegistry.putObject(new ModelResourceLocation(GameData.getBlockRegistry()
-						.getNameForObject(material.getBlock(MaterialBlockType.STEP).getBlock())
-						+ "#inventory"), bakedModel);
-				for (EnumBlockHalf half : EnumBlockHalf.values()) {
-					for (EnumRotation rot : EnumRotation.values()) {
-						bakedModel = model.bake(
-								new ModelLoader.UVLock(getModelRotationFromFacing(rot, half)),
-								Attributes.DEFAULT_BAKED_FORMAT, null);
-						event.modelRegistry.putObject(
-								new ModelResourceLocation(GameData.getBlockRegistry()
-										.getNameForObject(
-												material.getBlock(MaterialBlockType.STEP)
-														.getBlock())
-										+ "#half="
-										+ half.getName()
-										+ ",rotation="
-										+ rot.getName()
-										+ ",vertical=false"), bakedModel);
-						bakedModel = modelVertical.bake(new ModelLoader.UVLock(
-								getModelRotationVertical(rot)), Attributes.DEFAULT_BAKED_FORMAT,
-								null);
-						event.modelRegistry.putObject(
-								new ModelResourceLocation(GameData.getBlockRegistry()
-										.getNameForObject(
-												material.getBlock(MaterialBlockType.STEP)
-														.getBlock())
-										+ "#half="
-										+ half.getName()
-										+ ",rotation="
-										+ rot.getName()
-										+ ",vertical=true"), bakedModel);
-					}
-				}
-			}
 
 		}
 
@@ -164,12 +118,13 @@ public class BakeEventHandler {
 			ModelItemMaterialBlock itemModel, MaterialBlockType blockType,
 			Iterable<Material> materials) {
 		for (Material mat : materials) {
-			IRetexturableModel baseModel = (IRetexturableModel) ModelLoaderRegistry
-					.getModel(blockType.baseModel());
 			HashMap<String, String> textures = new HashMap<String, String>();
 			textures.put("side", mat.sideTextureLocation());
 			textures.put("top", mat.topTextureLocation());
 			textures.put("bottom", mat.bottomTextureLocation());
+
+			IRetexturableModel baseModel = (IRetexturableModel) ModelLoaderRegistry
+					.getModel(blockType.baseModel());
 			baseModel = (IRetexturableModel) baseModel.retexture(ImmutableMap.copyOf(textures));
 
 			IFlexibleBakedModel bakedModel = baseModel.bake(
@@ -177,26 +132,25 @@ public class BakeEventHandler {
 					Attributes.DEFAULT_BAKED_FORMAT, null);
 			itemModel.put(mat.materialId(), bakedModel);
 			modelRegistry.putObject(new ModelResourceLocation(GameData.getBlockRegistry()
-					.getNameForObject(mat.getBlock(MaterialBlockType.CORNER).getBlock())
-					+ "#inventory"), itemModel);
+					.getNameForObject(mat.getBlock(blockType).getBlock()) + "#inventory"),
+					itemModel);
 			cacheModel.setDefault(bakedModel);
 			for (IBlockState state : blockType.getValidBlockStates()) {
+				baseModel = (IRetexturableModel) ModelLoaderRegistry.getModel(blockType
+						.baseModel(state));
+				baseModel = (IRetexturableModel) baseModel.retexture(ImmutableMap.copyOf(textures));
+
 				bakedModel = baseModel.bake(
 						new ModelLoader.UVLock(blockType.getModelStateFromBlockState(state)),
 						Attributes.DEFAULT_BAKED_FORMAT, null);
-				state = TileEntityMaterial.setStateMaterial((IExtendedBlockState) state, mat);
+				state = TileMaterial.setStateMaterial((IExtendedBlockState) state, mat);
 				cacheModel.put(state, bakedModel);
 				modelRegistry.putObject(
-						new ModelResourceLocation(
-								(ResourceLocation) Block.blockRegistry.getNameForObject(mat
-										.getBlock(MaterialBlockType.CORNER).getBlock()), stateMap
-										.getPropertyString(state.getProperties())), cacheModel);
+						new ModelResourceLocation((ResourceLocation) Block.blockRegistry
+								.getNameForObject(mat.getBlock(blockType).getBlock()), stateMap
+								.getPropertyString(state.getProperties())), cacheModel);
 			}
 		}
-	}
-
-	private IModelState getModelRotationVertical(EnumRotation rot) {
-		return ModelRotation.getModelRotation(0, rot.getAngleDeg());
 	}
 
 	private IModelState getModelRotationFromFacing(EnumFacing facing) {
@@ -215,13 +169,5 @@ public class BakeEventHandler {
 		case EAST:
 			return ModelRotation.X90_Y270;
 		}
-	}
-
-	private IModelState getModelRotationFromFacing(EnumRotation rot, EnumBlockHalf half) {
-
-		TRSRTransformation translate = new TRSRTransformation((half == EnumBlockHalf.BOTTOM) ? null
-				: new Vector3f(0.0f, 0.5f, 0.0f), null, null, null);
-		return translate.compose(new TRSRTransformation(ModelRotation.getModelRotation(0,
-				rot.getAngleDeg())));
 	}
 }

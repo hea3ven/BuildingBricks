@@ -20,13 +20,14 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
-public class BlockCorner extends BlockBuildingBricksNonSolid {
+public class BlockStep extends BlockBuildingBricksNonSolid {
 
-	public BlockCorner(Material material, String name) {
+	public BlockStep(Material material, String name) {
 		super(material);
 		setUnlocalizedName(name);
 
 		IBlockState state = this.blockState.getBaseState();
+		state = BlockProperties.setVertical(state, false);
 		state = BlockProperties.setHalf(state, EnumBlockHalf.BOTTOM);
 		state = BlockProperties.setRotation(state, EnumRotation.ROT0);
 		setDefaultState(state);
@@ -35,6 +36,7 @@ public class BlockCorner extends BlockBuildingBricksNonSolid {
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int meta = 0;
+		meta |= ((BlockProperties.getVertical(state)) ? 1 : 0) << 3;
 		meta |= BlockProperties.getHalf(state).getMetaValue() << 2;
 		meta |= BlockProperties.getRotation(state).getMetaValue();
 		return meta;
@@ -43,6 +45,7 @@ public class BlockCorner extends BlockBuildingBricksNonSolid {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState state = this.getDefaultState();
+		state = BlockProperties.setVertical(state, (meta & 0x8) > 0);
 		state = BlockProperties.setHalf(state, EnumBlockHalf.getHalf((meta & 0x4) >> 2));
 		state = BlockProperties.setRotation(state, EnumRotation.getRotation(meta & 0x3));
 		return state;
@@ -51,6 +54,7 @@ public class BlockCorner extends BlockBuildingBricksNonSolid {
 	@Override
 	protected void registerProperties(List<IProperty> props) {
 		super.registerProperties(props);
+		props.add(BlockProperties.VERTICAL);
 		props.add(BlockProperties.HALF);
 		props.add(BlockProperties.ROTATION);
 	}
@@ -58,10 +62,10 @@ public class BlockCorner extends BlockBuildingBricksNonSolid {
 	@Override
 	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
 			float hitY, float hitZ, int meta, EntityLivingBase placer) {
-
-		BlockPlacingUtil.CornerPlacement place = BlockPlacingUtil.getCornerPlacement(
+		BlockPlacingUtil.StepPlacement place = BlockPlacingUtil.getStepPlacement(
 				facing.getOpposite(), hitX, hitY, hitZ);
 		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
+		state = BlockProperties.setVertical(state, place.vert);
 		state = BlockProperties.setHalf(state, place.half);
 		state = BlockProperties.setRotation(state, place.rot);
 		return state;
@@ -70,12 +74,15 @@ public class BlockCorner extends BlockBuildingBricksNonSolid {
 	private AxisAlignedBB getBoundingBox(IBlockState state) {
 		EnumBlockHalf half = BlockProperties.getHalf(state);
 		EnumRotation rot = BlockProperties.getRotation(state);
+		Boolean vertical = BlockProperties.getVertical(state);
 		Matrix4f matrix = new Matrix4f();
 		matrix.setIdentity();
 		matrix.rotY(-rot.getAngle());
 
-		Point3f min = new Point3f(-0.5f, (half == EnumBlockHalf.BOTTOM) ? -0.5f : 0.0f, -0.5f);
-		Point3f max = new Point3f(0.0f, (half == EnumBlockHalf.BOTTOM) ? 0.0f : 0.5f, 0.0f);
+		Point3f min = new Point3f(-0.5f, (vertical || half == EnumBlockHalf.BOTTOM) ? -0.5f : 0.0f,
+				-0.5f);
+		Point3f max = vertical ? new Point3f(0.0f, 0.5f, 0.0f) : new Point3f(0.5f,
+				(half == EnumBlockHalf.BOTTOM) ? 0.0f : 0.5f, 0.0f);
 		matrix.transform(min);
 		matrix.transform(max);
 		AxisAlignedBB bb = new AxisAlignedBB(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f,
@@ -101,11 +108,11 @@ public class BlockCorner extends BlockBuildingBricksNonSolid {
 	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
 		BlockPos selfPos = pos.offset(side.getOpposite());
 		EnumBlockHalf half = BlockProperties.getHalf(getStateFromWorld(world, selfPos));
-		if (side == half.getSide() && !super.shouldSideBeRendered(world, pos, side)) {
+		if (side == half.getSide() && !super.shouldSideBeRendered(world, pos, side))
 			return false;
-		}
 		// if (side == facing && !super.shouldSideBeRendered(world, pos, side))
 		// return false;
 		return true;
 	}
+
 }

@@ -25,7 +25,7 @@ public class ModBuildingBricksCompatVanilla {
 		mat.setStructureMaterial(net.minecraft.block.material.Material.rock);
 		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.stone, EnumType.STONE.getMetadata()));
 //		mat.addBlock(MaterialBlockType.SLAB);
-//		mat.addBlock(MaterialBlockType.STEP);
+		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
 		MaterialRegistry.registerMaterial(mat);
 		
@@ -34,6 +34,8 @@ public class ModBuildingBricksCompatVanilla {
 		mat.setStructureMaterial(net.minecraft.block.material.Material.rock);
 		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.cobblestone));
 		mat.addBlock(MaterialBlockType.SLAB, new BlockDescription(Blocks.stone_slab, BlockStoneSlab.EnumType.COBBLESTONE.getMetadata()));
+		mat.addBlock(MaterialBlockType.STEP);
+		mat.addBlock(MaterialBlockType.CORNER);
 		MaterialRegistry.registerMaterial(mat);
 
 //		mat.setSlabBlock(new BlockDescription(Blocks.stone_slab, BlockStoneSlab.EnumType.STONE.getMetadata()));
