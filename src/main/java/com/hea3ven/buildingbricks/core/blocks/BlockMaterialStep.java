@@ -23,10 +23,11 @@ import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BlockMaterialStep extends BlockStep {
-	public BlockMaterialStep(net.minecraft.block.material.Material material, String name) {
+	public BlockMaterialStep(StructureMaterial material, String name) {
 		super(material, name);
 	}
 

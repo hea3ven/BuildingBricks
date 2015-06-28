@@ -5,7 +5,6 @@ import java.util.List;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Point3f;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,11 +17,12 @@ import net.minecraft.world.World;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockCorner extends BlockBuildingBricksNonSolid {
 
-	public BlockCorner(Material material, String name) {
+	public BlockCorner(StructureMaterial material, String name) {
 		super(material);
 		setUnlocalizedName(name);
 

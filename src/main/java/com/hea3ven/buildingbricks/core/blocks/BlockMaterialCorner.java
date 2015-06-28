@@ -23,11 +23,12 @@ import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BlockMaterialCorner extends BlockCorner {
 
-	public BlockMaterialCorner(net.minecraft.block.material.Material material, String name) {
+	public BlockMaterialCorner(StructureMaterial material, String name) {
 		super(material, name);
 	}
 

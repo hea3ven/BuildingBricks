@@ -24,6 +24,7 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
@@ -57,12 +58,12 @@ public class ModBuildingBricks {
 
 		andesiteMaterial = new Material("andesite");
 		andesiteMaterial.setTexture("blocks/stone_andesite");
-		andesiteMaterial.setStructureMaterial(net.minecraft.block.material.Material.rock);
+		andesiteMaterial.setStructureMaterial(StructureMaterial.ROCK);
 		MaterialRegistry.registerMaterial(andesiteMaterial);
 		redSandstoneMaterial = new Material("red_sandstone");
 		redSandstoneMaterial.setTexture("blocks/red_sandstone_top", "blocks/red_sandstone_bottom",
 				"blocks/red_sandstone_normal");
-		redSandstoneMaterial.setStructureMaterial(net.minecraft.block.material.Material.rock);
+		redSandstoneMaterial.setStructureMaterial(StructureMaterial.ROCK);
 		MaterialRegistry.registerMaterial(redSandstoneMaterial);
 		andesiteSlab = new BlockVerticalSlab("andesite_slab");
 		redSandstoneSlab = new BlockVerticalSlab("red_sandstone_slab");

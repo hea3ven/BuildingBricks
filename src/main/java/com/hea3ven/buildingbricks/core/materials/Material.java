@@ -8,7 +8,7 @@ public class Material {
 	private String topTextureLocation;
 	private String bottomTextureLocation;
 	private String sideTextureLocation;
-	private net.minecraft.block.material.Material structureMaterial;
+	private StructureMaterial structureMaterial;
 	private BlockRotation blockRotation;
 
 	public Material(String materialId) {
@@ -33,11 +33,11 @@ public class Material {
 		this.sideTextureLocation = sideTextureLocation;
 	}
 
-	public void setStructureMaterial(net.minecraft.block.material.Material structureMaterial) {
+	public void setStructureMaterial(StructureMaterial structureMaterial) {
 		this.structureMaterial = structureMaterial;
 	}
 
-	public net.minecraft.block.material.Material getStructureMaterial() {
+	public StructureMaterial getStructureMaterial() {
 		return structureMaterial;
 	}
 

@@ -39,6 +39,7 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BakeEventHandler {
@@ -51,7 +52,7 @@ public class BakeEventHandler {
 
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
-		for (Entry<MaterialBlockType, HashMap<net.minecraft.block.material.Material, Set<Material>>> entry : MaterialBlockRegistry.instance
+		for (Entry<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>> entry : MaterialBlockRegistry.instance
 				.getBlocksMaterials().entrySet()) {
 			SmartModelCached model = new SmartModelCached();
 			ModelItemMaterialBlock itemModel = new ModelItemMaterialBlock();

@@ -12,6 +12,7 @@ import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 @Mod(modid = ModBuildingBricksCompatVanilla.MODID, name = "Building Bricks Vanilla Compatibilty", version = ModBuildingBricksCompatVanilla.VERSION)
 public class ModBuildingBricksCompatVanilla {
@@ -22,7 +23,7 @@ public class ModBuildingBricksCompatVanilla {
 	public void preInit(FMLPreInitializationEvent event) {
 		Material mat = new Material("stone");
 		mat.setTexture("blocks/stone");
-		mat.setStructureMaterial(net.minecraft.block.material.Material.rock);
+		mat.setStructureMaterial(StructureMaterial.ROCK);
 		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.stone, EnumType.STONE.getMetadata()));
 //		mat.addBlock(MaterialBlockType.SLAB);
 		mat.addBlock(MaterialBlockType.STEP);
@@ -31,7 +32,7 @@ public class ModBuildingBricksCompatVanilla {
 		
 		mat = new Material("cobblestone");
 		mat.setTexture("blocks/cobblestone");
-		mat.setStructureMaterial(net.minecraft.block.material.Material.rock);
+		mat.setStructureMaterial(StructureMaterial.ROCK);
 		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.cobblestone));
 		mat.addBlock(MaterialBlockType.SLAB, new BlockDescription(Blocks.stone_slab, BlockStoneSlab.EnumType.COBBLESTONE.getMetadata()));
 		mat.addBlock(MaterialBlockType.STEP);

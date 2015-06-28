@@ -1,10 +1,7 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,11 +12,13 @@ import net.minecraft.util.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
+
 public class BlockVerticalSlab extends BlockBuildingBricksBase {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	public BlockVerticalSlab(String name) {
-		super(Material.rock);
+		super(StructureMaterial.ROCK);
 		setUnlocalizedName(name);
 
 		IBlockState blockState = this.blockState.getBaseState()
