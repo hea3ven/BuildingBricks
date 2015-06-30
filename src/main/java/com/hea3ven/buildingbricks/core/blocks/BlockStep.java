@@ -22,9 +22,8 @@ import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockStep extends BlockBuildingBricksNonSolid {
 
-	public BlockStep(StructureMaterial material, String name) {
-		super(material);
-		setUnlocalizedName(name);
+	public BlockStep(StructureMaterial structureMaterial, String name) {
+		super(structureMaterial, name);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setVertical(state, false);

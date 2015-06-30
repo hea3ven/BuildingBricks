@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
+import com.hea3ven.buildingbricks.core.blocks.BlockMaterialSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 
@@ -20,10 +21,20 @@ public class MaterialBlockRegistry {
 	private HashMap<MaterialBlockType, HashMap<StructureMaterial, Block>> blocks = new HashMap<MaterialBlockType, HashMap<StructureMaterial, Block>>();
 	private HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>> blocksMaterials = new HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>>();
 
+	public BlockMaterialSlab materialRockSlab;
 	public BlockMaterialStep materialRockStep;
 	public BlockMaterialCorner materialRockCorner;
 
 	private MaterialBlockRegistry() {
+		materialRockSlab = new BlockMaterialSlab(StructureMaterial.ROCK, "material_rock_slab");
+		MaterialBlockType.SLAB.setBlock(materialRockSlab);
+		blocks.put(MaterialBlockType.SLAB, new HashMap<StructureMaterial, Block>());
+		blocks.get(MaterialBlockType.SLAB).put(StructureMaterial.ROCK, materialRockSlab);
+		blocksMaterials
+				.put(MaterialBlockType.SLAB, new HashMap<StructureMaterial, Set<Material>>());
+		blocksMaterials.get(MaterialBlockType.SLAB).put(StructureMaterial.ROCK,
+				new HashSet<Material>());
+
 		materialRockStep = new BlockMaterialStep(StructureMaterial.ROCK, "material_rock_step");
 		MaterialBlockType.STEP.setBlock(materialRockStep);
 		blocks.put(MaterialBlockType.STEP, new HashMap<StructureMaterial, Block>());
@@ -44,6 +55,7 @@ public class MaterialBlockRegistry {
 	}
 
 	public void init() {
+		GameRegistry.registerBlock(materialRockSlab, "material_rock_slab");
 		GameRegistry.registerBlock(materialRockStep, "material_rock_step");
 		GameRegistry.registerBlock(materialRockCorner, "material_rock_corner");
 	}

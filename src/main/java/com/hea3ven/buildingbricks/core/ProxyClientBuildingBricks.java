@@ -3,7 +3,6 @@ package com.hea3ven.buildingbricks.core;
 import java.util.HashMap;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelResourceLocation;

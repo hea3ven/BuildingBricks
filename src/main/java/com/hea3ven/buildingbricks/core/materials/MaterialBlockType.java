@@ -7,6 +7,7 @@ import javax.vecmath.Vector3f;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelRotation;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.model.IModelState;
@@ -55,7 +56,9 @@ public enum MaterialBlockType {
 	}
 
 	public IModelState getModelStateFromBlockState(IBlockState state) {
-		if (this == STEP) {
+		if (this == SLAB) {
+			return getModelRotationFromFacing(BlockProperties.getFacing(state));
+		} else if (this == STEP) {
 			if (BlockProperties.getVertical(state)) {
 				return getModelRotationVertical(BlockProperties.getRotation(state));
 			} else {
@@ -68,6 +71,24 @@ public enum MaterialBlockType {
 					BlockProperties.getHalf(state));
 		} else {
 			return null;
+		}
+	}
+
+	private IModelState getModelRotationFromFacing(EnumFacing facing) {
+		switch (facing) {
+		default:
+		case DOWN:
+			return ModelRotation.X0_Y0;
+		case UP:
+			return ModelRotation.X180_Y0;
+		case SOUTH:
+			return ModelRotation.X90_Y0;
+		case WEST:
+			return ModelRotation.X90_Y90;
+		case NORTH:
+			return ModelRotation.X90_Y180;
+		case EAST:
+			return ModelRotation.X90_Y270;
 		}
 	}
 

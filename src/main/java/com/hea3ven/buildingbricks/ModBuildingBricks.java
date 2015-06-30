@@ -3,6 +3,7 @@ package com.hea3ven.buildingbricks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSandStone;
 import net.minecraft.block.BlockStone;
+import net.minecraft.block.BlockStoneSlabNew;
 import net.minecraft.init.Blocks;
 
 import net.minecraftforge.fml.common.Mod;
@@ -71,9 +72,11 @@ public class ModBuildingBricks {
 		GameRegistry.registerBlock(andesiteSlab, "andesite_slab");
 		GameRegistry.registerBlock(redSandstoneSlab, "red_sandstone_slab");
 		andesiteMaterial.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.stone, BlockStone.EnumType.ANDESITE.getMetadata()));
-		redSandstoneMaterial.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.sandstone, BlockSandStone.EnumType.DEFAULT.getMetadata()));
-		andesiteMaterial.addBlock(MaterialBlockType.SLAB, new BlockDescription(andesiteSlab));
-		redSandstoneMaterial.addBlock(MaterialBlockType.SLAB, new BlockDescription(redSandstoneSlab));
+		redSandstoneMaterial.addBlock(MaterialBlockType.FULL, new BlockDescription(
+				Blocks.sandstone, BlockSandStone.EnumType.DEFAULT.getMetadata()));
+		andesiteMaterial.addBlock(MaterialBlockType.SLAB);
+		redSandstoneMaterial.addBlock(MaterialBlockType.SLAB, new BlockDescription(
+				Blocks.stone_slab, BlockStoneSlabNew.EnumType.RED_SANDSTONE.getMetadata()));
 		andesiteMaterial.addBlock(MaterialBlockType.STEP);
 		redSandstoneMaterial.addBlock(MaterialBlockType.STEP);
 		andesiteMaterial.addBlock(MaterialBlockType.CORNER);

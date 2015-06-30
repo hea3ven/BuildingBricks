@@ -22,9 +22,8 @@ import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockCorner extends BlockBuildingBricksNonSolid {
 
-	public BlockCorner(StructureMaterial material, String name) {
-		super(material);
-		setUnlocalizedName(name);
+	public BlockCorner(StructureMaterial structureMaterial, String name) {
+		super(structureMaterial, name);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setHalf(state, EnumBlockHalf.BOTTOM);
