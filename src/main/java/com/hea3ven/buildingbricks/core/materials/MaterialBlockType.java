@@ -1,10 +1,10 @@
 package com.hea3ven.buildingbricks.core.materials;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.vecmath.Vector3f;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelRotation;
 import net.minecraft.util.EnumFacing;
@@ -13,29 +13,27 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.TRSRTransformation;
 
+import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksBase;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 
 public enum MaterialBlockType {
-	FULL("minecraft:block/cube_bottom_top"),
-	SLAB("minecraft:block/half_slab"),
-	STEP("buildingbricks:block/step_bottom"),
-	CORNER("buildingbricks:block/corner_bottom");
+	FULL("block", "minecraft:block/cube_bottom_top"),
+	SLAB("slab", "minecraft:block/half_slab"),
+	STEP("step", "buildingbricks:block/step_bottom"),
+	CORNER("corner", "buildingbricks:block/corner_bottom");
 
 	public static MaterialBlockType getBlockType(int id) {
 		return values()[id];
 	}
 
-	private Block block;
+	private String name;
 	private ResourceLocation baseModel;
 
-	private MaterialBlockType(String modelLocation) {
+	private MaterialBlockType(String name, String modelLocation) {
+		this.name = name;
 		baseModel = new ResourceLocation(modelLocation);
-	}
-
-	public void setBlock(Block block) {
-		this.block = block;
 	}
 
 	public ResourceLocation baseModel() {
@@ -52,7 +50,12 @@ public enum MaterialBlockType {
 	}
 
 	public Collection<IBlockState> getValidBlockStates() {
-		return block.getBlockState().getValidStates();
+		Collection<IBlockState> states = new ArrayList<IBlockState>();
+		for (BlockBuildingBricksBase block : MaterialBlockRegistry.instance.getBlocks().get(this)
+				.values()) {
+			states.addAll(block.getBlockState().getValidStates());
+		}
+		return states;
 	}
 
 	public IModelState getModelStateFromBlockState(IBlockState state) {
@@ -102,6 +105,10 @@ public enum MaterialBlockType {
 				: new Vector3f(0.0f, 0.5f, 0.0f), null, null, null);
 		return translate.compose(new TRSRTransformation(ModelRotation.getModelRotation(0,
 				rot.getAngleDeg())));
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

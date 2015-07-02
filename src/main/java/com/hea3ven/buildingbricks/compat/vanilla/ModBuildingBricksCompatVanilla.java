@@ -1,7 +1,11 @@
 package com.hea3ven.buildingbricks.compat.vanilla;
 
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.BlockRedSandstone;
+import net.minecraft.block.BlockStone;
 import net.minecraft.block.BlockStone.EnumType;
 import net.minecraft.block.BlockStoneSlab;
+import net.minecraft.block.BlockStoneSlabNew;
 import net.minecraft.init.Blocks;
 
 import net.minecraftforge.fml.common.Mod;
@@ -43,5 +47,39 @@ public class ModBuildingBricksCompatVanilla {
 
 		// mat.setSlabBlock(new BlockDescription(Blocks.stone_slab,
 		// BlockStoneSlab.EnumType.STONE.getMetadata()));
+
+		mat = new Material("andesite");
+		mat.setTexture("blocks/stone_andesite");
+		mat.setStructureMaterial(StructureMaterial.ROCK);
+		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.stone,
+				BlockStone.EnumType.ANDESITE.getMetadata()));
+		mat.addBlock(MaterialBlockType.SLAB);
+		mat.addBlock(MaterialBlockType.STEP);
+		mat.addBlock(MaterialBlockType.CORNER);
+		MaterialRegistry.registerMaterial(mat);
+
+		mat = new Material("red_sandstone");
+		mat.setTexture("blocks/red_sandstone_top", "blocks/red_sandstone_bottom",
+				"blocks/red_sandstone_normal");
+		mat.setStructureMaterial(StructureMaterial.ROCK);
+		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.red_sandstone,
+				BlockRedSandstone.EnumType.DEFAULT.getMetadata()));
+		mat.addBlock(MaterialBlockType.SLAB, new BlockDescription(Blocks.stone_slab2,
+				BlockStoneSlabNew.EnumType.RED_SANDSTONE.getMetadata()));
+		mat.addBlock(MaterialBlockType.STEP);
+		mat.addBlock(MaterialBlockType.CORNER);
+		MaterialRegistry.registerMaterial(mat);
+
+		mat = new Material("planks_oak");
+		mat.setTexture("blocks/planks_oak");
+		mat.setStructureMaterial(StructureMaterial.WOOD);
+		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.planks,
+				BlockPlanks.EnumType.OAK.getMetadata()));
+		mat.addBlock(MaterialBlockType.SLAB, new BlockDescription(Blocks.wooden_slab,
+				BlockPlanks.EnumType.OAK.getMetadata()));
+		mat.addBlock(MaterialBlockType.STEP);
+		mat.addBlock(MaterialBlockType.CORNER);
+		MaterialRegistry.registerMaterial(mat);
+
 	}
 }

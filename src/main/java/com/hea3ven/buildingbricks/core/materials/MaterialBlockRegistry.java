@@ -1,14 +1,15 @@
 package com.hea3ven.buildingbricks.core.materials;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagString;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksBase;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
@@ -18,50 +19,63 @@ public class MaterialBlockRegistry {
 
 	public static MaterialBlockRegistry instance = new MaterialBlockRegistry();
 
-	private HashMap<MaterialBlockType, HashMap<StructureMaterial, Block>> blocks = new HashMap<MaterialBlockType, HashMap<StructureMaterial, Block>>();
+	private HashMap<MaterialBlockType, HashMap<StructureMaterial, BlockBuildingBricksBase>> blocks = new HashMap<MaterialBlockType, HashMap<StructureMaterial, BlockBuildingBricksBase>>();
 	private HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>> blocksMaterials = new HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>>();
 
 	public BlockMaterialSlab materialRockSlab;
 	public BlockMaterialStep materialRockStep;
 	public BlockMaterialCorner materialRockCorner;
+	public BlockMaterialSlab materialWoodSlab;
+	public BlockMaterialStep materialWoodStep;
+	public BlockMaterialCorner materialWoodCorner;
 
 	private MaterialBlockRegistry() {
-		materialRockSlab = new BlockMaterialSlab(StructureMaterial.ROCK, "material_rock_slab");
-		MaterialBlockType.SLAB.setBlock(materialRockSlab);
-		blocks.put(MaterialBlockType.SLAB, new HashMap<StructureMaterial, Block>());
-		blocks.get(MaterialBlockType.SLAB).put(StructureMaterial.ROCK, materialRockSlab);
-		blocksMaterials
-				.put(MaterialBlockType.SLAB, new HashMap<StructureMaterial, Set<Material>>());
-		blocksMaterials.get(MaterialBlockType.SLAB).put(StructureMaterial.ROCK,
-				new HashSet<Material>());
+		materialRockSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.ROCK,
+				MaterialBlockType.SLAB);
+		materialRockStep = createBlock(BlockMaterialStep.class, StructureMaterial.ROCK,
+				MaterialBlockType.STEP);
+		materialRockCorner = createBlock(BlockMaterialCorner.class, StructureMaterial.ROCK,
+				MaterialBlockType.CORNER);
+		materialWoodSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.WOOD,
+				MaterialBlockType.SLAB);
+		materialWoodStep = createBlock(BlockMaterialStep.class, StructureMaterial.WOOD,
+				MaterialBlockType.STEP);
+		materialWoodCorner = createBlock(BlockMaterialCorner.class, StructureMaterial.WOOD,
+				MaterialBlockType.CORNER);
+	}
 
-		materialRockStep = new BlockMaterialStep(StructureMaterial.ROCK, "material_rock_step");
-		MaterialBlockType.STEP.setBlock(materialRockStep);
-		blocks.put(MaterialBlockType.STEP, new HashMap<StructureMaterial, Block>());
-		blocks.get(MaterialBlockType.STEP).put(StructureMaterial.ROCK, materialRockStep);
-		blocksMaterials
-				.put(MaterialBlockType.STEP, new HashMap<StructureMaterial, Set<Material>>());
-		blocksMaterials.get(MaterialBlockType.STEP).put(StructureMaterial.ROCK,
-				new HashSet<Material>());
-
-		materialRockCorner = new BlockMaterialCorner(StructureMaterial.ROCK, "material_rock_corner");
-		MaterialBlockType.CORNER.setBlock(materialRockCorner);
-		blocks.put(MaterialBlockType.CORNER, new HashMap<StructureMaterial, Block>());
-		blocks.get(MaterialBlockType.CORNER).put(StructureMaterial.ROCK, materialRockCorner);
-		blocksMaterials.put(MaterialBlockType.CORNER,
-				new HashMap<StructureMaterial, Set<Material>>());
-		blocksMaterials.get(MaterialBlockType.CORNER).put(StructureMaterial.ROCK,
-				new HashSet<Material>());
+	private <T extends BlockBuildingBricksBase> T createBlock(Class<T> cls,
+			StructureMaterial strMat, MaterialBlockType blockType) {
+		T block;
+		try {
+			block = cls.getConstructor(StructureMaterial.class, String.class).newInstance(strMat,
+					"material_" + strMat.getName() + "_" + blockType.getName());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		if (!blocks.containsKey(blockType))
+			blocks.put(blockType, new HashMap<StructureMaterial, BlockBuildingBricksBase>());
+		blocks.get(blockType).put(strMat, block);
+		if (!blocksMaterials.containsKey(blockType))
+			blocksMaterials.put(blockType, new HashMap<StructureMaterial, Set<Material>>());
+		blocksMaterials.get(blockType).put(strMat, new HashSet<Material>());
+		return block;
 	}
 
 	public void init() {
-		GameRegistry.registerBlock(materialRockSlab, "material_rock_slab");
-		GameRegistry.registerBlock(materialRockStep, "material_rock_step");
-		GameRegistry.registerBlock(materialRockCorner, "material_rock_corner");
+		for (HashMap<StructureMaterial, BlockBuildingBricksBase> blockList : blocks.values()) {
+			for (BlockBuildingBricksBase block : blockList.values()) {
+				GameRegistry.registerBlock(block, block.getName());
+			}
+		}
 	}
 
-	public HashMap<MaterialBlockType, HashMap<StructureMaterial, Block>> getBlocks() {
+	public HashMap<MaterialBlockType, HashMap<StructureMaterial, BlockBuildingBricksBase>> getBlocks() {
 		return blocks;
+	}
+
+	public Collection<BlockBuildingBricksBase> getBlocks(MaterialBlockType blockType) {
+		return blocks.get(blockType).values();
 	}
 
 	public HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>> getBlocksMaterials() {

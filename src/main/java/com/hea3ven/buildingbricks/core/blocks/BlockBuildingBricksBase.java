@@ -13,10 +13,18 @@ import net.minecraft.world.IBlockAccess;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public abstract class BlockBuildingBricksBase extends Block {
-	
-	public BlockBuildingBricksBase(StructureMaterial materialIn) {
+
+	private String name;
+
+	public BlockBuildingBricksBase(StructureMaterial materialIn, String name) {
 		super(materialIn.getMcMaterial());
-		
+
+		this.name = name;
+		setUnlocalizedName(name);
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	protected void registerProperties(List<IProperty> props) {
@@ -28,7 +36,7 @@ public abstract class BlockBuildingBricksBase extends Block {
 		registerProperties(props);
 		return new BlockState(this, props.toArray(new IProperty[0]));
 	}
-	
+
 	protected IBlockState getStateFromWorld(IBlockAccess world, BlockPos pos) {
 		return world.getBlockState(pos);
 	}

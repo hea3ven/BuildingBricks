@@ -18,8 +18,7 @@ public class BlockVerticalSlab extends BlockBuildingBricksBase {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	public BlockVerticalSlab(String name) {
-		super(StructureMaterial.ROCK);
-		setUnlocalizedName(name);
+		super(StructureMaterial.ROCK, name);
 
 		IBlockState blockState = this.blockState.getBaseState()
 				.withProperty(FACING, EnumFacing.NORTH);

@@ -3,7 +3,8 @@ package com.hea3ven.buildingbricks.core.materials;
 import net.minecraft.block.material.Material;
 
 public enum StructureMaterial {
-	ROCK(Material.rock);
+	ROCK(Material.rock),
+	WOOD(Material.wood);
 
 	private Material mcMaterial;
 
@@ -13,5 +14,9 @@ public enum StructureMaterial {
 
 	public Material getMcMaterial() {
 		return mcMaterial;
+	}
+
+	public String getName() {
+		return name().toLowerCase();
 	}
 }

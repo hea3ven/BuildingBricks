@@ -10,8 +10,7 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 public class BlockBuildingBricksNonSolid extends BlockBuildingBricksBase {
 
 	public BlockBuildingBricksNonSolid(StructureMaterial structureMaterial, String name) {
-		super(structureMaterial);
-		setUnlocalizedName(name);
+		super(structureMaterial, name);
 	}
 
 	@Override

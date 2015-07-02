@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.hea3ven.buildingbricks.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksBase;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
@@ -28,9 +29,7 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 		super.init();
 		MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-		mesher.register(Item.getItemFromBlock(ModBuildingBricks.andesiteSlab), 0, new ModelResourceLocation(ModBuildingBricks.MODID+":andesite_slab", "inventory"));
-		mesher.register(Item.getItemFromBlock(ModBuildingBricks.redSandstoneSlab), 0, new ModelResourceLocation(ModBuildingBricks.MODID+":red_sandstone_slab", "inventory"));
-		for (HashMap<StructureMaterial, Block> blocks : MaterialBlockRegistry.instance.getBlocks().values()) {
+		for (HashMap<StructureMaterial, BlockBuildingBricksBase> blocks : MaterialBlockRegistry.instance.getBlocks().values()) {
 			for (Block block : blocks.values()) {
 				ModelResourceLocation location = new ModelResourceLocation(
 						(ResourceLocation) Block.blockRegistry.getNameForObject(block), "inventory");

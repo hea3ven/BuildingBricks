@@ -1,9 +1,5 @@
 package com.hea3ven.buildingbricks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockSandStone;
-import net.minecraft.block.BlockStone;
-import net.minecraft.block.BlockStoneSlabNew;
 import net.minecraft.init.Blocks;
 
 import net.minecraftforge.fml.common.Mod;
@@ -18,14 +14,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
-import com.hea3ven.buildingbricks.core.blocks.BlockVerticalSlab;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
-import com.hea3ven.buildingbricks.core.lib.BlockDescription;
-import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
-import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
@@ -34,18 +24,12 @@ public class ModBuildingBricks {
 	public static final String MODID = "buildingbricks";
 	public static final String VERSION = "1.0.0";
 
-	@SidedProxy(serverSide = "com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks",
-			clientSide = "com.hea3ven.buildingbricks.core.ProxyClientBuildingBricks")
+	@SidedProxy(serverSide = "com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks", clientSide = "com.hea3ven.buildingbricks.core.ProxyClientBuildingBricks")
 	private static ProxyCommonBuildingBricks proxy;
 
 	public static SimpleNetworkWrapper netChannel;
 
-	public static BlockVerticalSlab andesiteSlab;
-	public static Block redSandstoneSlab;
 	public static ItemTrowel trowel;
-
-	private Material andesiteMaterial;
-	private Material redSandstoneMaterial;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -56,31 +40,6 @@ public class ModBuildingBricks {
 		GameRegistry.registerTileEntity(TileMaterial.class, "tile.material");
 
 		MaterialBlockRegistry.instance.init();
-
-		andesiteMaterial = new Material("andesite");
-		andesiteMaterial.setTexture("blocks/stone_andesite");
-		andesiteMaterial.setStructureMaterial(StructureMaterial.ROCK);
-		MaterialRegistry.registerMaterial(andesiteMaterial);
-		redSandstoneMaterial = new Material("red_sandstone");
-		redSandstoneMaterial.setTexture("blocks/red_sandstone_top", "blocks/red_sandstone_bottom",
-				"blocks/red_sandstone_normal");
-		redSandstoneMaterial.setStructureMaterial(StructureMaterial.ROCK);
-		MaterialRegistry.registerMaterial(redSandstoneMaterial);
-		andesiteSlab = new BlockVerticalSlab("andesite_slab");
-		redSandstoneSlab = new BlockVerticalSlab("red_sandstone_slab");
-
-		GameRegistry.registerBlock(andesiteSlab, "andesite_slab");
-		GameRegistry.registerBlock(redSandstoneSlab, "red_sandstone_slab");
-		andesiteMaterial.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.stone, BlockStone.EnumType.ANDESITE.getMetadata()));
-		redSandstoneMaterial.addBlock(MaterialBlockType.FULL, new BlockDescription(
-				Blocks.sandstone, BlockSandStone.EnumType.DEFAULT.getMetadata()));
-		andesiteMaterial.addBlock(MaterialBlockType.SLAB);
-		redSandstoneMaterial.addBlock(MaterialBlockType.SLAB, new BlockDescription(
-				Blocks.stone_slab, BlockStoneSlabNew.EnumType.RED_SANDSTONE.getMetadata()));
-		andesiteMaterial.addBlock(MaterialBlockType.STEP);
-		redSandstoneMaterial.addBlock(MaterialBlockType.STEP);
-		andesiteMaterial.addBlock(MaterialBlockType.CORNER);
-		redSandstoneMaterial.addBlock(MaterialBlockType.CORNER);
 
 		trowel = new ItemTrowel();
 		GameRegistry.registerItem(trowel, "trowel");
