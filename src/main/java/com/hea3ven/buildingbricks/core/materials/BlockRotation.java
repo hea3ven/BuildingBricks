@@ -1,7 +1,7 @@
 package com.hea3ven.buildingbricks.core.materials;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 import net.minecraft.item.Item;
 
@@ -22,7 +22,7 @@ public class BlockRotation {
 	public MaterialBlockType getFirst() {
 		// TODO: Rewrite this
 		for (MaterialBlockType blockType : MaterialBlockType.values()) {
-			if(items.containsKey(blockType))
+			if (items.containsKey(blockType))
 				return blockType;
 		}
 		throw new IllegalStateException("no items defined");
@@ -31,7 +31,8 @@ public class BlockRotation {
 	public MaterialBlockType getNext(MaterialBlockType blockType) {
 		// TODO: Rewrite this
 		for (int i = 1; i < MaterialBlockType.values().length; i++) {
-			MaterialBlockType nextBlockType = MaterialBlockType.getBlockType((blockType.ordinal() + i) % MaterialBlockType.values().length);
+			MaterialBlockType nextBlockType = MaterialBlockType.getBlockType((blockType.ordinal() + i)
+					% MaterialBlockType.values().length);
 			if (items.containsKey(nextBlockType))
 				return nextBlockType;
 		}
@@ -41,7 +42,9 @@ public class BlockRotation {
 	public MaterialBlockType getPrev(MaterialBlockType blockType) {
 		// TODO: Rewrite this
 		for (int i = 1; i < MaterialBlockType.values().length; i++) {
-			MaterialBlockType nextBlockType = MaterialBlockType.getBlockType((blockType.ordinal() + MaterialBlockType.values().length - i) % MaterialBlockType.values().length);
+			MaterialBlockType nextBlockType = MaterialBlockType.getBlockType((blockType.ordinal()
+					+ MaterialBlockType.values().length - i)
+					% MaterialBlockType.values().length);
 			if (items.containsKey(nextBlockType))
 				return nextBlockType;
 		}
@@ -52,8 +55,8 @@ public class BlockRotation {
 		return items.get(blockType).getItem();
 	}
 
-	public Collection<BlockDescription> getAll() {
-		return items.values();
+	public Map<MaterialBlockType, BlockDescription> getAll() {
+		return items;
 	}
 
 	public BlockDescription get(MaterialBlockType blockType) {

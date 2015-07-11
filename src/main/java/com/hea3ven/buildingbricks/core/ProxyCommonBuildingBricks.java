@@ -1,5 +1,7 @@
 package com.hea3ven.buildingbricks.core;
 
+import java.util.Map.Entry;
+
 import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -11,6 +13,7 @@ import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerOverrideBlockPl
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
 public class ProxyCommonBuildingBricks {
@@ -25,6 +28,8 @@ public class ProxyCommonBuildingBricks {
 
 	public void postInit() {
 		addTrowelRecipes();
+
+		addMaterialBlocksRecipes();
 	}
 
 	private void addTrowelRecipes() {
@@ -32,8 +37,16 @@ public class ProxyCommonBuildingBricks {
 		for (Material mat : MaterialRegistry.getAll()) {
 			ItemStack bindedTrowelStack = new ItemStack(ModBuildingBricks.trowel);
 			ModBuildingBricks.trowel.setBindedMaterial(bindedTrowelStack, mat);
-			for (BlockDescription blockDesc : mat.getBlockRotation().getAll()) {
+			for (BlockDescription blockDesc : mat.getBlockRotation().getAll().values()) {
 				GameRegistry.addShapelessRecipe(bindedTrowelStack, trowelStack, blockDesc.getStack());
+			}
+		}
+	}
+
+	private void addMaterialBlocksRecipes() {
+		for (Material mat : MaterialRegistry.getAll()) {
+			for (Entry<MaterialBlockType, BlockDescription> entry : mat.getBlockRotation().getAll().entrySet()) {
+				entry.getKey().addRecipes(mat);
 			}
 		}
 	}

@@ -1,8 +1,10 @@
 package com.hea3ven.buildingbricks.core.materials;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import net.minecraft.nbt.NBTTagString;
@@ -68,6 +70,14 @@ public class MaterialBlockRegistry {
 				GameRegistry.registerBlock(block, block.getName());
 			}
 		}
+	}
+
+	public Collection<BlockBuildingBricksBase> getAllBlocks() {
+		List<BlockBuildingBricksBase> allBlocks = new ArrayList<BlockBuildingBricksBase>();
+		for (HashMap<StructureMaterial, BlockBuildingBricksBase> entry : blocks.values()) {
+			allBlocks.addAll(entry.values());
+		}
+		return allBlocks;
 	}
 
 	public HashMap<MaterialBlockType, HashMap<StructureMaterial, BlockBuildingBricksBase>> getBlocks() {

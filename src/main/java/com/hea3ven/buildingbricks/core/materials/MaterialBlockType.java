@@ -2,8 +2,12 @@ package com.hea3ven.buildingbricks.core.materials;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.vecmath.Vector3f;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelRotation;
@@ -12,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.TRSRTransformation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksBase;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
@@ -24,16 +29,64 @@ public enum MaterialBlockType {
 	STEP("step", "buildingbricks:block/step_bottom"),
 	CORNER("corner", "buildingbricks:block/corner_bottom");
 
+	static {
+		FULL.addRecipe(true, MaterialRecipeBuilder
+				.create()
+				.outputAmount(2)
+				.pattern("xx", "xx")
+				.map('x', SLAB)
+				.validate());
+		SLAB.addRecipe(false,
+				MaterialRecipeBuilder
+						.create()
+						.outputAmount(6)
+						.pattern("xxx")
+						.map('x', FULL)
+						.validate());
+		SLAB.addRecipe(true,
+				MaterialRecipeBuilder
+						.create()
+						.outputAmount(1)
+						.pattern("xx")
+						.map('x', STEP)
+						.validate());
+		STEP.addRecipe(false,
+				MaterialRecipeBuilder
+						.create()
+						.outputAmount(6)
+						.pattern("xxx")
+						.map('x', SLAB)
+						.validate());
+		STEP.addRecipe(true,
+				MaterialRecipeBuilder
+						.create()
+						.outputAmount(1)
+						.pattern("xx")
+						.map('x', CORNER)
+						.validate());
+		CORNER.addRecipe(false,
+				MaterialRecipeBuilder
+						.create()
+						.outputAmount(6)
+						.pattern("xxx")
+						.map('x', STEP)
+						.validate());
+	}
+
 	public static MaterialBlockType getBlockType(int id) {
 		return values()[id];
 	}
 
 	private String name;
 	private ResourceLocation baseModel;
+	private List<MaterialRecipeBuilder> allwaysRecipes;
+	private List<MaterialRecipeBuilder> materialRecipes;
 
 	private MaterialBlockType(String name, String modelLocation) {
 		this.name = name;
 		baseModel = new ResourceLocation(modelLocation);
+		allwaysRecipes = Lists.newArrayList();
+		materialRecipes = Lists.newArrayList();
 	}
 
 	public ResourceLocation baseModel() {
@@ -51,7 +104,9 @@ public enum MaterialBlockType {
 
 	public Collection<IBlockState> getValidBlockStates() {
 		Collection<IBlockState> states = new ArrayList<IBlockState>();
-		for (BlockBuildingBricksBase block : MaterialBlockRegistry.instance.getBlocks().get(this)
+		for (BlockBuildingBricksBase block : MaterialBlockRegistry.instance
+				.getBlocks()
+				.get(this)
 				.values()) {
 			states.addAll(block.getBlockState().getValidStates());
 		}
@@ -111,4 +166,24 @@ public enum MaterialBlockType {
 		return name;
 	}
 
+	private void addRecipe(boolean allways, MaterialRecipeBuilder recipe) {
+		if (allways) {
+			allwaysRecipes.add(recipe);
+		} else {
+			materialRecipes.add(recipe);
+		}
+	}
+
+	public void addRecipes(Material mat) {
+		for (MaterialRecipeBuilder recipeDesc : allwaysRecipes) {
+			GameRegistry.addShapedRecipe(recipeDesc.buildOutput(mat, this), recipeDesc.build(mat));
+		}
+		if (MaterialBlockRegistry.instance.getAllBlocks().contains(mat.getBlock(this).getBlock())) {
+			for (MaterialRecipeBuilder recipeDesc : materialRecipes) {
+				GameRegistry.addShapedRecipe(recipeDesc.buildOutput(mat, this),
+						recipeDesc.build(mat));
+
+			}
+		}
+	}
 }
