@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.vecmath.Vector3f;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.state.IBlockState;
@@ -27,7 +26,8 @@ public enum MaterialBlockType {
 	FULL("block", "minecraft:block/cube_bottom_top"),
 	SLAB("slab", "minecraft:block/half_slab"),
 	STEP("step", "buildingbricks:block/step_bottom"),
-	CORNER("corner", "buildingbricks:block/corner_bottom");
+	CORNER("corner", "buildingbricks:block/corner_bottom"),
+	WALL("wall", "minecraft:block/wall_post");
 
 	static {
 		FULL.addRecipe(true, MaterialRecipeBuilder
@@ -98,6 +98,68 @@ public enum MaterialBlockType {
 			if (BlockProperties.getVertical(state)) {
 				return new ResourceLocation("buildingbricks:block/step_vertical");
 			}
+		} else if (this == WALL) {
+			if (BlockProperties.getConnectionNorth(state)) {
+				if (BlockProperties.getConnectionEast(state)) {
+					if (BlockProperties.getConnectionSouth(state)) {
+						if (BlockProperties.getConnectionWest(state)) {
+							return new ResourceLocation("minecraft:block/wall_nsew");
+						} else {
+							return new ResourceLocation("minecraft:block/wall_nse");
+						}
+					} else {
+						if (BlockProperties.getConnectionWest(state)) {
+							return new ResourceLocation("minecraft:block/wall_nse");
+						} else {
+							return new ResourceLocation("minecraft:block/wall_ne");
+						}
+					}
+				} else {
+					if (BlockProperties.getConnectionSouth(state)) {
+						if (BlockProperties.getConnectionWest(state)) {
+							return new ResourceLocation("minecraft:block/wall_nse");
+						} else {
+							return new ResourceLocation("minecraft:block/wall_ns");
+						}
+					} else {
+						if (BlockProperties.getConnectionWest(state)) {
+							return new ResourceLocation("minecraft:block/wall_ne");
+						} else {
+							return new ResourceLocation("minecraft:block/wall_n");
+						}
+					}
+				}
+			} else {
+				if (BlockProperties.getConnectionEast(state)) {
+					if (BlockProperties.getConnectionSouth(state)) {
+						if (BlockProperties.getConnectionWest(state)) {
+							return new ResourceLocation("minecraft:block/wall_nse");
+						} else {
+							return new ResourceLocation("minecraft:block/wall_ne");
+						}
+					} else {
+						if (BlockProperties.getConnectionWest(state)) {
+							return new ResourceLocation("minecraft:block/wall_ns");
+						} else {
+							return new ResourceLocation("minecraft:block/wall_n");
+						}
+					}
+				} else {
+					if (BlockProperties.getConnectionSouth(state)) {
+						if (BlockProperties.getConnectionWest(state)) {
+							return new ResourceLocation("minecraft:block/wall_ne");
+						} else {
+							return new ResourceLocation("minecraft:block/wall_n");
+						}
+					} else {
+						if (BlockProperties.getConnectionWest(state)) {
+							return new ResourceLocation("minecraft:block/wall_n");
+						} else {
+							return baseModel;
+						}
+					}
+				}
+			}
 		}
 		return baseModel;
 	}
@@ -127,6 +189,8 @@ public enum MaterialBlockType {
 		} else if (this == CORNER) {
 			return getModelRotationFromFacing(BlockProperties.getRotation(state),
 					BlockProperties.getHalf(state));
+		} else if (this == WALL) {
+			return getModelRotationFromConnections(state);
 		} else {
 			return null;
 		}
@@ -160,6 +224,71 @@ public enum MaterialBlockType {
 				: new Vector3f(0.0f, 0.5f, 0.0f), null, null, null);
 		return translate.compose(new TRSRTransformation(ModelRotation.getModelRotation(0,
 				rot.getAngleDeg())));
+	}
+
+	private IModelState getModelRotationFromConnections(IBlockState state) {
+		if (BlockProperties.getConnectionNorth(state)) {
+			if (BlockProperties.getConnectionEast(state)) {
+				if (BlockProperties.getConnectionSouth(state)) {
+					if (BlockProperties.getConnectionWest(state)) {
+						return ModelRotation.X0_Y0;
+					} else {
+						return ModelRotation.X0_Y0;
+					}
+				} else {
+					if (BlockProperties.getConnectionWest(state)) {
+						return ModelRotation.X0_Y270;
+					} else {
+						return ModelRotation.X0_Y0;
+					}
+				}
+			} else {
+				if (BlockProperties.getConnectionSouth(state)) {
+					if (BlockProperties.getConnectionWest(state)) {
+						return ModelRotation.X0_Y180;
+					} else {
+						return ModelRotation.X0_Y0;
+					}
+				} else {
+					if (BlockProperties.getConnectionWest(state)) {
+						return ModelRotation.X0_Y270;
+					} else {
+						return ModelRotation.X0_Y0;
+					}
+				}
+			}
+		} else {
+			if (BlockProperties.getConnectionEast(state)) {
+				if (BlockProperties.getConnectionSouth(state)) {
+					if (BlockProperties.getConnectionWest(state)) {
+						return ModelRotation.X0_Y90;
+					} else {
+						return ModelRotation.X0_Y90;
+					}
+				} else {
+					if (BlockProperties.getConnectionWest(state)) {
+						return ModelRotation.X0_Y90;
+
+					} else {
+						return ModelRotation.X0_Y90;
+					}
+				}
+			} else {
+				if (BlockProperties.getConnectionSouth(state)) {
+					if (BlockProperties.getConnectionWest(state)) {
+						return ModelRotation.X0_Y180;
+					} else {
+						return ModelRotation.X0_Y180;
+					}
+				} else {
+					if (BlockProperties.getConnectionWest(state)) {
+						return ModelRotation.X0_Y270;
+					} else {
+						return ModelRotation.X0_Y0;
+					}
+				}
+			}
+		}
 	}
 
 	public String getName() {

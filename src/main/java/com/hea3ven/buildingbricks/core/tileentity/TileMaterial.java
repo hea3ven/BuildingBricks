@@ -9,6 +9,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -68,13 +69,19 @@ public class TileMaterial extends TileEntity {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setString("material", material.materialId());
+		nbt.setString("material", getMaterial().materialId());
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		material = MaterialRegistry.get(nbt.getString("material"));
+		setMaterial(MaterialRegistry.get(nbt.getString("material")));
+	}
+
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState,
+			IBlockState newSate) {
+		return oldState.getBlock() != newSate.getBlock();
 	}
 
 	@Override

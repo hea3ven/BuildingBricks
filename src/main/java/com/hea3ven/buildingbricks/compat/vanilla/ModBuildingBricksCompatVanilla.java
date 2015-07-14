@@ -6,6 +6,7 @@ import net.minecraft.block.BlockStone;
 import net.minecraft.block.BlockStone.EnumType;
 import net.minecraft.block.BlockStoneSlab;
 import net.minecraft.block.BlockStoneSlabNew;
+import net.minecraft.block.BlockWall;
 import net.minecraft.init.Blocks;
 
 import net.minecraftforge.fml.common.Mod;
@@ -18,7 +19,8 @@ import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
-@Mod(modid = ModBuildingBricksCompatVanilla.MODID, name = "Building Bricks Vanilla Compatibilty", version = ModBuildingBricksCompatVanilla.VERSION)
+@Mod(modid = ModBuildingBricksCompatVanilla.MODID, name = "Building Bricks Vanilla Compatibilty",
+		version = ModBuildingBricksCompatVanilla.VERSION)
 public class ModBuildingBricksCompatVanilla {
 	public static final String MODID = "buildingbricks|compatvanilla";
 	public static final String VERSION = "1.0.0";
@@ -43,6 +45,8 @@ public class ModBuildingBricksCompatVanilla {
 				BlockStoneSlab.EnumType.COBBLESTONE.getMetadata()));
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
+		mat.addBlock(MaterialBlockType.WALL, new BlockDescription(Blocks.cobblestone_wall,
+				BlockWall.EnumType.NORMAL.getMetadata()));
 		MaterialRegistry.registerMaterial(mat);
 
 		// mat.setSlabBlock(new BlockDescription(Blocks.stone_slab,
@@ -56,6 +60,7 @@ public class ModBuildingBricksCompatVanilla {
 		mat.addBlock(MaterialBlockType.SLAB);
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
+		mat.addBlock(MaterialBlockType.WALL);
 		MaterialRegistry.registerMaterial(mat);
 
 		mat = new Material("red_sandstone");

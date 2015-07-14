@@ -14,6 +14,10 @@ public class BlockProperties {
 	public static final PropertyEnum HALF = PropertyEnum.create("half", EnumBlockHalf.class);
 	public static final PropertyEnum ROTATION = PropertyEnum.create("rotation", EnumRotation.class);
 	public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
+	public static final PropertyBool CONNECT_NORTH = PropertyBool.create("north");
+	public static final PropertyBool CONNECT_EAST = PropertyBool.create("east");
+	public static final PropertyBool CONNECT_SOUTH = PropertyBool.create("south");
+	public static final PropertyBool CONNECT_WEST = PropertyBool.create("west");
 
 	public static EnumFacing getFacing(IBlockState state) {
 		return (EnumFacing) state.getValue(FACING);
@@ -45,5 +49,37 @@ public class BlockProperties {
 
 	public static IBlockState setRotation(IBlockState state, EnumRotation rotation) {
 		return state.withProperty(ROTATION, rotation);
+	}
+
+	public static boolean getConnectionNorth(IBlockState state) {
+		return (Boolean) state.getValue(CONNECT_NORTH);
+	}
+
+	public static IBlockState setConnectionNorth(IBlockState state, Boolean connected) {
+		return state.withProperty(CONNECT_NORTH, connected);
+	}
+
+	public static boolean getConnectionEast(IBlockState state) {
+		return (Boolean) state.getValue(CONNECT_EAST);
+	}
+
+	public static IBlockState setConnectionEast(IBlockState state, Boolean connected) {
+		return state.withProperty(CONNECT_EAST, connected);
+	}
+
+	public static boolean getConnectionSouth(IBlockState state) {
+		return (Boolean) state.getValue(CONNECT_SOUTH);
+	}
+
+	public static IBlockState setConnectionSouth(IBlockState state, Boolean connected) {
+		return state.withProperty(CONNECT_SOUTH, connected);
+	}
+
+	public static boolean getConnectionWest(IBlockState state) {
+		return (Boolean) state.getValue(CONNECT_WEST);
+	}
+
+	public static IBlockState setConnectionWest(IBlockState state, Boolean connected) {
+		return state.withProperty(CONNECT_WEST, connected);
 	}
 }

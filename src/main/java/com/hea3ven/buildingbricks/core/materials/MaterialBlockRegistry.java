@@ -15,6 +15,7 @@ import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksBase;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
+import com.hea3ven.buildingbricks.core.blocks.BlockMaterialWall;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 
 public class MaterialBlockRegistry {
@@ -30,6 +31,7 @@ public class MaterialBlockRegistry {
 	public BlockMaterialSlab materialWoodSlab;
 	public BlockMaterialStep materialWoodStep;
 	public BlockMaterialCorner materialWoodCorner;
+	public BlockMaterialWall materialRockWall;
 
 	private MaterialBlockRegistry() {
 		materialRockSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.ROCK,
@@ -38,6 +40,8 @@ public class MaterialBlockRegistry {
 				MaterialBlockType.STEP);
 		materialRockCorner = createBlock(BlockMaterialCorner.class, StructureMaterial.ROCK,
 				MaterialBlockType.CORNER);
+		materialRockWall = createBlock(BlockMaterialWall.class, StructureMaterial.ROCK,
+				MaterialBlockType.WALL);
 		materialWoodSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.WOOD,
 				MaterialBlockType.SLAB);
 		materialWoodStep = createBlock(BlockMaterialStep.class, StructureMaterial.WOOD,

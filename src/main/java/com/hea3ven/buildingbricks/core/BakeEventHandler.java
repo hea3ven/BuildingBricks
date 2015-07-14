@@ -78,9 +78,11 @@ public class BakeEventHandler {
 
 		for (Material mat : materials) {
 			HashMap<String, String> textures = new HashMap<String, String>();
+			textures.put("all", mat.sideTextureLocation());
 			textures.put("side", mat.sideTextureLocation());
 			textures.put("top", mat.topTextureLocation());
 			textures.put("bottom", mat.bottomTextureLocation());
+			textures.put("wall", mat.sideTextureLocation());
 
 			IRetexturableModel baseModel = (IRetexturableModel) ModelLoaderRegistry.getModel(blockType.baseModel());
 			baseModel = (IRetexturableModel) baseModel.retexture(ImmutableMap.copyOf(textures));
