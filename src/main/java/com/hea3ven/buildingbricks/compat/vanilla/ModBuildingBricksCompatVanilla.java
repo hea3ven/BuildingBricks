@@ -30,8 +30,8 @@ public class ModBuildingBricksCompatVanilla {
 		Material mat = new Material("stone");
 		mat.setTexture("blocks/stone");
 		mat.setStructureMaterial(StructureMaterial.ROCK);
-		mat.addBlock(MaterialBlockType.FULL,
-				new BlockDescription(Blocks.stone, EnumType.STONE.getMetadata()));
+		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.stone, EnumType.STONE
+				.getMetadata()));
 		mat.addBlock(MaterialBlockType.SLAB);
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
@@ -40,12 +40,12 @@ public class ModBuildingBricksCompatVanilla {
 		mat = new Material("cobblestone");
 		mat.setTexture("blocks/cobblestone");
 		mat.setStructureMaterial(StructureMaterial.ROCK);
-		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.cobblestone));
-		mat.addBlock(MaterialBlockType.SLAB, new BlockDescription(Blocks.stone_slab,
+		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.cobblestone));
+		mat.addBlock(new BlockDescription(MaterialBlockType.SLAB, Blocks.stone_slab,
 				BlockStoneSlab.EnumType.COBBLESTONE.getMetadata()));
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
-		mat.addBlock(MaterialBlockType.WALL, new BlockDescription(Blocks.cobblestone_wall,
+		mat.addBlock(new BlockDescription(MaterialBlockType.WALL, Blocks.cobblestone_wall,
 				BlockWall.EnumType.NORMAL.getMetadata()));
 		MaterialRegistry.registerMaterial(mat);
 
@@ -55,7 +55,7 @@ public class ModBuildingBricksCompatVanilla {
 		mat = new Material("andesite");
 		mat.setTexture("blocks/stone_andesite");
 		mat.setStructureMaterial(StructureMaterial.ROCK);
-		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.stone,
+		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.stone,
 				BlockStone.EnumType.ANDESITE.getMetadata()));
 		mat.addBlock(MaterialBlockType.SLAB);
 		mat.addBlock(MaterialBlockType.STEP);
@@ -67,9 +67,9 @@ public class ModBuildingBricksCompatVanilla {
 		mat.setTexture("blocks/red_sandstone_top", "blocks/red_sandstone_bottom",
 				"blocks/red_sandstone_normal");
 		mat.setStructureMaterial(StructureMaterial.ROCK);
-		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.red_sandstone,
+		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.red_sandstone,
 				BlockRedSandstone.EnumType.DEFAULT.getMetadata()));
-		mat.addBlock(MaterialBlockType.SLAB, new BlockDescription(Blocks.stone_slab2,
+		mat.addBlock(new BlockDescription(MaterialBlockType.SLAB, Blocks.stone_slab2,
 				BlockStoneSlabNew.EnumType.RED_SANDSTONE.getMetadata()));
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
@@ -78,9 +78,9 @@ public class ModBuildingBricksCompatVanilla {
 		mat = new Material("planks_oak");
 		mat.setTexture("blocks/planks_oak");
 		mat.setStructureMaterial(StructureMaterial.WOOD);
-		mat.addBlock(MaterialBlockType.FULL, new BlockDescription(Blocks.planks,
+		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.planks,
 				BlockPlanks.EnumType.OAK.getMetadata()));
-		mat.addBlock(MaterialBlockType.SLAB, new BlockDescription(Blocks.wooden_slab,
+		mat.addBlock(new BlockDescription(MaterialBlockType.SLAB, Blocks.wooden_slab,
 				BlockPlanks.EnumType.OAK.getMetadata()));
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);

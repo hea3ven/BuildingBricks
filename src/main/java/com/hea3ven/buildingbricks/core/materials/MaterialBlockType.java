@@ -23,11 +23,11 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 
 public enum MaterialBlockType {
-	FULL("block", "minecraft:block/cube_bottom_top"),
-	SLAB("slab", "minecraft:block/half_slab"),
-	STEP("step", "buildingbricks:block/step_bottom"),
-	CORNER("corner", "buildingbricks:block/corner_bottom"),
-	WALL("wall", "minecraft:block/wall_post");
+	FULL("block", "minecraft:block/cube_bottom_top", 1000),
+	SLAB("slab", "minecraft:block/half_slab", 500),
+	STEP("step", "buildingbricks:block/step_bottom", 250),
+	CORNER("corner", "buildingbricks:block/corner_bottom", 125),
+	WALL("wall", "minecraft:block/wall_post", 1000);
 
 	static {
 		FULL.addRecipe(true, MaterialRecipeBuilder
@@ -77,16 +77,34 @@ public enum MaterialBlockType {
 		return values()[id];
 	}
 
+	public static MaterialBlockType getForVolume(int volume) {
+		for (MaterialBlockType blockType : values()) {
+			if (blockType.getVolume() == volume)
+				return blockType;
+		}
+		return null;
+	}
+
+	public static MaterialBlockType getBestForVolume(int volume) {
+		for (MaterialBlockType blockType : values()) {
+			if (blockType.getVolume() <= volume)
+				return blockType;
+		}
+		return null;
+	}
+
 	private String name;
 	private ResourceLocation baseModel;
 	private List<MaterialRecipeBuilder> allwaysRecipes;
 	private List<MaterialRecipeBuilder> materialRecipes;
+	private int volume = 0;
 
-	private MaterialBlockType(String name, String modelLocation) {
+	private MaterialBlockType(String name, String modelLocation, int volume) {
 		this.name = name;
 		baseModel = new ResourceLocation(modelLocation);
 		allwaysRecipes = Lists.newArrayList();
 		materialRecipes = Lists.newArrayList();
+		this.volume = volume;
 	}
 
 	public ResourceLocation baseModel() {
@@ -314,5 +332,9 @@ public enum MaterialBlockType {
 
 			}
 		}
+	}
+
+	public int getVolume() {
+		return volume;
 	}
 }

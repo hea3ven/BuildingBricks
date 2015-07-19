@@ -46,7 +46,7 @@ public class MaterialRecipeBuilderTest {
 		Item stubItem = new ItemBlock(stubBlock);
 		final ItemStack stack = new ItemStack(stubItem);
 		Material stubMat = new Material("test");
-		stubMat.addBlock(MaterialBlockType.FULL, new BlockDescription(stubBlock) {
+		stubMat.addBlock(new BlockDescription(MaterialBlockType.FULL, stubBlock) {
 			@Override
 			public ItemStack getStack() {
 				return stack;
@@ -68,7 +68,7 @@ public class MaterialRecipeBuilderTest {
 		Item stubItem = new ItemBlock(stubBlock);
 		final ItemStack stack = new ItemStack(stubItem);
 		Material stubMat = new Material("test");
-		stubMat.addBlock(MaterialBlockType.FULL, new BlockDescription(stubBlock) {
+		stubMat.addBlock(new BlockDescription(MaterialBlockType.FULL, stubBlock) {
 			@Override
 			public ItemStack getStack() {
 				return stack;

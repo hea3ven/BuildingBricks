@@ -1,5 +1,7 @@
 package com.hea3ven.buildingbricks.core.materials;
 
+import net.minecraft.item.ItemStack;
+
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 
 public class Material {
@@ -45,17 +47,27 @@ public class Material {
 		return blockRotation;
 	}
 
-	public void addBlock(MaterialBlockType blockType, BlockDescription blockDesc) {
-		getBlockRotation().add(blockType, blockDesc);
+	public void addBlock(BlockDescription blockDesc) {
+		getBlockRotation().add(blockDesc.getType(), blockDesc);
 
 	}
 
 	public void addBlock(MaterialBlockType blockType) {
-		addBlock(blockType, MaterialBlockRegistry.instance.addBlock(blockType, this));
+		addBlock(MaterialBlockRegistry.instance.addBlock(blockType, this));
 	}
 
 	public BlockDescription getBlock(MaterialBlockType blockType) {
 		return getBlockRotation().get(blockType);
+	}
+
+	public BlockDescription getBlock(ItemStack stack) {
+		for (BlockDescription blockDesc : getBlockRotation().getAll().values()) {
+			if (ItemStack.areItemsEqual(stack, blockDesc.getStack())
+					&& ItemStack.areItemStackTagsEqual(stack, blockDesc.getStack())) {
+				return blockDesc;
+			}
+		}
+		return null;
 	}
 
 	public String topTextureLocation() {
@@ -74,4 +86,5 @@ public class Material {
 	public String toString() {
 		return "<Material " + materialId() + ">";
 	}
+
 }

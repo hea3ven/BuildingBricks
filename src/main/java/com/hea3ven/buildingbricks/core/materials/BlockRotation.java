@@ -31,8 +31,8 @@ public class BlockRotation {
 	public MaterialBlockType getNext(MaterialBlockType blockType) {
 		// TODO: Rewrite this
 		for (int i = 1; i < MaterialBlockType.values().length; i++) {
-			MaterialBlockType nextBlockType = MaterialBlockType.getBlockType((blockType.ordinal() + i)
-					% MaterialBlockType.values().length);
+			MaterialBlockType nextBlockType = MaterialBlockType
+					.getBlockType((blockType.ordinal() + i) % MaterialBlockType.values().length);
 			if (items.containsKey(nextBlockType))
 				return nextBlockType;
 		}
@@ -62,5 +62,4 @@ public class BlockRotation {
 	public BlockDescription get(MaterialBlockType blockType) {
 		return items.get(blockType);
 	}
-
 }

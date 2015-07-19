@@ -5,8 +5,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.item.ItemStack;
+
+import com.hea3ven.buildingbricks.core.lib.BlockDescription;
+
 public class MaterialRegistry {
-	
+
 	private static Set<Material> materials = new HashSet<Material>();
 	private static Map<String, Material> materialsById = new HashMap<String, Material>();
 
@@ -21,6 +25,18 @@ public class MaterialRegistry {
 
 	public static Material get(String materialId) {
 		return materialsById.get(materialId);
+	}
+
+	public static Material getMaterialForStack(ItemStack stack) {
+		for (Material mat : materials) {
+			for (BlockDescription blockDesc : mat.getBlockRotation().getAll().values()) {
+				if (ItemStack.areItemsEqual(stack,blockDesc.getStack())&&ItemStack.areItemStackTagsEqual(stack,blockDesc.getStack())
+						) {
+					return mat;
+				}
+			}
+		}
+		return null;
 	}
 
 }

@@ -98,8 +98,9 @@ public class MaterialBlockRegistry {
 
 	public BlockDescription addBlock(MaterialBlockType blockType, Material mat) {
 		blocksMaterials.get(blockType).get(mat.getStructureMaterial()).add(mat);
-		return new BlockDescription(blocks.get(blockType).get(mat.getStructureMaterial()), 0,
-				"material", new NBTTagString(mat.materialId()));
+		BlockBuildingBricksBase block = blocks.get(blockType).get(mat.getStructureMaterial());
+		return new BlockDescription(blockType, block, 0, "material", new NBTTagString(
+				mat.materialId()));
 	}
 
 }
