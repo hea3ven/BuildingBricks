@@ -24,6 +24,9 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 
 public enum MaterialBlockType {
 	FULL("block", "minecraft:block/cube_bottom_top", 1000),
+	STAIRS_FIXED_INNER_CORNER("stair_inner_corner", "minecraft:block/inner_stairs", 875),
+	STAIRS_FIXED_SIDE("stair_side", "minecraft:block/stairs", 750),
+	STAIRS_FIXED_CORNER("stair_corner", "minecraft:block/outer_stairs", 625),
 	SLAB("slab", "minecraft:block/half_slab", 500),
 	STEP("step", "buildingbricks:block/step_bottom", 250),
 	CORNER("corner", "buildingbricks:block/corner_bottom", 125),
@@ -36,41 +39,36 @@ public enum MaterialBlockType {
 				.pattern("xx", "xx")
 				.map('x', SLAB)
 				.validate());
-		SLAB.addRecipe(false,
-				MaterialRecipeBuilder
-						.create()
-						.outputAmount(6)
-						.pattern("xxx")
-						.map('x', FULL)
-						.validate());
-		SLAB.addRecipe(true,
-				MaterialRecipeBuilder
-						.create()
-						.outputAmount(1)
-						.pattern("xx")
-						.map('x', STEP)
-						.validate());
-		STEP.addRecipe(false,
-				MaterialRecipeBuilder
-						.create()
-						.outputAmount(6)
-						.pattern("xxx")
-						.map('x', SLAB)
-						.validate());
-		STEP.addRecipe(true,
-				MaterialRecipeBuilder
-						.create()
-						.outputAmount(1)
-						.pattern("xx")
-						.map('x', CORNER)
-						.validate());
-		CORNER.addRecipe(false,
-				MaterialRecipeBuilder
-						.create()
-						.outputAmount(6)
-						.pattern("xxx")
-						.map('x', STEP)
-						.validate());
+		SLAB.addRecipe(false, MaterialRecipeBuilder
+				.create()
+				.outputAmount(6)
+				.pattern("xxx")
+				.map('x', FULL)
+				.validate());
+		SLAB.addRecipe(true, MaterialRecipeBuilder
+				.create()
+				.outputAmount(1)
+				.pattern("xx")
+				.map('x', STEP)
+				.validate());
+		STEP.addRecipe(false, MaterialRecipeBuilder
+				.create()
+				.outputAmount(6)
+				.pattern("xxx")
+				.map('x', SLAB)
+				.validate());
+		STEP.addRecipe(true, MaterialRecipeBuilder
+				.create()
+				.outputAmount(1)
+				.pattern("xx")
+				.map('x', CORNER)
+				.validate());
+		CORNER.addRecipe(false, MaterialRecipeBuilder
+				.create()
+				.outputAmount(6)
+				.pattern("xxx")
+				.map('x', STEP)
+				.validate());
 	}
 
 	public static MaterialBlockType getBlockType(int id) {
@@ -196,6 +194,10 @@ public enum MaterialBlockType {
 	public IModelState getModelStateFromBlockState(IBlockState state) {
 		if (this == SLAB) {
 			return getModelRotationFromFacing(BlockProperties.getFacing(state));
+		} else if (this == STAIRS_FIXED_SIDE || this == MaterialBlockType.STAIRS_FIXED_CORNER
+				|| this == MaterialBlockType.STAIRS_FIXED_INNER_CORNER) {
+			return getModelStateStairs(BlockProperties.getRotation(state),
+					BlockProperties.getHalf(state));
 		} else if (this == STEP) {
 			if (BlockProperties.getVertical(state)) {
 				return getModelRotationVertical(BlockProperties.getRotation(state));
@@ -238,10 +240,20 @@ public enum MaterialBlockType {
 
 	private IModelState getModelRotationFromFacing(EnumRotation rot, EnumBlockHalf half) {
 
-		TRSRTransformation translate = new TRSRTransformation((half == EnumBlockHalf.BOTTOM) ? null
-				: new Vector3f(0.0f, 0.5f, 0.0f), null, null, null);
-		return translate.compose(new TRSRTransformation(ModelRotation.getModelRotation(0,
-				rot.getAngleDeg())));
+		TRSRTransformation translate = new TRSRTransformation(
+				(half == EnumBlockHalf.BOTTOM) ? null : new Vector3f(0.0f, 0.5f, 0.0f), null, null,
+				null);
+		return translate.compose(
+				new TRSRTransformation(ModelRotation.getModelRotation(0, rot.getAngleDeg())));
+	}
+
+	private IModelState getModelStateStairs(EnumRotation rot, EnumBlockHalf half) {
+
+		TRSRTransformation translate = new TRSRTransformation(
+				(half == EnumBlockHalf.BOTTOM) ? null : new Vector3f(0.0f, 0.5f, 0.0f), null, null,
+				null);
+		return translate.compose(
+				new TRSRTransformation(ModelRotation.getModelRotation(0, rot.getAngleDeg() - 90)));
 	}
 
 	private IModelState getModelRotationFromConnections(IBlockState state) {

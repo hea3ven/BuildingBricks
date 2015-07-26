@@ -32,6 +32,9 @@ public class ModBuildingBricksCompatVanilla {
 		mat.setStructureMaterial(StructureMaterial.ROCK);
 		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.stone, EnumType.STONE
 				.getMetadata()));
+		mat.addBlock(MaterialBlockType.STAIRS_FIXED_INNER_CORNER);
+		mat.addBlock(MaterialBlockType.STAIRS_FIXED_SIDE);
+		mat.addBlock(MaterialBlockType.STAIRS_FIXED_CORNER);
 		mat.addBlock(MaterialBlockType.SLAB);
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);

@@ -14,6 +14,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksBase;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialSlab;
+import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStairsFixedCorner;
+import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStairsFixedInnerCorner;
+import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStairsFixedSide;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialWall;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
@@ -25,15 +28,27 @@ public class MaterialBlockRegistry {
 	private HashMap<MaterialBlockType, HashMap<StructureMaterial, BlockBuildingBricksBase>> blocks = new HashMap<MaterialBlockType, HashMap<StructureMaterial, BlockBuildingBricksBase>>();
 	private HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>> blocksMaterials = new HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>>();
 
+	public BlockMaterialStairsFixedInnerCorner materialRockStairsInnerCorner;
+	public BlockMaterialStairsFixedSide materialRockStairsSide;
+	public BlockMaterialStairsFixedCorner materialRockStairsCorner;
 	public BlockMaterialSlab materialRockSlab;
 	public BlockMaterialStep materialRockStep;
 	public BlockMaterialCorner materialRockCorner;
+	public BlockMaterialStairsFixedInnerCorner materialWoodStairsInnerCorner;
+	public BlockMaterialStairsFixedSide materialWoodStairsSide;
+	public BlockMaterialStairsFixedCorner materialWoodStairsCorner;
 	public BlockMaterialSlab materialWoodSlab;
 	public BlockMaterialStep materialWoodStep;
 	public BlockMaterialCorner materialWoodCorner;
 	public BlockMaterialWall materialRockWall;
 
 	private MaterialBlockRegistry() {
+		materialRockStairsInnerCorner = createBlock(BlockMaterialStairsFixedInnerCorner.class,
+				StructureMaterial.ROCK, MaterialBlockType.STAIRS_FIXED_INNER_CORNER);
+		materialRockStairsSide = createBlock(BlockMaterialStairsFixedSide.class,
+				StructureMaterial.ROCK, MaterialBlockType.STAIRS_FIXED_SIDE);
+		materialRockStairsCorner = createBlock(BlockMaterialStairsFixedCorner.class,
+				StructureMaterial.ROCK, MaterialBlockType.STAIRS_FIXED_CORNER);
 		materialRockSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.ROCK,
 				MaterialBlockType.SLAB);
 		materialRockStep = createBlock(BlockMaterialStep.class, StructureMaterial.ROCK,
@@ -42,6 +57,12 @@ public class MaterialBlockRegistry {
 				MaterialBlockType.CORNER);
 		materialRockWall = createBlock(BlockMaterialWall.class, StructureMaterial.ROCK,
 				MaterialBlockType.WALL);
+		materialWoodStairsInnerCorner = createBlock(BlockMaterialStairsFixedInnerCorner.class,
+				StructureMaterial.WOOD, MaterialBlockType.STAIRS_FIXED_INNER_CORNER);
+		materialWoodStairsSide = createBlock(BlockMaterialStairsFixedSide.class,
+				StructureMaterial.WOOD, MaterialBlockType.STAIRS_FIXED_SIDE);
+		materialWoodStairsCorner = createBlock(BlockMaterialStairsFixedCorner.class,
+				StructureMaterial.WOOD, MaterialBlockType.STAIRS_FIXED_CORNER);
 		materialWoodSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.WOOD,
 				MaterialBlockType.SLAB);
 		materialWoodStep = createBlock(BlockMaterialStep.class, StructureMaterial.WOOD,
@@ -99,8 +120,8 @@ public class MaterialBlockRegistry {
 	public BlockDescription addBlock(MaterialBlockType blockType, Material mat) {
 		blocksMaterials.get(blockType).get(mat.getStructureMaterial()).add(mat);
 		BlockBuildingBricksBase block = blocks.get(blockType).get(mat.getStructureMaterial());
-		return new BlockDescription(blockType, block, 0, "material", new NBTTagString(
-				mat.materialId()));
+		return new BlockDescription(blockType, block, 0, "material",
+				new NBTTagString(mat.materialId()));
 	}
 
 }

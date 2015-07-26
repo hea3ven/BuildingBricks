@@ -48,7 +48,14 @@ public class ItemTrowel extends Item {
 	}
 
 	public MaterialBlockType getCurrentBlockType(ItemStack stack) {
-		return MaterialBlockType.getBlockType(stack.getTagCompound().getInteger("blockType"));
+		MaterialBlockType blockType = MaterialBlockType
+				.getBlockType(stack.getTagCompound().getInteger("blockType"));
+		Material mat = getBindedMaterial(stack);
+		if (mat != null && mat.getBlock(blockType) == null) {
+			blockType = mat.getBlockRotation().getNext(blockType);
+			setCurrentBlockType(stack, blockType);
+		}
+		return blockType;
 	}
 
 	public void setCurrentBlockType(ItemStack stack, MaterialBlockType blockType) {
