@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core.blockstate;
 
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 
 public enum EnumRotation implements IStringSerializable {
@@ -17,6 +18,20 @@ public enum EnumRotation implements IStringSerializable {
 	
 	public static EnumRotation getRotation(int rot) {
 		return EnumRotation.values()[rot];
+	}
+
+	public static EnumRotation getRotation(EnumFacing side) {
+		switch (side) {
+		default:
+		case NORTH:
+			return ROT0;
+		case EAST:
+			return ROT90;
+		case SOUTH:
+			return ROT180;
+		case WEST:
+			return ROT270;
+		}
 	}
 
 	public static EnumRotation getHalfRotation(int rot) {

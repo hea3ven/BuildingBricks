@@ -18,7 +18,6 @@ import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
-import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockBuildingBricksStairsFixedInnerCorner extends BlockBuildingBricksNonSolid {
 
@@ -63,12 +62,10 @@ public class BlockBuildingBricksStairsFixedInnerCorner extends BlockBuildingBric
 	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
 			float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		// TODO: fix
-		BlockPlacingUtil.StepPlacement place = BlockPlacingUtil
-				.getStepPlacement(facing.getOpposite(), hitX, hitY, hitZ);
 		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
-		state = BlockProperties.setVertical(state, place.vert);
-		state = BlockProperties.setHalf(state, place.half);
-		state = BlockProperties.setRotation(state, place.rot);
+		// state = BlockProperties.setVertical(state, place.vert);
+		// state = BlockProperties.setHalf(state, place.half);
+		// state = BlockProperties.setRotation(state, place.rot);
 		return state;
 	}
 

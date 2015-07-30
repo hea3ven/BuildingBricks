@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -20,9 +21,9 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
-public class BlockCorner extends BlockBuildingBricksNonSolid {
+public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 
-	public BlockCorner(StructureMaterial structureMaterial, String name) {
+	public BlockBuildingBricksCorner(StructureMaterial structureMaterial, String name) {
 		super(structureMaterial, name);
 
 		IBlockState state = this.blockState.getBaseState();
@@ -57,12 +58,20 @@ public class BlockCorner extends BlockBuildingBricksNonSolid {
 	@Override
 	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
 			float hitY, float hitZ, int meta, EntityLivingBase placer) {
-
-		BlockPlacingUtil.CornerPlacement place = BlockPlacingUtil.getCornerPlacement(
-				facing.getOpposite(), hitX, hitY, hitZ);
 		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
-		state = BlockProperties.setHalf(state, place.half);
-		state = BlockProperties.setRotation(state, place.rot);
+
+		if (facing.getAxis() == Axis.Y) {
+			EnumBlockHalf half = facing == EnumFacing.UP ? EnumBlockHalf.BOTTOM : EnumBlockHalf.TOP;
+			state = BlockProperties.setHalf(state, half);
+			state = BlockProperties.setRotation(state,
+					BlockPlacingUtil.getClosestCorner(facing, hitX, hitY, hitZ));
+		} else {
+			state = BlockProperties.setHalf(state,
+					hitY >= 0.5f ? EnumBlockHalf.TOP : EnumBlockHalf.BOTTOM);
+			state = BlockProperties.setRotation(state,
+					BlockPlacingUtil.getRotationHalf(facing, hitX, hitY, hitZ));
+		}
+
 		return state;
 	}
 
@@ -73,12 +82,12 @@ public class BlockCorner extends BlockBuildingBricksNonSolid {
 		matrix.setIdentity();
 		matrix.rotY(-rot.getAngle());
 
-		Point3f min = new Point3f(-0.5f, (half == EnumBlockHalf.BOTTOM) ? -0.5f : 0.0f, -0.5f);
-		Point3f max = new Point3f(0.0f, (half == EnumBlockHalf.BOTTOM) ? 0.0f : 0.5f, 0.0f);
+		Point3f min = new Point3f(-0.5f, half == EnumBlockHalf.BOTTOM ? -0.5f : 0.0f, -0.5f);
+		Point3f max = new Point3f(0.0f, half == EnumBlockHalf.BOTTOM ? 0.0f : 0.5f, 0.0f);
 		matrix.transform(min);
 		matrix.transform(max);
-		AxisAlignedBB bb = new AxisAlignedBB(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f,
-				max.x + 0.5f, max.y + 0.5f, max.z + 0.5f);
+		AxisAlignedBB bb = new AxisAlignedBB(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f, max.x + 0.5f,
+				max.y + 0.5f, max.z + 0.5f);
 		return bb;
 	}
 

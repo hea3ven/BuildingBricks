@@ -19,16 +19,22 @@ public class RenderDefinitionSlab extends RenderDefinitionSimple {
 		default:
 		case DOWN:
 			modelState = ModelRotation.X0_Y0;
+			break;
 		case UP:
 			modelState = ModelRotation.X180_Y0;
+			break;
 		case SOUTH:
 			modelState = ModelRotation.X90_Y0;
+			break;
 		case WEST:
 			modelState = ModelRotation.X90_Y90;
+			break;
 		case NORTH:
 			modelState = ModelRotation.X90_Y180;
+			break;
 		case EAST:
 			modelState = ModelRotation.X90_Y270;
+			break;
 		}
 		return super.getModelState(modelState, state);
 	}

@@ -18,6 +18,7 @@ public enum MaterialBlockType {
 	FULL("block", 1000),
 	STAIRS_FIXED_INNER_CORNER("stair_inner_corner", 875),
 	STAIRS_FIXED_SIDE("stair_side", 750),
+	STAIRS("stair", 750),
 	STAIRS_FIXED_CORNER("stair_corner", 625),
 	SLAB("slab", 500),
 	STEP("step", 250),

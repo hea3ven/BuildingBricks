@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -20,9 +21,9 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
-public class BlockStep extends BlockBuildingBricksNonSolid {
+public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 
-	public BlockStep(StructureMaterial structureMaterial, String name) {
+	public BlockBuildingBricksStep(StructureMaterial structureMaterial, String name) {
 		super(structureMaterial, name);
 
 		IBlockState state = this.blockState.getBaseState();
@@ -61,12 +62,44 @@ public class BlockStep extends BlockBuildingBricksNonSolid {
 	@Override
 	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
 			float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		BlockPlacingUtil.StepPlacement place = BlockPlacingUtil.getStepPlacement(
-				facing.getOpposite(), hitX, hitY, hitZ);
 		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
-		state = BlockProperties.setVertical(state, place.vert);
-		state = BlockProperties.setHalf(state, place.half);
-		state = BlockProperties.setRotation(state, place.rot);
+
+		if (facing.getAxis() == Axis.Y) {
+			if (BlockPlacingUtil.isInnerRing(facing, hitX, hitY, hitZ)) {
+				state = BlockProperties.setVertical(state, false);
+				state = BlockProperties.setHalf(state,
+						facing == EnumFacing.UP ? EnumBlockHalf.BOTTOM : EnumBlockHalf.TOP);
+				state = BlockProperties.setRotation(state, EnumRotation
+						.getRotation(BlockPlacingUtil.getClosestSide(facing, hitX, hitY, hitZ)));
+			} else {
+				state = BlockProperties.setVertical(state, true);
+				state = BlockProperties.setHalf(state, EnumBlockHalf.BOTTOM);
+				state = BlockProperties.setRotation(state,
+						BlockPlacingUtil.getClosestCorner(facing, hitX, hitY, hitZ));
+			}
+		} else {
+			if (BlockPlacingUtil.isInnerRing(facing, hitX, hitY, hitZ)) {
+				EnumFacing closeFace = BlockPlacingUtil.getClosestSide(facing, hitX, hitY, hitZ);
+				if (closeFace.getAxis() == Axis.Y) {
+					state = BlockProperties.setVertical(state, false);
+					state = BlockProperties.setHalf(state,
+							closeFace == EnumFacing.UP ? EnumBlockHalf.TOP : EnumBlockHalf.BOTTOM);
+					state = BlockProperties.setRotation(state,
+							EnumRotation.getRotation(facing.getOpposite()));
+				} else {
+					state = BlockProperties.setVertical(state, true);
+					state = BlockProperties.setHalf(state, EnumBlockHalf.BOTTOM);
+					state = BlockProperties.setRotation(state,
+							BlockPlacingUtil.getRotation(facing.getOpposite(), closeFace));
+				}
+			} else {
+				state = BlockProperties.setVertical(state, false);
+				state = BlockProperties.setHalf(state,
+						hitY >= 0.5f ? EnumBlockHalf.TOP : EnumBlockHalf.BOTTOM);
+				state = BlockProperties.setRotation(state,
+						BlockPlacingUtil.getRotation(facing, hitX, hitY, hitZ));
+			}
+		}
 		return state;
 	}
 
@@ -80,12 +113,12 @@ public class BlockStep extends BlockBuildingBricksNonSolid {
 
 		Point3f min = new Point3f(-0.5f, (vertical || half == EnumBlockHalf.BOTTOM) ? -0.5f : 0.0f,
 				-0.5f);
-		Point3f max = vertical ? new Point3f(0.0f, 0.5f, 0.0f) : new Point3f(0.5f,
-				(half == EnumBlockHalf.BOTTOM) ? 0.0f : 0.5f, 0.0f);
+		Point3f max = vertical ? new Point3f(0.0f, 0.5f, 0.0f)
+				: new Point3f(0.5f, (half == EnumBlockHalf.BOTTOM) ? 0.0f : 0.5f, 0.0f);
 		matrix.transform(min);
 		matrix.transform(max);
-		AxisAlignedBB bb = new AxisAlignedBB(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f,
-				max.x + 0.5f, max.y + 0.5f, max.z + 0.5f);
+		AxisAlignedBB bb = new AxisAlignedBB(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f, max.x + 0.5f,
+				max.y + 0.5f, max.z + 0.5f);
 		return bb;
 	}
 

@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
+import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockBuildingBricksSlab extends BlockBuildingBricksNonSolid {
 
@@ -48,9 +49,14 @@ public class BlockBuildingBricksSlab extends BlockBuildingBricksNonSolid {
 	@Override
 	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
 			float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		EnumFacing blockFacing = facing.getOpposite();
 		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
-		state = BlockProperties.setFacing(state, blockFacing);
+
+		if (BlockPlacingUtil.isInnerRing(facing, hitX, hitY, hitZ)) {
+			state = BlockProperties.setFacing(state, facing.getOpposite());
+		} else {
+			state = BlockProperties.setFacing(state,
+					BlockPlacingUtil.getClosestSide(facing, hitX, hitY, hitZ));
+		}
 		return state;
 	}
 
@@ -59,18 +65,18 @@ public class BlockBuildingBricksSlab extends BlockBuildingBricksNonSolid {
 		EnumFacing facing = BlockProperties.getFacing(world.getBlockState(pos));
 		Vec3i dir = facing.getDirectionVec();
 		setBlockBounds(
-				(dir.getX() != 0) ? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0f
-						: 0.5f : 0f,
-				(dir.getY() != 0) ? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0f
-						: 0.5f : 0f,
-				(dir.getZ() != 0) ? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0f
-						: 0.5f : 0f,
-				(dir.getX() != 0) ? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0.5f
-						: 1f : 1f,
-				(dir.getY() != 0) ? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0.5f
-						: 1f : 1f,
-				(dir.getZ() != 0) ? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0.5f
-						: 1f : 1f);
+				(dir.getX() != 0)
+						? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0f : 0.5f : 0f,
+				(dir.getY() != 0)
+						? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0f : 0.5f : 0f,
+				(dir.getZ() != 0)
+						? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0f : 0.5f : 0f,
+				(dir.getX() != 0)
+						? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0.5f : 1f : 1f,
+				(dir.getY() != 0)
+						? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0.5f : 1f : 1f,
+				(dir.getZ() != 0)
+						? (facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0.5f : 1f : 1f);
 	}
 
 	@Override

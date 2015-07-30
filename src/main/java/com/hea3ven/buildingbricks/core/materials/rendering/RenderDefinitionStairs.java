@@ -1,7 +1,5 @@
 package com.hea3ven.buildingbricks.core.materials.rendering;
 
-import javax.vecmath.Vector3f;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelRotation;
 
@@ -24,12 +22,18 @@ public class RenderDefinitionStairs extends RenderDefinitionSimple {
 
 	@Override
 	public IModelState getModelState(IModelState modelState, IBlockState state) {
-		boolean bottom = BlockProperties.getHalf(state) == EnumBlockHalf.BOTTOM;
-		TRSRTransformation translate = new TRSRTransformation(
-				bottom ? null : new Vector3f(0.0f, 0.5f, 0.0f), null, null, null);
-		int angle = BlockProperties.getRotation(state).getAngleDeg() - 90;
-		ModelRotation modelRot = ModelRotation.getModelRotation(0, angle);
-		modelState = translate.compose(new TRSRTransformation(modelRot));
+		if (BlockProperties.getVertical(state)) {
+			int angle = BlockProperties.getRotation(state).getAngleDeg() - 90;
+			modelState = ModelRotation.getModelRotation(90, angle);
+		} else if (BlockProperties.getHalf(state) == EnumBlockHalf.BOTTOM) {
+			int angle = BlockProperties.getRotation(state).getAngleDeg() - 90;
+			modelState = ModelRotation.getModelRotation(0, angle);
+		} else {
+			TRSRTransformation translate = new TRSRTransformation(null, null, null, null);
+			int angle = BlockProperties.getRotation(state).getAngleDeg();
+			ModelRotation modelRot = ModelRotation.getModelRotation(180, angle);
+			modelState = translate.compose(new TRSRTransformation(modelRot));
+		}
 		return super.getModelState(modelState, state);
 	}
 }

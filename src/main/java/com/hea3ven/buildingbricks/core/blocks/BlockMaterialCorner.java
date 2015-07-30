@@ -26,7 +26,7 @@ import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
-public class BlockMaterialCorner extends BlockCorner {
+public class BlockMaterialCorner extends BlockBuildingBricksCorner {
 
 	public BlockMaterialCorner(StructureMaterial material, String name) {
 		super(material, name);
