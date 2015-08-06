@@ -17,8 +17,8 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 public class BlockVerticalSlab extends BlockBuildingBricksBase {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
-	public BlockVerticalSlab(String name) {
-		super(StructureMaterial.ROCK, name);
+	public BlockVerticalSlab() {
+		super(StructureMaterial.ROCK);
 
 		IBlockState blockState = this.blockState.getBaseState()
 				.withProperty(FACING, EnumFacing.NORTH);

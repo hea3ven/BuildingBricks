@@ -23,8 +23,8 @@ import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 
-	public BlockBuildingBricksStep(StructureMaterial structureMaterial, String name) {
-		super(structureMaterial, name);
+	public BlockBuildingBricksStep(StructureMaterial structureMaterial) {
+		super(structureMaterial);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setVertical(state, false);

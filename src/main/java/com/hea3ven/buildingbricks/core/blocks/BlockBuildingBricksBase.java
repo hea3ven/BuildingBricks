@@ -14,17 +14,8 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public abstract class BlockBuildingBricksBase extends Block {
 
-	private String name;
-
-	public BlockBuildingBricksBase(StructureMaterial materialIn, String name) {
+	public BlockBuildingBricksBase(StructureMaterial materialIn) {
 		super(materialIn.getMcMaterial());
-
-		this.name = name;
-		setUnlocalizedName(name);
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	protected void registerProperties(List<IProperty> props) {

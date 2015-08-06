@@ -23,8 +23,8 @@ import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 
-	public BlockBuildingBricksCorner(StructureMaterial structureMaterial, String name) {
-		super(structureMaterial, name);
+	public BlockBuildingBricksCorner(StructureMaterial structureMaterial) {
+		super(structureMaterial);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setHalf(state, EnumBlockHalf.BOTTOM);

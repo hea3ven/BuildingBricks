@@ -27,8 +27,8 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BlockMaterialStairsFixedInnerCorner extends BlockBuildingBricksStairsFixedInnerCorner {
-	public BlockMaterialStairsFixedInnerCorner(StructureMaterial material, String name) {
-		super(material, name);
+	public BlockMaterialStairsFixedInnerCorner(StructureMaterial material) {
+		super(material);
 	}
 
 	@Override

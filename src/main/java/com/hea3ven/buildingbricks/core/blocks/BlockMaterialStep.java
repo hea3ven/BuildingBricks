@@ -27,8 +27,8 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BlockMaterialStep extends BlockBuildingBricksStep {
-	public BlockMaterialStep(StructureMaterial material, String name) {
-		super(material, name);
+	public BlockMaterialStep(StructureMaterial material) {
+		super(material);
 	}
 
 	@Override

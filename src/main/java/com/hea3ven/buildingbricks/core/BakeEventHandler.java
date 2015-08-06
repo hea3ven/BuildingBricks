@@ -12,6 +12,7 @@ import com.google.common.collect.Maps;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.statemap.DefaultStateMapper;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -30,7 +31,6 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 
-import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksBase;
 import com.hea3ven.buildingbricks.core.client.model.ModelItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.client.model.ModelTrowel;
 import com.hea3ven.buildingbricks.core.client.model.SmartModelCached;
@@ -52,13 +52,11 @@ public class BakeEventHandler {
 
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
-		for (Entry<MaterialBlockType, HashMap<StructureMaterial, BlockBuildingBricksBase>> entry : MaterialBlockRegistry.instance
+		for (Entry<MaterialBlockType, HashMap<StructureMaterial, Block>> entry : MaterialBlockRegistry.instance
 				.getBlocks()
 				.entrySet()) {
 			SmartModelCached model = new SmartModelCached();
-			for (Entry<StructureMaterial, BlockBuildingBricksBase> subEntry : entry
-					.getValue()
-					.entrySet()) {
+			for (Entry<StructureMaterial, Block> subEntry : entry.getValue().entrySet()) {
 				ModelItemMaterialBlock itemModel = new ModelItemMaterialBlock();
 				bakeBlockModels(event.modelRegistry, model, itemModel, entry.getKey(),
 						subEntry.getKey(), subEntry.getValue());
@@ -70,7 +68,10 @@ public class BakeEventHandler {
 
 	private void bakeBlockModels(IRegistry modelRegistry, SmartModelCached cacheModel,
 			ModelItemMaterialBlock itemModel, MaterialBlockType blockType,
-			StructureMaterial structMat, BlockBuildingBricksBase block) {
+			StructureMaterial structMat, Block block) {
+		IRenderDefinition renderDefinition = blockType.getRenderDefinition();
+		if (renderDefinition == null)
+			return;
 
 		ResourceLocation blockName = (ResourceLocation) GameData
 				.getBlockRegistry()
@@ -83,7 +84,6 @@ public class BakeEventHandler {
 			modelRegistry.putObject(modelLoc, cacheModel);
 		}
 
-		IRenderDefinition renderDefinition = blockType.getRenderDefinition();
 		for (Material mat : Iterables.concat(
 				MaterialBlockRegistry.instance.getBlocksMaterials().get(blockType).values())) {
 			HashMap<String, String> textures = new HashMap<String, String>();
@@ -95,7 +95,8 @@ public class BakeEventHandler {
 
 			IModel baseModel = renderDefinition.getItemModel();
 			baseModel = retexture(textures, baseModel);
-			IModelState modelState = renderDefinition.getItemModelState(baseModel.getDefaultState());
+			IModelState modelState = renderDefinition
+					.getItemModelState(baseModel.getDefaultState());
 			IFlexibleBakedModel bakedModel = bake(baseModel, modelState);
 
 			itemModel.put(mat.materialId(), bakedModel);

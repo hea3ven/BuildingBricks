@@ -9,8 +9,8 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class BlockBuildingBricksNonSolid extends BlockBuildingBricksBase {
 
-	public BlockBuildingBricksNonSolid(StructureMaterial structureMaterial, String name) {
-		super(structureMaterial, name);
+	public BlockBuildingBricksNonSolid(StructureMaterial structureMaterial) {
+		super(structureMaterial);
 	}
 
 	@Override

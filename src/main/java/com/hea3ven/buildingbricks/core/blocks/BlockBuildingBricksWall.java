@@ -15,8 +15,8 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class BlockBuildingBricksWall extends BlockBuildingBricksNonSolid {
 
-	public BlockBuildingBricksWall(StructureMaterial structureMaterial, String name) {
-		super(structureMaterial, name);
+	public BlockBuildingBricksWall(StructureMaterial structureMaterial) {
+		super(structureMaterial);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setConnectionNorth(state, false);

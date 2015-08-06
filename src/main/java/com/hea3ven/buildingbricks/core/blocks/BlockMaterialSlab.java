@@ -28,8 +28,8 @@ import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BlockMaterialSlab extends BlockBuildingBricksSlab {
 
-	public BlockMaterialSlab(StructureMaterial structureMaterial, String name) {
-		super(structureMaterial, name);
+	public BlockMaterialSlab(StructureMaterial structureMaterial) {
+		super(structureMaterial);
 	}
 
 	@Override

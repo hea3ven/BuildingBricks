@@ -23,8 +23,8 @@ import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockBuildingBricksStairsFixedCorner extends BlockBuildingBricksNonSolid {
 
-	public BlockBuildingBricksStairsFixedCorner(StructureMaterial structureMaterial, String name) {
-		super(structureMaterial, name);
+	public BlockBuildingBricksStairsFixedCorner(StructureMaterial structureMaterial) {
+		super(structureMaterial);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setVertical(state, false);

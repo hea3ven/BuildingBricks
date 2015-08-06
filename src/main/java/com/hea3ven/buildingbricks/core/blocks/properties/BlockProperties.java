@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core.blocks.properties;
 
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
@@ -81,5 +82,9 @@ public class BlockProperties {
 
 	public static IBlockState setConnectionWest(IBlockState state, Boolean connected) {
 		return state.withProperty(CONNECT_WEST, connected);
+	}
+
+	public static <T> T getProp(IBlockState state, IProperty prop) {
+		return (T) state.getValue(prop);
 	}
 }

@@ -1,8 +1,8 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -23,19 +23,17 @@ import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
-public class BlockMaterialWall extends BlockBuildingBricksWall {
-	public BlockMaterialWall(StructureMaterial structureMaterial) {
-		super(structureMaterial);
+public class BlockMaterialStairs extends BlockStairs {
+	public BlockMaterialStairs(IBlockState modelState) {
+		super(modelState);
 	}
 
 	@Override
 	protected BlockState createBlockState() {
-		List<IProperty> props = new ArrayList<IProperty>();
-		registerProperties(props);
-		return new ExtendedBlockState(this, props.toArray(new IProperty[0]),
+		BlockState superBlockState = super.createBlockState();
+		return new ExtendedBlockState(this, (IProperty[]) superBlockState.getProperties().toArray(new IProperty[0]),
 				new IUnlistedProperty[] {TileMaterial.MATERIAL});
 	}
 
@@ -79,7 +77,7 @@ public class BlockMaterialWall extends BlockBuildingBricksWall {
 	@Override
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
 		for (Material mat : MaterialRegistry.getAll()) {
-			BlockDescription blockDesc = mat.getBlock(MaterialBlockType.WALL);
+			BlockDescription blockDesc = mat.getBlock(MaterialBlockType.STAIRS);
 			if (blockDesc != null && blockDesc.getBlock() == this) {
 				ItemStack stack = new ItemStack(itemIn);
 				TileMaterial.setStackMaterial(stack, mat);

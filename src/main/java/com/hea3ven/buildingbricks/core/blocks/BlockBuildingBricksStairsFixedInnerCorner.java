@@ -21,9 +21,8 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class BlockBuildingBricksStairsFixedInnerCorner extends BlockBuildingBricksNonSolid {
 
-	public BlockBuildingBricksStairsFixedInnerCorner(StructureMaterial structureMaterial,
-			String name) {
-		super(structureMaterial, name);
+	public BlockBuildingBricksStairsFixedInnerCorner(StructureMaterial structureMaterial) {
+		super(structureMaterial);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setVertical(state, false);

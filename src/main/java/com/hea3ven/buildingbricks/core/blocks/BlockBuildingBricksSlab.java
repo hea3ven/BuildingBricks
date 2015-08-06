@@ -18,8 +18,8 @@ import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockBuildingBricksSlab extends BlockBuildingBricksNonSolid {
 
-	public BlockBuildingBricksSlab(StructureMaterial structureMaterial, String name) {
-		super(structureMaterial, name);
+	public BlockBuildingBricksSlab(StructureMaterial structureMaterial) {
+		super(structureMaterial);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setFacing(state, EnumFacing.DOWN);
