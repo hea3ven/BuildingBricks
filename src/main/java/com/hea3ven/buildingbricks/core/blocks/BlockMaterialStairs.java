@@ -28,6 +28,7 @@ import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 public class BlockMaterialStairs extends BlockStairs {
 	public BlockMaterialStairs(IBlockState modelState) {
 		super(modelState);
+		useNeighborBrightness = true;
 	}
 
 	@Override

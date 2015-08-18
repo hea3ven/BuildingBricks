@@ -16,10 +16,7 @@ import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionWall;
 
 public enum MaterialBlockType {
 	FULL("block", 1000),
-	STAIRS_FIXED_INNER_CORNER("stair_inner_corner", 875),
-	STAIRS_FIXED_SIDE("stair_side", 750),
 	STAIRS("stairs", 750),
-	STAIRS_FIXED_CORNER("stair_corner", 625),
 	SLAB("slab", 500),
 	STEP("step", 250),
 	CORNER("corner", 125),
@@ -33,12 +30,7 @@ public enum MaterialBlockType {
 				.pattern("xx", "xx")
 				.map('x', SLAB)
 				.validate());
-		STAIRS.setRenderDefinition(new RenderDefinitionStairs("minecraft:block/stairs"));
-//		STAIRS_FIXED_INNER_CORNER
-//				.setRenderDefinition(new RenderDefinitionStairs("minecraft:block/inner_stairs"));
-//		STAIRS_FIXED_SIDE.setRenderDefinition(new RenderDefinitionStairs("minecraft:block/stairs"));
-//		STAIRS_FIXED_CORNER
-//				.setRenderDefinition(new RenderDefinitionStairs("minecraft:block/outer_stairs"));
+		STAIRS.setRenderDefinition(new RenderDefinitionStairs());
 		SLAB.setRenderDefinition(new RenderDefinitionSlab());
 		SLAB.addRecipe(false, MaterialRecipeBuilder
 				.create()

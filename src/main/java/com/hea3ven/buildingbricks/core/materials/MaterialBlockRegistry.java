@@ -13,13 +13,10 @@ import net.minecraft.nbt.NBTTagString;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksBase;
+import com.hea3ven.buildingbricks.core.blocks.BlockMaterialBlock;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStairs;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStairsFixedCorner;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStairsFixedInnerCorner;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStairsFixedSide;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialWall;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
@@ -31,29 +28,21 @@ public class MaterialBlockRegistry {
 	private HashMap<MaterialBlockType, HashMap<StructureMaterial, Block>> blocks = new HashMap<MaterialBlockType, HashMap<StructureMaterial, Block>>();
 	private HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>> blocksMaterials = new HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>>();
 
+	public BlockMaterialBlock materialRockBlock;
 	public BlockMaterialStairs materialRockStairs;
-	public BlockMaterialStairsFixedInnerCorner materialRockStairsInnerCorner;
-	public BlockMaterialStairsFixedSide materialRockStairsSide;
-	public BlockMaterialStairsFixedCorner materialRockStairsCorner;
 	public BlockMaterialSlab materialRockSlab;
 	public BlockMaterialStep materialRockStep;
 	public BlockMaterialCorner materialRockCorner;
+	public BlockMaterialBlock materialWoodBlock;
 	public BlockMaterialStairs materialWoodStairs;
-	public BlockMaterialStairsFixedInnerCorner materialWoodStairsInnerCorner;
-	public BlockMaterialStairsFixedSide materialWoodStairsSide;
-	public BlockMaterialStairsFixedCorner materialWoodStairsCorner;
 	public BlockMaterialSlab materialWoodSlab;
 	public BlockMaterialStep materialWoodStep;
 	public BlockMaterialCorner materialWoodCorner;
 	public BlockMaterialWall materialRockWall;
 
 	private MaterialBlockRegistry() {
-		materialRockStairsInnerCorner = createBlock(BlockMaterialStairsFixedInnerCorner.class,
-				StructureMaterial.ROCK, MaterialBlockType.STAIRS_FIXED_INNER_CORNER);
-		materialRockStairsSide = createBlock(BlockMaterialStairsFixedSide.class,
-				StructureMaterial.ROCK, MaterialBlockType.STAIRS_FIXED_SIDE);
-		materialRockStairsCorner = createBlock(BlockMaterialStairsFixedCorner.class,
-				StructureMaterial.ROCK, MaterialBlockType.STAIRS_FIXED_CORNER);
+		materialRockBlock = createBlock(BlockMaterialBlock.class, StructureMaterial.ROCK,
+				MaterialBlockType.FULL);
 		materialRockSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.ROCK,
 				MaterialBlockType.SLAB);
 		materialRockStep = createBlock(BlockMaterialStep.class, StructureMaterial.ROCK,
@@ -63,29 +52,34 @@ public class MaterialBlockRegistry {
 		materialRockWall = createBlock(BlockMaterialWall.class, StructureMaterial.ROCK,
 				MaterialBlockType.WALL);
 
-		materialRockStairs = new BlockMaterialStairs(materialRockSlab.getDefaultState());
+		materialRockStairs = new BlockMaterialStairs(materialRockBlock.getDefaultState());
 		materialRockStairs.setUnlocalizedName("material_rock_stairs");
 		blocks.put(MaterialBlockType.STAIRS, new HashMap<StructureMaterial, Block>());
 		blocks.get(MaterialBlockType.STAIRS).put(StructureMaterial.ROCK, materialRockStairs);
-		blocksMaterials.put(MaterialBlockType.STAIRS, new HashMap<StructureMaterial, Set<Material>>());
-		blocksMaterials.get(MaterialBlockType.STAIRS).put(StructureMaterial.ROCK, new HashSet<Material>());
-		
-		materialWoodStairsInnerCorner = createBlock(BlockMaterialStairsFixedInnerCorner.class,
-				StructureMaterial.WOOD, MaterialBlockType.STAIRS_FIXED_INNER_CORNER);
-		materialWoodStairsSide = createBlock(BlockMaterialStairsFixedSide.class,
-				StructureMaterial.WOOD, MaterialBlockType.STAIRS_FIXED_SIDE);
-		materialWoodStairsCorner = createBlock(BlockMaterialStairsFixedCorner.class,
-				StructureMaterial.WOOD, MaterialBlockType.STAIRS_FIXED_CORNER);
+		blocksMaterials.put(MaterialBlockType.STAIRS,
+				new HashMap<StructureMaterial, Set<Material>>());
+		blocksMaterials.get(MaterialBlockType.STAIRS).put(StructureMaterial.ROCK,
+				new HashSet<Material>());
+
+		materialWoodBlock = createBlock(BlockMaterialBlock.class, StructureMaterial.WOOD,
+				MaterialBlockType.FULL);
 		materialWoodSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.WOOD,
 				MaterialBlockType.SLAB);
 		materialWoodStep = createBlock(BlockMaterialStep.class, StructureMaterial.WOOD,
 				MaterialBlockType.STEP);
 		materialWoodCorner = createBlock(BlockMaterialCorner.class, StructureMaterial.WOOD,
 				MaterialBlockType.CORNER);
+
+		materialWoodStairs = new BlockMaterialStairs(materialWoodBlock.getDefaultState());
+		materialWoodStairs.setUnlocalizedName("material_wood_stairs");
+		blocks.get(MaterialBlockType.STAIRS).put(StructureMaterial.ROCK, materialWoodStairs);
+		blocksMaterials.get(MaterialBlockType.STAIRS).put(StructureMaterial.ROCK,
+				new HashSet<Material>());
+
 	}
 
-	private <T extends BlockBuildingBricksBase> T createBlock(Class<T> cls,
-			StructureMaterial strMat, MaterialBlockType blockType) {
+	private <T extends Block> T createBlock(Class<T> cls, StructureMaterial strMat,
+			MaterialBlockType blockType) {
 		T block;
 		try {
 			block = cls.getConstructor(StructureMaterial.class).newInstance(strMat);

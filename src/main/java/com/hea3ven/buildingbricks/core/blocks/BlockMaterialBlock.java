@@ -1,8 +1,8 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -26,16 +26,16 @@ import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
-public class BlockMaterialStairsFixedSide extends BlockBuildingBricksStairsFixedSide {
-	public BlockMaterialStairsFixedSide(StructureMaterial material) {
-		super(material);
+public class BlockMaterialBlock extends Block {
+	public BlockMaterialBlock(StructureMaterial material) {
+		super(material.getMcMaterial());
 	}
 
 	@Override
 	protected BlockState createBlockState() {
-		List<IProperty> props = new ArrayList<IProperty>();
-		registerProperties(props);
-		return new ExtendedBlockState(this, props.toArray(new IProperty[0]),
+		BlockState superBlockState = super.createBlockState();
+		return new ExtendedBlockState(this,
+				(IProperty[]) superBlockState.getProperties().toArray(new IProperty[0]),
 				new IUnlistedProperty[] {TileMaterial.MATERIAL});
 	}
 
@@ -80,7 +80,7 @@ public class BlockMaterialStairsFixedSide extends BlockBuildingBricksStairsFixed
 	@Override
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
 		for (Material mat : MaterialRegistry.getAll()) {
-			BlockDescription blockDesc = mat.getBlock(MaterialBlockType.STAIRS_FIXED_SIDE);
+			BlockDescription blockDesc = mat.getBlock(MaterialBlockType.FULL);
 			if (blockDesc != null && blockDesc.getBlock() == this) {
 				ItemStack stack = new ItemStack(itemIn);
 				TileMaterial.setStackMaterial(stack, mat);
