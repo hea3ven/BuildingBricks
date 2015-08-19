@@ -12,6 +12,7 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 
 public class BlockProperties {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
+	public static final PropertyDirection SIDE = PropertyDirection.create("side", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyEnum HALF = PropertyEnum.create("half", EnumBlockHalf.class);
 	public static final PropertyEnum ROTATION = PropertyEnum.create("rotation", EnumRotation.class);
 	public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
@@ -26,6 +27,14 @@ public class BlockProperties {
 
 	public static IBlockState setFacing(IBlockState state, EnumFacing facing) {
 		return state.withProperty(FACING, facing);
+	}
+
+	public static EnumFacing getSide(IBlockState state) {
+		return (EnumFacing) state.getValue(SIDE);
+	}
+
+	public static IBlockState setSide(IBlockState state, EnumFacing facing) {
+		return state.withProperty(SIDE, facing);
 	}
 
 	public static Boolean getVertical(IBlockState state) {

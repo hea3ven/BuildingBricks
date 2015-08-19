@@ -11,6 +11,7 @@ public class BlockBuildingBricksNonSolid extends BlockBuildingBricksBase {
 
 	public BlockBuildingBricksNonSolid(StructureMaterial structureMaterial) {
 		super(structureMaterial);
+//		useNeighborBrightness = true;
 	}
 
 	@Override

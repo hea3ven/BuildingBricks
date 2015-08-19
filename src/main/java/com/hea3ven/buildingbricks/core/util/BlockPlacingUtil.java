@@ -73,7 +73,7 @@ public class BlockPlacingUtil {
 				&& faceY <= (1 - RING_SIZE);
 	}
 
-	public static EnumFacing getClosestSide(EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public static EnumFacing getClosestFace(EnumFacing facing, float hitX, float hitY, float hitZ) {
 		float faceX = getFaceX(facing, hitX, hitY, hitZ);
 		float faceY = getFaceY(facing, hitX, hitY, hitZ);
 		if (facing.getAxis() == Axis.Y) {
@@ -103,6 +103,20 @@ public class BlockPlacingUtil {
 				} else {
 					return facing.rotateYCCW();
 				}
+			}
+		}
+	}
+
+	public static EnumFacing getClosestSide(EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (facing.getAxis() == Axis.Y) {
+			return getClosestFace(facing, hitX, hitY, hitZ);
+		} else {
+			float faceX = getFaceX(facing, hitX, hitY, hitZ);
+			float faceY = getFaceY(facing, hitX, hitY, hitZ);
+			if (faceX >= faceY) {
+				return facing.rotateY();
+			} else {
+				return facing.rotateYCCW();
 			}
 		}
 	}

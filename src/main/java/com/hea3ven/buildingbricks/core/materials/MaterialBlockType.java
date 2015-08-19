@@ -18,6 +18,7 @@ public enum MaterialBlockType {
 	FULL("block", 1000),
 	STAIRS("stairs", 750),
 	SLAB("slab", 500),
+	VERTICAL_SLAB("vertical_slab", 500),
 	STEP("step", 250),
 	CORNER("corner", 125),
 	WALL("wall", 1000);
@@ -44,6 +45,7 @@ public enum MaterialBlockType {
 				.pattern("xx")
 				.map('x', STEP)
 				.validate());
+		VERTICAL_SLAB.setRenderDefinition(new RenderDefinitionSlab(true));
 		STEP.setRenderDefinition(new RenderDefinitionStep());
 		STEP.addRecipe(false, MaterialRecipeBuilder
 				.create()
@@ -69,6 +71,8 @@ public enum MaterialBlockType {
 	}
 
 	public static MaterialBlockType getBlockType(int id) {
+		if (id >= values().length)
+			return FULL;
 		return values()[id];
 	}
 

@@ -30,10 +30,11 @@ public class ModBuildingBricksCompatVanilla {
 		Material mat = new Material("stone");
 		mat.setTexture("blocks/stone");
 		mat.setStructureMaterial(StructureMaterial.ROCK);
-		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.stone, EnumType.STONE
-				.getMetadata()));
+		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.stone,
+				EnumType.STONE.getMetadata()));
 		mat.addBlock(MaterialBlockType.STAIRS);
 		mat.addBlock(MaterialBlockType.SLAB);
+		mat.addBlock(MaterialBlockType.VERTICAL_SLAB);
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
 		MaterialRegistry.registerMaterial(mat);
@@ -44,6 +45,7 @@ public class ModBuildingBricksCompatVanilla {
 		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.cobblestone));
 		mat.addBlock(new BlockDescription(MaterialBlockType.SLAB, Blocks.stone_slab,
 				BlockStoneSlab.EnumType.COBBLESTONE.getMetadata()));
+		mat.addBlock(MaterialBlockType.VERTICAL_SLAB);
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
 		mat.addBlock(new BlockDescription(MaterialBlockType.WALL, Blocks.cobblestone_wall,
@@ -72,6 +74,7 @@ public class ModBuildingBricksCompatVanilla {
 				BlockRedSandstone.EnumType.DEFAULT.getMetadata()));
 		mat.addBlock(new BlockDescription(MaterialBlockType.SLAB, Blocks.stone_slab2,
 				BlockStoneSlabNew.EnumType.RED_SANDSTONE.getMetadata()));
+		mat.addBlock(MaterialBlockType.VERTICAL_SLAB);
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
 		MaterialRegistry.registerMaterial(mat);
@@ -83,6 +86,7 @@ public class ModBuildingBricksCompatVanilla {
 				BlockPlanks.EnumType.OAK.getMetadata()));
 		mat.addBlock(new BlockDescription(MaterialBlockType.SLAB, Blocks.wooden_slab,
 				BlockPlanks.EnumType.OAK.getMetadata()));
+		mat.addBlock(MaterialBlockType.VERTICAL_SLAB);
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
 		MaterialRegistry.registerMaterial(mat);

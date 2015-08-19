@@ -18,6 +18,7 @@ import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStairs;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
+import com.hea3ven.buildingbricks.core.blocks.BlockMaterialVerticalSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialWall;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 
@@ -31,11 +32,13 @@ public class MaterialBlockRegistry {
 	public BlockMaterialBlock materialRockBlock;
 	public BlockMaterialStairs materialRockStairs;
 	public BlockMaterialSlab materialRockSlab;
+	public BlockMaterialVerticalSlab materialRockVerticalSlab;
 	public BlockMaterialStep materialRockStep;
 	public BlockMaterialCorner materialRockCorner;
 	public BlockMaterialBlock materialWoodBlock;
 	public BlockMaterialStairs materialWoodStairs;
 	public BlockMaterialSlab materialWoodSlab;
+	public BlockMaterialVerticalSlab materialWoodVerticalSlab;
 	public BlockMaterialStep materialWoodStep;
 	public BlockMaterialCorner materialWoodCorner;
 	public BlockMaterialWall materialRockWall;
@@ -45,6 +48,8 @@ public class MaterialBlockRegistry {
 				MaterialBlockType.FULL);
 		materialRockSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.ROCK,
 				MaterialBlockType.SLAB);
+		materialRockVerticalSlab = createBlock(BlockMaterialVerticalSlab.class,
+				StructureMaterial.ROCK, MaterialBlockType.VERTICAL_SLAB);
 		materialRockStep = createBlock(BlockMaterialStep.class, StructureMaterial.ROCK,
 				MaterialBlockType.STEP);
 		materialRockCorner = createBlock(BlockMaterialCorner.class, StructureMaterial.ROCK,
@@ -65,6 +70,8 @@ public class MaterialBlockRegistry {
 				MaterialBlockType.FULL);
 		materialWoodSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.WOOD,
 				MaterialBlockType.SLAB);
+		materialWoodVerticalSlab = createBlock(BlockMaterialVerticalSlab.class,
+				StructureMaterial.WOOD, MaterialBlockType.VERTICAL_SLAB);
 		materialWoodStep = createBlock(BlockMaterialStep.class, StructureMaterial.WOOD,
 				MaterialBlockType.STEP);
 		materialWoodCorner = createBlock(BlockMaterialCorner.class, StructureMaterial.WOOD,

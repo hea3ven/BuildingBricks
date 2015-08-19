@@ -70,7 +70,7 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 				state = BlockProperties.setHalf(state,
 						facing == EnumFacing.UP ? EnumBlockHalf.BOTTOM : EnumBlockHalf.TOP);
 				state = BlockProperties.setRotation(state, EnumRotation
-						.getRotation(BlockPlacingUtil.getClosestSide(facing, hitX, hitY, hitZ)));
+						.getRotation(BlockPlacingUtil.getClosestFace(facing, hitX, hitY, hitZ)));
 			} else {
 				state = BlockProperties.setVertical(state, true);
 				state = BlockProperties.setHalf(state, EnumBlockHalf.BOTTOM);
@@ -79,7 +79,7 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 			}
 		} else {
 			if (BlockPlacingUtil.isInnerRing(facing, hitX, hitY, hitZ)) {
-				EnumFacing closeFace = BlockPlacingUtil.getClosestSide(facing, hitX, hitY, hitZ);
+				EnumFacing closeFace = BlockPlacingUtil.getClosestFace(facing, hitX, hitY, hitZ);
 				if (closeFace.getAxis() == Axis.Y) {
 					state = BlockProperties.setVertical(state, false);
 					state = BlockProperties.setHalf(state,

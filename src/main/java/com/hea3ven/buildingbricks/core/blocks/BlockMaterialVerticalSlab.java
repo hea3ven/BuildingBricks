@@ -1,7 +1,10 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,6 +16,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.property.ExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
+
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
@@ -20,10 +26,18 @@ import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
-public class BlockMaterialSlab extends BlockBuildingBricksSlab {
+public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab {
 
-	public BlockMaterialSlab(StructureMaterial structureMaterial) {
+	public BlockMaterialVerticalSlab(StructureMaterial structureMaterial) {
 		super(structureMaterial);
+	}
+
+	@Override
+	protected BlockState createBlockState() {
+		List<IProperty> props = new ArrayList<IProperty>();
+		registerProperties(props);
+		return new ExtendedBlockState(this, props.toArray(new IProperty[0]),
+				new IUnlistedProperty[] {TileMaterial.MATERIAL});
 	}
 
 	@Override
@@ -67,7 +81,7 @@ public class BlockMaterialSlab extends BlockBuildingBricksSlab {
 	@Override
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
 		for (Material mat : MaterialRegistry.getAll()) {
-			BlockDescription blockDesc = mat.getBlock(MaterialBlockType.SLAB);
+			BlockDescription blockDesc = mat.getBlock(MaterialBlockType.VERTICAL_SLAB);
 			if (blockDesc != null && blockDesc.getBlock() == this) {
 				ItemStack stack = new ItemStack(itemIn);
 				TileMaterial.setStackMaterial(stack, mat);
