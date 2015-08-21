@@ -35,13 +35,21 @@ public class MaterialBlockRegistry {
 	public BlockMaterialVerticalSlab materialRockVerticalSlab;
 	public BlockMaterialStep materialRockStep;
 	public BlockMaterialCorner materialRockCorner;
+	public BlockMaterialWall materialRockWall;
+
 	public BlockMaterialBlock materialWoodBlock;
 	public BlockMaterialStairs materialWoodStairs;
 	public BlockMaterialSlab materialWoodSlab;
 	public BlockMaterialVerticalSlab materialWoodVerticalSlab;
 	public BlockMaterialStep materialWoodStep;
 	public BlockMaterialCorner materialWoodCorner;
-	public BlockMaterialWall materialRockWall;
+
+	public BlockMaterialBlock materialGrassBlock;
+	public BlockMaterialStairs materialGrassStairs;
+	public BlockMaterialSlab materialGrassSlab;
+	public BlockMaterialVerticalSlab materialGrassVerticalSlab;
+	public BlockMaterialStep materialGrassStep;
+	public BlockMaterialCorner materialGrassCorner;
 
 	private MaterialBlockRegistry() {
 		materialRockBlock = createBlock(BlockMaterialBlock.class, StructureMaterial.ROCK,
@@ -79,8 +87,25 @@ public class MaterialBlockRegistry {
 
 		materialWoodStairs = new BlockMaterialStairs(materialWoodBlock.getDefaultState());
 		materialWoodStairs.setUnlocalizedName("material_wood_stairs");
-		blocks.get(MaterialBlockType.STAIRS).put(StructureMaterial.ROCK, materialWoodStairs);
-		blocksMaterials.get(MaterialBlockType.STAIRS).put(StructureMaterial.ROCK,
+		blocks.get(MaterialBlockType.STAIRS).put(StructureMaterial.WOOD, materialWoodStairs);
+		blocksMaterials.get(MaterialBlockType.STAIRS).put(StructureMaterial.WOOD,
+				new HashSet<Material>());
+
+		materialGrassBlock = createBlock(BlockMaterialBlock.class, StructureMaterial.GRASS,
+				MaterialBlockType.FULL);
+		materialGrassSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.GRASS,
+				MaterialBlockType.SLAB);
+		materialGrassVerticalSlab = createBlock(BlockMaterialVerticalSlab.class,
+				StructureMaterial.GRASS, MaterialBlockType.VERTICAL_SLAB);
+		materialGrassStep = createBlock(BlockMaterialStep.class, StructureMaterial.GRASS,
+				MaterialBlockType.STEP);
+		materialGrassCorner = createBlock(BlockMaterialCorner.class, StructureMaterial.GRASS,
+				MaterialBlockType.CORNER);
+
+		materialGrassStairs = new BlockMaterialStairs(materialGrassBlock.getDefaultState());
+		materialGrassStairs.setUnlocalizedName("material_grass_stairs");
+		blocks.get(MaterialBlockType.STAIRS).put(StructureMaterial.GRASS, materialGrassStairs);
+		blocksMaterials.get(MaterialBlockType.STAIRS).put(StructureMaterial.GRASS,
 				new HashSet<Material>());
 
 	}

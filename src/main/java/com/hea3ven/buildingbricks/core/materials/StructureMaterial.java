@@ -4,7 +4,8 @@ import net.minecraft.block.material.Material;
 
 public enum StructureMaterial {
 	ROCK(Material.rock),
-	WOOD(Material.wood);
+	WOOD(Material.wood),
+	GRASS(Material.grass);
 
 	private Material mcMaterial;
 

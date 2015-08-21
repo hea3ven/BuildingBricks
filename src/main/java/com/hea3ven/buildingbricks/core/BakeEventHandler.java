@@ -15,11 +15,13 @@ import org.apache.commons.lang3.tuple.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.statemap.DefaultStateMapper;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.IRegistry;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.Attributes;
 import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
@@ -49,6 +51,13 @@ public class BakeEventHandler {
 
 	private BakeEventHandler() {
 	};
+
+//	@SubscribeEvent
+//	public void onTextureStichPost(TextureStitchEvent.Post event) {
+//		event.map.registerSprite(new ResourceLocation("buildingbricks:blocks/grass_long_side_overlay"));
+//		event.map.setTextureEntry("minecraft:blocks/grass_side_overlay",
+//				event.map.getTextureExtry("buildingbricks:blocks/grass_long_side_overlay"));
+//	}
 
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
