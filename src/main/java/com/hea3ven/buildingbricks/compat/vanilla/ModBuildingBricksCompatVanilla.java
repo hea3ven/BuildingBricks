@@ -39,6 +39,25 @@ public class ModBuildingBricksCompatVanilla {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		grassSlab = new BlockGrassSlab(StructureMaterial.GRASS);
+		grassSlab.setUnlocalizedName("grass_slab");
+		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab", false);
+	}
+
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		createMaterials();
+
+		MinecraftForge.EVENT_BUS.register(new GrassSlabWorldGen());
+
+		if (event.getSide() == Side.CLIENT) {
+			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(
+					Item.getItemFromBlock(grassSlab), 0, new ModelResourceLocation(
+							"buildingbrickscompatvanilla:grass_slab", "inventory"));
+		}
+	}
+
+	private void createMaterials() {
 		Material mat = new Material("stone");
 		mat.setTexture("blocks/stone");
 		mat.setStructureMaterial(StructureMaterial.ROCK);
@@ -63,9 +82,6 @@ public class ModBuildingBricksCompatVanilla {
 		mat.addBlock(new BlockDescription(MaterialBlockType.WALL, Blocks.cobblestone_wall,
 				BlockWall.EnumType.NORMAL.getMetadata()));
 		MaterialRegistry.registerMaterial(mat);
-
-		// mat.setSlabBlock(new BlockDescription(Blocks.stone_slab,
-		// BlockStoneSlab.EnumType.STONE.getMetadata()));
 
 		mat = new Material("andesite");
 		mat.setTexture("blocks/stone_andesite");
@@ -103,10 +119,6 @@ public class ModBuildingBricksCompatVanilla {
 		mat.addBlock(MaterialBlockType.CORNER);
 		MaterialRegistry.registerMaterial(mat);
 
-		grassSlab = new BlockGrassSlab(StructureMaterial.GRASS);
-		grassSlab.setUnlocalizedName("grass_slab");
-		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab", false);
-
 		mat = new Material("grass");
 		mat.setTexture("blocks/grass_top", "blocks/dirt", "blocks/grass_side");
 		mat.setStructureMaterial(StructureMaterial.GRASS);
@@ -116,16 +128,5 @@ public class ModBuildingBricksCompatVanilla {
 		mat.addBlock(MaterialBlockType.STEP);
 		mat.addBlock(MaterialBlockType.CORNER);
 		MaterialRegistry.registerMaterial(mat);
-	}
-
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(new GrassSlabWorldGen());
-
-		if (event.getSide() == Side.CLIENT) {
-			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(
-					Item.getItemFromBlock(grassSlab), 0, new ModelResourceLocation(
-							"buildingbrickscompatvanilla:grass_slab", "inventory"));
-		}
 	}
 }
