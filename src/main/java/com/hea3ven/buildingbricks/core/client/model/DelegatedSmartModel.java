@@ -12,9 +12,17 @@ import net.minecraftforge.client.model.IFlexibleBakedModel;
 @SuppressWarnings("deprecation")
 public class DelegatedSmartModel implements IBakedModel {
 
-	protected IFlexibleBakedModel delegate;
+	private IFlexibleBakedModel delegate;
 
 	public DelegatedSmartModel(IFlexibleBakedModel delegate) {
+		this.delegate = delegate;
+	}
+
+	public IFlexibleBakedModel getDelegate() {
+		return delegate;
+	}
+
+	public void setDelegate(IFlexibleBakedModel delegate) {
 		this.delegate = delegate;
 	}
 

@@ -32,10 +32,6 @@ public class SmartModelCached extends DelegatedSmartModel implements ISmartBlock
 		cache.put(calculateHash((IExtendedBlockState) state), new SmartModelCached(model));
 	}
 
-	public void setDefault(IFlexibleBakedModel model) {
-		delegate = model;
-	}
-
 	@Override
 	public IBakedModel handleBlockState(IBlockState state) {
 		SmartModelCached model = cache.get(calculateHash((IExtendedBlockState) state));

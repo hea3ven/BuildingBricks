@@ -26,8 +26,6 @@ public class ModelItemMaterialBlock extends DelegatedSmartModel implements ISmar
 
 	public void put(String materialId, IFlexibleBakedModel model) {
 		models.put(materialId, new ModelItemMaterialBlock(model));
-		if (materialId.equals("stone"))
-			delegate = model;
 	}
 
 	@Override

@@ -15,18 +15,17 @@ import org.apache.commons.lang3.tuple.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.statemap.DefaultStateMapper;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.IRegistry;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.Attributes;
 import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.IRetexturableModel;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.MultiModel;
 import net.minecraftforge.client.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
@@ -51,13 +50,6 @@ public class BakeEventHandler {
 
 	private BakeEventHandler() {
 	};
-
-//	@SubscribeEvent
-//	public void onTextureStichPost(TextureStitchEvent.Post event) {
-//		event.map.registerSprite(new ResourceLocation("buildingbricks:blocks/grass_long_side_overlay"));
-//		event.map.setTextureEntry("minecraft:blocks/grass_side_overlay",
-//				event.map.getTextureExtry("buildingbricks:blocks/grass_long_side_overlay"));
-//	}
 
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
@@ -93,8 +85,9 @@ public class BakeEventHandler {
 			modelRegistry.putObject(modelLoc, cacheModel);
 		}
 
-		for (Material mat : Iterables.concat(
-				MaterialBlockRegistry.instance.getBlocksMaterials().get(blockType).values())) {
+		Iterable<Material> materials = Iterables.concat(
+				MaterialBlockRegistry.instance.getBlocksMaterials().get(blockType).values());
+		for (Material mat : materials) {
 			HashMap<String, String> textures = new HashMap<String, String>();
 			textures.put("all", mat.sideTextureLocation());
 			textures.put("side", mat.sideTextureLocation());
@@ -109,7 +102,7 @@ public class BakeEventHandler {
 			IFlexibleBakedModel bakedModel = bake(baseModel, modelState);
 
 			itemModel.put(mat.materialId(), bakedModel);
-			cacheModel.setDefault(bakedModel);
+			cacheModel.setDelegate(bakedModel);
 
 			for (Object stateObj : block.getBlockState().getValidStates()) {
 				IBlockState state = (IBlockState) stateObj;
@@ -123,6 +116,12 @@ public class BakeEventHandler {
 				cacheModel.put(state, bakedModel);
 			}
 		}
+
+		IFlexibleBakedModel model = bake(ModelLoaderRegistry.getMissingModel());
+		if (cacheModel.getDelegate() == null)
+			cacheModel.setDelegate(model);
+		if (itemModel.getDelegate() == null)
+			itemModel.setDelegate(model);
 	}
 
 	private void bakeItemTrowelModels(ModelBakeEvent event) {

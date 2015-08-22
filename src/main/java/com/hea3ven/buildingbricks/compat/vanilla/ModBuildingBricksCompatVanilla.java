@@ -4,14 +4,13 @@ import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockRedSandstone;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.BlockStone.EnumType;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.block.BlockStoneSlab;
 import net.minecraft.block.BlockStoneSlabNew;
 import net.minecraft.block.BlockWall;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemColored;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
