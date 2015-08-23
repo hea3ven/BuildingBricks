@@ -6,13 +6,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import com.google.common.base.Throwables;
 import com.google.gson.Gson;
@@ -31,6 +37,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.AbstractResourcePack;
 import net.minecraft.client.resources.FallbackResourceManager;
+import net.minecraft.client.resources.FileResourcePack;
 import net.minecraft.client.resources.FolderResourcePack;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourcePack;
@@ -90,6 +97,9 @@ public class MaterialResourceLoader {
 				.values();
 	}
 
+	private static final Pattern materialPattern = Pattern
+			.compile("assets/([^/]*)/(materials/[^.]*.json)");
+
 	private static Set<ResourceLocation> getMaterials(IResourcePack resPack) {
 		Set<ResourceLocation> materials = new HashSet<ResourceLocation>();
 		if (resPack instanceof FolderResourcePack) {
@@ -105,8 +115,30 @@ public class MaterialResourceLoader {
 					}
 				}
 			}
+		} else if (resPack instanceof FileResourcePack) {
+			ZipFile packFile = getZipFromResPack(resPack);
+			for (Enumeration<? extends ZipEntry> entries = packFile.entries(); entries
+					.hasMoreElements();) {
+				ZipEntry entry = entries.nextElement();
+				Matcher match = materialPattern.matcher(entry.getName());
+				if (match.matches()) {
+					materials.add(new ResourceLocation(match.group(1), match.group(2)));
+				}
+			}
 		}
 		return materials;
+	}
+
+	private static ZipFile getZipFromResPack(IResourcePack resPack) {
+		try {
+			Method mthd = FileResourcePack.class.getDeclaredMethod("getResourcePackZipFile",
+					new Class<?>[0]);
+			mthd.setAccessible(true);
+			return (ZipFile) mthd.invoke(resPack, new Object[0]);
+		} catch (Exception e) {
+			Throwables.propagate(e);
+			return null;
+		}
 	}
 
 	private static <T> T getField(Object obj, Class<?> cls, String fieldName) {
@@ -115,7 +147,7 @@ public class MaterialResourceLoader {
 			fld.setAccessible(true);
 			return (T) fld.get(obj);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Throwables.propagate(e);
 			return null;
 		}
 	}
