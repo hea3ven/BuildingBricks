@@ -1,0 +1,18 @@
+{
+    "name": "Grass",
+    "id": "grass",
+    "type": "grass",
+    "textures": {
+        "top": "minecraft:blocks/grass_top",
+        "bottom": "minecraft:blocks/dirt",
+        "side": "minecraft:blocks/grass_side"
+    },
+    "blocks": {
+        "full": "minecraft:grass",
+        "stairs": "buildingbrickscompatvanilla:grass_stairs",
+        "slab": "buildingbrickscompatvanilla:grass_slab",
+        "vertical_slab": "buildingbrickscompatvanilla:grass_vertical_slab",
+        "step": "buildingbrickscompatvanilla:grass_step",
+        "corner": "buildingbrickscompatvanilla:grass_corner"
+    }
+}

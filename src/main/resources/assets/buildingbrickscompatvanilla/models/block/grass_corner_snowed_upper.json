@@ -1,0 +1,9 @@
+{
+    "parent": "buildingbrickscompatvanilla:block/corner_upper",
+    "textures": {
+        "particle": "blocks/dirt",
+        "bottom": "blocks/dirt",
+        "top": "blocks/snow",
+        "side": "blocks/grass_side_snowed"
+    }
+}

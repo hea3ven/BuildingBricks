@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "side=north,snowy=false": { "model": "buildingbrickscompatvanilla:grass_vert_slab_normal", "y": 0 },
+        "side=east,snowy=false": { "model": "buildingbrickscompatvanilla:grass_vert_slab_normal", "y": 90 },
+        "side=south,snowy=false": { "model": "buildingbrickscompatvanilla:grass_vert_slab_normal", "y": 180 },
+        "side=west,snowy=false": { "model": "buildingbrickscompatvanilla:grass_vert_slab_normal", "y": 270 },
+        "side=north,snowy=true": { "model": "buildingbrickscompatvanilla:grass_vert_slab_snowed", "y": 0 },
+        "side=east,snowy=true": { "model": "buildingbrickscompatvanilla:grass_vert_slab_snowed", "y": 90 },
+        "side=south,snowy=true": { "model": "buildingbrickscompatvanilla:grass_vert_slab_snowed", "y": 180 },
+        "side=west,snowy=true": { "model": "buildingbrickscompatvanilla:grass_vert_slab_snowed", "y": 270 }
+    }
+}
