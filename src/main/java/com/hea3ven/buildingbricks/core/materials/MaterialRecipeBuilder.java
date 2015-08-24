@@ -10,6 +10,8 @@ import com.google.common.primitives.Chars;
 
 import net.minecraft.item.ItemStack;
 
+import com.hea3ven.buildingbricks.core.lib.BlockDescription;
+
 public class MaterialRecipeBuilder {
 
 	private interface Ingredient {
@@ -27,7 +29,8 @@ public class MaterialRecipeBuilder {
 
 		@Override
 		public Object getStack(Material mat) {
-			return mat.getBlock(blockType).getStack();
+			BlockDescription block = mat.getBlock(blockType);
+			return block != null ? block.getStack() : null;
 		}
 
 	}
@@ -86,8 +89,12 @@ public class MaterialRecipeBuilder {
 			recipe.add(pat);
 		}
 		for (Entry<Character, Ingredient> entry : mapping.entrySet()) {
+			Object stack = entry.getValue().getStack(mat);
+			if (stack == null)
+				return null;
+
 			recipe.add(entry.getKey());
-			recipe.add(entry.getValue().getStack(mat));
+			recipe.add(stack);
 		}
 		return recipe.toArray();
 	}

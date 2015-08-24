@@ -45,7 +45,19 @@ public enum MaterialBlockType {
 				.pattern("xx")
 				.map('x', STEP)
 				.validate());
+		SLAB.addRecipe(true, MaterialRecipeBuilder
+				.create()
+				.outputAmount(3)
+				.pattern("xxx")
+				.map('x', VERTICAL_SLAB)
+				.validate());
 		VERTICAL_SLAB.setRenderDefinition(new RenderDefinitionSlab(true));
+		VERTICAL_SLAB.addRecipe(true, MaterialRecipeBuilder
+				.create()
+				.outputAmount(3)
+				.pattern("x", "x", "x")
+				.map('x', SLAB)
+				.validate());
 		STEP.setRenderDefinition(new RenderDefinitionStep());
 		STEP.addRecipe(false, MaterialRecipeBuilder
 				.create()
@@ -68,6 +80,12 @@ public enum MaterialBlockType {
 				.map('x', STEP)
 				.validate());
 		WALL.setRenderDefinition(new RenderDefinitionWall());
+		WALL.addRecipe(false, MaterialRecipeBuilder
+				.create()
+				.outputAmount(6)
+				.pattern("xxx", "xxx")
+				.map('x', FULL)
+				.validate());
 	}
 
 	public static MaterialBlockType getBlockType(int id) {
@@ -128,12 +146,15 @@ public enum MaterialBlockType {
 
 	public void addRecipes(Material mat) {
 		for (MaterialRecipeBuilder recipeDesc : allwaysRecipes) {
-			GameRegistry.addShapedRecipe(recipeDesc.buildOutput(mat, this), recipeDesc.build(mat));
+			Object[] recipe = recipeDesc.build(mat);
+			if (recipe != null)
+				GameRegistry.addShapedRecipe(recipeDesc.buildOutput(mat, this), recipe);
 		}
 		if (MaterialBlockRegistry.instance.getAllBlocks().contains(mat.getBlock(this).getBlock())) {
 			for (MaterialRecipeBuilder recipeDesc : materialRecipes) {
-				GameRegistry.addShapedRecipe(recipeDesc.buildOutput(mat, this),
-						recipeDesc.build(mat));
+				Object[] recipe = recipeDesc.build(mat);
+				if (recipe != null)
+					GameRegistry.addShapedRecipe(recipeDesc.buildOutput(mat, this), recipe);
 
 			}
 		}
