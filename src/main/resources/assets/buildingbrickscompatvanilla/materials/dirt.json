@@ -1,0 +1,9 @@
+{
+    "name": "Dirt",
+    "id": "dirt",
+    "type": "dirt",
+    "textures": "minecraft:blocks/dirt",
+    "blocks": {
+        "full": "minecraft:dirt"
+    }
+}

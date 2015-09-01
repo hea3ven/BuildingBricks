@@ -1,0 +1,9 @@
+{
+    "name": "Stone",
+    "id": "stone",
+    "type": "rock",
+    "textures": "minecraft:blocks/stone",
+    "blocks": {
+        "full": "minecraft:stone"
+    }
+}

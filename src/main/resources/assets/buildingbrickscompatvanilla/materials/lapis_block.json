@@ -1,0 +1,9 @@
+{
+    "name": "Lapis Block",
+    "id": "lapis_block",
+    "type": "rock",
+    "textures": "minecraft:blocks/lapis_block",
+    "blocks": {
+        "full": "minecraft:lapis_block"
+    }
+}

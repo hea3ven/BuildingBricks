@@ -1,0 +1,11 @@
+{
+    "name": "Acacia Planks",
+    "id": "planks_acacia",
+    "type": "wood",
+    "textures": "minecraft:blocks/planks_acacia",
+    "blocks": {
+        "full": { "id": "minecraft:planks", "meta": 4 },
+        "stairs": "minecraft:acacia_stairs",
+        "slab": { "id": "minecraft:wooden_slab", "meta": 4 }
+    }
+}

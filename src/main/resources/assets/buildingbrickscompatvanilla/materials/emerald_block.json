@@ -1,0 +1,9 @@
+{
+    "name": "Emerald Block",
+    "id": "emerald_block",
+    "type": "metal",
+    "textures": "minecraft:blocks/emerald_block",
+    "blocks": {
+        "full": "minecraft:emerald_block"
+    }
+}

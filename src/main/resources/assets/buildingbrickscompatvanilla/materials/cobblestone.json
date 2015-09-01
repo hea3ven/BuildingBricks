@@ -1,0 +1,11 @@
+{
+    "name": "Cobblestone",
+    "id": "cobblestone",
+    "type": "rock",
+    "textures": "minecraft:blocks/cobblestone",
+    "blocks": {
+        "full": "minecraft:cobblestone",
+        "slab": { "id": "minecraft:stone_slab", "meta": 3 },
+        "wall": { "id": "minecraft:cobblestone_wall", "meta": 0 }
+    }
+}

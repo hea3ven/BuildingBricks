@@ -1,0 +1,9 @@
+{
+    "name": "Obsidian",
+    "id": "obsidian",
+    "type": "rock",
+    "textures": "minecraft:blocks/obsidian",
+    "blocks": {
+        "full": "minecraft:obsidian"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Birch Planks",
+    "id": "planks_birch",
+    "type": "wood",
+    "textures": "minecraft:blocks/planks_birch",
+    "blocks": {
+        "full": { "id": "minecraft:planks", "meta": 2 },
+        "stairs": "minecraft:birch_stairs",
+        "slab": { "id": "minecraft:wooden_slab", "meta": 2 }
+    }
+}

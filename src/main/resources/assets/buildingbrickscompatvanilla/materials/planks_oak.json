@@ -1,0 +1,11 @@
+{
+    "name": "Oak Planks",
+    "id": "planks_oak",
+    "type": "wood",
+    "textures": "minecraft:blocks/planks_oak",
+    "blocks": {
+        "full": { "id": "minecraft:planks", "meta": 0 },
+        "stairs": "minecraft:oak_stairs",
+        "slab": { "id": "minecraft:wooden_slab", "meta": 0 }
+    }
+}

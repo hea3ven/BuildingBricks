@@ -1,0 +1,9 @@
+{
+    "name": "Coal Block",
+    "id": "coal_block",
+    "type": "rock",
+    "textures": "minecraft:blocks/coal_block",
+    "blocks": {
+        "full": "minecraft:coal_block"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "name": "Iron Block",
+    "id": "iron_block",
+    "type": "metal",
+    "textures": "minecraft:blocks/iron_block",
+    "blocks": {
+        "full": "minecraft:iron_block"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Jungle Planks",
+    "id": "planks_jungle",
+    "type": "wood",
+    "textures": "minecraft:blocks/planks_jungle",
+    "blocks": {
+        "full": { "id": "minecraft:planks", "meta": 3 },
+        "stairs": "minecraft:jungle_stairs",
+        "slab": { "id": "minecraft:wooden_slab", "meta": 3 }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Spruce Planks",
+    "id": "planks_spruce",
+    "type": "wood",
+    "textures": "minecraft:blocks/planks_spruce",
+    "blocks": {
+        "full": { "id": "minecraft:planks", "meta": 1 },
+        "stairs": "minecraft:spruce_stairs",
+        "slab": { "id": "minecraft:wooden_slab", "meta": 1 }
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "name": "Smooth Red Sandstone",
+    "id": "smooth_red_sandstone",
+    "type": "rock",
+    "textures": {
+        "top": "minecraft:blocks/red_sandstone_top",
+        "side": "minecraft:blocks/red_sandstone_smooth",
+        "bottom": "minecraft:blocks/red_sandstone_bottom"
+    },
+    "blocks": {
+        "full": { "id": "minecraft:red_sandstone", "meta": 2 }
+    }
+}

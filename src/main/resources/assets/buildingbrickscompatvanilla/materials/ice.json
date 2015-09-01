@@ -1,0 +1,9 @@
+{
+    "name": "Ice",
+    "id": "ice",
+    "type": "ice",
+    "textures": "minecraft:blocks/ice",
+    "blocks": {
+        "full": "minecraft:ice"
+    }
+}

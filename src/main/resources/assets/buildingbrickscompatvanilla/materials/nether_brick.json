@@ -1,0 +1,11 @@
+{
+    "name": "Nether Brick",
+    "id": "nether_brick",
+    "type": "rock",
+    "textures": "minecraft:blocks/nether_brick",
+    "blocks": {
+        "full": "minecraft:nether_brick",
+        "stairs": "minecraft:nether_brick_stairs",
+        "slab": { "id": "minecraft:stone_slab", "meta": 6 }
+    }
+}

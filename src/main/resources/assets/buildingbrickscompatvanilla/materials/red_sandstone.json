@@ -1,0 +1,15 @@
+{
+    "name": "Red Sandstone",
+    "id": "red_sandstone",
+    "type": "rock",
+    "textures": {
+        "top": "minecraft:blocks/red_sandstone_top",
+        "side": "minecraft:blocks/red_sandstone_normal",
+        "bottom": "minecraft:blocks/red_sandstone_bottom"
+    },
+    "blocks": {
+        "full": { "id": "minecraft:red_sandstone", "meta": 0 },
+        "stairs": "minecraft:red_sandstone_stairs",
+        "slab": { "id": "minecraft:stone_slab2", "meta": 0 }
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "name": "Chiseled Red Sandstone",
+    "id": "chiseled_red_sandstone",
+    "type": "rock",
+    "textures": {
+        "top": "minecraft:blocks/red_sandstone_top",
+        "side": "minecraft:blocks/red_sandstone_carved",
+        "bottom": "minecraft:blocks/red_sandstone_bottom"
+    },
+    "blocks": {
+        "full": { "id": "minecraft:red_sandstone", "meta": 1 }
+    }
+}

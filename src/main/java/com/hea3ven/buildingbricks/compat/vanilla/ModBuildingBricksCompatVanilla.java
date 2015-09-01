@@ -68,8 +68,6 @@ public class ModBuildingBricksCompatVanilla {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		createMaterials();
-
 		MinecraftForge.EVENT_BUS.register(new GrassSlabWorldGen());
 
 		if (event.getSide() == Side.CLIENT) {
@@ -90,66 +88,4 @@ public class ModBuildingBricksCompatVanilla {
 		}
 	}
 
-	private void createMaterials() {
-		Material mat = new Material("stone");
-		mat.setTexture("blocks/stone");
-		mat.setStructureMaterial(StructureMaterial.ROCK);
-		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.stone,
-				EnumType.STONE.getMetadata()));
-		mat.addBlock(MaterialBlockType.STAIRS);
-		mat.addBlock(MaterialBlockType.SLAB);
-		mat.addBlock(MaterialBlockType.VERTICAL_SLAB);
-		mat.addBlock(MaterialBlockType.STEP);
-		mat.addBlock(MaterialBlockType.CORNER);
-		MaterialRegistry.registerMaterial(mat);
-
-		mat = new Material("cobblestone");
-		mat.setTexture("blocks/cobblestone");
-		mat.setStructureMaterial(StructureMaterial.ROCK);
-		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.cobblestone));
-		mat.addBlock(new BlockDescription(MaterialBlockType.SLAB, Blocks.stone_slab,
-				BlockStoneSlab.EnumType.COBBLESTONE.getMetadata()));
-		mat.addBlock(MaterialBlockType.VERTICAL_SLAB);
-		mat.addBlock(MaterialBlockType.STEP);
-		mat.addBlock(MaterialBlockType.CORNER);
-		mat.addBlock(new BlockDescription(MaterialBlockType.WALL, Blocks.cobblestone_wall,
-				BlockWall.EnumType.NORMAL.getMetadata()));
-		MaterialRegistry.registerMaterial(mat);
-
-		mat = new Material("andesite");
-		mat.setTexture("blocks/stone_andesite");
-		mat.setStructureMaterial(StructureMaterial.ROCK);
-		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.stone,
-				BlockStone.EnumType.ANDESITE.getMetadata()));
-		mat.addBlock(MaterialBlockType.SLAB);
-		mat.addBlock(MaterialBlockType.STEP);
-		mat.addBlock(MaterialBlockType.CORNER);
-		mat.addBlock(MaterialBlockType.WALL);
-		MaterialRegistry.registerMaterial(mat);
-
-		mat = new Material("red_sandstone");
-		mat.setTexture("blocks/red_sandstone_top", "blocks/red_sandstone_bottom",
-				"blocks/red_sandstone_normal");
-		mat.setStructureMaterial(StructureMaterial.ROCK);
-		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.red_sandstone,
-				BlockRedSandstone.EnumType.DEFAULT.getMetadata()));
-		mat.addBlock(new BlockDescription(MaterialBlockType.SLAB, Blocks.stone_slab2,
-				BlockStoneSlabNew.EnumType.RED_SANDSTONE.getMetadata()));
-		mat.addBlock(MaterialBlockType.VERTICAL_SLAB);
-		mat.addBlock(MaterialBlockType.STEP);
-		mat.addBlock(MaterialBlockType.CORNER);
-		MaterialRegistry.registerMaterial(mat);
-
-		mat = new Material("planks_oak");
-		mat.setTexture("blocks/planks_oak");
-		mat.setStructureMaterial(StructureMaterial.WOOD);
-		mat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.planks,
-				BlockPlanks.EnumType.OAK.getMetadata()));
-		mat.addBlock(new BlockDescription(MaterialBlockType.SLAB, Blocks.wooden_slab,
-				BlockPlanks.EnumType.OAK.getMetadata()));
-		mat.addBlock(MaterialBlockType.VERTICAL_SLAB);
-		mat.addBlock(MaterialBlockType.STEP);
-		mat.addBlock(MaterialBlockType.CORNER);
-		MaterialRegistry.registerMaterial(mat);
-	}
 }

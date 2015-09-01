@@ -1,0 +1,15 @@
+{
+    "name": "Quartz Block",
+    "id": "quartz_block",
+    "type": "rock",
+    "textures": {
+        "top": "minecraft:blocks/quartz_block_top",
+        "side": "minecraft:blocks/quartz_block_side",
+        "bottom": "minecraft:blocks/quartz_block_bottom"
+    },
+    "blocks": {
+        "full": "minecraft:quartz_block",
+        "stairs": "minecraft:quartz_stairs",
+        "slab": { "id": "minecraft:stone_slab", "meta": 7 }
+    }
+}

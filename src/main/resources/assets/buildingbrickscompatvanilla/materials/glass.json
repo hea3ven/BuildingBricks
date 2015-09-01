@@ -1,0 +1,9 @@
+{
+    "name": "Glass",
+    "id": "glass",
+    "type": "glass",
+    "textures": "minecraft:blocks/glass",
+    "blocks": {
+        "full": "minecraft:glass"
+    }
+}

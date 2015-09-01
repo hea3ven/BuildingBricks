@@ -1,0 +1,9 @@
+{
+    "name": "Netherrack",
+    "id": "netherrack",
+    "type": "rock",
+    "textures": "minecraft:blocks/netherrack",
+    "blocks": {
+        "full": "minecraft:netherrack"
+    }
+}

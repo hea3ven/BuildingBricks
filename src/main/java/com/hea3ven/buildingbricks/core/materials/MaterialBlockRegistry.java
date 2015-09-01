@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagString;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -29,92 +30,55 @@ public class MaterialBlockRegistry {
 	private HashMap<MaterialBlockType, HashMap<StructureMaterial, Block>> blocks = new HashMap<MaterialBlockType, HashMap<StructureMaterial, Block>>();
 	private HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>> blocksMaterials = new HashMap<MaterialBlockType, HashMap<StructureMaterial, Set<Material>>>();
 
-	public BlockMaterialBlock materialRockBlock;
-	public BlockMaterialStairs materialRockStairs;
-	public BlockMaterialSlab materialRockSlab;
-	public BlockMaterialVerticalSlab materialRockVerticalSlab;
-	public BlockMaterialStep materialRockStep;
-	public BlockMaterialCorner materialRockCorner;
-	public BlockMaterialWall materialRockWall;
-
-	public BlockMaterialBlock materialWoodBlock;
-	public BlockMaterialStairs materialWoodStairs;
-	public BlockMaterialSlab materialWoodSlab;
-	public BlockMaterialVerticalSlab materialWoodVerticalSlab;
-	public BlockMaterialStep materialWoodStep;
-	public BlockMaterialCorner materialWoodCorner;
-
-	public BlockMaterialBlock materialGrassBlock;
-	public BlockMaterialStairs materialGrassStairs;
-	public BlockMaterialSlab materialGrassSlab;
-	public BlockMaterialVerticalSlab materialGrassVerticalSlab;
-	public BlockMaterialStep materialGrassStep;
-	public BlockMaterialCorner materialGrassCorner;
-
 	private MaterialBlockRegistry() {
-		materialRockBlock = createBlock(BlockMaterialBlock.class, StructureMaterial.ROCK,
-				MaterialBlockType.FULL);
-		materialRockSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.ROCK,
-				MaterialBlockType.SLAB);
-		materialRockVerticalSlab = createBlock(BlockMaterialVerticalSlab.class,
-				StructureMaterial.ROCK, MaterialBlockType.VERTICAL_SLAB);
-		materialRockStep = createBlock(BlockMaterialStep.class, StructureMaterial.ROCK,
-				MaterialBlockType.STEP);
-		materialRockCorner = createBlock(BlockMaterialCorner.class, StructureMaterial.ROCK,
-				MaterialBlockType.CORNER);
-		materialRockWall = createBlock(BlockMaterialWall.class, StructureMaterial.ROCK,
-				MaterialBlockType.WALL);
 
-		materialRockStairs = new BlockMaterialStairs(materialRockBlock.getDefaultState());
-		materialRockStairs.setUnlocalizedName("material_rock_stairs");
-		blocks.put(MaterialBlockType.STAIRS, new HashMap<StructureMaterial, Block>());
-		blocks.get(MaterialBlockType.STAIRS).put(StructureMaterial.ROCK, materialRockStairs);
-		blocksMaterials.put(MaterialBlockType.STAIRS,
-				new HashMap<StructureMaterial, Set<Material>>());
-		blocksMaterials.get(MaterialBlockType.STAIRS).put(StructureMaterial.ROCK,
-				new HashSet<Material>());
+		for (StructureMaterial strMat : StructureMaterial.values()) {
+			for (MaterialBlockType blockType : strMat.getBlockTypes()) {
+				Class<? extends Block> cls = null;
+				Object[] ctorArgs = null;
+				Class[] ctorArgsCls = null;
+				switch (blockType) {
+				default:
+				case FULL:
+					cls = BlockMaterialBlock.class;
+					break;
+				case SLAB:
+					cls = BlockMaterialSlab.class;
+					break;
+				case VERTICAL_SLAB:
+					cls = BlockMaterialVerticalSlab.class;
+					break;
+				case STEP:
+					cls = BlockMaterialStep.class;
+					break;
+				case CORNER:
+					cls = BlockMaterialCorner.class;
+					break;
+				case WALL:
+					cls = BlockMaterialWall.class;
+					break;
+				case STAIRS:
+					ctorArgs = new Object[] {
+							blocks.get(MaterialBlockType.FULL).get(strMat).getDefaultState()};
+					ctorArgsCls = new Class[] {IBlockState.class};
+					cls = BlockMaterialStairs.class;
+					break;
+				}
 
-		materialWoodBlock = createBlock(BlockMaterialBlock.class, StructureMaterial.WOOD,
-				MaterialBlockType.FULL);
-		materialWoodSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.WOOD,
-				MaterialBlockType.SLAB);
-		materialWoodVerticalSlab = createBlock(BlockMaterialVerticalSlab.class,
-				StructureMaterial.WOOD, MaterialBlockType.VERTICAL_SLAB);
-		materialWoodStep = createBlock(BlockMaterialStep.class, StructureMaterial.WOOD,
-				MaterialBlockType.STEP);
-		materialWoodCorner = createBlock(BlockMaterialCorner.class, StructureMaterial.WOOD,
-				MaterialBlockType.CORNER);
-
-		materialWoodStairs = new BlockMaterialStairs(materialWoodBlock.getDefaultState());
-		materialWoodStairs.setUnlocalizedName("material_wood_stairs");
-		blocks.get(MaterialBlockType.STAIRS).put(StructureMaterial.WOOD, materialWoodStairs);
-		blocksMaterials.get(MaterialBlockType.STAIRS).put(StructureMaterial.WOOD,
-				new HashSet<Material>());
-
-		materialGrassBlock = createBlock(BlockMaterialBlock.class, StructureMaterial.GRASS,
-				MaterialBlockType.FULL);
-		materialGrassSlab = createBlock(BlockMaterialSlab.class, StructureMaterial.GRASS,
-				MaterialBlockType.SLAB);
-		materialGrassVerticalSlab = createBlock(BlockMaterialVerticalSlab.class,
-				StructureMaterial.GRASS, MaterialBlockType.VERTICAL_SLAB);
-		materialGrassStep = createBlock(BlockMaterialStep.class, StructureMaterial.GRASS,
-				MaterialBlockType.STEP);
-		materialGrassCorner = createBlock(BlockMaterialCorner.class, StructureMaterial.GRASS,
-				MaterialBlockType.CORNER);
-
-		materialGrassStairs = new BlockMaterialStairs(materialGrassBlock.getDefaultState());
-		materialGrassStairs.setUnlocalizedName("material_grass_stairs");
-		blocks.get(MaterialBlockType.STAIRS).put(StructureMaterial.GRASS, materialGrassStairs);
-		blocksMaterials.get(MaterialBlockType.STAIRS).put(StructureMaterial.GRASS,
-				new HashSet<Material>());
-
+				createBlock(cls, strMat, blockType, ctorArgsCls, ctorArgs);
+			}
+		}
 	}
 
 	private <T extends Block> T createBlock(Class<T> cls, StructureMaterial strMat,
-			MaterialBlockType blockType) {
+			MaterialBlockType blockType, Class[] ctorArgsCls, Object[] ctorArgs) {
+		if (ctorArgsCls == null)
+			ctorArgsCls = new Class[] {StructureMaterial.class};
+		if (ctorArgs == null)
+			ctorArgs = new Object[] {strMat};
 		T block;
 		try {
-			block = cls.getConstructor(StructureMaterial.class).newInstance(strMat);
+			block = cls.getConstructor(ctorArgsCls).newInstance(ctorArgs);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

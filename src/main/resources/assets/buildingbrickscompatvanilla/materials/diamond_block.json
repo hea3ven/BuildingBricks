@@ -1,0 +1,9 @@
+{
+    "name": "Diamond Block",
+    "id": "diamond_block",
+    "type": "metal",
+    "textures": "minecraft:blocks/diamond_block",
+    "blocks": {
+        "full": "minecraft:blocks/diamond_block"
+    }
+}

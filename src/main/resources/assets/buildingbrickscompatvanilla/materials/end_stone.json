@@ -1,0 +1,9 @@
+{
+    "name": "End Stone",
+    "id": "end_stone",
+    "type": "rock",
+    "textures": "minecraft:blocks/end_stone",
+    "blocks": {
+        "full": "minecraft:end_stone"
+    }
+}

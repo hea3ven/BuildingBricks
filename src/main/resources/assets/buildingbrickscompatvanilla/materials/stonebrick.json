@@ -1,0 +1,11 @@
+{
+    "name": "Stone Brick",
+    "id": "stonebrick",
+    "type": "rock",
+    "textures": "minecraft:blocks/stonebrick",
+    "blocks": {
+        "full": "minecraft:stonebrick",
+        "stairs": "minecraft:stone_brick_stairs",
+        "slab": { "id": "minecraft:stone_slab", "meta": 5 }
+    }
+}

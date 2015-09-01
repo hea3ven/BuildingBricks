@@ -1,0 +1,9 @@
+{
+    "name": "Packed Ice",
+    "id": "packed_ice",
+    "type": "packed_ice",
+    "textures": "minecraft:blocks/ice_packed",
+    "blocks": {
+        "full": "minecraft:packed_ice"
+    }
+}
