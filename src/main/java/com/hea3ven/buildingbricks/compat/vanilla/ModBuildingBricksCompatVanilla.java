@@ -1,12 +1,6 @@
 package com.hea3ven.buildingbricks.compat.vanilla;
 
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.BlockRedSandstone;
-import net.minecraft.block.BlockStone;
-import net.minecraft.block.BlockStone.EnumType;
-import net.minecraft.block.BlockStoneSlab;
-import net.minecraft.block.BlockStoneSlabNew;
-import net.minecraft.block.BlockWall;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -27,7 +21,6 @@ import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassStairs;
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassStep;
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassVerticalSlab;
 import com.hea3ven.buildingbricks.compat.vanilla.items.ItemColoredWrapper;
-import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksSlab;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
@@ -40,30 +33,44 @@ public class ModBuildingBricksCompatVanilla {
 	public static final String MODID = "buildingbrickscompatvanilla";
 	public static final String VERSION = "1.0.0";
 
-	public static BlockGrassStairs grassStairs;
-	public static BlockBuildingBricksSlab grassSlab;
-	public static BlockGrassStep grassStep;
-	public static BlockGrassCorner grassCorner;
-	public static BlockGrassVerticalSlab grassVertSlab;
+	public static Block grassStairs;
+	public static Block grassSlab;
+	public static Block grassStep;
+	public static Block grassCorner;
+	public static Block grassVertSlab;
+
+	static {
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		grassStairs = new BlockGrassStairs(Blocks.grass.getDefaultState());
-		grassStairs.setUnlocalizedName("grass_stairs");
+		grassStairs = new BlockGrassStairs(Blocks.grass.getDefaultState())
+				.setUnlocalizedName("grass_stairs");
+		grassSlab = new BlockGrassSlab(StructureMaterial.GRASS).setUnlocalizedName("grass_slab");
+		grassVertSlab = new BlockGrassVerticalSlab(StructureMaterial.GRASS)
+				.setUnlocalizedName("grass_vertical_slab");
+		grassStep = new BlockGrassStep(StructureMaterial.GRASS).setUnlocalizedName("grass_step");
+		grassCorner = new BlockGrassCorner(StructureMaterial.GRASS)
+				.setUnlocalizedName("grass_corner");
+
 		GameRegistry.registerBlock(grassStairs, ItemColoredWrapper.class, "grass_stairs", false);
-		grassSlab = new BlockGrassSlab(StructureMaterial.GRASS);
-		grassSlab.setUnlocalizedName("grass_slab");
 		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab", false);
-		grassVertSlab = new BlockGrassVerticalSlab(StructureMaterial.GRASS);
-		grassVertSlab.setUnlocalizedName("grass_vertical_slab");
 		GameRegistry.registerBlock(grassVertSlab, ItemColoredWrapper.class, "grass_vertical_slab",
 				false);
-		grassStep = new BlockGrassStep(StructureMaterial.GRASS);
-		grassStep.setUnlocalizedName("grass_step");
 		GameRegistry.registerBlock(grassStep, ItemColoredWrapper.class, "grass_step", false);
-		grassCorner = new BlockGrassCorner(StructureMaterial.GRASS);
-		grassCorner.setUnlocalizedName("grass_corner");
 		GameRegistry.registerBlock(grassCorner, ItemColoredWrapper.class, "grass_corner", false);
+
+		Material grassMat = new Material("grass");
+		grassMat.setTexture("minecraft:blocks/grass_top", "minecraft:blocks/dirt",
+				"minecraft:blocks/grass_side");
+		grassMat.setStructureMaterial(StructureMaterial.GRASS);
+		grassMat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.grass));
+		grassMat.addBlock(new BlockDescription(MaterialBlockType.STAIRS, grassStairs));
+		grassMat.addBlock(new BlockDescription(MaterialBlockType.SLAB, grassSlab));
+		grassMat.addBlock(new BlockDescription(MaterialBlockType.VERTICAL_SLAB, grassVertSlab));
+		grassMat.addBlock(new BlockDescription(MaterialBlockType.STEP, grassStep));
+		grassMat.addBlock(new BlockDescription(MaterialBlockType.CORNER, grassCorner));
+		MaterialRegistry.registerMaterial(grassMat);
 	}
 
 	@EventHandler

@@ -2,6 +2,7 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
@@ -23,18 +24,21 @@ import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BlockMaterialStairs extends BlockStairs {
-	public BlockMaterialStairs(IBlockState modelState) {
-		super(modelState);
+	public BlockMaterialStairs(StructureMaterial structMat) {
+		super(new Block(structMat.getMcMaterial()) {
+		}.getDefaultState());
 		useNeighborBrightness = true;
 	}
 
 	@Override
 	protected BlockState createBlockState() {
 		BlockState superBlockState = super.createBlockState();
-		return new ExtendedBlockState(this, (IProperty[]) superBlockState.getProperties().toArray(new IProperty[0]),
+		return new ExtendedBlockState(this,
+				(IProperty[]) superBlockState.getProperties().toArray(new IProperty[0]),
 				new IUnlistedProperty[] {TileMaterial.MATERIAL});
 	}
 
@@ -69,7 +73,8 @@ public class BlockMaterialStairs extends BlockStairs {
 	}
 
 	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state,
+			int fortune) {
 		List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
 		TileMaterial.setStackMaterial(ret.get(0), TileMaterial.getTile(world, pos).getMaterial());
 		return ret;

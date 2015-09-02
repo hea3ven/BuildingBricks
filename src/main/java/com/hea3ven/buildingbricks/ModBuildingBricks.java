@@ -13,7 +13,6 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
@@ -39,7 +38,7 @@ public class ModBuildingBricks {
 
 		GameRegistry.registerTileEntity(TileMaterial.class, "tile.material");
 
-		MaterialBlockRegistry.instance.init();
+		MaterialResourceLoader.discoverMaterials();
 
 		trowel = new ItemTrowel();
 		GameRegistry.registerItem(trowel, "trowel");
@@ -49,8 +48,6 @@ public class ModBuildingBricks {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		MaterialResourceLoader.discoverMaterials();
-
 		proxy.init();
 	}
 
