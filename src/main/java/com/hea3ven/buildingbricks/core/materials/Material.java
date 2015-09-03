@@ -1,5 +1,7 @@
 package com.hea3ven.buildingbricks.core.materials;
 
+import java.util.HashMap;
+
 import net.minecraft.item.ItemStack;
 
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
@@ -7,9 +9,7 @@ import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 public class Material {
 
 	private String materialId;
-	private String topTextureLocation;
-	private String bottomTextureLocation;
-	private String sideTextureLocation;
+	private HashMap<String, String> textures = new HashMap<String, String>();
 	private StructureMaterial structureMaterial;
 	private BlockRotation blockRotation;
 
@@ -22,17 +22,29 @@ public class Material {
 		return materialId;
 	}
 
+	public void setTexture(String name, String textureLocation) {
+		this.textures.put(name, textureLocation);
+	}
+
 	public void setTexture(String textureLocation) {
-		this.topTextureLocation = textureLocation;
-		this.bottomTextureLocation = textureLocation;
-		this.sideTextureLocation = textureLocation;
+		textures.put("all", textureLocation);
+		textures.put("wall", textureLocation);
+		textures.put("top", textureLocation);
+		textures.put("bottom", textureLocation);
+		textures.put("side", textureLocation);
 	}
 
 	public void setTexture(String topTextureLocation, String bottomTextureLocation,
 			String sideTextureLocation) {
-		this.topTextureLocation = topTextureLocation;
-		this.bottomTextureLocation = bottomTextureLocation;
-		this.sideTextureLocation = sideTextureLocation;
+		textures.put("top", topTextureLocation);
+		textures.put("bottom", bottomTextureLocation);
+		textures.put("side", sideTextureLocation);
+		textures.put("all", sideTextureLocation);
+		textures.put("wall", sideTextureLocation);
+	}
+
+	public HashMap<String, String> getTextures() {
+		return textures;
 	}
 
 	public void setStructureMaterial(StructureMaterial structureMaterial) {
@@ -68,18 +80,6 @@ public class Material {
 			}
 		}
 		return null;
-	}
-
-	public String topTextureLocation() {
-		return topTextureLocation;
-	}
-
-	public String bottomTextureLocation() {
-		return bottomTextureLocation;
-	}
-
-	public String sideTextureLocation() {
-		return sideTextureLocation;
 	}
 
 	@Override

@@ -88,15 +88,8 @@ public class BakeEventHandler {
 		Iterable<Material> materials = Iterables.concat(
 				MaterialBlockRegistry.instance.getBlocksMaterials().get(blockType).values());
 		for (Material mat : materials) {
-			HashMap<String, String> textures = new HashMap<String, String>();
-			textures.put("all", mat.sideTextureLocation());
-			textures.put("side", mat.sideTextureLocation());
-			textures.put("top", mat.topTextureLocation());
-			textures.put("bottom", mat.bottomTextureLocation());
-			textures.put("wall", mat.sideTextureLocation());
-
-			IModel baseModel = renderDefinition.getItemModel();
-			baseModel = retexture(textures, baseModel);
+			IModel baseModel = renderDefinition.getItemModel(mat);
+			baseModel = retexture(mat.getTextures(), baseModel);
 			IModelState modelState = renderDefinition
 					.getItemModelState(baseModel.getDefaultState());
 			IFlexibleBakedModel bakedModel = bake(baseModel, modelState);
@@ -107,8 +100,8 @@ public class BakeEventHandler {
 			for (Object stateObj : block.getBlockState().getValidStates()) {
 				IBlockState state = (IBlockState) stateObj;
 
-				IModel blockModel = renderDefinition.getModel(state);
-				blockModel = retexture(textures, blockModel);
+				IModel blockModel = renderDefinition.getModel(state, mat);
+				blockModel = retexture(mat.getTextures(), blockModel);
 				modelState = renderDefinition.getModelState(blockModel.getDefaultState(), state);
 				bakedModel = bake(blockModel, modelState);
 
@@ -127,11 +120,9 @@ public class BakeEventHandler {
 	private void bakeItemTrowelModels(ModelBakeEvent event) {
 		ResourceLocation trowelModelLoc = new ResourceLocation("buildingbricks:item/trowel");
 		for (Material material : MaterialRegistry.getAll()) {
-			HashMap<String, String> textures = new HashMap<String, String>();
-			textures.put("all", material.sideTextureLocation());
 
 			IModel itemModel = event.modelLoader.getModel(new ResourceLocation("block/cube_all"));
-			itemModel = retexture(textures, itemModel);
+			itemModel = retexture(material.getTextures(), itemModel);
 			Vector3f translation = new Vector3f(0.3f, 0.5f, 0.2f);
 			Vector3f scale = new Vector3f(0.4f, 0.4f, 0.4f);
 			IModelState modelState = new TRSRTransformation(translation, null, scale, null);

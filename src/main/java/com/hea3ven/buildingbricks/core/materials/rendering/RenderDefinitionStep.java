@@ -1,28 +1,29 @@
 package com.hea3ven.buildingbricks.core.materials.rendering;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
+import com.hea3ven.buildingbricks.core.materials.Material;
 
 public class RenderDefinitionStep extends RenderDefinitionRotHalf {
 
-	private ResourceLocation verticalModelLocation;
-
 	public RenderDefinitionStep() {
-		super("buildingbricks:block/step_bottom");
-		verticalModelLocation = new ResourceLocation("buildingbricks:block/step_vertical");
+		super(null);
 	}
 
 	@Override
-	public IModel getModel(IBlockState state) {
+	public IModel getItemModel(Material mat) {
+		return getModelOrDefault("buildingbricks:block/step_bottom", mat);
+	}
+
+	@Override
+	public IModel getModel(IBlockState state, Material mat) {
 		if (BlockProperties.getVertical(state))
-			return ModelLoaderRegistry.getModel(verticalModelLocation);
-		return super.getModel(state);
+			return getModelOrDefault("buildingbricks:block/step_vertical", mat);
+		return getModelOrDefault("buildingbricks:block/step_bottom", mat);
 	}
 
 	@Override

@@ -5,13 +5,12 @@ import net.minecraft.block.BlockStairs.EnumShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelRotation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
+import com.hea3ven.buildingbricks.core.materials.Material;
 
 public class RenderDefinitionStairs extends RenderDefinitionSimple {
 
@@ -20,24 +19,27 @@ public class RenderDefinitionStairs extends RenderDefinitionSimple {
 	}
 
 	@Override
+	public IModel getItemModel(Material mat) {
+		return getModelOrDefault("buildingbricks:block/stairs", mat);
+	}
+
+	@Override
 	public IModelState getItemModelState(IModelState modelState) {
 		return super.getItemModelState(ModelRotation.X0_Y180);
 	}
 
 	@Override
-	public IModel getModel(IBlockState state) {
+	public IModel getModel(IBlockState state, Material mat) {
 		switch (BlockProperties.<BlockStairs.EnumShape> getProp(state, BlockStairs.SHAPE)) {
 		default:
 		case STRAIGHT:
-			return ModelLoaderRegistry.getModel(new ResourceLocation("minecraft:block/stairs"));
+			return getModelOrDefault("buildingbricks:block/stairs", mat);
 		case INNER_LEFT:
 		case INNER_RIGHT:
-			return ModelLoaderRegistry
-					.getModel(new ResourceLocation("minecraft:block/inner_stairs"));
+			return getModelOrDefault("buildingbricks:block/stairs_inner", mat);
 		case OUTER_LEFT:
 		case OUTER_RIGHT:
-			return ModelLoaderRegistry
-					.getModel(new ResourceLocation("minecraft:block/outer_stairs"));
+			return getModelOrDefault("buildingbricks:block/stairs_outer", mat);
 		}
 	}
 

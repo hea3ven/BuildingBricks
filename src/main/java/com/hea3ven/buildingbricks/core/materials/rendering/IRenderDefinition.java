@@ -5,13 +5,15 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 
+import com.hea3ven.buildingbricks.core.materials.Material;
+
 public interface IRenderDefinition {
 
-	IModel getItemModel();
+	IModel getItemModel(Material mat);
 
 	IModelState getItemModelState(IModelState modelState);
 
-	IModel getModel(IBlockState state);
+	IModel getModel(IBlockState state, Material mat);
 
 	IModelState getModelState(IModelState modelState, IBlockState state);
 

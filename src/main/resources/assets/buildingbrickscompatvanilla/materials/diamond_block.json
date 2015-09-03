@@ -4,6 +4,6 @@
     "type": "metal",
     "textures": "minecraft:blocks/diamond_block",
     "blocks": {
-        "full": "minecraft:blocks/diamond_block"
+        "full": "minecraft:diamond_block"
     }
 }

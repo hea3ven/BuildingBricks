@@ -12,23 +12,31 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BlockMaterialBlock extends Block {
+
+	private MaterialBlockLogic blockLogic;
+
 	public BlockMaterialBlock(StructureMaterial material) {
 		super(material.getMcMaterial());
+		blockLogic = new MaterialBlockLogic(material);
 	}
 
 	@Override
@@ -87,5 +95,28 @@ public class BlockMaterialBlock extends Block {
 				list.add(stack);
 			}
 		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBlockColor() {
+		return blockLogic.getBlockColor();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderColor(IBlockState state) {
+		return blockLogic.getRenderColor(state);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public EnumWorldBlockLayer getBlockLayer() {
+		return blockLogic.getBlockLayer();
 	}
 }
