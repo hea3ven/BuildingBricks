@@ -16,7 +16,7 @@ public class KeyInputEventHandler {
 		if (e.dwheel != 0 && Minecraft.getMinecraft().gameSettings.keyBindSneak.isKeyDown()) {
 			ItemStack stack = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
 			if (stack != null && stack.getItem() == ModBuildingBricks.trowel) {
-				TrowelRotateBlockTypeMessage.send(e.dwheel > 0);
+				TrowelRotateBlockTypeMessage.send(e.dwheel < 0);
 				e.setCanceled(true);
 			}
 		}
