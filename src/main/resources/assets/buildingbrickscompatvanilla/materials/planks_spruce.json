@@ -2,6 +2,8 @@
     "name": "Spruce Planks",
     "id": "planks_spruce",
     "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
     "textures": "minecraft:blocks/planks_spruce",
     "blocks": {
         "full": { "id": "minecraft:planks", "meta": 1 },

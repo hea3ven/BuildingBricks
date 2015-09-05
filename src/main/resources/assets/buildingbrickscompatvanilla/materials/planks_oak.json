@@ -2,6 +2,8 @@
     "name": "Oak Planks",
     "id": "planks_oak",
     "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
     "textures": "minecraft:blocks/planks_oak",
     "blocks": {
         "full": { "id": "minecraft:planks", "meta": 0 },

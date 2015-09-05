@@ -2,6 +2,8 @@
     "name": "Bricks",
     "id": "bricks",
     "type": "rock",
+    "hardness": 2.0,
+    "resistance": 10.0,
     "textures": "minecraft:blocks/brick",
     "blocks": {
         "full": "minecraft:brick_block",

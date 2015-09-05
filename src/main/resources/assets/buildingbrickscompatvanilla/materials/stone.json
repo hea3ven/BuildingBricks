@@ -2,6 +2,8 @@
     "name": "Stone",
     "id": "stone",
     "type": "rock",
+    "hardness": 1.5,
+    "resistance": 10.0,
     "textures": "minecraft:blocks/stone",
     "blocks": {
         "full": "minecraft:stone"

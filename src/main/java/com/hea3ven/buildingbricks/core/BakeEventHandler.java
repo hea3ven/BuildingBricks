@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import javax.vecmath.Vector3f;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,23 +24,17 @@ import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.IRetexturableModel;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.MultiModel;
 import net.minecraftforge.client.model.TRSRTransformation;
-import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 
-import com.hea3ven.buildingbricks.core.client.model.ModelItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.client.model.ModelTrowel;
-import com.hea3ven.buildingbricks.core.client.model.SmartModelCached;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.materials.rendering.IRenderDefinition;
-import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BakeEventHandler {
 	public static final BakeEventHandler instance = new BakeEventHandler();
@@ -53,23 +46,20 @@ public class BakeEventHandler {
 
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
-		for (Entry<MaterialBlockType, HashMap<StructureMaterial, Block>> entry : MaterialBlockRegistry.instance
+		for (Entry<MaterialBlockType, Map<Material, Block>> entry : MaterialBlockRegistry.instance
 				.getBlocks()
 				.entrySet()) {
-			SmartModelCached model = new SmartModelCached();
-			for (Entry<StructureMaterial, Block> subEntry : entry.getValue().entrySet()) {
-				ModelItemMaterialBlock itemModel = new ModelItemMaterialBlock();
-				bakeBlockModels(event.modelRegistry, model, itemModel, entry.getKey(),
-						subEntry.getKey(), subEntry.getValue());
+			for (Entry<Material, Block> subEntry : entry.getValue().entrySet()) {
+				bakeBlockModels(event.modelRegistry, entry.getKey(), subEntry.getKey(),
+						subEntry.getValue());
 			}
 		}
 
 		bakeItemTrowelModels(event);
 	}
 
-	private void bakeBlockModels(IRegistry modelRegistry, SmartModelCached cacheModel,
-			ModelItemMaterialBlock itemModel, MaterialBlockType blockType,
-			StructureMaterial structMat, Block block) {
+	private void bakeBlockModels(IRegistry modelRegistry, MaterialBlockType blockType, Material mat,
+			Block block) {
 		IRenderDefinition renderDefinition = blockType.getRenderDefinition();
 		if (renderDefinition == null)
 			return;
@@ -77,44 +67,26 @@ public class BakeEventHandler {
 		ResourceLocation blockName = (ResourceLocation) GameData
 				.getBlockRegistry()
 				.getNameForObject(block);
-		modelRegistry.putObject(new ModelResourceLocation(blockName + "#inventory"), itemModel);
+
+		IModel baseModel = renderDefinition.getItemModel(mat);
+		baseModel = retexture(mat.getTextures(), baseModel);
+		IModelState modelState = renderDefinition.getItemModelState(baseModel.getDefaultState());
+		IFlexibleBakedModel bakedModel = bake(baseModel, modelState);
+
+		modelRegistry.putObject(new ModelResourceLocation(blockName + "#inventory"), bakedModel);
 
 		for (Object stateObj : block.getBlockState().getValidStates()) {
+			IBlockState state = (IBlockState) stateObj;
+
+			IModel blockModel = renderDefinition.getModel(state, mat);
+			blockModel = retexture(mat.getTextures(), blockModel);
+			modelState = renderDefinition.getModelState(blockModel.getDefaultState(), state);
+			bakedModel = bake(blockModel, modelState);
+
 			ModelResourceLocation modelLoc = new ModelResourceLocation(blockName,
 					getPropertyString((IBlockState) stateObj));
-			modelRegistry.putObject(modelLoc, cacheModel);
+			modelRegistry.putObject(modelLoc, bakedModel);
 		}
-
-		Iterable<Material> materials = Iterables.concat(
-				MaterialBlockRegistry.instance.getBlocksMaterials().get(blockType).values());
-		for (Material mat : materials) {
-			IModel baseModel = renderDefinition.getItemModel(mat);
-			baseModel = retexture(mat.getTextures(), baseModel);
-			IModelState modelState = renderDefinition
-					.getItemModelState(baseModel.getDefaultState());
-			IFlexibleBakedModel bakedModel = bake(baseModel, modelState);
-
-			itemModel.put(mat.materialId(), bakedModel);
-			cacheModel.setDelegate(bakedModel);
-
-			for (Object stateObj : block.getBlockState().getValidStates()) {
-				IBlockState state = (IBlockState) stateObj;
-
-				IModel blockModel = renderDefinition.getModel(state, mat);
-				blockModel = retexture(mat.getTextures(), blockModel);
-				modelState = renderDefinition.getModelState(blockModel.getDefaultState(), state);
-				bakedModel = bake(blockModel, modelState);
-
-				state = TileMaterial.setStateMaterial((IExtendedBlockState) state, mat);
-				cacheModel.put(state, bakedModel);
-			}
-		}
-
-		IFlexibleBakedModel model = bake(ModelLoaderRegistry.getMissingModel());
-		if (cacheModel.getDelegate() == null)
-			cacheModel.setDelegate(model);
-		if (itemModel.getDelegate() == null)
-			itemModel.setDelegate(model);
 	}
 
 	private void bakeItemTrowelModels(ModelBakeEvent event) {

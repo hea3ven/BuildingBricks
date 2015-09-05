@@ -2,6 +2,8 @@
     "name": "Acacia Planks",
     "id": "planks_acacia",
     "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
     "textures": "minecraft:blocks/planks_acacia",
     "blocks": {
         "full": { "id": "minecraft:planks", "meta": 4 },

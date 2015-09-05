@@ -2,6 +2,7 @@
     "name": "Quartz Block",
     "id": "quartz_block",
     "type": "rock",
+    "hardness": 0.8,
     "textures": {
         "top": "minecraft:blocks/quartz_block_top",
         "side": "minecraft:blocks/quartz_block_side",

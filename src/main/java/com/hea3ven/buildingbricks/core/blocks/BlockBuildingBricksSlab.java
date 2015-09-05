@@ -2,21 +2,32 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.world.IBlockAccess;
 
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
-import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
+import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 
 public class BlockBuildingBricksSlab extends BlockSlab {
 
-	public BlockBuildingBricksSlab(StructureMaterial structureMaterial) {
-		super(structureMaterial.getMcMaterial());
+	protected MaterialBlockLogic blockLogic;
+
+	public BlockBuildingBricksSlab(Material material) {
+		super(material.getStructureMaterial().getMcMaterial());
 		useNeighborBrightness = true;
+
+		blockLogic = new MaterialBlockLogic(material.getStructureMaterial());
+
+		setStepSound(material.getStructureMaterial().getSoundType());
+		setHardness(material.getHardness());
+		if (material.getResistance() > 0)
+			setResistance(material.getResistance());
 	}
 
 	@Override
@@ -37,12 +48,6 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 	@Override
 	public Object getVariant(ItemStack stack) {
 		return null;
-	}
-
-	@Override
-	protected BlockState createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] {HALF},
-				new IUnlistedProperty[] {TileMaterial.MATERIAL});
 	}
 
 	@Override
@@ -71,5 +76,28 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 	@Override
 	public boolean requiresUpdates() {
 		return false;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBlockColor() {
+		return blockLogic.getBlockColor();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderColor(IBlockState state) {
+		return blockLogic.getRenderColor(state);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public EnumWorldBlockLayer getBlockLayer() {
+		return blockLogic.getBlockLayer();
 	}
 }

@@ -2,6 +2,7 @@
     "name": "Dirt",
     "id": "dirt",
     "type": "dirt",
+    "hardness": 0.5,
     "textures": "minecraft:blocks/dirt",
     "blocks": {
         "full": "minecraft:dirt"

@@ -1,6 +1,6 @@
 package com.hea3ven.buildingbricks.core;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -12,8 +12,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.hea3ven.buildingbricks.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
-import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 
@@ -28,9 +28,7 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 		super.init();
 		MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-		for (HashMap<StructureMaterial, Block> blocks : MaterialBlockRegistry.instance
-				.getBlocks()
-				.values()) {
+		for (Map<Material, Block> blocks : MaterialBlockRegistry.instance.getBlocks().values()) {
 			for (Block block : blocks.values()) {
 				ModelResourceLocation location = new ModelResourceLocation(
 						(ResourceLocation) Block.blockRegistry.getNameForObject(block),

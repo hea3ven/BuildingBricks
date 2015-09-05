@@ -36,14 +36,15 @@ public class ModBuildingBricksCompatVanilla {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		grassSlab = new BlockGrassSlab(StructureMaterial.GRASS).setUnlocalizedName("grass_slab");
-		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab", false);
-
 		Material grassMat = new Material("grass");
 		grassMat.setTexture("minecraft:blocks/grass_top", "minecraft:blocks/dirt",
 				"minecraft:blocks/grass_side");
 		grassMat.setTexture("overlay", "minecraft:blocks/grass_side_overlay");
 		grassMat.setStructureMaterial(StructureMaterial.GRASS);
+
+		grassSlab = new BlockGrassSlab(grassMat).setUnlocalizedName("grass_slab");
+		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab", false);
+
 		grassMat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.grass));
 		grassMat.addBlock(MaterialBlockType.STAIRS);
 		grassMat.addBlock(new BlockDescription(MaterialBlockType.SLAB, grassSlab));

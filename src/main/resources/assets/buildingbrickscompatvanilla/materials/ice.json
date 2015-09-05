@@ -2,6 +2,7 @@
     "name": "Ice",
     "id": "ice",
     "type": "ice",
+    "hardness": 0.5,
     "textures": "minecraft:blocks/ice",
     "blocks": {
         "full": "minecraft:ice"

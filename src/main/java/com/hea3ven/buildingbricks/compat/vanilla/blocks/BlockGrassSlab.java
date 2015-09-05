@@ -19,12 +19,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksSlab;
-import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
+import com.hea3ven.buildingbricks.core.materials.Material;
 
 public class BlockGrassSlab extends BlockBuildingBricksSlab {
 
-	public BlockGrassSlab(StructureMaterial structureMaterial) {
-		super(structureMaterial);
+	public BlockGrassSlab(Material material) {
+		super(material);
 
 		IBlockState state = getDefaultState();
 		state = setHalf(state, EnumBlockHalf.BOTTOM);
@@ -46,11 +46,10 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab {
 		return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
 	}
 
-    @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer()
-    {
-        return EnumWorldBlockLayer.CUTOUT_MIPPED;
-    }
+	@SideOnly(Side.CLIENT)
+	public EnumWorldBlockLayer getBlockLayer() {
+		return EnumWorldBlockLayer.CUTOUT_MIPPED;
+	}
 
 	@Override
 	protected BlockState createBlockState() {

@@ -18,13 +18,13 @@ import net.minecraft.world.World;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
-import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
+import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 
-	public BlockBuildingBricksStep(StructureMaterial structureMaterial) {
-		super(structureMaterial);
+	public BlockBuildingBricksStep(Material material) {
+		super(material);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setVertical(state, false);
@@ -146,5 +146,4 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 		// return false;
 		return true;
 	}
-
 }

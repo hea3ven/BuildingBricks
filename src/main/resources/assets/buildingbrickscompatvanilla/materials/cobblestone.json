@@ -2,6 +2,8 @@
     "name": "Cobblestone",
     "id": "cobblestone",
     "type": "rock",
+    "hardness": 2.0,
+    "resistance": 10.0,
     "textures": "minecraft:blocks/cobblestone",
     "blocks": {
         "full": "minecraft:cobblestone",

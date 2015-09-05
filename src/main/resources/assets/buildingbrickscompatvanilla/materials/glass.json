@@ -2,6 +2,7 @@
     "name": "Glass",
     "id": "glass",
     "type": "glass",
+    "hardness": 0.3,
     "textures": "minecraft:blocks/glass",
     "blocks": {
         "full": "minecraft:glass"

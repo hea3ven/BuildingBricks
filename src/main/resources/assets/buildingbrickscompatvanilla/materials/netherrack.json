@@ -2,6 +2,7 @@
     "name": "Netherrack",
     "id": "netherrack",
     "type": "rock",
+    "hardness": 0.4,
     "textures": "minecraft:blocks/netherrack",
     "blocks": {
         "full": "minecraft:netherrack"

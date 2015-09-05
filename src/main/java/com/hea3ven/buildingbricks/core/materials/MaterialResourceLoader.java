@@ -169,6 +169,14 @@ public class MaterialResourceLoader {
 			mat.setStructureMaterial((StructureMaterial) context.deserialize(json.get("type"),
 					StructureMaterial.class));
 
+			if (json.has("hardness")) {
+				mat.setHardness(json.get("hardness").getAsFloat());
+			}
+
+			if (json.has("resistance")) {
+				mat.setResistance(json.get("resistance").getAsFloat());
+			}
+
 			if (!json.has("textures"))
 				throw new JsonParseException("material does not have textures");
 			if (json.get("textures").isJsonPrimitive())

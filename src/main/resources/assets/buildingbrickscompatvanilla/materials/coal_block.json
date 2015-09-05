@@ -2,6 +2,8 @@
     "name": "Coal Block",
     "id": "coal_block",
     "type": "rock",
+    "hardness": 5.0,
+    "resistance": 10.0,
     "textures": "minecraft:blocks/coal_block",
     "blocks": {
         "full": "minecraft:coal_block"

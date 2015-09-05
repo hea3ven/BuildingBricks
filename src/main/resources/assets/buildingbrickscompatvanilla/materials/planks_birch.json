@@ -2,6 +2,8 @@
     "name": "Birch Planks",
     "id": "planks_birch",
     "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
     "textures": "minecraft:blocks/planks_birch",
     "blocks": {
         "full": { "id": "minecraft:planks", "meta": 2 },

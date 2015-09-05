@@ -40,14 +40,14 @@ public class EventHandlerTrowelOverlay {
 		int xPos = sr.getScaledWidth() / 2 - 88 + 10 * 20;
 		int yPos = sr.getScaledHeight() - 16 - 3;
 
-		ItemStack stack1 = mat.getBlock(type).getStack();
-
 		Minecraft mc = Minecraft.getMinecraft();
 		mc.getTextureManager().bindTexture(widgetsTexture);
 		mc.ingameGUI.drawTexturedModalRect(xPos - 3, yPos - 3, 0, 0, 21, 22);
 		mc.ingameGUI.drawTexturedModalRect(xPos + 18, yPos - 3, 181, 0, 1, 22);
 
-		renderItem(partialTicks, xPos, yPos, stack1);
+		ItemStack stack1 = mat.getBlock(type).getStack();
+		if (stack1.getItem() != null)
+			renderItem(partialTicks, xPos, yPos, stack1);
 	}
 
 	private void renderItem(float partialTicks, int xPos, int yPos, ItemStack stack) {
@@ -68,6 +68,7 @@ public class EventHandlerTrowelOverlay {
 			GlStateManager.translate(-(xPos + 8), -(yPos + 12), 0.0F);
 		}
 
+//		Minecraft.getMinecraft().setIngameNotInFocus();
 		mc.getRenderItem().renderItemAndEffectIntoGUI(stack, xPos, yPos);
 		if (f1 > 0.0F) {
 			GlStateManager.popMatrix();

@@ -12,6 +12,8 @@ public class Material {
 	private HashMap<String, String> textures = new HashMap<String, String>();
 	private StructureMaterial structureMaterial;
 	private BlockRotation blockRotation;
+	private float hardness = 1.0f;
+	private float resistance = 5.0f;
 
 	public Material(String materialId) {
 		this.materialId = materialId;
@@ -53,6 +55,22 @@ public class Material {
 
 	public StructureMaterial getStructureMaterial() {
 		return structureMaterial;
+	}
+
+	public void setHardness(float hardness) {
+		this.hardness = hardness;
+	}
+
+	public float getHardness() {
+		return hardness;
+	}
+
+	public void setResistance(float resistance) {
+		this.resistance = resistance;
+	}
+
+	public float getResistance() {
+		return resistance;
 	}
 
 	public BlockRotation getBlockRotation() {

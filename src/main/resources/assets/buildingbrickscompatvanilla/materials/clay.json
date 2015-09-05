@@ -1,9 +1,0 @@
-{
-    "name": "Clay",
-    "id": "clay",
-    "type": "clay",
-    "textures": "minecraft:blocks/clay",
-    "blocks": {
-        "full": "minecraft:clay"
-    }
-}

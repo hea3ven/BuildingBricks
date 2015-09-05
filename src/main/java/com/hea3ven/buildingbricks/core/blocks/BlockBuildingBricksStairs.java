@@ -1,11 +1,7 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -17,12 +13,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 
-public class BlockBuildingBricksBase extends Block {
+public class BlockBuildingBricksStairs extends BlockStairs {
 
-	private MaterialBlockLogic blockLogic;
+	protected MaterialBlockLogic blockLogic;
 
-	public BlockBuildingBricksBase(Material material) {
-		super(material.getStructureMaterial().getMcMaterial());
+	public BlockBuildingBricksStairs(Material material) {
+		super(new Block(material.getStructureMaterial().getMcMaterial()) {
+		}.getDefaultState());
+		useNeighborBrightness = true;
 
 		blockLogic = new MaterialBlockLogic(material.getStructureMaterial());
 
@@ -30,20 +28,6 @@ public class BlockBuildingBricksBase extends Block {
 		setHardness(material.getHardness());
 		if (material.getResistance() > 0)
 			setResistance(material.getResistance());
-	}
-
-	protected void registerProperties(List<IProperty> props) {
-	}
-
-	@Override
-	protected BlockState createBlockState() {
-		List<IProperty> props = new ArrayList<IProperty>();
-		registerProperties(props);
-		return new BlockState(this, props.toArray(new IProperty[0]));
-	}
-
-	protected IBlockState getStateFromWorld(IBlockAccess world, BlockPos pos) {
-		return world.getBlockState(pos);
 	}
 
 	@Override
@@ -68,4 +52,5 @@ public class BlockBuildingBricksBase extends Block {
 	public EnumWorldBlockLayer getBlockLayer() {
 		return blockLogic.getBlockLayer();
 	}
+
 }

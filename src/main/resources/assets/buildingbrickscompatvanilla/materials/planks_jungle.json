@@ -2,6 +2,8 @@
     "name": "Jungle Planks",
     "id": "planks_jungle",
     "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
     "textures": "minecraft:blocks/planks_jungle",
     "blocks": {
         "full": { "id": "minecraft:planks", "meta": 3 },
