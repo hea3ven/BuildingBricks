@@ -3,6 +3,8 @@ package com.hea3ven.buildingbricks.core.blocks;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockWall;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -30,19 +32,19 @@ import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
-public class BlockMaterialWall extends BlockBuildingBricksWall {
+public class BlockMaterialWall extends BlockWall {
 
 	private MaterialBlockLogic blockLogic;
 
 	public BlockMaterialWall(StructureMaterial material) {
-		super(material);
+		super(new Block(material.getMcMaterial()) {
+		});
 		blockLogic = new MaterialBlockLogic(material);
 	}
 
 	@Override
 	protected BlockState createBlockState() {
-		List<IProperty> props = new ArrayList<IProperty>();
-		registerProperties(props);
+		List<IProperty> props = new ArrayList<IProperty>(super.createBlockState().getProperties());
 		return new ExtendedBlockState(this, props.toArray(new IProperty[0]),
 				new IUnlistedProperty[] {TileMaterial.MATERIAL});
 	}
