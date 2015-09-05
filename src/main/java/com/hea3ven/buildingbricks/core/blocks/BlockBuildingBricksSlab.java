@@ -2,6 +2,7 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -51,6 +52,11 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 	}
 
 	@Override
+	protected BlockState createBlockState() {
+		return new BlockState(this, new IProperty[] {HALF});
+	}
+
+	@Override
 	public int getMetaFromState(IBlockState state) {
 		int meta = 0;
 		meta |= getHalf(state).ordinal();
@@ -58,7 +64,6 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 	}
 
 	@Override
-
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState state = this.getDefaultState();
 		state = setHalf(state, (meta & 0x1) == 0 ? EnumBlockHalf.BOTTOM : EnumBlockHalf.TOP);

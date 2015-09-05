@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
-import com.hea3ven.buildingbricks.compat.vanilla.items.ItemColoredWrapper;
+import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
@@ -43,7 +43,7 @@ public class ModBuildingBricksCompatVanilla {
 		grassMat.setStructureMaterial(StructureMaterial.GRASS);
 
 		grassSlab = new BlockGrassSlab(grassMat).setUnlocalizedName("grass_slab");
-		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab", false);
+		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab");
 
 		grassMat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.grass));
 		grassMat.addBlock(MaterialBlockType.STAIRS);

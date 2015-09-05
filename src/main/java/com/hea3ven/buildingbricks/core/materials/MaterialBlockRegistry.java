@@ -10,6 +10,7 @@ import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagString;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -21,6 +22,7 @@ import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksStairs;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksStep;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksVerticalSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksWall;
+import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 
 public class MaterialBlockRegistry {
@@ -43,7 +45,7 @@ public class MaterialBlockRegistry {
 				new NBTTagString(mat.materialId()));
 	}
 
-	private void initBlock(MaterialBlockType blockType, Material strMat) {
+	private void initBlock(MaterialBlockType blockType, Material mat) {
 		Class<? extends Block> cls = null;
 		switch (blockType) {
 		default:
@@ -70,26 +72,28 @@ public class MaterialBlockRegistry {
 			break;
 		}
 
-		createBlock(cls, strMat, blockType);
+		createBlock(cls, mat, blockType);
 	}
 
-	private <T extends Block> T createBlock(Class<T> cls, Material strMat,
+	private <T extends Block> T createBlock(Class<T> cls, Material mat,
 			MaterialBlockType blockType) {
 		T block;
 		try {
-			block = cls.getConstructor(Material.class).newInstance(strMat);
+			block = cls.getConstructor(Material.class).newInstance(mat);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		block.setUnlocalizedName(strMat.materialId() + "_" + blockType.getName());
+		block.setUnlocalizedName(mat.materialId() + "_" + blockType.getName());
 		if (!blocks.containsKey(blockType))
 			blocks.put(blockType, new HashMap<Material, Block>());
-		blocks.get(blockType).put(strMat, block);
+		blocks.get(blockType).put(mat, block);
 		if (!blocksMaterials.containsKey(blockType))
 			blocksMaterials.put(blockType, new HashSet<Material>());
 
 		block.setCreativeTab(CreativeTabs.tabBlock);
-		GameRegistry.registerBlock(block, strMat.materialId() + "_" + blockType.getName());
+		Class<? extends ItemBlock> itemCls = !mat.getStructureMaterial().getColor() ? ItemBlock.class
+				: ItemColoredWrapper.class;
+		GameRegistry.registerBlock(block, itemCls, mat.materialId() + "_" + blockType.getName());
 		return block;
 	}
 
