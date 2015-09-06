@@ -34,6 +34,7 @@ public class Material {
 		textures.put("top", textureLocation);
 		textures.put("bottom", textureLocation);
 		textures.put("side", textureLocation);
+		textures.put("particle", textureLocation);
 	}
 
 	public void setTexture(String topTextureLocation, String bottomTextureLocation,
@@ -43,6 +44,7 @@ public class Material {
 		textures.put("side", sideTextureLocation);
 		textures.put("all", sideTextureLocation);
 		textures.put("wall", sideTextureLocation);
+		textures.put("particle", sideTextureLocation);
 	}
 
 	public HashMap<String, String> getTextures() {
