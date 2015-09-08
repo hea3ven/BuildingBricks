@@ -1,0 +1,11 @@
+{
+    "name": "Pink Stained Clay",
+    "id": "stained_hardened_clay_pink",
+    "type": "rock",
+    "hardness": 1.25,
+    "resistance": 7.0,
+    "textures": "minecraft:blocks/hardened_clay_stained_pink",
+    "blocks": {
+        "full": { "id": "minecraft:stained_hardened_clay", "meta": 6 }
+    }
+}

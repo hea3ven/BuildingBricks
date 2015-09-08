@@ -1,0 +1,11 @@
+{
+    "name": "Hardened Clay",
+    "id": "hardened_clay",
+    "type": "rock",
+    "hardness": 1.25,
+    "resistance": 7.0,
+    "textures": "minecraft:blocks/hardened_clay",
+    "blocks": {
+        "full": "minecraft:hardened_clay"
+    }
+}

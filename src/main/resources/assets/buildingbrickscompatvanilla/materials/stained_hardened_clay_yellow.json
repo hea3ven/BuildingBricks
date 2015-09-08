@@ -1,0 +1,11 @@
+{
+    "name": "Yellow Stained Clay",
+    "id": "stained_hardened_clay_yellow",
+    "type": "rock",
+    "hardness": 1.25,
+    "resistance": 7.0,
+    "textures": "minecraft:blocks/hardened_clay_stained_yellow",
+    "blocks": {
+        "full": { "id": "minecraft:stained_hardened_clay", "meta": 4 }
+    }
+}

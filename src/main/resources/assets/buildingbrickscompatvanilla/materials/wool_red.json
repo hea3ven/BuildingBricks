@@ -1,0 +1,10 @@
+{
+    "name": "Red Wool",
+    "id": "wool_red",
+    "type": "cloth",
+    "hardness": 0.8,
+    "textures": "minecraft:blocks/wool_colored_red",
+    "blocks": {
+        "full": { "id": "minecraft:wool", "meta": 14 }
+    }
+}

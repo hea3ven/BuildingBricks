@@ -1,0 +1,10 @@
+{
+    "name": "Pink Wool",
+    "id": "wool_pink",
+    "type": "cloth",
+    "hardness": 0.8,
+    "textures": "minecraft:blocks/wool_colored_pink",
+    "blocks": {
+        "full": { "id": "minecraft:wool", "meta": 6 }
+    }
+}
