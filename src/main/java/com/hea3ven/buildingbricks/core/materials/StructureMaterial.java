@@ -34,7 +34,7 @@ public enum StructureMaterial {
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS,
 					MaterialBlockType.SLAB, MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP,
 					MaterialBlockType.CORNER, MaterialBlockType.WALL}),
-	ICE(Material.ice, EnumWorldBlockLayer.SOLID, false, Block.soundTypeGlass,
+	ICE(Material.ice, EnumWorldBlockLayer.TRANSLUCENT, false, Block.soundTypeGlass,
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS,
 					MaterialBlockType.SLAB, MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP,
 					MaterialBlockType.CORNER, MaterialBlockType.WALL}),
