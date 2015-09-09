@@ -1,11 +1,18 @@
 package com.hea3ven.buildingbricks.compat.vanilla;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockStoneSlab;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -60,6 +67,8 @@ public class ModBuildingBricksCompatVanilla {
 		if (Config.generateGrassSlabs)
 			MinecraftForge.EVENT_BUS.register(new GrassSlabWorldGen());
 
+		replaceStoneSlabRecipe();
+
 		if (event.getSide() == Side.CLIENT) {
 			ItemModelMesher modelMesher = Minecraft
 					.getMinecraft()
@@ -68,6 +77,24 @@ public class ModBuildingBricksCompatVanilla {
 			modelMesher.register(Item.getItemFromBlock(grassSlab), 0, new ModelResourceLocation(
 					"buildingbrickscompatvanilla:grass_slab", "inventory"));
 		}
+	}
+
+	private void replaceStoneSlabRecipe() {
+		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
+		for (int i = 0; i < recipes.size(); i++) {
+			IRecipe recipe = recipes.get(i);
+			ItemStack result = recipe.getRecipeOutput();
+			if (result != null && result.getItem() instanceof ItemBlock
+					&& ((ItemBlock) result.getItem()).getBlock() == Blocks.stone_slab
+					&& result.getMetadata() == BlockStoneSlab.EnumType.STONE.getMetadata()) {
+				recipes.remove(i);
+			}
+		}
+
+		ItemStack stoneSlab = new ItemStack(Block.getBlockFromName("buildingbricks:stone_slab"));
+		ItemStack stoneSlabSlab = new ItemStack(Blocks.stone_slab, 2,
+				BlockStoneSlab.EnumType.STONE.getMetadata());
+		GameRegistry.addShapedRecipe(stoneSlabSlab, "x", "x", 'x', stoneSlab);
 	}
 
 }
