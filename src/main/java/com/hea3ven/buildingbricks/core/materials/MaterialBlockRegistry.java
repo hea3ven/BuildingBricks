@@ -1,12 +1,15 @@
 package com.hea3ven.buildingbricks.core.materials;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -29,18 +32,21 @@ public class MaterialBlockRegistry {
 
 	public static MaterialBlockRegistry instance = new MaterialBlockRegistry();
 
-	private Map<MaterialBlockType, Map<Material, Block>> blocks = new HashMap<MaterialBlockType, Map<Material, Block>>();
+	private static final Logger logger = LogManager
+			.getLogger("BuildingBricks.MaterialBlockRegistry");
+
+	private Table<MaterialBlockType, Material, Block> blocks = HashBasedTable.create();
 	private HashMap<MaterialBlockType, Set<Material>> blocksMaterials = new HashMap<MaterialBlockType, Set<Material>>();
 
 	private MaterialBlockRegistry() {
 	}
 
 	public BlockDescription addBlock(MaterialBlockType blockType, Material mat) {
-		if (!blocks.containsKey(blockType) || !blocks.get(blockType).containsKey(mat))
+		if (!blocks.contains(blockType, mat))
 			initBlock(blockType, mat);
 
 		blocksMaterials.get(blockType).add(mat);
-		Block block = blocks.get(blockType).get(mat);
+		Block block = blocks.get(blockType, mat);
 		return new BlockDescription(blockType, block, 0, "material",
 				new NBTTagString(mat.materialId()));
 	}
@@ -84,32 +90,30 @@ public class MaterialBlockRegistry {
 			throw new RuntimeException(e);
 		}
 		block.setUnlocalizedName(mat.materialId() + "_" + blockType.getName());
-		if (!blocks.containsKey(blockType))
-			blocks.put(blockType, new HashMap<Material, Block>());
-		blocks.get(blockType).put(mat, block);
+		blocks.put(blockType, mat, block);
 		if (!blocksMaterials.containsKey(blockType))
 			blocksMaterials.put(blockType, new HashSet<Material>());
 
 		block.setCreativeTab(CreativeTabs.tabBlock);
-		Class<? extends ItemBlock> itemCls = !mat.getStructureMaterial().getColor() ? ItemBlock.class
-				: ItemColoredWrapper.class;
+		Class<? extends ItemBlock> itemCls = !mat.getStructureMaterial().getColor()
+				? ItemBlock.class : ItemColoredWrapper.class;
 		GameRegistry.registerBlock(block, itemCls, mat.materialId() + "_" + blockType.getName());
 		return block;
 	}
 
 	public Collection<Block> getAllBlocks() {
-		List<Block> allBlocks = new ArrayList<Block>();
-		for (Map<Material, Block> entry : blocks.values()) {
-			allBlocks.addAll(entry.values());
-		}
-		return allBlocks;
+		return blocks.values();
 	}
 
-	public Map<MaterialBlockType, Map<Material, Block>> getBlocks() {
+	public Table<MaterialBlockType, Material, Block> getBlocks() {
 		return blocks;
 	}
 
 	public Collection<Block> getBlocks(MaterialBlockType blockType) {
-		return blocks.get(blockType).values();
+		return blocks.row(blockType).values();
+	}
+
+	public void logStats() {
+		logger.info("Created {} blocks", blocks.size());
 	}
 }

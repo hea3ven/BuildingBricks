@@ -8,6 +8,7 @@ import javax.vecmath.Vector3f;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Table.Cell;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -46,13 +47,11 @@ public class BakeEventHandler {
 
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
-		for (Entry<MaterialBlockType, Map<Material, Block>> entry : MaterialBlockRegistry.instance
+		for (Cell<MaterialBlockType, Material, Block> cell : MaterialBlockRegistry.instance
 				.getBlocks()
-				.entrySet()) {
-			for (Entry<Material, Block> subEntry : entry.getValue().entrySet()) {
-				bakeBlockModels(event.modelRegistry, entry.getKey(), subEntry.getKey(),
-						subEntry.getValue());
-			}
+				.cellSet()) {
+			bakeBlockModels(event.modelRegistry, cell.getRowKey(), cell.getColumnKey(),
+					cell.getValue());
 		}
 
 		bakeItemTrowelModels(event);

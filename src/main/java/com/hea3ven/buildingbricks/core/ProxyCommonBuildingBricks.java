@@ -33,6 +33,7 @@ public class ProxyCommonBuildingBricks {
 	}
 
 	private void addTrowelRecipes() {
+		ModBuildingBricks.logger.info("Registering trowel's recipes");
 		ItemStack trowelStack = new ItemStack(ModBuildingBricks.trowel, 1, OreDictionary.WILDCARD_VALUE);
 		for (Material mat : MaterialRegistry.getAll()) {
 			ItemStack bindedTrowelStack = new ItemStack(ModBuildingBricks.trowel);
@@ -44,6 +45,7 @@ public class ProxyCommonBuildingBricks {
 	}
 
 	private void addMaterialBlocksRecipes() {
+		ModBuildingBricks.logger.info("Registering materials recipes");
 		for (Material mat : MaterialRegistry.getAll()) {
 			for (Entry<MaterialBlockType, BlockDescription> entry : mat.getBlockRotation().getAll().entrySet()) {
 				entry.getKey().registerRecipes(mat);
