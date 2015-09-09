@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class GrassSlabWorldGen {
 
 	@SubscribeEvent
-	public void asd(PopulateChunkEvent.Pre event) {
+	public void onPopulateChunkPreEvent(PopulateChunkEvent.Pre event) {
 		BlockPos startPos = new BlockPos(event.chunkX << 4, 0, event.chunkZ << 4);
 		for (int xOff = 0; xOff < 16; xOff++) {
 			for (int zOff = 0; zOff < 16; zOff++) {

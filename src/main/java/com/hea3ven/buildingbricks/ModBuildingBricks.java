@@ -12,11 +12,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
+import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 
-@Mod(modid = ModBuildingBricks.MODID, name = "Building Bricks", version = ModBuildingBricks.VERSION)
+@Mod(modid = ModBuildingBricks.MODID, name = "Building Bricks", version = ModBuildingBricks.VERSION,
+		guiFactory = "com.hea3ven.buildingbricks.core.config.BuildingBricksConfigGuiFactory")
 public class ModBuildingBricks {
 	public static final String MODID = "buildingbricks";
 	public static final String VERSION = "1.0.0";
@@ -31,6 +33,8 @@ public class ModBuildingBricks {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		Config.init(event.getModConfigurationDirectory());
+
 		netChannel = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 		netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class,
 				TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);

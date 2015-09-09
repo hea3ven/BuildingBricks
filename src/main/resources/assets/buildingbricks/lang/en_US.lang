@@ -1,0 +1,3 @@
+buildingbricks.config.world.cat=World
+buildingbricks.config.world.cat.tooltip=Configuration options that affect worlds.
+buildingbricks.config.world.generateGrassSlabs=Generate grass slabs

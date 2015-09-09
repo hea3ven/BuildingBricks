@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
+import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
@@ -56,7 +57,8 @@ public class ModBuildingBricksCompatVanilla {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(new GrassSlabWorldGen());
+		if (Config.generateGrassSlabs)
+			MinecraftForge.EVENT_BUS.register(new GrassSlabWorldGen());
 
 		if (event.getSide() == Side.CLIENT) {
 			ItemModelMesher modelMesher = Minecraft
