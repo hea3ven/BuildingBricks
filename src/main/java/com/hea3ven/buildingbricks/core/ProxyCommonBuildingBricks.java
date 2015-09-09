@@ -46,7 +46,7 @@ public class ProxyCommonBuildingBricks {
 	private void addMaterialBlocksRecipes() {
 		for (Material mat : MaterialRegistry.getAll()) {
 			for (Entry<MaterialBlockType, BlockDescription> entry : mat.getBlockRotation().getAll().entrySet()) {
-				entry.getKey().addRecipes(mat);
+				entry.getKey().registerRecipes(mat);
 			}
 		}
 	}

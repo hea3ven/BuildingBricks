@@ -32,6 +32,12 @@ public enum MaterialBlockType {
 				.map('x', SLAB)
 				.validate());
 		STAIRS.setRenderDefinition(new RenderDefinitionStairs());
+		STAIRS.addRecipe(false, MaterialRecipeBuilder
+				.create()
+				.outputAmount(2)
+				.pattern("x  ", "xx ", "xxx")
+				.map('x', FULL)
+				.validate());
 		SLAB.setRenderDefinition(new RenderDefinitionSlab());
 		SLAB.addRecipe(false, MaterialRecipeBuilder
 				.create()
@@ -58,8 +64,14 @@ public enum MaterialBlockType {
 				.pattern("x", "x", "x")
 				.map('x', SLAB)
 				.validate());
+		VERTICAL_SLAB.addRecipe(true, MaterialRecipeBuilder
+				.create()
+				.outputAmount(6)
+				.pattern("x", "x", "x")
+				.map('x', FULL)
+				.validate());
 		STEP.setRenderDefinition(new RenderDefinitionStep());
-		STEP.addRecipe(false, MaterialRecipeBuilder
+		STEP.addRecipe(true, MaterialRecipeBuilder
 				.create()
 				.outputAmount(6)
 				.pattern("xxx")
@@ -73,7 +85,7 @@ public enum MaterialBlockType {
 				.validate());
 		CORNER.setRenderDefinition(
 				new RenderDefinitionRotHalf("buildingbricks:block/corner_bottom"));
-		CORNER.addRecipe(false, MaterialRecipeBuilder
+		CORNER.addRecipe(true, MaterialRecipeBuilder
 				.create()
 				.outputAmount(6)
 				.pattern("xxx")
@@ -144,7 +156,7 @@ public enum MaterialBlockType {
 		}
 	}
 
-	public void addRecipes(Material mat) {
+	public void registerRecipes(Material mat) {
 		for (MaterialRecipeBuilder recipeDesc : allwaysRecipes) {
 			Object[] recipe = recipeDesc.build(mat);
 			if (recipe != null)

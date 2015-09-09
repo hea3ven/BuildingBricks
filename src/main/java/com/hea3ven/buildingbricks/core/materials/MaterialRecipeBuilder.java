@@ -67,7 +67,7 @@ public class MaterialRecipeBuilder {
 		}
 
 		for (Character c : keys) {
-			if (!mapping.containsKey(c))
+			if (!mapping.containsKey(c) && c != ' ')
 				throw new IllegalStateException("missing mapping for " + c);
 		}
 		for (Character c : mapping.keySet()) {
