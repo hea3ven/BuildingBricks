@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 
 public class BlockBuildingBricksWall extends BlockWall {
 
@@ -26,12 +28,17 @@ public class BlockBuildingBricksWall extends BlockWall {
 		super(new Block(material.getStructureMaterial().getMcMaterial()) {
 		});
 
-		blockLogic = new MaterialBlockLogic(material.getStructureMaterial());
+		blockLogic = new MaterialBlockLogic(material, MaterialBlockType.WALL);
 
 		setStepSound(material.getStructureMaterial().getSoundType());
 		setHardness(material.getHardness());
 		if (material.getResistance() > 0)
 			setResistance(material.getResistance());
+	}
+
+	@Override
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
+		list.add(new ItemStack(itemIn));
 	}
 
 	@Override
@@ -58,7 +65,10 @@ public class BlockBuildingBricksWall extends BlockWall {
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
-		list.add(new ItemStack(itemIn));
+	public String getLocalizedName() {
+		if (StatCollector.canTranslate(getUnlocalizedName() + ".name"))
+			return super.getLocalizedName();
+		else
+			return blockLogic.getLocalizedName();
 	}
 }

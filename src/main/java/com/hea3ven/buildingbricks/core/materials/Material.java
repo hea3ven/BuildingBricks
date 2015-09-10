@@ -107,4 +107,8 @@ public class Material {
 		return "<Material " + materialId() + ">";
 	}
 
+	public String getTranslationKey() {
+		return "material." + materialId();
+	}
+
 }

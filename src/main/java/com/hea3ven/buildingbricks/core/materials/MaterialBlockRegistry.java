@@ -18,7 +18,7 @@ import net.minecraft.nbt.NBTTagString;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksBase;
+import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksBlock;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksCorner;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksStairs;
@@ -26,6 +26,7 @@ import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksStep;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksVerticalSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksWall;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
+import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 
 public class MaterialBlockRegistry {
@@ -56,7 +57,7 @@ public class MaterialBlockRegistry {
 		switch (blockType) {
 		default:
 		case FULL:
-			cls = BlockBuildingBricksBase.class;
+			cls = BlockBuildingBricksBlock.class;
 			break;
 		case SLAB:
 			cls = BlockBuildingBricksSlab.class;
@@ -96,7 +97,7 @@ public class MaterialBlockRegistry {
 
 		block.setCreativeTab(CreativeTabs.tabBlock);
 		Class<? extends ItemBlock> itemCls = !mat.getStructureMaterial().getColor()
-				? ItemBlock.class : ItemColoredWrapper.class;
+				? ItemMaterialBlock.class : ItemColoredWrapper.class;
 		GameRegistry.registerBlock(block, itemCls, mat.materialId() + "_" + blockType.getName());
 		return block;
 	}

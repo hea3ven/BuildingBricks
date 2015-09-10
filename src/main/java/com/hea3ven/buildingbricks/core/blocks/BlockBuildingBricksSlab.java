@@ -7,6 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 
 public class BlockBuildingBricksSlab extends BlockSlab {
 
@@ -23,7 +25,7 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 		super(material.getStructureMaterial().getMcMaterial());
 		useNeighborBrightness = true;
 
-		blockLogic = new MaterialBlockLogic(material.getStructureMaterial());
+		blockLogic = new MaterialBlockLogic(material, MaterialBlockType.SLAB);
 
 		setStepSound(material.getStructureMaterial().getSoundType());
 		setHardness(material.getHardness());
@@ -104,5 +106,13 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer() {
 		return blockLogic.getBlockLayer();
+	}
+
+	@Override
+	public String getLocalizedName() {
+		if (StatCollector.canTranslate(getUnlocalizedName() + ".name"))
+			return super.getLocalizedName();
+		else
+			return blockLogic.getLocalizedName();
 	}
 }

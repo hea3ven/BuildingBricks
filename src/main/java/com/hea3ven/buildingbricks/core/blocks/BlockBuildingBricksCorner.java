@@ -19,12 +19,13 @@ import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 
 	public BlockBuildingBricksCorner(Material material) {
-		super(material);
+		super(material, MaterialBlockType.CORNER);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setHalf(state, EnumBlockHalf.BOTTOM);

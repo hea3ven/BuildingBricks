@@ -176,4 +176,14 @@ public enum MaterialBlockType {
 		return volume;
 	}
 
+	public String getTranslationKey() {
+		String name = getName().toLowerCase();
+		while (name.indexOf('_') != -1) {
+			int i = name.indexOf('_');
+			name = name.substring(0, i) + Character.toUpperCase(name.charAt(i + 1))
+					+ name.substring(i + 2);
+		}
+		return "blockType." + name;
+	}
+
 }

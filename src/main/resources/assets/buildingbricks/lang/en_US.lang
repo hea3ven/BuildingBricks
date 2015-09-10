@@ -1,3 +1,21 @@
 buildingbricks.config.world.cat=World
 buildingbricks.config.world.cat.tooltip=Configuration options that affect worlds.
 buildingbricks.config.world.generateGrassSlabs=Generate grass slabs
+
+blockType.full=%s
+blockType.stairs=%s Stairs
+blockType.slab=%s Slab
+blockType.verticalSlab=%s Vertical Slab
+blockType.step=%s Step
+blockType.corner=%s Corner
+blockType.wall=%s Wall
+
+material.stone_slab=Double Stone
+material.coal_block=Coal
+material.iron_block=Iron
+material.gold_block=Gold
+material.diamond_block=Diamond
+material.emerald_block=Emerald
+material.lapis_block=Lapis Lazuli
+
+tile.stoneSlab.stone.name=Double Stone Slab

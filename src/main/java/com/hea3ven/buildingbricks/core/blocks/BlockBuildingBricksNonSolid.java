@@ -6,11 +6,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 
 public class BlockBuildingBricksNonSolid extends BlockBuildingBricksBase {
 
-	public BlockBuildingBricksNonSolid(Material material) {
-		super(material);
+	public BlockBuildingBricksNonSolid(Material material, MaterialBlockType blockType) {
+		super(material, blockType);
 	}
 
 	@Override
