@@ -15,17 +15,18 @@ import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricksNonSolid;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
-import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 
-	public BlockBuildingBricksCorner(Material material) {
-		super(material, MaterialBlockType.CORNER);
+	public BlockBuildingBricksCorner(StructureMaterial structMat) {
+		super(structMat, MaterialBlockType.CORNER);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setHalf(state, EnumBlockHalf.BOTTOM);

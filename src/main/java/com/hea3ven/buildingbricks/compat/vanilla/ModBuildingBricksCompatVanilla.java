@@ -59,7 +59,7 @@ public class ModBuildingBricksCompatVanilla {
 		grassMat.setStructureMaterial(StructureMaterial.GRASS);
 
 		logger.info("Registering the grass slab block");
-		grassSlab = new BlockGrassSlab(grassMat).setUnlocalizedName("grass_slab");
+		grassSlab = new BlockGrassSlab().setUnlocalizedName("grass_slab");
 		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab");
 
 		grassMat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.grass));

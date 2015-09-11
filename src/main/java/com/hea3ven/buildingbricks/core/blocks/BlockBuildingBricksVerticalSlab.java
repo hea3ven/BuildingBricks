@@ -12,15 +12,16 @@ import net.minecraft.util.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricksNonSolid;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
-import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 
 public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid {
 
-	public BlockBuildingBricksVerticalSlab(Material material) {
-		super(material, MaterialBlockType.VERTICAL_SLAB);
+	public BlockBuildingBricksVerticalSlab(StructureMaterial structMat) {
+		super(structMat, MaterialBlockType.VERTICAL_SLAB);
 
 		IBlockState state = this.blockState.getBaseState();
 		state = BlockProperties.setSide(state, EnumFacing.NORTH);

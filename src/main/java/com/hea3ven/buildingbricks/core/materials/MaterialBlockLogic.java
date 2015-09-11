@@ -13,17 +13,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MaterialBlockLogic {
 
-	private Material mat;
+	private StructureMaterial structMat;
 	private MaterialBlockType blockType;
 
-	public MaterialBlockLogic(Material mat, MaterialBlockType blockType) {
-		this.mat = mat;
+	public MaterialBlockLogic(StructureMaterial structMat, MaterialBlockType blockType) {
+		this.structMat = structMat;
 		this.blockType = blockType;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public int getBlockColor() {
-		if (!mat.getStructureMaterial().getColor())
+		if (!structMat.getColor())
 			return 16777215;
 		else
 			return ColorizerGrass.getGrassColor(0.5D, 1.0D);
@@ -31,7 +31,7 @@ public class MaterialBlockLogic {
 
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(IBlockState state) {
-		if (!mat.getStructureMaterial().getColor())
+		if (!structMat.getColor())
 			return 16777215;
 		else
 			return this.getBlockColor();
@@ -39,17 +39,17 @@ public class MaterialBlockLogic {
 
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
-		if (!mat.getStructureMaterial().getColor())
+		if (!structMat.getColor())
 			return 16777215;
 		else
 			return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
 	}
 
 	public EnumWorldBlockLayer getBlockLayer() {
-		return mat.getStructureMaterial().getBlockLayer();
+		return structMat.getBlockLayer();
 	}
 
-	public String getLocalizedName() {
+	public String getLocalizedName(Material mat) {
 
 		String matName = StatCollector.canTranslate(mat.getTranslationKey())
 				? StatCollector.translateToLocal(mat.getTranslationKey())

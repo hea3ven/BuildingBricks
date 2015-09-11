@@ -10,30 +10,29 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class BlockBuildingBricksWall extends BlockWall {
 
-	private MaterialBlockLogic blockLogic;
+	protected MaterialBlockLogic blockLogic;
 
-	public BlockBuildingBricksWall(Material material) {
-		super(new Block(material.getStructureMaterial().getMcMaterial()) {
+	public BlockBuildingBricksWall(StructureMaterial structMat) {
+		super(new Block(structMat.getMcMaterial()) {
 		});
 
-		blockLogic = new MaterialBlockLogic(material, MaterialBlockType.WALL);
+		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.WALL);
 
-		setStepSound(material.getStructureMaterial().getSoundType());
-		setHardness(material.getHardness());
-		if (material.getResistance() > 0)
-			setResistance(material.getResistance());
+		setStepSound(structMat.getSoundType());
+		setHardness(structMat.getHardness());
+		if (structMat.getResistance() > 0)
+			setResistance(structMat.getResistance());
 	}
 
 	@Override
@@ -62,13 +61,5 @@ public class BlockBuildingBricksWall extends BlockWall {
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer() {
 		return blockLogic.getBlockLayer();
-	}
-
-	@Override
-	public String getLocalizedName() {
-		if (StatCollector.canTranslate(getUnlocalizedName() + ".name"))
-			return super.getLocalizedName();
-		else
-			return blockLogic.getLocalizedName();
 	}
 }

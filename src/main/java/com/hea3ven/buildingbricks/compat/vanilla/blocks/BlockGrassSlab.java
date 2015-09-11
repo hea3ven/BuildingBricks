@@ -19,12 +19,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksSlab;
-import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class BlockGrassSlab extends BlockBuildingBricksSlab {
 
-	public BlockGrassSlab(Material material) {
-		super(material);
+	public BlockGrassSlab() {
+		super(StructureMaterial.GRASS);
 
 		IBlockState state = getDefaultState();
 		state = setHalf(state, EnumBlockHalf.BOTTOM);

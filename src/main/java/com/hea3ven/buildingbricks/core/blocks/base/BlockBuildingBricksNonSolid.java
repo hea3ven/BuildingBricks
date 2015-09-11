@@ -1,17 +1,17 @@
-package com.hea3ven.buildingbricks.core.blocks;
+package com.hea3ven.buildingbricks.core.blocks.base;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 
-import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class BlockBuildingBricksNonSolid extends BlockBuildingBricksBase {
 
-	public BlockBuildingBricksNonSolid(Material material, MaterialBlockType blockType) {
-		super(material, blockType);
+	public BlockBuildingBricksNonSolid(StructureMaterial structMat, MaterialBlockType blockType) {
+		super(structMat, blockType);
 	}
 
 	@Override

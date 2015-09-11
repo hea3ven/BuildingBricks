@@ -1,4 +1,4 @@
-package com.hea3ven.buildingbricks.core.blocks;
+package com.hea3ven.buildingbricks.core.blocks.base;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,29 +9,28 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class BlockBuildingBricksBase extends Block {
 
-	private MaterialBlockLogic blockLogic;
+	protected MaterialBlockLogic blockLogic;
 
-	public BlockBuildingBricksBase(Material material, MaterialBlockType blockType) {
-		super(material.getStructureMaterial().getMcMaterial());
+	public BlockBuildingBricksBase(StructureMaterial structMat, MaterialBlockType blockType) {
+		super(structMat.getMcMaterial());
 
-		blockLogic = new MaterialBlockLogic(material, blockType);
+		blockLogic = new MaterialBlockLogic(structMat, blockType);
 
-		setStepSound(material.getStructureMaterial().getSoundType());
-		setHardness(material.getHardness());
-		if (material.getResistance() > 0)
-			setResistance(material.getResistance());
+		setStepSound(structMat.getSoundType());
+		setHardness(structMat.getHardness());
+		if (structMat.getResistance() > 0)
+			setResistance(structMat.getResistance());
 	}
 
 	protected void registerProperties(List<IProperty> props) {
@@ -69,13 +68,5 @@ public class BlockBuildingBricksBase extends Block {
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer() {
 		return blockLogic.getBlockLayer();
-	}
-
-	@Override
-	public String getLocalizedName() {
-		if (StatCollector.canTranslate(getUnlocalizedName() + ".name"))
-			return super.getLocalizedName();
-		else
-			return blockLogic.getLocalizedName();
 	}
 }

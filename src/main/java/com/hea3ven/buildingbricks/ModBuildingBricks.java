@@ -21,6 +21,7 @@ import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
+import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 @Mod(modid = ModBuildingBricks.MODID, name = "Building Bricks", version = ModBuildingBricks.VERSION,
 		guiFactory = "com.hea3ven.buildingbricks.core.config.BuildingBricksConfigGuiFactory")
@@ -47,6 +48,8 @@ public class ModBuildingBricks {
 		netChannel = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 		netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class,
 				TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);
+
+		GameRegistry.registerTileEntity(TileMaterial.class, "tile.material");
 
 		logger.info("Registering materials from resources");
 		MaterialResourceLoader.discoverMaterials();

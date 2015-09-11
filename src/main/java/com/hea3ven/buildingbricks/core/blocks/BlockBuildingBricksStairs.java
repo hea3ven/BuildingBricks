@@ -5,31 +5,30 @@ import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class BlockBuildingBricksStairs extends BlockStairs {
 
 	protected MaterialBlockLogic blockLogic;
 
-	public BlockBuildingBricksStairs(Material material) {
-		super(new Block(material.getStructureMaterial().getMcMaterial()) {
+	public BlockBuildingBricksStairs(StructureMaterial structMat) {
+		super(new Block(structMat.getMcMaterial()) {
 		}.getDefaultState());
 		useNeighborBrightness = true;
 
-		blockLogic = new MaterialBlockLogic(material, MaterialBlockType.STAIRS);
+		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.STAIRS);
 
-		setStepSound(material.getStructureMaterial().getSoundType());
-		setHardness(material.getHardness());
-		if (material.getResistance() > 0)
-			setResistance(material.getResistance());
+		setStepSound(structMat.getSoundType());
+		setHardness(structMat.getHardness());
+		if (structMat.getResistance() > 0)
+			setResistance(structMat.getResistance());
 	}
 
 	@Override
@@ -53,13 +52,5 @@ public class BlockBuildingBricksStairs extends BlockStairs {
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer() {
 		return blockLogic.getBlockLayer();
-	}
-
-	@Override
-	public String getLocalizedName() {
-		if (StatCollector.canTranslate(getUnlocalizedName() + ".name"))
-			return super.getLocalizedName();
-		else
-			return blockLogic.getLocalizedName();
 	}
 }
