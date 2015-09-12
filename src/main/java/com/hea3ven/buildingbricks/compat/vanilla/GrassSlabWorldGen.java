@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.compat.vanilla;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 
@@ -21,30 +22,44 @@ public class GrassSlabWorldGen {
 				if (pos.getY() >= 255)
 					continue;
 
-				pos = pos.up();
-				int top = 0;
-				if (event.world.getBlockState(pos.north()).getBlock() == Blocks.grass)
-					top++;
-				if (event.world.getBlockState(pos.east()).getBlock() == Blocks.grass)
-					top++;
-				if (event.world.getBlockState(pos.south()).getBlock() == Blocks.grass)
-					top++;
-				if (event.world.getBlockState(pos.west()).getBlock() == Blocks.grass)
-					top++;
-				pos = pos.down();
-				int bottom = 0;
-				if (event.world.getBlockState(pos.north()).getBlock() == Blocks.grass)
-					bottom++;
-				if (event.world.getBlockState(pos.east()).getBlock() == Blocks.grass)
-					bottom++;
-				if (event.world.getBlockState(pos.south()).getBlock() == Blocks.grass)
-					bottom++;
-				if (event.world.getBlockState(pos.west()).getBlock() == Blocks.grass)
-					bottom++;
-				if (top != 0 && (top - bottom) >=-2) {
+				Block block = event.world.getBlockState(pos.north()).getBlock();
+				if (block.isReplaceable(event.world, pos.north())
+						|| block == ModBuildingBricksCompatVanilla.grassSlab)
+					continue;
+				block = event.world.getBlockState(pos.east()).getBlock();
+				if (block.isReplaceable(event.world, pos.east())
+						|| block == ModBuildingBricksCompatVanilla.grassSlab)
+					continue;
+				block = event.world.getBlockState(pos.south()).getBlock();
+				if (block.isReplaceable(event.world, pos.south())
+						|| block == ModBuildingBricksCompatVanilla.grassSlab)
+					continue;
+				block = event.world.getBlockState(pos.west()).getBlock();
+				if (block.isReplaceable(event.world, pos.west())
+						|| block == ModBuildingBricksCompatVanilla.grassSlab)
+					continue;
+
+				if (event.world.getBlockState(pos.north().up()).getBlock() == Blocks.grass) {
 					event.world.setBlockState(pos.up(),
 							ModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
+					continue;
 				}
+				if (event.world.getBlockState(pos.east().up()).getBlock() == Blocks.grass) {
+					event.world.setBlockState(pos.up(),
+							ModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
+					continue;
+				}
+				if (event.world.getBlockState(pos.south().up()).getBlock() == Blocks.grass) {
+					event.world.setBlockState(pos.up(),
+							ModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
+					continue;
+				}
+				if (event.world.getBlockState(pos.west().up()).getBlock() == Blocks.grass) {
+					event.world.setBlockState(pos.up(),
+							ModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
+					continue;
+				}
+
 			}
 		}
 	}
