@@ -1,9 +1,6 @@
 package com.hea3ven.buildingbricks.core.util;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public class BlockPlacingUtilStepTest {
 
 //	private static final float OUTER_RING_MIN_1 = 0.08f;

@@ -1,5 +1,10 @@
 package com.hea3ven.buildingbricks.core.materials.rendering;
 
+import java.io.IOException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 
@@ -11,6 +16,8 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import com.hea3ven.buildingbricks.core.materials.Material;
 
 public class RenderDefinitionSimple implements IRenderDefinition {
+
+	protected static final Logger logger = LogManager.getLogger("BuildingBricks.RenderDefinition");
 
 	private String modelLocation;
 
@@ -39,11 +46,17 @@ public class RenderDefinitionSimple implements IRenderDefinition {
 	}
 
 	protected IModel getModelOrDefault(String modelLoc, Material mat) {
-		IModel model = ModelLoaderRegistry.getModel(new ResourceLocation(
-				modelLoc.replace(":block/", ":block/" + mat.materialId() + "_")));
-		if (model != ModelLoaderRegistry.getMissingModel())
-			return model;
-		return ModelLoaderRegistry.getModel(new ResourceLocation(modelLoc));
+		try {
+			return ModelLoaderRegistry.getModel(new ResourceLocation(
+					modelLoc.replace(":block/", ":block/" + mat.materialId() + "_")));
+		} catch (IOException e) {
+			try {
+				return ModelLoaderRegistry.getModel(new ResourceLocation(modelLoc));
+			} catch (IOException e1) {
+				logger.warn("Could not find model {}", modelLoc);
+				return ModelLoaderRegistry.getMissingModel();
+			}
+		}
 	}
 
 }

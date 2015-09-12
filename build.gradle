@@ -1,35 +1,13 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-    }
+plugins {
+        id "net.minecraftforge.gradle.forge" version "2.0.1"
 }
 
-repositories {
-	maven {
-		name = "chickenbones"
-		url = "http://chickenbones.net/maven/"
-	}
-}
-
-apply plugin: 'forge'
-
-version = "1.0"
-group = "com.hea3ven.buildingbricks" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "1.0.0-beta1"
+group = "com.hea3ven.buildingbricks"
 archivesBaseName = "buildingbricks"
 
 minecraft {
-    version = "1.8-11.14.2.1427"
+    version = "1.8-11.14.3.1513"
     runDir = "eclipse"
 
     mappings = "snapshot_20141130"
@@ -40,8 +18,8 @@ configurations {
 }
 
 dependencies {
-    runmods "codechicken:CodeChickenCore:1.8-1.0.5.34:dev"
-    runmods "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
+//    runmods "codechicken:CodeChickenCore:1.8-1.0.5.34:dev"
+//    runmods "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
 
     testCompile "junit:junit:4.12"
 }

@@ -1,9 +1,6 @@
 package com.hea3ven.buildingbricks.core.util;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public class BlockPlacingUtilCornerTest {
 
 //	@Parameters(name = "{index}: {0} {1} {2} {3} -> {4}")

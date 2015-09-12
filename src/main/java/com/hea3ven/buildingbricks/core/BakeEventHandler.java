@@ -1,20 +1,26 @@
 package com.hea3ven.buildingbricks.core;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.vecmath.Vector3f;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table.Cell;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.statemap.DefaultStateMapper;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.IRegistry;
 import net.minecraft.util.ResourceLocation;
@@ -45,6 +51,8 @@ import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BakeEventHandler {
 	public static final BakeEventHandler instance = new BakeEventHandler();
+
+	protected static final Logger logger = LogManager.getLogger("BuildingBricks.BakeEventHandler");
 
 	private DefaultStateMapper stateMap = new DefaultStateMapper();
 
@@ -95,6 +103,7 @@ public class BakeEventHandler {
 			IModelState modelState = renderDefinition
 					.getItemModelState(itemModel.getDefaultState());
 			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState);
+
 			materialItemModel.put(mat.materialId(), bakedItemModel);
 			materialItemModel.setDelegate(bakedItemModel);
 
@@ -120,22 +129,31 @@ public class BakeEventHandler {
 		ResourceLocation trowelModelLoc = new ResourceLocation("buildingbricks:item/trowel");
 		for (Material material : MaterialRegistry.getAll()) {
 
-			IModel itemModel = event.modelLoader.getModel(new ResourceLocation("block/cube_all"));
+			IModel itemModel = getModel(new ResourceLocation("block/cube_all"));
 			itemModel = retexture(material.getTextures(), itemModel);
 			Vector3f translation = new Vector3f(0.3f, 0.5f, 0.2f);
 			Vector3f scale = new Vector3f(0.4f, 0.4f, 0.4f);
 			IModelState modelState = new TRSRTransformation(translation, null, scale, null);
 			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState);
 
-			itemModel = event.modelLoader.getModel(trowelModelLoc);
+			itemModel = getModel(trowelModelLoc);
 			IFlexibleBakedModel baseBakedItemModel = bake(itemModel);
 
 			ModelTrowel.models.put(material, new ModelTrowel(baseBakedItemModel, bakedItemModel));
 		}
-		IModel baseItemModel = event.modelLoader.getModel(trowelModelLoc);
+		IModel baseItemModel = getModel(trowelModelLoc);
 		IFlexibleBakedModel baseBakedItemModel = bake(baseItemModel);
 		event.modelRegistry.putObject(new ModelResourceLocation("buildingbricks:trowel#inventory"),
 				new ModelTrowel(baseBakedItemModel));
+	}
+
+	private IModel getModel(ResourceLocation modelLoc) {
+		try {
+			return ModelLoaderRegistry.getModel(modelLoc);
+		} catch (IOException e) {
+			logger.warn("Could not find model {}", modelLoc);
+			return ModelLoaderRegistry.getMissingModel();
+		}
 	}
 
 	private IFlexibleBakedModel bake(IModel model) {
@@ -143,7 +161,15 @@ public class BakeEventHandler {
 	}
 
 	private IFlexibleBakedModel bake(IModel model, IModelState modelState) {
-		return model.bake(modelState, Attributes.DEFAULT_BAKED_FORMAT, null);
+		Function<ResourceLocation, TextureAtlasSprite> textureGetter = new Function<ResourceLocation, TextureAtlasSprite>() {
+			public TextureAtlasSprite apply(ResourceLocation location) {
+				return Minecraft
+						.getMinecraft()
+						.getTextureMapBlocks()
+						.getAtlasSprite(location.toString());
+			}
+		};
+		return model.bake(modelState, Attributes.DEFAULT_BAKED_FORMAT, textureGetter);
 	}
 
 	private IModel retexture(HashMap<String, String> textures, IModel blockModel) {

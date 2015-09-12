@@ -86,14 +86,15 @@ public class MaterialResourceLoader {
 
 	private static List<IResourcePack> getResourcePackages(IResourceManager mgr) {
 		return MaterialResourceLoader.<List<IResourcePack>> getField(mgr,
-				FallbackResourceManager.class, "resourcePacks");
+				FallbackResourceManager.class, "field_110540_a", "resourcePacks");
 	}
 
 	private static Collection<IResourceManager> getDomainResourceManagers(
 			IResourceManager resourceManager) {
 		return MaterialResourceLoader
 				.<Map<String, IResourceManager>> getField(resourceManager,
-						SimpleReloadableResourceManager.class, "domainResourceManagers")
+						SimpleReloadableResourceManager.class, "field_110548_a",
+						"domainResourceManagers")
 				.values();
 	}
 
@@ -103,7 +104,8 @@ public class MaterialResourceLoader {
 	private static Set<ResourceLocation> getMaterials(IResourcePack resPack) {
 		Set<ResourceLocation> materials = new HashSet<ResourceLocation>();
 		if (resPack instanceof FolderResourcePack) {
-			File rootDir = getField(resPack, AbstractResourcePack.class, "resourcePackFile");
+			File rootDir = getField(resPack, AbstractResourcePack.class, "field_110597_b",
+					"resourcePackFile");
 			for (File subPath : new File(rootDir, "assets").listFiles()) {
 				File materialsDir = new File(subPath, "materials");
 				File[] materialFiles = materialsDir
@@ -131,8 +133,13 @@ public class MaterialResourceLoader {
 
 	private static ZipFile getZipFromResPack(IResourcePack resPack) {
 		try {
-			Method mthd = FileResourcePack.class.getDeclaredMethod("getResourcePackZipFile",
-					new Class<?>[0]);
+			Method mthd = null;
+			try {
+				mthd = FileResourcePack.class.getDeclaredMethod("func_110599_c", new Class<?>[0]);
+			} catch (NoSuchMethodException e) {
+				mthd = FileResourcePack.class.getDeclaredMethod("getResourcePackZipFile",
+						new Class<?>[0]);
+			}
 			mthd.setAccessible(true);
 			return (ZipFile) mthd.invoke(resPack, new Object[0]);
 		} catch (Exception e) {
@@ -141,9 +148,15 @@ public class MaterialResourceLoader {
 		}
 	}
 
-	private static <T> T getField(Object obj, Class<?> cls, String fieldName) {
+	private static <T> T getField(Object obj, Class<?> cls, String fieldName,
+			String deobfFieldName) {
 		try {
-			Field fld = cls.getDeclaredField(fieldName);
+			Field fld;
+			try {
+				fld = cls.getDeclaredField(fieldName);
+			} catch (NoSuchFieldException e) {
+				fld = cls.getDeclaredField(deobfFieldName);
+			}
 			fld.setAccessible(true);
 			return (T) fld.get(obj);
 		} catch (Exception e) {

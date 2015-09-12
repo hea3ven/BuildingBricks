@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core.client.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,13 +32,13 @@ public class ModelTrowel implements ISmartItemModel {
 		cameraTransforms = baseModel.getItemCameraTransforms();
 		texture = baseModel.getTexture();
 		for (EnumFacing side : EnumFacing.VALUES) {
-			List sideFaces = baseModel.getFaceQuads(side);
+			List sideFaces = new ArrayList(baseModel.getFaceQuads(side));
 			if (matModel != null) {
 				sideFaces.addAll(matModel.getFaceQuads(side));
 			}
 			faces.put(side, sideFaces);
 		}
-		quads = baseModel.getGeneralQuads();
+		quads = new ArrayList(baseModel.getGeneralQuads());
 		if (matModel != null)
 			quads.addAll(matModel.getGeneralQuads());
 	}

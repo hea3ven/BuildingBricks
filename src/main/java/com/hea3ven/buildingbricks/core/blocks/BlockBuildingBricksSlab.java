@@ -1,7 +1,6 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockSlab.EnumBlockHalf;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
