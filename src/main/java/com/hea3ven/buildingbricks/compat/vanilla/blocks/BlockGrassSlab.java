@@ -28,10 +28,6 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 
 	public BlockGrassSlab() {
 		super(StructureMaterial.GRASS);
-
-		IBlockState state = getDefaultState();
-		state = setHalf(state, EnumBlockHalf.BOTTOM);
-		setDefaultState(state);
 	}
 
 	@SideOnly(Side.CLIENT)

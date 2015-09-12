@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockSlab.EnumBlockHalf;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -26,6 +27,10 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.SLAB);
 		blockLogic.initBlock(this);
+
+		IBlockState state = getDefaultState();
+		state = setHalf(state, EnumBlockHalf.BOTTOM);
+		setDefaultState(state);
 	}
 
 	@Override
