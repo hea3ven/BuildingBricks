@@ -1,0 +1,11 @@
+{
+    "name": "Smooth Andesite",
+    "id": "andesite_smooth",
+    "type": "rock",
+    "hardness": 1.5,
+    "resistance": 10.0,
+    "textures": "minecraft:blocks/stone_andesite_smooth",
+    "blocks": {
+        "full": { "id": "minecraft:stone", "meta": 6 }
+    }
+}

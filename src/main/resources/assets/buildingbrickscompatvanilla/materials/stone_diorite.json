@@ -1,0 +1,11 @@
+{
+    "name": "Diorite",
+    "id": "diorite",
+    "type": "rock",
+    "hardness": 1.5,
+    "resistance": 10.0,
+    "textures": "minecraft:blocks/stone_diorite",
+    "blocks": {
+        "full": { "id": "minecraft:stone", "meta": 3 }
+    }
+}

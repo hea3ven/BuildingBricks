@@ -1,0 +1,11 @@
+{
+    "name": "Smooth Granite",
+    "id": "granite_smooth",
+    "type": "rock",
+    "hardness": 1.5,
+    "resistance": 10.0,
+    "textures": "minecraft:blocks/stone_granite_smooth",
+    "blocks": {
+        "full": { "id": "minecraft:stone", "meta": 2 }
+    }
+}
