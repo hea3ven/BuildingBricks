@@ -3,6 +3,8 @@ package com.hea3ven.buildingbricks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -13,6 +15,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 import com.hea3ven.buildingbricks.core.config.Config;
@@ -71,6 +74,9 @@ public class ModBuildingBricks {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(trowel), " is", "ii ", 's',
+				"stickWood", 'i', "ingotIron"));
+
 		proxy.postInit();
 	}
 }
