@@ -53,4 +53,14 @@ public class BlockBuildingBricksStairs extends BlockStairs {
 	public EnumWorldBlockLayer getBlockLayer() {
 		return blockLogic.getBlockLayer();
 	}
+
+	@Override
+	public int getHarvestLevel(IBlockState state) {
+		return 0;
+	}
+
+	@Override
+	public String getHarvestTool(IBlockState state) {
+		return blockLogic.getHarvestTool(state);
+	}
 }

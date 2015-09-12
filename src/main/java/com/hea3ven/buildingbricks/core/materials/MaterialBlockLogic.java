@@ -57,4 +57,8 @@ public class MaterialBlockLogic {
 		return StatCollector.translateToLocalFormatted(blockType.getTranslationKey(), matName);
 	}
 
+	public String getHarvestTool(IBlockState state) {
+		return structMat.getTool();
+	}
+
 }
