@@ -27,6 +27,10 @@ public class BlockMaterialSlab extends BlockBuildingBricksSlab implements BlockM
 
 	public BlockMaterialSlab(StructureMaterial structMat) {
 		super(structMat);
+
+		IBlockState state = getDefaultState();
+		state = setHalf(state, EnumBlockHalf.BOTTOM);
+		setDefaultState(state);
 	}
 
 	@Override
