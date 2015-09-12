@@ -50,11 +50,8 @@ public class MaterialBlockLogic {
 	}
 
 	public String getLocalizedName(Material mat) {
-
-		String matName = StatCollector.canTranslate(mat.getTranslationKey())
-				? StatCollector.translateToLocal(mat.getTranslationKey())
-				: mat.getBlock(MaterialBlockType.FULL).getStack().getDisplayName();
-		return StatCollector.translateToLocalFormatted(blockType.getTranslationKey(), matName);
+		return StatCollector.translateToLocalFormatted(blockType.getTranslationKey(),
+				mat.getLocalizedName());
 	}
 
 	public String getHarvestTool(IBlockState state) {

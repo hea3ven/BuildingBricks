@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.util.Constants.NBT;
@@ -99,6 +100,16 @@ public class ItemTrowel extends Item {
 			consumeMaterial(blockType, mat, player, true);
 			return true;
 		}
+	}
+
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		Material mat = getBindedMaterial(stack);
+		if (mat == null)
+			return super.getItemStackDisplayName(stack);
+		else
+			return StatCollector.translateToLocalFormatted("item.trowelBinded.name",
+					mat.getLocalizedName());
 	}
 
 	private boolean consumeMaterial(MaterialBlockType blockType, Material mat, EntityPlayer player,

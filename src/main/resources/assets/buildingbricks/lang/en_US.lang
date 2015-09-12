@@ -2,6 +2,9 @@ buildingbricks.config.world.cat=World
 buildingbricks.config.world.cat.tooltip=Configuration options that affect worlds.
 buildingbricks.config.world.generateGrassSlabs=Generate grass slabs
 
+item.trowel.name=Trowel
+item.trowelBinded.name=Trowel (%s)
+
 blockType.full=%s
 blockType.stairs=%s Stairs
 blockType.slab=%s Slab
