@@ -26,11 +26,7 @@ public class BlockBuildingBricksBase extends Block {
 		super(structMat.getMcMaterial());
 
 		blockLogic = new MaterialBlockLogic(structMat, blockType);
-
-		setStepSound(structMat.getSoundType());
-		setHardness(structMat.getHardness());
-		if (structMat.getResistance() > 0)
-			setResistance(structMat.getResistance());
+		blockLogic.initBlock(this);
 	}
 
 	protected void registerProperties(List<IProperty> props) {

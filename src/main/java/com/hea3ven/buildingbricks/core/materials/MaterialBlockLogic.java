@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core.materials;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -19,6 +20,14 @@ public class MaterialBlockLogic {
 	public MaterialBlockLogic(StructureMaterial structMat, MaterialBlockType blockType) {
 		this.structMat = structMat;
 		this.blockType = blockType;
+	}
+
+	public void initBlock(Block block) {
+		block.setStepSound(structMat.getSoundType());
+		block.setHardness(structMat.getHardness());
+		if (structMat.getResistance() > 0)
+			block.setResistance(structMat.getResistance());
+		block.slipperiness = structMat.getSlipperiness();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -57,5 +66,4 @@ public class MaterialBlockLogic {
 	public String getHarvestTool(IBlockState state) {
 		return structMat.getTool();
 	}
-
 }

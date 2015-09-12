@@ -24,11 +24,7 @@ public class BlockBuildingBricksStairs extends BlockStairs {
 		useNeighborBrightness = true;
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.STAIRS);
-
-		setStepSound(structMat.getSoundType());
-		setHardness(structMat.getHardness());
-		if (structMat.getResistance() > 0)
-			setResistance(structMat.getResistance());
+		blockLogic.initBlock(this);
 	}
 
 	@Override
