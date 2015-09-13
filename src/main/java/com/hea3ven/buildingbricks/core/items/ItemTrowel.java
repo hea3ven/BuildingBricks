@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,6 +15,7 @@ import net.minecraft.world.World;
 
 import net.minecraftforge.common.util.Constants.NBT;
 
+import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
@@ -23,7 +23,7 @@ import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 public class ItemTrowel extends Item {
 
 	public ItemTrowel() {
-		setCreativeTab(CreativeTabs.tabTools);
+		setCreativeTab(CreativeTabBuildingBricks.get());
 		setUnlocalizedName("trowel");
 	}
 

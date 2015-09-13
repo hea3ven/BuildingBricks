@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagString;
 
@@ -27,6 +26,7 @@ import com.hea3ven.buildingbricks.core.blocks.BlockMaterialVerticalSlab;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialWall;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
+import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 
 public class MaterialBlockRegistry {
@@ -90,12 +90,14 @@ public class MaterialBlockRegistry {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+
 		block.setUnlocalizedName(structMat.getName() + "_" + blockType.getName());
+		block.setCreativeTab(CreativeTabBuildingBricks.get());
+
 		blocks.put(blockType, structMat, block);
 		if (!blocksMaterials.containsKey(block))
 			blocksMaterials.put(block, new HashSet<Material>());
 
-		block.setCreativeTab(CreativeTabs.tabBlock);
 		Class<? extends ItemBlock> itemCls = !structMat.getColor() ? ItemMaterialBlock.class
 				: ItemColoredWrapper.class;
 		GameRegistry.registerBlock(block, itemCls, structMat.getName() + "_" + blockType.getName());
