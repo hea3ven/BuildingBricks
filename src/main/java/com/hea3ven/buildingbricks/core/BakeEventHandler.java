@@ -131,7 +131,7 @@ public class BakeEventHandler {
 
 			IModel itemModel = getModel(new ResourceLocation("block/cube_all"));
 			itemModel = retexture(material.getTextures(), itemModel);
-			Vector3f translation = new Vector3f(0.3f, 0.5f, 0.2f);
+			Vector3f translation = new Vector3f(0.3f, 0.5f, 0.3f);
 			Vector3f scale = new Vector3f(0.4f, 0.4f, 0.4f);
 			IModelState modelState = new TRSRTransformation(translation, null, scale, null);
 			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState);
