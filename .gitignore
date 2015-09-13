@@ -1,0 +1,12 @@
+/bin/
+.*
+/art
+/research
+scratchpad.txt
+/eclipse
+/mcp
+/tags
+/logs
+BuildingBricks_Client.launch
+BuildingBricks_Server.launch
+

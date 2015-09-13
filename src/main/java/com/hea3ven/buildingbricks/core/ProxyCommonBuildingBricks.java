@@ -10,11 +10,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import com.hea3ven.buildingbricks.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerOverrideBlockPlacing;
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
+import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.items.crafting.ShapelessRecipeTag;
 
 public class ProxyCommonBuildingBricks {
 
@@ -39,7 +39,7 @@ public class ProxyCommonBuildingBricks {
 				ItemStack bindedTrowelStack = new ItemStack(ModBuildingBricks.trowel);
 				ModBuildingBricks.trowel.setBindedMaterial(bindedTrowelStack, mat);
 				ItemStack trowelStack = new ItemStack(ModBuildingBricks.trowel, 1);
-				GameRegistry.addRecipe(new ShapelessRecipeTag(bindedTrowelStack, trowelStack,
+				GameRegistry.addRecipe(new RecipeBindTrowel(bindedTrowelStack, trowelStack,
 						blockDesc.getStack()));
 			}
 		}
