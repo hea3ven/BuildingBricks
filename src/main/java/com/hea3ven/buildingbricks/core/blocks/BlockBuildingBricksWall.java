@@ -31,24 +31,24 @@ public class BlockBuildingBricksWall extends BlockWall {
 		blockLogic.initBlock(this);
 	}
 
-	@Override
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
 		list.add(new ItemStack(itemIn));
 	}
 
-	@Override
+	public boolean requiresUpdates() {
+		return false;
+	}
+
 	@SideOnly(Side.CLIENT)
 	public int getBlockColor() {
 		return blockLogic.getBlockColor();
 	}
 
-	@Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(IBlockState state) {
 		return blockLogic.getRenderColor(state);
 	}
 
-	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
 		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
@@ -59,12 +59,10 @@ public class BlockBuildingBricksWall extends BlockWall {
 		return blockLogic.getBlockLayer();
 	}
 
-	@Override
 	public int getHarvestLevel(IBlockState state) {
 		return 0;
 	}
 
-	@Override
 	public String getHarvestTool(IBlockState state) {
 		return blockLogic.getHarvestTool(state);
 	}

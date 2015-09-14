@@ -1,11 +1,10 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import java.util.List;
-
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Point3f;
 
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
@@ -16,6 +15,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricksNonSolid;
+import com.hea3ven.buildingbricks.core.blocks.blockstate.BlockStateUtil;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
@@ -35,6 +35,12 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 	}
 
 	@Override
+	protected BlockState createBlockState() {
+		return BlockStateUtil.addProperties(this, super.createBlockState(),
+				new IProperty[] {BlockProperties.HALF, BlockProperties.ROTATION});
+	}
+
+	@Override
 	public int getMetaFromState(IBlockState state) {
 		int meta = 0;
 		meta |= BlockProperties.getHalf(state).getMetaValue() << 2;
@@ -48,13 +54,6 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 		state = BlockProperties.setHalf(state, EnumBlockHalf.getHalf((meta & 0x4) >> 2));
 		state = BlockProperties.setRotation(state, EnumRotation.getRotation(meta & 0x3));
 		return state;
-	}
-
-	@Override
-	protected void registerProperties(List<IProperty> props) {
-		super.registerProperties(props);
-		props.add(BlockProperties.HALF);
-		props.add(BlockProperties.ROTATION);
 	}
 
 	@Override
@@ -77,6 +76,7 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 		return state;
 	}
 
+	@Override
 	private AxisAlignedBB getBoundingBox(IBlockState state) {
 		EnumBlockHalf half = BlockProperties.getHalf(state);
 		EnumRotation rot = BlockProperties.getRotation(state);
@@ -95,7 +95,7 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
-		IBlockState state = getStateFromWorld(world, pos);
+		IBlockState state = world.getBlockState(pos);
 		AxisAlignedBB bb = getBoundingBox(state);
 
 		setBlockBounds((float) bb.minX, (float) bb.minY, (float) bb.minZ, (float) bb.maxX,
@@ -110,7 +110,7 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
 		BlockPos selfPos = pos.offset(side.getOpposite());
-		EnumBlockHalf half = BlockProperties.getHalf(getStateFromWorld(world, selfPos));
+		EnumBlockHalf half = BlockProperties.getHalf(world.getBlockState(selfPos));
 		if (side == half.getSide() && !super.shouldSideBeRendered(world, pos, side)) {
 			return false;
 		}

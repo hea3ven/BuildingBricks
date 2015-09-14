@@ -13,17 +13,14 @@ public class BlockBuildingBricksNonSolid extends BlockBuildingBricksBase {
 		super(structMat, blockType);
 	}
 
-	@Override
 	public boolean isFullCube() {
 		return false;
 	}
 
-	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 
-	@Override
 	public boolean isSideSolid(IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return false;
 	}

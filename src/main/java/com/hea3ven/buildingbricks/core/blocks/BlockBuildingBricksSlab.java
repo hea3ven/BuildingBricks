@@ -52,19 +52,16 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 		return null;
 	}
 
-	@Override
 	protected BlockState createBlockState() {
 		return new BlockState(this, new IProperty[] {HALF});
 	}
 
-	@Override
 	public int getMetaFromState(IBlockState state) {
 		int meta = 0;
 		meta |= getHalf(state).ordinal();
 		return meta;
 	}
 
-	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState state = this.getDefaultState();
 		state = setHalf(state, (meta & 0x1) == 0 ? EnumBlockHalf.BOTTOM : EnumBlockHalf.TOP);
@@ -79,24 +76,20 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 		return state.withProperty(HALF, half);
 	}
 
-	@Override
 	public boolean requiresUpdates() {
 		return false;
 	}
 
-	@Override
 	@SideOnly(Side.CLIENT)
 	public int getBlockColor() {
 		return blockLogic.getBlockColor();
 	}
 
-	@Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(IBlockState state) {
 		return blockLogic.getRenderColor(state);
 	}
 
-	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
 		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
@@ -107,12 +100,10 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 		return blockLogic.getBlockLayer();
 	}
 
-	@Override
 	public int getHarvestLevel(IBlockState state) {
 		return 0;
 	}
 
-	@Override
 	public String getHarvestTool(IBlockState state) {
 		return blockLogic.getHarvestTool(state);
 	}

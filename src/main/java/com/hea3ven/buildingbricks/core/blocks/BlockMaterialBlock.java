@@ -2,6 +2,8 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,7 +19,6 @@ import net.minecraft.world.World;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
@@ -48,35 +49,32 @@ public class BlockMaterialBlock extends BlockBuildingBricksBlock implements Bloc
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state,
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state,
 			EntityLivingBase placer, ItemStack stack) {
-		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-
-		TileMaterial.getTile(worldIn, pos).setMaterial(TileMaterial.getStackMaterial(stack));
+		super.onBlockPlacedBy(world, pos, state, placer, stack);
+		TileMaterial.onBlockPlacedBy(this, world, pos, state, placer, stack);
 	}
 
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) {
-		ItemStack stack = super.getPickBlock(target, world, pos);
-		TileMaterial.setStackMaterial(stack, TileMaterial.getTile(world, pos).getMaterial());
-		return stack;
+		return TileMaterial.getPickBlock(this, target, world, pos);
 	}
 
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state,
 			int fortune) {
-		List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
-		TileMaterial.setStackMaterial(ret.get(0), TileMaterial.getTile(world, pos).getMaterial());
-		return ret;
+		return Lists.newArrayList();
+	}
+
+	@Override
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
+		TileMaterial.breakBlock(this, world, pos, state);
+		super.breakBlock(world, pos, state);
 	}
 
 	@Override
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
-		for (Material mat : MaterialBlockRegistry.instance.getBlockMaterials(this)) {
-			ItemStack stack = new ItemStack(itemIn);
-			TileMaterial.setStackMaterial(stack, mat);
-			list.add(stack);
-		}
+		TileMaterial.getSubBlocks(this, itemIn, tab, list);
 	}
 
 	@Override

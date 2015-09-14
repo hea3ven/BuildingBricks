@@ -1,8 +1,14 @@
 package com.hea3ven.buildingbricks.core.tileentity;
 
+import java.util.List;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -10,6 +16,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -20,7 +27,9 @@ import net.minecraftforge.common.util.Constants.NBT;
 
 import com.hea3ven.buildingbricks.core.blocks.properties.PropertyMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.utils.ItemStackUtils;
 
 public class TileMaterial extends TileEntity {
 
@@ -113,5 +122,31 @@ public class TileMaterial extends TileEntity {
 			return TileMaterial.setStateMaterial((IExtendedBlockState) state, tile.getMaterial());
 		else
 			return state;
+	}
+
+	public static void onBlockPlacedBy(Block block, World world, BlockPos pos, IBlockState state,
+			EntityLivingBase placer, ItemStack stack) {
+		TileMaterial.getTile(world, pos).setMaterial(TileMaterial.getStackMaterial(stack));
+	}
+
+	public static ItemStack getPickBlock(Block block, MovingObjectPosition target, World world,
+			BlockPos pos) {
+		ItemStack stack = new ItemStack(block, 1);
+		TileMaterial.setStackMaterial(stack, TileMaterial.getTile(world, pos).getMaterial());
+		return stack;
+	}
+
+	public static void breakBlock(Block block, World world, BlockPos pos, IBlockState state) {
+		ItemStack stack = new ItemStack(block, 1);
+		TileMaterial.setStackMaterial(stack, TileMaterial.getTile(world, pos).getMaterial());
+		ItemStackUtils.dropFromBlock(world, pos, stack);
+	}
+
+	public static void getSubBlocks(Block block, Item item, CreativeTabs tab, List list) {
+		for (Material mat : MaterialBlockRegistry.instance.getBlockMaterials(block)) {
+			ItemStack stack = new ItemStack(item);
+			TileMaterial.setStackMaterial(stack, mat);
+			list.add(stack);
+		}
 	}
 }

@@ -1,8 +1,7 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import java.util.List;
-
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.BlockPos;
@@ -29,9 +28,8 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 	}
 
 	@Override
-	protected void registerProperties(List<IProperty> props) {
-		super.registerProperties(props);
-		props.add(BlockProperties.SIDE);
+	protected BlockState createBlockState() {
+		return new BlockState(this, new IProperty[] {BlockProperties.SIDE});
 	}
 
 	@Override
@@ -91,6 +89,7 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 		return side == BlockProperties.getSide(world.getBlockState(pos));
 	}
 
+	@Override
 	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
 		BlockPos selfPos = pos.offset(side.getOpposite());
 		EnumFacing facing = BlockProperties.getSide(world.getBlockState(selfPos));
