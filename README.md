@@ -2,6 +2,19 @@
 
 A minecraft mod focused on the building aspect of the game. It adds all the missing block types of vanilla materials, for instance a smooth stone stair, smooth stone slab, and many more. It also adds new block types like the vertical slab, the step and the corner. Finally, it adds items to make building more easy and less tedious.
 
+## Download and instalation
+
+_For Minecraft 1.8:_
+
+MediaFire: [BuildingBricks v1.0.0-beta1](http://www.mediafire.com/download/1zzz47l811lzl93/buildingbricks-1.0.0-beta1.jar)
+
+Curse: [BuildingBricks v1.0.0-beta1](http://minecraft.curseforge.com/mc-mods/236150-building-bricks/files/2257391)
+
+This mod requires forge to be installed.
+To install the mod copy the file to the "mods" folder
+
+## Features
+
 ### Materials
 
 The mod works by grouping blocks into materials, for instance "smooth stone" or "stone bricks", and then generating all the missing blocks for the material.
@@ -25,4 +38,11 @@ The other block added is the "Corner", which is half of a step:
 ### Trowel
 
 The trowel is an item that can be binded to any material. Once binded it allows you to place blocks of the binded material consuming any available block of the material in the player's inventory. See https://www.youtube.com/watch?v=SSI_TNFE7MU
+
+### Grass slabs world gen
+
+Generate grass slabs to smooth out the terrain.
+
+![](https://raw.githubusercontent.com/hea3ven/BuildingBricks/master/media/grass_world_gen1.png)
+![](https://raw.githubusercontent.com/hea3ven/BuildingBricks/master/media/grass_world_gen2.png)
 

@@ -2,15 +2,30 @@
 {
   "modid": "buildingbricks",
   "name": "Building Bricks",
-  "description": "Example placeholder mod.",
+  "description": "A mod about building blocks and building tools.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://github.com/hea3ven/BuildingBricks",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Hea3veN"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": ["required-after:Forge@[${forgeversion},)"]
+},
+{
+  "modid": "buildingbrickscompatvanilla",
+  "name": "Building Bricks Vanilla Compat",
+  "description": "A mod about building blocks and building tools.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/hea3ven/BuildingBricks",
+  "updateUrl": "",
+  "authorList": ["Hea3veN"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["required-after:Forge@[${forgeversion},)"],
+  "parent": "buildingbricks"
 }
 ]
