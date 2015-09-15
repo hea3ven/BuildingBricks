@@ -44,35 +44,35 @@ public class RecipeBindTrowel extends ShapelessRecipes {
 		super(output, generateInputs(recipeComponents));
 	}
 
-	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
-		ItemStack[] remainingItems = new ItemStack[inv.getSizeInventory()];
-
-		for (int i = 0; i < remainingItems.length; ++i) {
-			ItemStack stack = inv.getStackInSlot(i);
-			if (stack != null && stack.getItem() == ModBuildingBricks.trowel)
-				remainingItems[i] = null;
-			else
-				remainingItems[i] = stack;
-		}
-
-		return remainingItems;
-	}
+//	@Override
+//	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+//		ItemStack[] remainingItems = new ItemStack[inv.getSizeInventory()];
+//
+//		for (int i = 0; i < remainingItems.length; ++i) {
+//			ItemStack stack = inv.getStackInSlot(i);
+//			if (stack != null && stack.getItem() == ModBuildingBricks.trowel)
+//				remainingItems[i] = null;
+//			else
+//				remainingItems[i] = stack;
+//		}
+//
+//		return remainingItems;
+//	}
 
 	@Override
 	public boolean matches(InventoryCrafting inv, World world) {
 		ArrayList<ItemStack> requiredItems = Lists.newArrayList(this.recipeItems);
 
-		for (int i = 0; i < inv.getHeight(); ++i) {
-			for (int j = 0; j < inv.getWidth(); ++j) {
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
 				ItemStack invStack = inv.getStackInRowAndColumn(j, i);
 
 				if (invStack != null) {
 					boolean flag = false;
 					for (ItemStack requiredStack : requiredItems) {
 						if (invStack.getItem() == requiredStack.getItem()
-								&& (requiredStack.getMetadata() == 32767
-										|| invStack.getMetadata() == requiredStack.getMetadata())) {
+								&& (requiredStack.getItemDamage() == 32767
+										|| invStack.getItemDamage() == requiredStack.getItemDamage())) {
 							if (invStack.getItem() == ModBuildingBricks.trowel
 									|| ItemStack.areItemStackTagsEqual(invStack, requiredStack)) {
 								flag = true;

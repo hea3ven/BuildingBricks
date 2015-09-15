@@ -4,14 +4,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.state.BlockState;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
@@ -21,6 +18,9 @@ import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
+import com.hea3ven.transition.m.block.state.BlockState;
+import com.hea3ven.transition.m.block.state.IBlockState;
+import com.hea3ven.transition.m.util.BlockPos;
 
 public class BlockMaterialStep extends BlockBuildingBricksStep implements BlockMaterial {
 

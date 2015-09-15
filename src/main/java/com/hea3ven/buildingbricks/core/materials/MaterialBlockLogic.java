@@ -1,16 +1,17 @@
 package com.hea3ven.buildingbricks.core.materials;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.biome.BiomeColorHelper;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+import com.hea3ven.transition.m.block.state.IBlockState;
+import com.hea3ven.transition.m.util.BlockPos;
+import com.hea3ven.transition.m.util.EnumWorldBlockLayer;
+import com.hea3ven.transition.m.world.biome.BiomeColorHelper;
 
 public class MaterialBlockLogic {
 

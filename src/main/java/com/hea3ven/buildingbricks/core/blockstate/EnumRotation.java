@@ -1,7 +1,7 @@
 package com.hea3ven.buildingbricks.core.blockstate;
 
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
+import com.hea3ven.transition.m.util.EnumFacing;
+import com.hea3ven.transition.m.util.IStringSerializable;
 
 public enum EnumRotation implements IStringSerializable {
 	ROT0(0, 0f, 0),

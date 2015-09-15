@@ -4,15 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import com.hea3ven.buildingbricks.core.materials.rendering.IRenderDefinition;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionRotHalf;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionSimple;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionSlab;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionStairs;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionStep;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionWall;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum MaterialBlockType {
 	FULL("block", 1000),
@@ -24,21 +16,18 @@ public enum MaterialBlockType {
 	WALL("wall", 1000);
 
 	static {
-		FULL.setRenderDefinition(new RenderDefinitionSimple("minecraft:block/cube_bottom_top"));
 		FULL.addRecipe(true, MaterialRecipeBuilder
 				.create()
 				.outputAmount(2)
 				.pattern("xx", "xx")
 				.map('x', SLAB)
 				.validate());
-		STAIRS.setRenderDefinition(new RenderDefinitionStairs());
 		STAIRS.addRecipe(false, MaterialRecipeBuilder
 				.create()
 				.outputAmount(2)
 				.pattern("x  ", "xx ", "xxx")
 				.map('x', FULL)
 				.validate());
-		SLAB.setRenderDefinition(new RenderDefinitionSlab());
 		SLAB.addRecipe(false, MaterialRecipeBuilder
 				.create()
 				.outputAmount(6)
@@ -57,7 +46,6 @@ public enum MaterialBlockType {
 				.pattern("xxx")
 				.map('x', VERTICAL_SLAB)
 				.validate());
-		VERTICAL_SLAB.setRenderDefinition(new RenderDefinitionSlab(true));
 		VERTICAL_SLAB.addRecipe(true, MaterialRecipeBuilder
 				.create()
 				.outputAmount(3)
@@ -70,7 +58,6 @@ public enum MaterialBlockType {
 				.pattern("x", "x", "x")
 				.map('x', FULL)
 				.validate());
-		STEP.setRenderDefinition(new RenderDefinitionStep());
 		STEP.addRecipe(true, MaterialRecipeBuilder
 				.create()
 				.outputAmount(6)
@@ -83,15 +70,12 @@ public enum MaterialBlockType {
 				.pattern("xx")
 				.map('x', CORNER)
 				.validate());
-		CORNER.setRenderDefinition(
-				new RenderDefinitionRotHalf("buildingbricks:block/corner_bottom"));
 		CORNER.addRecipe(true, MaterialRecipeBuilder
 				.create()
 				.outputAmount(6)
 				.pattern("xxx")
 				.map('x', STEP)
 				.validate());
-		WALL.setRenderDefinition(new RenderDefinitionWall());
 		WALL.addRecipe(false, MaterialRecipeBuilder
 				.create()
 				.outputAmount(6)
@@ -123,25 +107,15 @@ public enum MaterialBlockType {
 	}
 
 	private String name;
-	private IRenderDefinition renderDefinition;
 	private List<MaterialRecipeBuilder> allwaysRecipes;
 	private List<MaterialRecipeBuilder> materialRecipes;
 	private int volume = 0;
 
 	private MaterialBlockType(String name, int volume) {
 		this.name = name;
-		this.renderDefinition = null;
 		allwaysRecipes = Lists.newArrayList();
 		materialRecipes = Lists.newArrayList();
 		this.volume = volume;
-	}
-
-	private void setRenderDefinition(IRenderDefinition renderDefinition) {
-		this.renderDefinition = renderDefinition;
-	}
-
-	public IRenderDefinition getRenderDefinition() {
-		return renderDefinition;
 	}
 
 	public String getName() {

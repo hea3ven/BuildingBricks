@@ -1,18 +1,19 @@
 package com.hea3ven.buildingbricks.core.blocks.properties;
 
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
 
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
+import com.hea3ven.transition.m.block.properties.IProperty;
+import com.hea3ven.transition.m.block.properties.PropertyBool;
+import com.hea3ven.transition.m.block.properties.PropertyDirection;
+import com.hea3ven.transition.m.block.properties.PropertyEnum;
+import com.hea3ven.transition.m.block.state.IBlockState;
+import com.hea3ven.transition.m.util.EnumFacing;
 
 public class BlockProperties {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
-	public static final PropertyDirection SIDE = PropertyDirection.create("side", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyDirection SIDE = PropertyDirection.create("side",
+			EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyEnum HALF = PropertyEnum.create("half", EnumBlockHalf.class);
 	public static final PropertyEnum ROTATION = PropertyEnum.create("rotation", EnumRotation.class);
 	public static final PropertyBool VERTICAL = PropertyBool.create("vertical");

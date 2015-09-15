@@ -15,7 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagString;
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialBlock;
 import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
@@ -91,7 +91,7 @@ public class MaterialBlockRegistry {
 			throw new RuntimeException(e);
 		}
 
-		block.setUnlocalizedName(structMat.getName() + "_" + blockType.getName());
+		block.setBlockName(structMat.getName() + "_" + blockType.getName());
 		block.setCreativeTab(CreativeTabBuildingBricks.get());
 
 		blocks.put(blockType, structMat, block);

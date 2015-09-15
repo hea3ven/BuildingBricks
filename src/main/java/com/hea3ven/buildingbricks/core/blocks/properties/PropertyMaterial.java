@@ -1,8 +1,7 @@
 package com.hea3ven.buildingbricks.core.blocks.properties;
 
-import net.minecraftforge.common.property.IUnlistedProperty;
-
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.transition.f.common.property.IUnlistedProperty;
 
 public class PropertyMaterial implements IUnlistedProperty<Material> {
 

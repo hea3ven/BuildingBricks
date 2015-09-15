@@ -4,25 +4,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockGrass;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.biome.BiomeColorHelper;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksSlab;
 import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
+import com.hea3ven.transition.helpers.WorldHelper;
+import com.hea3ven.transition.m.block.properties.IProperty;
+import com.hea3ven.transition.m.block.properties.PropertyBool;
+import com.hea3ven.transition.m.block.state.BlockState;
+import com.hea3ven.transition.m.block.state.IBlockState;
+import com.hea3ven.transition.m.util.BlockPos;
+import com.hea3ven.transition.m.util.EnumWorldBlockLayer;
+import com.hea3ven.transition.m.world.biome.BiomeColorHelper;
 
 public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMaterial {
 
@@ -54,15 +55,15 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 	protected BlockState createBlockState() {
 		Collection<IProperty> props = new ArrayList<IProperty>(
 				super.createBlockState().getProperties());
-		props.add(BlockGrass.SNOWY);
+		props.add(SNOWY);
 		return new BlockState(this, props.toArray(new IProperty[0]));
 	}
 
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		Block blockN = worldIn.getBlockState(pos.north()).getBlock();
-		Block blockS = worldIn.getBlockState(pos.south()).getBlock();
-		Block blockE = worldIn.getBlockState(pos.east()).getBlock();
-		Block blockW = worldIn.getBlockState(pos.west()).getBlock();
+		Block blockN = WorldHelper.get(worldIn).getBlockState(pos.north()).getBlock();
+		Block blockS = WorldHelper.get(worldIn).getBlockState(pos.south()).getBlock();
+		Block blockE = WorldHelper.get(worldIn).getBlockState(pos.east()).getBlock();
+		Block blockW = WorldHelper.get(worldIn).getBlockState(pos.west()).getBlock();
 		return setSnowy(state,
 				blockN == Blocks.snow || blockN == Blocks.snow_layer || blockS == Blocks.snow
 						|| blockS == Blocks.snow_layer || blockE == Blocks.snow
@@ -71,11 +72,11 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 	}
 
 	public static boolean getSnowy(IBlockState state) {
-		return (Boolean) state.getValue(BlockGrass.SNOWY);
+		return (Boolean) state.getValue(SNOWY);
 	}
 
 	public static IBlockState setSnowy(IBlockState state, boolean snowy) {
-		return state.withProperty(BlockGrass.SNOWY, snowy);
+		return state.withProperty(SNOWY, snowy);
 	}
 
 	@Override
@@ -85,4 +86,8 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 		else
 			return blockLogic.getLocalizedName(mat);
 	}
+
+	/**************** 1.7.10 ****************/
+
+	public static PropertyBool SNOWY = PropertyBool.create("snowed");
 }

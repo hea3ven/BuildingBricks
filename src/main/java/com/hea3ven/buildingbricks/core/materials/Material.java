@@ -95,7 +95,7 @@ public class Material {
 
 	public BlockDescription getBlock(ItemStack stack) {
 		for (BlockDescription blockDesc : getBlockRotation().getAll().values()) {
-			if (ItemStack.areItemsEqual(stack, blockDesc.getStack())
+			if (ItemStack.areItemStacksEqual(stack, blockDesc.getStack())
 					&& ItemStack.areItemStackTagsEqual(stack, blockDesc.getStack())) {
 				return blockDesc;
 			}

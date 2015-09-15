@@ -4,11 +4,11 @@ import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.hea3ven.buildingbricks.ModBuildingBricks;
-import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerOverrideBlockPlacing;
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
 import com.hea3ven.buildingbricks.core.lib.BlockDescription;
@@ -22,7 +22,6 @@ public class ProxyCommonBuildingBricks {
 	}
 
 	public void init() {
-		MinecraftForge.EVENT_BUS.register(new EventHandlerOverrideBlockPlacing());
 		MinecraftForge.EVENT_BUS.register(new EventHandlerTrowelOverlay());
 	}
 

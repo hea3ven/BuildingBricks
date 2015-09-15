@@ -3,14 +3,8 @@ package com.hea3ven.buildingbricks.core.blocks;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Point3f;
 
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -21,6 +15,13 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
+import com.hea3ven.transition.helpers.WorldHelper;
+import com.hea3ven.transition.m.block.properties.IProperty;
+import com.hea3ven.transition.m.block.state.BlockState;
+import com.hea3ven.transition.m.block.state.IBlockState;
+import com.hea3ven.transition.m.util.BlockPos;
+import com.hea3ven.transition.m.util.EnumFacing;
+import com.hea3ven.transition.m.util.EnumFacing.Axis;
 
 public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 
@@ -116,14 +117,14 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 				: new Point3f(0.5f, (half == EnumBlockHalf.BOTTOM) ? 0.0f : 0.5f, 0.0f);
 		matrix.transform(min);
 		matrix.transform(max);
-		AxisAlignedBB bb = new AxisAlignedBB(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f, max.x + 0.5f,
-				max.y + 0.5f, max.z + 0.5f);
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f,
+				max.x + 0.5f, max.y + 0.5f, max.z + 0.5f);
 		return bb;
 	}
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
-		IBlockState state = world.getBlockState(pos);
+		IBlockState state = WorldHelper.get(world).getBlockState(pos);
 		AxisAlignedBB bb = getBoundingBox(state);
 
 		setBlockBounds((float) bb.minX, (float) bb.minY, (float) bb.minZ, (float) bb.maxX,
@@ -138,7 +139,7 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
 		BlockPos selfPos = pos.offset(side.getOpposite());
-		EnumBlockHalf half = BlockProperties.getHalf(world.getBlockState(selfPos));
+		EnumBlockHalf half = BlockProperties.getHalf(WorldHelper.get(world).getBlockState(selfPos));
 		if (side == half.getSide() && !super.shouldSideBeRendered(world, pos, side))
 			return false;
 		// if (side == facing && !super.shouldSideBeRendered(world, pos, side))

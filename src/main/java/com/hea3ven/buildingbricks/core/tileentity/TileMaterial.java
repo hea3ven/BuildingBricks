@@ -3,9 +3,6 @@ package com.hea3ven.buildingbricks.core.tileentity;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -15,14 +12,10 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.common.util.Constants.NBT;
 
 import com.hea3ven.buildingbricks.core.blocks.properties.PropertyMaterial;
@@ -30,6 +23,13 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.utils.ItemStackUtils;
+import com.hea3ven.transition.f.common.property.ExtendedBlockState;
+import com.hea3ven.transition.f.common.property.IUnlistedProperty;
+import com.hea3ven.transition.m.block.properties.IExtendedBlockState;
+import com.hea3ven.transition.m.block.properties.IProperty;
+import com.hea3ven.transition.m.block.state.BlockState;
+import com.hea3ven.transition.m.block.state.IBlockState;
+import com.hea3ven.transition.m.util.BlockPos;
 
 public class TileMaterial extends TileEntity {
 
@@ -54,7 +54,7 @@ public class TileMaterial extends TileEntity {
 
 	public static TileMaterial getTile(IBlockAccess world, BlockPos pos) {
 		TileMaterial tile;
-		TileEntity te = world.getTileEntity(pos);
+		TileEntity te = world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
 		if (!(te instanceof TileMaterial))
 			tile = null;
 		tile = (TileMaterial) te;
@@ -92,21 +92,21 @@ public class TileMaterial extends TileEntity {
 	}
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState,
-			IBlockState newSate) {
-		return oldState.getBlock() != newSate.getBlock();
+	public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta,
+			World world, int x, int y, int z) {
+		return oldBlock != newBlock;
 	}
 
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(pos, 1, nbt);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.getNbtCompound());
+		readFromNBT(pkt.func_148857_g());
 	}
 
 	public static BlockState createBlockState(BlockState superState) {

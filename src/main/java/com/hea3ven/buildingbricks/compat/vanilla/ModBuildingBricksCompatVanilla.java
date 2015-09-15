@@ -6,24 +6,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStoneSlab;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
+
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.core.config.Config;
@@ -59,7 +54,7 @@ public class ModBuildingBricksCompatVanilla {
 		grassMat.setStructureMaterial(StructureMaterial.GRASS);
 
 		logger.info("Registering the grass slab block");
-		grassSlab = new BlockGrassSlab().setUnlocalizedName("grass_slab");
+		grassSlab = new BlockGrassSlab().setBlockName("grass_slab");
 		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab");
 
 		grassMat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.grass));
@@ -77,15 +72,6 @@ public class ModBuildingBricksCompatVanilla {
 			MinecraftForge.EVENT_BUS.register(new GrassSlabWorldGen());
 
 		replaceStoneSlabRecipe();
-
-		if (event.getSide() == Side.CLIENT) {
-			ItemModelMesher modelMesher = Minecraft
-					.getMinecraft()
-					.getRenderItem()
-					.getItemModelMesher();
-			modelMesher.register(Item.getItemFromBlock(grassSlab), 0, new ModelResourceLocation(
-					"buildingbrickscompatvanilla:grass_slab", "inventory"));
-		}
 	}
 
 	private void replaceStoneSlabRecipe() {
@@ -95,8 +81,8 @@ public class ModBuildingBricksCompatVanilla {
 			IRecipe recipe = recipes.get(i);
 			ItemStack result = recipe.getRecipeOutput();
 			if (result != null && result.getItem() instanceof ItemBlock
-					&& ((ItemBlock) result.getItem()).getBlock() == Blocks.stone_slab
-					&& result.getMetadata() == BlockStoneSlab.EnumType.STONE.getMetadata()) {
+					&& ((ItemBlock) result.getItem()).field_150939_a == Blocks.stone_slab
+					&& result.getItemDamage() == 0) {
 				logger.debug("Found original slab recipe");
 				recipes.remove(i);
 			}
@@ -104,7 +90,7 @@ public class ModBuildingBricksCompatVanilla {
 
 		ItemStack stoneSlab = new ItemStack(Block.getBlockFromName("buildingbricks:stone_slab"));
 		ItemStack stoneSlabSlab = new ItemStack(Blocks.stone_slab, 2,
-				BlockStoneSlab.EnumType.STONE.getMetadata());
+				0);
 		GameRegistry.addShapedRecipe(stoneSlabSlab, "x", "x", 'x', stoneSlab);
 	}
 

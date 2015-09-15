@@ -1,10 +1,9 @@
 package com.hea3ven.buildingbricks.core.util;
 
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.EnumFacing.AxisDirection;
-
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
+import com.hea3ven.transition.m.util.EnumFacing;
+import com.hea3ven.transition.m.util.EnumFacing.Axis;
+import com.hea3ven.transition.m.util.EnumFacing.AxisDirection;
 
 public class BlockPlacingUtil {
 	private static final float RING_SIZE = 0.22f;

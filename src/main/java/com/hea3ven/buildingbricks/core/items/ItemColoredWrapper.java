@@ -15,6 +15,6 @@ public class ItemColoredWrapper extends ItemColored {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return ((BlockMaterial) block).getLocalizedName(TileMaterial.getStackMaterial(stack));
+		return ((BlockMaterial) field_150939_a).getLocalizedName(TileMaterial.getStackMaterial(stack));
 	}
 }

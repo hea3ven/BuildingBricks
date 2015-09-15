@@ -2,10 +2,14 @@ package com.hea3ven.buildingbricks.compat.vanilla;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import com.hea3ven.transition.helpers.BlockHelper;
+import com.hea3ven.transition.helpers.WorldHelper;
+import com.hea3ven.transition.m.util.BlockPos;
 
 public class GrassSlabWorldGen {
 
@@ -16,47 +20,47 @@ public class GrassSlabWorldGen {
 			for (int zOff = 0; zOff < 16; zOff++) {
 				BlockPos pos = startPos.add(xOff, 0, zOff);
 				while (pos.getY() < 255
-						&& event.world.getBlockState(pos).getBlock() != Blocks.grass) {
+						&& WorldHelper.get(event.world).getBlockState(pos).getBlock() != Blocks.grass) {
 					pos = pos.up();
 				}
 				if (pos.getY() >= 255)
 					continue;
 
-				Block block = event.world.getBlockState(pos.north()).getBlock();
-				if (block.isReplaceable(event.world, pos.north())
+				Block block = WorldHelper.get(event.world).getBlockState(pos.north()).getBlock();
+				if (BlockHelper.get(block).isReplaceable(event.world, pos.north())
 						|| block == ModBuildingBricksCompatVanilla.grassSlab)
 					continue;
-				block = event.world.getBlockState(pos.east()).getBlock();
-				if (block.isReplaceable(event.world, pos.east())
+				block = WorldHelper.get(event.world).getBlockState(pos.east()).getBlock();
+				if (BlockHelper.get(block).isReplaceable(event.world, pos.east())
 						|| block == ModBuildingBricksCompatVanilla.grassSlab)
 					continue;
-				block = event.world.getBlockState(pos.south()).getBlock();
-				if (block.isReplaceable(event.world, pos.south())
+				block = WorldHelper.get(event.world).getBlockState(pos.south()).getBlock();
+				if (BlockHelper.get(block).isReplaceable(event.world, pos.south())
 						|| block == ModBuildingBricksCompatVanilla.grassSlab)
 					continue;
-				block = event.world.getBlockState(pos.west()).getBlock();
-				if (block.isReplaceable(event.world, pos.west())
+				block = WorldHelper.get(event.world).getBlockState(pos.west()).getBlock();
+				if (BlockHelper.get(block).isReplaceable(event.world, pos.west())
 						|| block == ModBuildingBricksCompatVanilla.grassSlab)
 					continue;
 
-				if (event.world.getBlockState(pos.north().up()).getBlock() == Blocks.grass) {
-					event.world.setBlockState(pos.up(),
-							ModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
+				if (WorldHelper.get(event.world).getBlockState(pos.north().up()).getBlock() == Blocks.grass) {
+					WorldHelper.get(event.world).setBlockState(pos.up(),
+							BlockHelper.get(ModBuildingBricksCompatVanilla.grassSlab).getDefaultState(), 2);
 					continue;
 				}
-				if (event.world.getBlockState(pos.east().up()).getBlock() == Blocks.grass) {
-					event.world.setBlockState(pos.up(),
-							ModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
+				if (WorldHelper.get(event.world).getBlockState(pos.east().up()).getBlock() == Blocks.grass) {
+					WorldHelper.get(event.world).setBlockState(pos.up(),
+							BlockHelper.get(ModBuildingBricksCompatVanilla.grassSlab).getDefaultState(), 2);
 					continue;
 				}
-				if (event.world.getBlockState(pos.south().up()).getBlock() == Blocks.grass) {
-					event.world.setBlockState(pos.up(),
-							ModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
+				if (WorldHelper.get(event.world).getBlockState(pos.south().up()).getBlock() == Blocks.grass) {
+					WorldHelper.get(event.world).setBlockState(pos.up(),
+							BlockHelper.get(ModBuildingBricksCompatVanilla.grassSlab).getDefaultState(), 2);
 					continue;
 				}
-				if (event.world.getBlockState(pos.west().up()).getBlock() == Blocks.grass) {
-					event.world.setBlockState(pos.up(),
-							ModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
+				if (WorldHelper.get(event.world).getBlockState(pos.west().up()).getBlock() == Blocks.grass) {
+					WorldHelper.get(event.world).setBlockState(pos.up(),
+							BlockHelper.get(ModBuildingBricksCompatVanilla.grassSlab).getDefaultState(), 2);
 					continue;
 				}
 

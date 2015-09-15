@@ -1,16 +1,29 @@
-plugins {
-        id "net.minecraftforge.gradle.forge" version "2.0.1"
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
 }
+
+apply plugin: 'forge'
 
 version = "1.0.0-beta1"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "buildingbricks"
 
 minecraft {
-    version = "1.8-11.14.3.1513"
+    version = "1.7.10-10.13.4.1490-1.7.10"
     runDir = "eclipse"
-
-    mappings = "snapshot_20141130"
 }
 
 configurations {

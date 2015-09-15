@@ -8,8 +8,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -19,6 +17,8 @@ import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBric
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.transition.m.util.BlockPos;
+import com.hea3ven.transition.m.util.EnumFacing;
 
 public class ItemTrowel extends Item {
 
@@ -81,20 +81,20 @@ public class ItemTrowel extends Item {
 		}
 	}
 
-	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		Material mat = getBindedMaterial(stack);
 		if (mat == null)
-			return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
+			return super.onItemUse(stack, player, world, pos.getX(), pos.getY(), pos.getZ(),
+					side.ordinal(), hitX, hitY, hitZ);
 		else {
 			MaterialBlockType blockType = getCurrentBlockType(stack);
 			ItemStack useStack = mat.getBlock(blockType).getStack().copy();
 			if (!consumeMaterial(blockType, mat, player, false))
 				return false;
 			if (!world.isRemote) {
-				if (!useStack.getItem().onItemUse(useStack, player, world, pos, side, hitX, hitY,
-						hitZ))
+				if (!useStack.getItem().onItemUse(useStack, player, world, pos.getX(), pos.getY(),
+						pos.getZ(), side.ordinal(), hitX, hitY, hitZ))
 					return false;
 			}
 			consumeMaterial(blockType, mat, player, true);
@@ -170,4 +170,12 @@ public class ItemTrowel extends Item {
 		return volume == 0;
 	}
 
+	/**************** 1.7.10 ****************/
+
+	@Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z,
+			int facingIdx, float hitX, float hitY, float hitZ) {
+		return onItemUse(stack, player, world, new BlockPos(x, y, z), EnumFacing.get(facingIdx),
+				hitX, hitY, hitZ);
+	}
 }

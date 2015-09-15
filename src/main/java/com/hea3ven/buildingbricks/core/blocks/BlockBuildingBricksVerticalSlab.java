@@ -1,13 +1,6 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.AxisDirection;
-import net.minecraft.util.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -16,6 +9,14 @@ import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
+import com.hea3ven.transition.helpers.WorldHelper;
+import com.hea3ven.transition.m.block.properties.IProperty;
+import com.hea3ven.transition.m.block.state.BlockState;
+import com.hea3ven.transition.m.block.state.IBlockState;
+import com.hea3ven.transition.m.util.BlockPos;
+import com.hea3ven.transition.m.util.EnumFacing;
+import com.hea3ven.transition.m.util.Vec3i;
+import com.hea3ven.transition.m.util.EnumFacing.AxisDirection;
 
 public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid {
 
@@ -70,8 +71,8 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
-		EnumFacing facing = BlockProperties.getSide(world.getBlockState(pos));
-		Vec3i dir = facing.getDirectionVec();
+		EnumFacing facing = BlockProperties.getSide(WorldHelper.get(world).getBlockState(pos));
+		Vec3i dir = facing.getFaceDirection();
 		setBlockBounds(
 				(dir.getX() != 0 && facing.getAxisDirection() != AxisDirection.NEGATIVE) ? 0.5f
 						: 0.0f,
@@ -86,13 +87,13 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 
 	@Override
 	public boolean isSideSolid(IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return side == BlockProperties.getSide(world.getBlockState(pos));
+		return side == BlockProperties.getSide(WorldHelper.get(world).getBlockState(pos));
 	}
 
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
 		BlockPos selfPos = pos.offset(side.getOpposite());
-		EnumFacing facing = BlockProperties.getSide(world.getBlockState(selfPos));
+		EnumFacing facing = BlockProperties.getSide(WorldHelper.get(world).getBlockState(selfPos));
 		if (side == facing && !super.shouldSideBeRendered(world, pos, side))
 			return false;
 		return true;

@@ -3,7 +3,8 @@ package com.hea3ven.buildingbricks.core.materials;
 import net.minecraft.block.Block;
 import net.minecraft.block.Block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.EnumWorldBlockLayer;
+
+import com.hea3ven.transition.m.util.EnumWorldBlockLayer;
 
 public enum StructureMaterial {
 	ROCK(Material.rock, EnumWorldBlockLayer.SOLID, false, Block.soundTypePiston, 1.5f, 10.0f, 0.6f,
