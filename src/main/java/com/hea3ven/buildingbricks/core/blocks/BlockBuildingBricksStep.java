@@ -102,7 +102,6 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 		return state;
 	}
 
-	@Override
 	private AxisAlignedBB getBoundingBox(IBlockState state) {
 		EnumBlockHalf half = BlockProperties.getHalf(state);
 		EnumRotation rot = BlockProperties.getRotation(state);
