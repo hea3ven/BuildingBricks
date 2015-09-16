@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import com.hea3ven.buildingbricks.core.items.crafting.RecipeBlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.rendering.IRenderDefinition;
 import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionRotHalf;
 import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionSimple;
@@ -160,13 +161,15 @@ public enum MaterialBlockType {
 		for (MaterialRecipeBuilder recipeDesc : allwaysRecipes) {
 			Object[] recipe = recipeDesc.build(mat);
 			if (recipe != null)
-				GameRegistry.addShapedRecipe(recipeDesc.buildOutput(mat, this), recipe);
+				GameRegistry.addRecipe(RecipeBlockMaterial
+						.createRecipe(recipeDesc.buildOutput(mat, this), recipe));
 		}
 		if (MaterialBlockRegistry.instance.getAllBlocks().contains(mat.getBlock(this).getBlock())) {
 			for (MaterialRecipeBuilder recipeDesc : materialRecipes) {
 				Object[] recipe = recipeDesc.build(mat);
 				if (recipe != null)
-					GameRegistry.addShapedRecipe(recipeDesc.buildOutput(mat, this), recipe);
+					GameRegistry.addRecipe(RecipeBlockMaterial
+							.createRecipe(recipeDesc.buildOutput(mat, this), recipe));
 
 			}
 		}
