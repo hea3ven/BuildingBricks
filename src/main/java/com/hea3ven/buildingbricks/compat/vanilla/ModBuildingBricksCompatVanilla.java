@@ -28,11 +28,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
-import com.hea3ven.buildingbricks.core.lib.BlockDescription;
-import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
-import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 @Mod(modid = ModBuildingBricksCompatVanilla.MODID, name = "Building Bricks Vanilla Compatibilty",
 		version = ModBuildingBricksCompatVanilla.VERSION)
@@ -51,24 +46,9 @@ public class ModBuildingBricksCompatVanilla {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 
-		logger.info("Registering the grass material");
-		Material grassMat = new Material("grass");
-		grassMat.setTexture("minecraft:blocks/grass_top", "minecraft:blocks/dirt",
-				"minecraft:blocks/grass_side");
-		grassMat.setTexture("overlay", "minecraft:blocks/grass_side_overlay");
-		grassMat.setStructureMaterial(StructureMaterial.GRASS);
-
 		logger.info("Registering the grass slab block");
 		grassSlab = new BlockGrassSlab().setUnlocalizedName("grass_slab");
 		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab");
-
-		grassMat.addBlock(new BlockDescription(MaterialBlockType.FULL, Blocks.grass));
-		grassMat.addBlock(MaterialBlockType.STAIRS);
-		grassMat.addBlock(new BlockDescription(MaterialBlockType.SLAB, grassSlab));
-		grassMat.addBlock(MaterialBlockType.VERTICAL_SLAB);
-		grassMat.addBlock(MaterialBlockType.STEP);
-		grassMat.addBlock(MaterialBlockType.CORNER);
-		MaterialRegistry.registerMaterial(grassMat);
 	}
 
 	@EventHandler

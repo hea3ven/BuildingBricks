@@ -28,6 +28,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
@@ -44,8 +45,6 @@ import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
-
-import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 
 public class MaterialResourceLoader {
 
@@ -78,6 +77,8 @@ public class MaterialResourceLoader {
 
 			} catch (IOException e) {
 				Throwables.propagate(e);
+			} catch (JsonSyntaxException e) {
+				throw new MaterialLoadingException("Could not load material " + r, e);
 			} finally {
 				IOUtils.closeQuietly(matStream);
 			}
@@ -196,8 +197,15 @@ public class MaterialResourceLoader {
 				mat.setTexture(json.get("textures").getAsString());
 			else {
 				JsonObject textures = json.get("textures").getAsJsonObject();
-				mat.setTexture(textures.get("top").getAsString(),
-						textures.get("bottom").getAsString(), textures.get("side").getAsString());
+				for (Entry<String, JsonElement> entry : textures.entrySet()) {
+					mat.setTexture(entry.getKey(), entry.getValue().getAsString());
+				}
+				if (!mat.getTextures().containsKey("all"))
+					mat.setTexture("all", mat.getTextures().get("side"));
+				if (!mat.getTextures().containsKey("particle"))
+					mat.setTexture("particle", mat.getTextures().get("side"));
+				if (!mat.getTextures().containsKey("wall"))
+					mat.setTexture("wall", mat.getTextures().get("side"));
 			}
 
 			for (Entry<String, JsonElement> blockEntry : json

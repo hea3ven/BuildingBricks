@@ -10,8 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-import com.hea3ven.buildingbricks.core.lib.BlockDescription;
-
 public class MaterialRecipeBuilderTest {
 
 	@Test()

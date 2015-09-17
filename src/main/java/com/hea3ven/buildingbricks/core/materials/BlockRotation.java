@@ -5,8 +5,6 @@ import java.util.Map;
 
 import net.minecraft.item.Item;
 
-import com.hea3ven.buildingbricks.core.lib.BlockDescription;
-
 public class BlockRotation {
 
 	private HashMap<MaterialBlockType, BlockDescription> items;

@@ -10,8 +10,6 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
 
-import com.hea3ven.buildingbricks.core.lib.BlockDescription;
-
 public class MaterialRegistry {
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialRegistry");
