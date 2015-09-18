@@ -6,6 +6,8 @@ import com.google.common.collect.Lists;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
+import com.hea3ven.buildingbricks.core.items.crafting.RecipeBlockMaterial;
+
 public enum MaterialBlockType {
 	FULL("block", 1000),
 	STAIRS("stairs", 750),
@@ -134,13 +136,15 @@ public enum MaterialBlockType {
 		for (MaterialRecipeBuilder recipeDesc : allwaysRecipes) {
 			Object[] recipe = recipeDesc.build(mat);
 			if (recipe != null)
-				GameRegistry.addShapedRecipe(recipeDesc.buildOutput(mat, this), recipe);
+				GameRegistry.addRecipe(RecipeBlockMaterial
+						.createRecipe(recipeDesc.buildOutput(mat, this), recipe));
 		}
 		if (MaterialBlockRegistry.instance.getAllBlocks().contains(mat.getBlock(this).getBlock())) {
 			for (MaterialRecipeBuilder recipeDesc : materialRecipes) {
 				Object[] recipe = recipeDesc.build(mat);
 				if (recipe != null)
-					GameRegistry.addShapedRecipe(recipeDesc.buildOutput(mat, this), recipe);
+					GameRegistry.addRecipe(RecipeBlockMaterial
+							.createRecipe(recipeDesc.buildOutput(mat, this), recipe));
 
 			}
 		}

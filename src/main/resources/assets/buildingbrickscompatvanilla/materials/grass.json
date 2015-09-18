@@ -1,0 +1,15 @@
+{
+    "name": "Grass",
+    "id": "grass",
+    "type": "grass",
+    "textures": {
+        "top": "minecraft:blocks/grass_top",
+        "bottom": "minecraft:blocks/dirt",
+        "side": "minecraft:blocks/grass_side",
+        "overlay": "minecraft:blocks/grass_side_overlay"
+    },
+    "blocks": {
+        "full": "minecraft:grass",
+        "slab": "buildingbrickscompatvanilla:grass_slab"
+    }
+}

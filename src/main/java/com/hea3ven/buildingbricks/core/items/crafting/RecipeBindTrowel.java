@@ -50,10 +50,9 @@ public class RecipeBindTrowel extends ShapelessRecipes {
 //
 //		for (int i = 0; i < remainingItems.length; ++i) {
 //			ItemStack stack = inv.getStackInSlot(i);
-//			if (stack != null && stack.getItem() == ModBuildingBricks.trowel)
-//				remainingItems[i] = null;
-//			else
-//				remainingItems[i] = stack;
+//			remainingItems[i] = null;
+//			if (stack != null && stack.getItem() != ModBuildingBricks.trowel)
+//				stack.stackSize++;
 //		}
 //
 //		return remainingItems;

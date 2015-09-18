@@ -10,8 +10,6 @@ import com.google.common.primitives.Chars;
 
 import net.minecraft.item.ItemStack;
 
-import com.hea3ven.buildingbricks.core.lib.BlockDescription;
-
 public class MaterialRecipeBuilder {
 
 	private interface Ingredient {

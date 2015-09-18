@@ -27,7 +27,6 @@ import com.hea3ven.buildingbricks.core.blocks.BlockMaterialWall;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
-import com.hea3ven.buildingbricks.core.lib.BlockDescription;
 
 public class MaterialBlockRegistry {
 

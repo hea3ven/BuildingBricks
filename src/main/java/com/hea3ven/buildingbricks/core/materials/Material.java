@@ -5,8 +5,6 @@ import java.util.HashMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
-import com.hea3ven.buildingbricks.core.lib.BlockDescription;
-
 public class Material {
 
 	private String materialId;
