@@ -4,6 +4,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.AxisDirection;
@@ -69,10 +70,10 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
-		EnumFacing facing = BlockProperties.getSide(world.getBlockState(pos));
+	public AxisAlignedBB getBoundingBox(IBlockState state) {
+		EnumFacing facing = BlockProperties.getSide(state);
 		Vec3i dir = facing.getDirectionVec();
-		setBlockBounds(
+		AxisAlignedBB bb = new AxisAlignedBB(
 				(dir.getX() != 0 && facing.getAxisDirection() != AxisDirection.NEGATIVE) ? 0.5f
 						: 0.0f,
 				0.0f,
@@ -82,6 +83,7 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 						: 1.0f,
 				1.0f, (dir.getZ() != 0 && facing.getAxisDirection() == AxisDirection.NEGATIVE)
 						? 0.5f : 1.0f);
+		return bb;
 	}
 
 	@Override
