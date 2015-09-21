@@ -77,7 +77,8 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 		return state;
 	}
 
-	private AxisAlignedBB getBoundingBox(IBlockState state) {
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state) {
 		EnumBlockHalf half = BlockProperties.getHalf(state);
 		EnumRotation rot = BlockProperties.getRotation(state);
 		Matrix4f matrix = new Matrix4f();
@@ -91,20 +92,6 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f,
 				max.x + 0.5f, max.y + 0.5f, max.z + 0.5f);
 		return bb;
-	}
-
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
-		IBlockState state = WorldHelper.get(world).getBlockState(pos);
-		AxisAlignedBB bb = getBoundingBox(state);
-
-		setBlockBounds((float) bb.minX, (float) bb.minY, (float) bb.minZ, (float) bb.maxX,
-				(float) bb.maxY, (float) bb.maxZ);
-	}
-
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-		return getBoundingBox(state).offset(pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	@Override

@@ -7,7 +7,7 @@ public class BlockPos extends Vec3i {
 	}
 
 	public BlockPos offset(EnumFacing facing) {
-		return add(facing.getFaceDirection());
+		return add(facing.getDirectionVec());
 	}
 
 	public BlockPos add(Vec3i off) {

@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -15,8 +16,8 @@ import com.hea3ven.transition.m.block.state.BlockState;
 import com.hea3ven.transition.m.block.state.IBlockState;
 import com.hea3ven.transition.m.util.BlockPos;
 import com.hea3ven.transition.m.util.EnumFacing;
-import com.hea3ven.transition.m.util.Vec3i;
 import com.hea3ven.transition.m.util.EnumFacing.AxisDirection;
+import com.hea3ven.transition.m.util.Vec3i;
 
 public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid {
 
@@ -70,10 +71,10 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
-		EnumFacing facing = BlockProperties.getSide(WorldHelper.get(world).getBlockState(pos));
-		Vec3i dir = facing.getFaceDirection();
-		setBlockBounds(
+	public AxisAlignedBB getBoundingBox(IBlockState state) {
+		EnumFacing facing = BlockProperties.getSide(state);
+		Vec3i dir = facing.getDirectionVec();
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
 				(dir.getX() != 0 && facing.getAxisDirection() != AxisDirection.NEGATIVE) ? 0.5f
 						: 0.0f,
 				0.0f,
@@ -83,6 +84,7 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 						: 1.0f,
 				1.0f, (dir.getZ() != 0 && facing.getAxisDirection() == AxisDirection.NEGATIVE)
 						? 0.5f : 1.0f);
+		return bb;
 	}
 
 	@Override

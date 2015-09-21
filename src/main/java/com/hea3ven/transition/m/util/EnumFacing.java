@@ -125,7 +125,7 @@ public enum EnumFacing {
 		return ForgeDirection.getOrientation(ordinal());
 	}
 
-	public Vec3i getFaceDirection() {
+	public Vec3i getDirectionVec() {
 		return faceDirection;
 	}
 }
