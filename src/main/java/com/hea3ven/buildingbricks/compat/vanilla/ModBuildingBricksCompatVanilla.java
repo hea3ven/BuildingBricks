@@ -28,6 +28,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
+import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 
 @Mod(modid = ModBuildingBricksCompatVanilla.MODID, name = "Building Bricks Vanilla Compatibilty",
 		version = ModBuildingBricksCompatVanilla.VERSION)
@@ -47,7 +48,9 @@ public class ModBuildingBricksCompatVanilla {
 	public void preInit(FMLPreInitializationEvent event) {
 
 		logger.info("Registering the grass slab block");
-		grassSlab = new BlockGrassSlab().setUnlocalizedName("grass_slab");
+		grassSlab = new BlockGrassSlab()
+				.setUnlocalizedName("grass_slab")
+				.setCreativeTab(CreativeTabBuildingBricks.get());
 		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab");
 	}
 
