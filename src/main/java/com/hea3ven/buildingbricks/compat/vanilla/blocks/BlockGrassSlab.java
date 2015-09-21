@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksSlab;
 import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.transition.helpers.WorldHelper;
 import com.hea3ven.transition.m.block.properties.IProperty;
@@ -27,8 +28,12 @@ import com.hea3ven.transition.m.world.biome.BiomeColorHelper;
 
 public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMaterial {
 
+	private Material mat;
+
 	public BlockGrassSlab() {
 		super(StructureMaterial.GRASS);
+
+		mat = MaterialRegistry.get("grass");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -84,7 +89,7 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 		if (StatCollector.canTranslate(getUnlocalizedName() + ".name"))
 			return super.getLocalizedName();
 		else
-			return blockLogic.getLocalizedName(mat);
+			return blockLogic.getLocalizedName(this.mat);
 	}
 
 	/**************** 1.7.10 ****************/

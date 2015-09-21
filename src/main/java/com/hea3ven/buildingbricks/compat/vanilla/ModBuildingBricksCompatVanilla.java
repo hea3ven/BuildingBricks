@@ -23,6 +23,7 @@ import net.minecraftforge.common.MinecraftForge;
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
+import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 
 @Mod(modid = ModBuildingBricksCompatVanilla.MODID, name = "Building Bricks Vanilla Compatibilty",
 		version = ModBuildingBricksCompatVanilla.VERSION)
@@ -42,7 +43,9 @@ public class ModBuildingBricksCompatVanilla {
 	public void preInit(FMLPreInitializationEvent event) {
 
 		logger.info("Registering the grass slab block");
-		grassSlab = new BlockGrassSlab().setBlockName("grass_slab");
+		grassSlab = new BlockGrassSlab()
+				.setBlockName("grass_slab")
+				.setCreativeTab(CreativeTabBuildingBricks.get());
 		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab");
 	}
 
@@ -69,8 +72,7 @@ public class ModBuildingBricksCompatVanilla {
 		}
 
 		ItemStack stoneSlab = new ItemStack(Block.getBlockFromName("buildingbricks:stone_slab"));
-		ItemStack stoneSlabSlab = new ItemStack(Blocks.stone_slab, 2,
-				0);
+		ItemStack stoneSlabSlab = new ItemStack(Blocks.stone_slab, 2, 0);
 		GameRegistry.addShapedRecipe(stoneSlabSlab, "x", "x", 'x', stoneSlab);
 	}
 
