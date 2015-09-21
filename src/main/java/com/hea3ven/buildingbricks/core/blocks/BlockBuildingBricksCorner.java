@@ -89,8 +89,10 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 		Point3f max = new Point3f(0.0f, half == EnumBlockHalf.BOTTOM ? 0.0f : 0.5f, 0.0f);
 		matrix.transform(min);
 		matrix.transform(max);
-		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f,
-				max.x + 0.5f, max.y + 0.5f, max.z + 0.5f);
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(Math.min(min.x, max.x) + 0.5f,
+				Math.min(min.y, max.y) + 0.5f, Math.min(min.z, max.z) + 0.5f,
+				Math.max(min.x, max.x) + 0.5f, Math.max(min.y, max.y) + 0.5f,
+				Math.max(min.z, max.z) + 0.5f);
 		return bb;
 	}
 

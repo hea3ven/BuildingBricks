@@ -111,9 +111,14 @@ public class Material {
 	}
 
 	public String getLocalizedName() {
+		try{
 		return StatCollector.canTranslate(getTranslationKey())
 				? StatCollector.translateToLocal(getTranslationKey())
 				: getBlock(MaterialBlockType.FULL).getStack().getDisplayName();
+		}catch (NullPointerException e) {
+			System.out.println(getTranslationKey());
+			return "";
+		}
 	}
 
 }

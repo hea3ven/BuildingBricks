@@ -1,6 +1,13 @@
 package com.hea3ven.buildingbricks.core;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+
+import com.hea3ven.buildingbricks.core.blocks.rendering.ItemBlockMaterialRenderer;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 
 public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 
@@ -13,5 +20,10 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 	public void init() {
 		super.init();
 		MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
+
+		ItemBlockMaterialRenderer renderer = new ItemBlockMaterialRenderer();
+		for (Block block : MaterialBlockRegistry.instance.getBlocks().values()) {
+			MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), renderer);
+		}
 	}
 }

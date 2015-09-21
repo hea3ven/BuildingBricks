@@ -2,14 +2,20 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -20,7 +26,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
+import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
@@ -43,7 +51,7 @@ public class BlockBuildingBricksSlab extends BlockSlab implements IBlock {
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.SLAB);
 		blockLogic.initBlock(this);
-		
+
 		blockState = createBlockState();
 
 		IBlockState state = getDefaultState();
@@ -55,22 +63,14 @@ public class BlockBuildingBricksSlab extends BlockSlab implements IBlock {
 	public String func_150002_b(int meta) {
 		return getUnlocalizedName();
 	}
-/*
-	@Override
-	public boolean isDouble() {
-		return false;
-	}
 
-	@Override
-	public IProperty getVariantProperty() {
-		return null;
-	}
-
-	@Override
-	public Object getVariant(ItemStack stack) {
-		return null;
-	}
-*/
+	/*
+	 * @Override public boolean isDouble() { return false; }
+	 * 
+	 * @Override public IProperty getVariantProperty() { return null; }
+	 * 
+	 * @Override public Object getVariant(ItemStack stack) { return null; }
+	 */
 	protected BlockState createBlockState() {
 		return new BlockState(this, new IProperty[] {HALF});
 	}
@@ -128,8 +128,8 @@ public class BlockBuildingBricksSlab extends BlockSlab implements IBlock {
 	}
 
 	/**************** 1.7.10 ****************/
-	
-	public static PropertyEnum HALF = PropertyEnum.create("half", EnumBlockHalf.class); 
+
+	public static PropertyEnum HALF = PropertyEnum.create("half", EnumBlockHalf.class);
 
 	protected BlockState blockState;
 
@@ -266,5 +266,36 @@ public class BlockBuildingBricksSlab extends BlockSlab implements IBlock {
 	@Override
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
 		return isReplaceable((World) world, new BlockPos(x, y, z));
+	}
+
+	private Map<String, IIcon> icons = Maps.newHashMap();
+	private IIcon currentIcon = null;
+
+	@Override
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		Set<Material> materials = MaterialBlockRegistry.instance.getBlockMaterials(this);
+		if (materials != null) {
+			for (Material mat : materials) {
+				icons.put(mat.materialId(), iconRegister
+						.registerIcon(mat.getTextures().get("side").replace("blocks/", "")));
+			}
+		}
+	}
+
+	@Override
+	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int facingIdx) {
+		TileMaterial te = TileMaterial.getTile(world, new BlockPos(x, y, z));
+		if (te != null)
+			return icons.get(te.getMaterial().materialId());
+		return null;
+	}
+
+	public void setCurrentRenderingMaterial(Material mat) {
+		currentIcon = icons.get(mat.materialId());
+	}
+
+	@Override
+	public IIcon getIcon(int side, int meta) {
+		return currentIcon;
 	}
 }

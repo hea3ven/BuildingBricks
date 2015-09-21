@@ -74,7 +74,7 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 	public AxisAlignedBB getBoundingBox(IBlockState state) {
 		EnumFacing facing = BlockProperties.getSide(state);
 		Vec3i dir = facing.getDirectionVec();
-		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
+		return AxisAlignedBB.getBoundingBox(
 				(dir.getX() != 0 && facing.getAxisDirection() != AxisDirection.NEGATIVE) ? 0.5f
 						: 0.0f,
 				0.0f,
@@ -84,7 +84,6 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 						: 1.0f,
 				1.0f, (dir.getZ() != 0 && facing.getAxisDirection() == AxisDirection.NEGATIVE)
 						? 0.5f : 1.0f);
-		return bb;
 	}
 
 	@Override

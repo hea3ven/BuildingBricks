@@ -33,6 +33,8 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 		state = BlockProperties.setHalf(state, EnumBlockHalf.BOTTOM);
 		state = BlockProperties.setRotation(state, EnumRotation.ROT0);
 		setDefaultState(state);
+
+		setBlockBounds(0.0f, 0.0f, 0.0f, 0.5f, 0.5f, 1.0f);
 	}
 
 	@Override
@@ -118,13 +120,16 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 				: new Point3f(0.5f, (half == EnumBlockHalf.BOTTOM) ? 0.0f : 0.5f, 0.0f);
 		matrix.transform(min);
 		matrix.transform(max);
-		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f,
-				max.x + 0.5f, max.y + 0.5f, max.z + 0.5f);
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(Math.min(min.x, max.x) + 0.5f,
+				Math.min(min.y, max.y) + 0.5f, Math.min(min.z, max.z) + 0.5f,
+				Math.max(min.x, max.x) + 0.5f, Math.max(min.y, max.y) + 0.5f,
+				Math.max(min.z, max.z) + 0.5f);
 		return bb;
 	}
 
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
+		//		Minecraft.getMinecraft().setIngameNotInFocus();
 		BlockPos selfPos = pos.offset(side.getOpposite());
 		EnumBlockHalf half = BlockProperties.getHalf(WorldHelper.get(world).getBlockState(selfPos));
 		if (side == half.getSide() && !super.shouldSideBeRendered(world, pos, side))

@@ -9,8 +9,8 @@ public enum EnumFacing {
 	UP(Axis.Y, AxisDirection.POSITIVE, new Vec3i(0, 1, 0), -1),
 	NORTH(Axis.Z, AxisDirection.NEGATIVE, new Vec3i(0, 0, -1), 2),
 	SOUTH(Axis.Z, AxisDirection.POSITIVE, new Vec3i(0, 0, 1), 0),
-	WEST(Axis.X, AxisDirection.POSITIVE, new Vec3i(1, 0, 0), 1),
-	EAST(Axis.X, AxisDirection.NEGATIVE, new Vec3i(-1, 0, 0), 3);
+	WEST(Axis.X, AxisDirection.NEGATIVE, new Vec3i(-1, 0, 0), 1),
+	EAST(Axis.X, AxisDirection.POSITIVE, new Vec3i(1, 0, 0), 3);
 
 	public static enum Axis {
 		X, Y, Z

@@ -2,14 +2,19 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -19,7 +24,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
@@ -39,7 +46,7 @@ public class BlockBuildingBricksStairs extends BlockStairs implements IBlock {
 		super(new Block(structMat.getMcMaterial()) {
 		}, 0);
 		useNeighborBrightness = true;
-		
+
 		blockState = createBlockState();
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.STAIRS);
@@ -227,5 +234,37 @@ public class BlockBuildingBricksStairs extends BlockStairs implements IBlock {
 	@Override
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
 		return isReplaceable((World) world, new BlockPos(x, y, z));
+	}
+
+	@Override
+	public int getRenderType() {
+		return 10;//ItemBlockMaterialRenderer.renderId;
+	}
+
+	private Map<String, IIcon> icons = Maps.newHashMap();
+	private IIcon currentIcon = null;
+
+	@Override
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		for (Material mat : MaterialBlockRegistry.instance.getBlockMaterials(this)) {
+			icons.put(mat.materialId(), iconRegister.registerIcon(mat.getTextures().get("side").replace("blocks/", "")));
+		}
+	}
+
+	@Override
+	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int facingIdx) {
+		TileMaterial te = TileMaterial.getTile(world, new BlockPos(x, y, z));
+		if (te != null)
+			return icons.get(te.getMaterial().materialId());
+		return null;
+	}
+	
+	public void setCurrentRenderingMaterial(Material mat){
+		currentIcon = icons.get(mat.materialId());
+	}
+	
+	@Override
+	public IIcon getIcon(int side, int meta) {
+		return currentIcon;
 	}
 }
