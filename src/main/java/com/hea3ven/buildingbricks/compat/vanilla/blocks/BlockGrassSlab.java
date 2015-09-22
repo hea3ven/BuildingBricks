@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
@@ -23,6 +25,7 @@ import com.hea3ven.transition.m.block.properties.PropertyBool;
 import com.hea3ven.transition.m.block.state.BlockState;
 import com.hea3ven.transition.m.block.state.IBlockState;
 import com.hea3ven.transition.m.util.BlockPos;
+import com.hea3ven.transition.m.util.EnumFacing;
 import com.hea3ven.transition.m.util.EnumWorldBlockLayer;
 import com.hea3ven.transition.m.world.biome.BiomeColorHelper;
 
@@ -95,4 +98,28 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 	/**************** 1.7.10 ****************/
 
 	public static PropertyBool SNOWY = PropertyBool.create("snowed");
+
+	@Override
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		currentTopIcon = iconRegister.registerIcon("grass_top");
+		currentBottomIcon = iconRegister
+				.registerIcon(mat.getTextures().get("bottom").replace("blocks/", ""));
+		currentSideIcon = iconRegister.registerIcon("grass_side");
+	}
+
+	@Override
+	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int facingIdx) {
+		EnumFacing face = EnumFacing.get(facingIdx);
+		if (face == EnumFacing.UP)
+			return currentTopIcon;
+		else if (face == EnumFacing.DOWN)
+			return currentBottomIcon;
+		else
+			return currentSideIcon;
+	}
+
+	@Override
+	public void setBlockBoundsForItemRender() {
+		setBlockBounds(0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f);
+	}
 }

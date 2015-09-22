@@ -3,6 +3,7 @@ package com.hea3ven.buildingbricks.core.blocks;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
 
@@ -237,34 +238,66 @@ public class BlockBuildingBricksStairs extends BlockStairs implements IBlock {
 	}
 
 	@Override
-	public int getRenderType() {
-		return 10;//ItemBlockMaterialRenderer.renderId;
+	public int getRenderColor(int meta) {
+		return getRenderColor(getStateFromMeta(meta));
 	}
 
-	private Map<String, IIcon> icons = Maps.newHashMap();
-	private IIcon currentIcon = null;
+	@Override
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+		return colorMultiplier(world, new BlockPos(x, y, z), 0);
+	}
+
+	protected Map<String, IIcon> topIcons = Maps.newHashMap();
+	protected Map<String, IIcon> bottomIcons = Maps.newHashMap();
+	protected Map<String, IIcon> sideIcons = Maps.newHashMap();
+	protected IIcon currentTopIcon = null;
+	protected IIcon currentBottomIcon = null;
+	protected IIcon currentSideIcon = null;
 
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		for (Material mat : MaterialBlockRegistry.instance.getBlockMaterials(this)) {
-			icons.put(mat.materialId(), iconRegister.registerIcon(mat.getTextures().get("side").replace("blocks/", "")));
+		Set<Material> materials = MaterialBlockRegistry.instance.getBlockMaterials(this);
+		if (materials != null) {
+			for (Material mat : materials) {
+				topIcons.put(mat.materialId(), iconRegister
+						.registerIcon(mat.getTextures().get("top").replace("blocks/", "")));
+				bottomIcons.put(mat.materialId(), iconRegister
+						.registerIcon(mat.getTextures().get("bottom").replace("blocks/", "")));
+				sideIcons.put(mat.materialId(), iconRegister
+						.registerIcon(mat.getTextures().get("side").replace("blocks/", "")));
+			}
 		}
 	}
 
 	@Override
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int facingIdx) {
 		TileMaterial te = TileMaterial.getTile(world, new BlockPos(x, y, z));
-		if (te != null)
-			return icons.get(te.getMaterial().materialId());
+		if (te != null) {
+			EnumFacing face = EnumFacing.get(facingIdx);
+			if (face == EnumFacing.UP)
+				return topIcons.get(te.getMaterial().materialId());
+			else if (face == EnumFacing.DOWN)
+				return bottomIcons.get(te.getMaterial().materialId());
+			else
+				return sideIcons.get(te.getMaterial().materialId());
+		}
 		return null;
 	}
-	
-	public void setCurrentRenderingMaterial(Material mat){
-		currentIcon = icons.get(mat.materialId());
+
+	public void setCurrentRenderingMaterial(Material mat) {
+		currentTopIcon = topIcons.get(mat.materialId());
+		currentBottomIcon = bottomIcons.get(mat.materialId());
+		currentSideIcon = sideIcons.get(mat.materialId());
 	}
-	
+
 	@Override
-	public IIcon getIcon(int side, int meta) {
-		return currentIcon;
+	public IIcon getIcon(int facingIdx, int meta) {
+		EnumFacing face = EnumFacing.get(facingIdx);
+		if (face == EnumFacing.UP)
+			return currentTopIcon;
+		else if (face == EnumFacing.DOWN)
+			return currentBottomIcon;
+		else
+			return currentSideIcon;
 	}
 }
