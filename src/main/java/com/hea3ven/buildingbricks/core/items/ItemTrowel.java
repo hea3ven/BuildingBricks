@@ -92,11 +92,8 @@ public class ItemTrowel extends Item {
 			ItemStack useStack = mat.getBlock(blockType).getStack().copy();
 			if (!consumeMaterial(blockType, mat, player, false))
 				return false;
-			if (!world.isRemote) {
-				if (!useStack.getItem().onItemUse(useStack, player, world, pos, side, hitX, hitY,
-						hitZ))
-					return false;
-			}
+			if (!useStack.onItemUse(player, world, pos, side, hitX, hitY, hitZ))
+				return false;
 			consumeMaterial(blockType, mat, player, true);
 			return true;
 		}

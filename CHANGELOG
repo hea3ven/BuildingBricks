@@ -1,0 +1,5 @@
+    * Fix grass slabs not having a name and creative tab.
+    * Fix the trowel not placing the blocks client-side, fixes #4.
+
+1.0.0-beta1:
+    * Initial release
