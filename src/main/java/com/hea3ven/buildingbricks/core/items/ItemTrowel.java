@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.common.collect.Maps;
+
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -177,5 +181,33 @@ public class ItemTrowel extends Item {
 			int facingIdx, float hitX, float hitY, float hitZ) {
 		return onItemUse(stack, player, world, new BlockPos(x, y, z), EnumFacing.get(facingIdx),
 				hitX, hitY, hitZ);
+	}
+
+	@Override
+	protected String getIconString() {
+		return "buildingbricks:trowel";
+	}
+
+	private Map<String, IIcon> materialIcons = Maps.newHashMap();
+
+	@Override
+	public void registerIcons(IIconRegister iconRegister) {
+		super.registerIcons(iconRegister);
+		for (Material mat : MaterialRegistry.getAll()) {
+			materialIcons.put(mat.materialId(), iconRegister
+					.registerIcon(mat.getTextures().get("side").replace("blocks/", "").replace("minecraft:", "")));
+		}
+	}
+
+	@Override
+	public IIcon getIcon(ItemStack stack, int pass) {
+		if (pass == 0)
+			return super.getIcon(stack, pass);
+		else {
+			if (stack.hasTagCompound())
+				return materialIcons.get(stack.getTagCompound().getString("material"));
+			else
+				return null;
+		}
 	}
 }
