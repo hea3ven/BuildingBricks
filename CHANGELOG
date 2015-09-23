@@ -1,6 +1,7 @@
     * Fix grass slabs not having a name and creative tab.
     * Fix the trowel not placing the blocks client-side, fixes #4.
     * Fix crash when running on servers, fixes #5.
+    * Fix blocks third-person rendering size.
 
 1.0.0-beta1:
     * Initial release
