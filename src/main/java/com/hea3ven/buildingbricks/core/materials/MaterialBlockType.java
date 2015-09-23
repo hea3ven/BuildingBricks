@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.rendering.IRenderDefinition;
@@ -25,21 +27,24 @@ public enum MaterialBlockType {
 	WALL("wall", 1000);
 
 	static {
-		FULL.setRenderDefinition(new RenderDefinitionSimple("minecraft:block/cube_bottom_top"));
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			FULL.setRenderDefinition(new RenderDefinitionSimple("minecraft:block/cube_bottom_top"));
 		FULL.addRecipe(true, MaterialRecipeBuilder
 				.create()
 				.outputAmount(2)
 				.pattern("xx", "xx")
 				.map('x', SLAB)
 				.validate());
-		STAIRS.setRenderDefinition(new RenderDefinitionStairs());
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			STAIRS.setRenderDefinition(new RenderDefinitionStairs());
 		STAIRS.addRecipe(false, MaterialRecipeBuilder
 				.create()
 				.outputAmount(2)
 				.pattern("x  ", "xx ", "xxx")
 				.map('x', FULL)
 				.validate());
-		SLAB.setRenderDefinition(new RenderDefinitionSlab());
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			SLAB.setRenderDefinition(new RenderDefinitionSlab());
 		SLAB.addRecipe(false, MaterialRecipeBuilder
 				.create()
 				.outputAmount(6)
@@ -58,7 +63,8 @@ public enum MaterialBlockType {
 				.pattern("xxx")
 				.map('x', VERTICAL_SLAB)
 				.validate());
-		VERTICAL_SLAB.setRenderDefinition(new RenderDefinitionSlab(true));
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			VERTICAL_SLAB.setRenderDefinition(new RenderDefinitionSlab(true));
 		VERTICAL_SLAB.addRecipe(true, MaterialRecipeBuilder
 				.create()
 				.outputAmount(3)
@@ -71,7 +77,8 @@ public enum MaterialBlockType {
 				.pattern("x", "x", "x")
 				.map('x', FULL)
 				.validate());
-		STEP.setRenderDefinition(new RenderDefinitionStep());
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			STEP.setRenderDefinition(new RenderDefinitionStep());
 		STEP.addRecipe(true, MaterialRecipeBuilder
 				.create()
 				.outputAmount(6)
@@ -84,15 +91,17 @@ public enum MaterialBlockType {
 				.pattern("xx")
 				.map('x', CORNER)
 				.validate());
-		CORNER.setRenderDefinition(
-				new RenderDefinitionRotHalf("buildingbricks:block/corner_bottom"));
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			CORNER.setRenderDefinition(
+					new RenderDefinitionRotHalf("buildingbricks:block/corner_bottom"));
 		CORNER.addRecipe(true, MaterialRecipeBuilder
 				.create()
 				.outputAmount(6)
 				.pattern("xxx")
 				.map('x', STEP)
 				.validate());
-		WALL.setRenderDefinition(new RenderDefinitionWall());
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			WALL.setRenderDefinition(new RenderDefinitionWall());
 		WALL.addRecipe(false, MaterialRecipeBuilder
 				.create()
 				.outputAmount(6)

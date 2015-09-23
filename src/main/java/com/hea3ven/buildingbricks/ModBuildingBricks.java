@@ -56,7 +56,10 @@ public class ModBuildingBricks {
 		GameRegistry.registerTileEntity(TileMaterial.class, "tile.material");
 
 		logger.info("Registering materials from resources");
-		MaterialResourceLoader.discoverMaterials();
+		if (event.getSide() == Side.CLIENT)
+			com.hea3ven.buildingbricks.core.materials.MaterialResourceLoaderClient.discoverMaterialsClient();
+		else
+			com.hea3ven.buildingbricks.core.materials.MaterialResourceLoaderServer.discoverMaterialsServer();
 
 		trowel = new ItemTrowel();
 		GameRegistry.registerItem(trowel, "trowel");
