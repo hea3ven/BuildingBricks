@@ -35,7 +35,7 @@ import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBric
 public class ModBuildingBricksCompatVanilla {
 
 	public static final String MODID = "buildingbrickscompatvanilla";
-	public static final String VERSION = "1.0.0-beta1";
+	public static final String VERSION = "1.0.0-beta2";
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.CompatVanilla");
 

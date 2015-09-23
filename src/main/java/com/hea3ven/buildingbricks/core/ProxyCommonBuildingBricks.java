@@ -11,7 +11,6 @@ import net.minecraftforge.oredict.RecipeSorter.Category;
 
 import com.hea3ven.buildingbricks.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerOverrideBlockPlacing;
-import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.BlockDescription;

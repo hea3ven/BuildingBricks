@@ -22,7 +22,6 @@ import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.materials.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
@@ -32,7 +31,7 @@ import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 public class ModBuildingBricks {
 
 	public static final String MODID = "buildingbricks";
-	public static final String VERSION = "1.0.0-beta1";
+	public static final String VERSION = "1.0.0-beta2";
 
 	public static final Logger logger = LogManager.getLogger("BuildingBricks");
 

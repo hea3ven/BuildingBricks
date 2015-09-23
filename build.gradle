@@ -2,7 +2,7 @@ plugins {
         id "net.minecraftforge.gradle.forge" version "2.0.1"
 }
 
-version = "1.0.0-beta1"
+version = "1.0.0-beta2"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "buildingbricks"
 

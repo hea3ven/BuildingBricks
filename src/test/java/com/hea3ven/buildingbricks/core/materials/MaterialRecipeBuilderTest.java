@@ -3,6 +3,7 @@ package com.hea3ven.buildingbricks.core.materials;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import net.minecraft.block.Block;
@@ -10,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
+@Ignore
 public class MaterialRecipeBuilderTest {
 
 	@Test()
