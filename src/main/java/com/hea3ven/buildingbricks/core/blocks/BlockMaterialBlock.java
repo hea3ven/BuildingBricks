@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -16,6 +17,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
@@ -83,5 +87,18 @@ public class BlockMaterialBlock extends BlockBuildingBricksBlock implements Bloc
 			return super.getLocalizedName();
 		else
 			return blockLogic.getLocalizedName(mat);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean addHitEffects(World world, MovingObjectPosition target,
+			EffectRenderer effectRenderer) {
+		return blockLogic.addHitEffects(world, target, effectRenderer);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
+		return blockLogic.addDestroyEffects(world, pos, effectRenderer);
 	}
 }

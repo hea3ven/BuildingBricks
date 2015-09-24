@@ -26,6 +26,7 @@ import net.minecraft.util.IRegistry;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.Attributes;
 import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
@@ -56,8 +57,18 @@ public class BakeEventHandler {
 
 	private DefaultStateMapper stateMap = new DefaultStateMapper();
 
+	public Map<Material, TextureAtlasSprite> particleTextures = Maps.newHashMap();
+
 	private BakeEventHandler() {
 	};
+
+	@SubscribeEvent
+	public void onTextureStichPreEvent(TextureStitchEvent.Pre event) {
+		for (Material mat : MaterialRegistry.getAll()) {
+			particleTextures.put(mat, event.map
+					.registerSprite(new ResourceLocation(mat.getTextures().get("particle"))));
+		}
+	}
 
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
