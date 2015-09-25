@@ -1,4 +1,5 @@
     * Fix block breaking particles not having textures, fixes #7.
+    * Fix crash when placing blocks, fixes #13.
 
 1.0.0-beta2:
     * Fix grass slabs not having a name and creative tab.

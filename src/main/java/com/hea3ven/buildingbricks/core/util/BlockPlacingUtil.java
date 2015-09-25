@@ -145,7 +145,7 @@ public class BlockPlacingUtil {
 	public static EnumRotation getRotation(EnumFacing facing, float hitX, float hitY, float hitZ) {
 		float faceX = getFaceX(facing, hitX, hitY, hitZ);
 		if (faceX <= 0.5f) {
-			return getRotation(facing, -1);
+			return getRotation(facing, 3);
 		} else {
 			return getRotation(facing, 1);
 		}
