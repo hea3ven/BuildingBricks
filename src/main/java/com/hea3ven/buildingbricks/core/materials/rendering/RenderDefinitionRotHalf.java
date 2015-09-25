@@ -7,11 +7,14 @@ import net.minecraft.client.resources.model.ModelRotation;
 
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.TRSRTransformation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 
+@SideOnly(Side.CLIENT)
 public class RenderDefinitionRotHalf extends RenderDefinitionSimple {
 
 	public RenderDefinitionRotHalf(String modelLocation) {

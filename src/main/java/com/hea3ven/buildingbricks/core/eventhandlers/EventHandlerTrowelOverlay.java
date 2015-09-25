@@ -11,11 +11,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 
+@SideOnly(Side.CLIENT)
 public class EventHandlerTrowelOverlay {
 
 	private ResourceLocation widgetsTexture = new ResourceLocation("textures/gui/widgets.png");
@@ -68,7 +71,6 @@ public class EventHandlerTrowelOverlay {
 			GlStateManager.translate(-(xPos + 8), -(yPos + 12), 0.0F);
 		}
 
-//		Minecraft.getMinecraft().setIngameNotInFocus();
 		mc.getRenderItem().renderItemAndEffectIntoGUI(stack, xPos, yPos);
 		if (f1 > 0.0F) {
 			GlStateManager.popMatrix();

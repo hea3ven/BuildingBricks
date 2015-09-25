@@ -12,12 +12,16 @@ import net.minecraftforge.common.MinecraftForge;
 import com.hea3ven.buildingbricks.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 
 public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 
 	@Override
 	public void preInit() {
 		super.preInit();
+
+		MaterialBlockType.initRendering();
+
 		MinecraftForge.EVENT_BUS.register(BakeEventHandler.instance);
 	}
 

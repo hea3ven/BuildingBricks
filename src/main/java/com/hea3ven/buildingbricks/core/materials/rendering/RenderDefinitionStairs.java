@@ -8,10 +8,13 @@ import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.Material;
 
+@SideOnly(Side.CLIENT)
 public class RenderDefinitionStairs extends RenderDefinitionSimple {
 
 	public RenderDefinitionStairs() {

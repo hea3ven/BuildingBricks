@@ -7,11 +7,14 @@ import net.minecraft.client.resources.model.ModelRotation;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksSlab;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.Material;
 
+@SideOnly(Side.CLIENT)
 public class RenderDefinitionSlab extends RenderDefinitionSimple {
 
 	private boolean vertical;

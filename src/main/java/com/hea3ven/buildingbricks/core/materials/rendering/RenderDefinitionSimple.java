@@ -12,9 +12,12 @@ import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
 
+@SideOnly(Side.CLIENT)
 public class RenderDefinitionSimple implements IRenderDefinition {
 
 	protected static final Logger logger = LogManager.getLogger("BuildingBricks.RenderDefinition");

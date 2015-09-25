@@ -4,9 +4,12 @@ import net.minecraft.block.state.IBlockState;
 
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
 
+@SideOnly(Side.CLIENT)
 public interface IRenderDefinition {
 
 	IModel getItemModel(Material mat);

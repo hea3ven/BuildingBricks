@@ -19,10 +19,13 @@ import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.MultiModel;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.Material;
 
+@SideOnly(Side.CLIENT)
 public class RenderDefinitionWall implements IRenderDefinition {
 
 	protected static final Logger logger = LogManager.getLogger("BuildingBricks.RenderDefinition");
