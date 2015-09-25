@@ -29,6 +29,8 @@ import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
+import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
 @Mod(modid = ModBuildingBricksCompatVanilla.MODID, name = "Building Bricks Vanilla Compatibilty",
 		version = ModBuildingBricksCompatVanilla.VERSION)
@@ -85,7 +87,10 @@ public class ModBuildingBricksCompatVanilla {
 			}
 		}
 
-		ItemStack stoneSlab = new ItemStack(Block.getBlockFromName("buildingbricks:stone_slab"));
+		ItemStack stoneSlab = MaterialRegistry
+				.get("stone")
+				.getBlock(MaterialBlockType.SLAB)
+				.getStack();
 		ItemStack stoneSlabSlab = new ItemStack(Blocks.stone_slab, 2,
 				BlockStoneSlab.EnumType.STONE.getMetadata());
 		GameRegistry.addShapedRecipe(stoneSlabSlab, "x", "x", 'x', stoneSlab);
