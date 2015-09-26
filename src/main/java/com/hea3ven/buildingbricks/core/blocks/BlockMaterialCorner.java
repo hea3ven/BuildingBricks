@@ -9,6 +9,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -25,6 +26,7 @@ import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
+import com.hea3ven.buildingbricks.core.utils.ItemStackUtils;
 
 public class BlockMaterialCorner extends BlockBuildingBricksCorner implements BlockMaterial {
 
@@ -71,9 +73,15 @@ public class BlockMaterialCorner extends BlockBuildingBricksCorner implements Bl
 	}
 
 	@Override
-	public void breakBlock(World world, BlockPos pos, IBlockState state) {
-		TileMaterial.breakBlock(this, world, pos, state);
-		super.breakBlock(world, pos, state);
+	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player,
+			boolean willHarvest) {
+		ItemStack stack = TileMaterial.getPickBlock(world.getBlockState(pos).getBlock(), null,
+				world, pos);
+		boolean removed = super.removedByPlayer(world, pos, player, willHarvest);
+		if (removed && !world.isRemote && !player.capabilities.isCreativeMode)
+			ItemStackUtils.dropFromBlock(world, pos, stack);
+		return removed;
+
 	}
 
 	@Override

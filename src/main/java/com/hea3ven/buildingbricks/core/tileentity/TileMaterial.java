@@ -29,7 +29,6 @@ import com.hea3ven.buildingbricks.core.blocks.properties.PropertyMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.utils.ItemStackUtils;
 
 public class TileMaterial extends TileEntity {
 
@@ -134,12 +133,6 @@ public class TileMaterial extends TileEntity {
 		ItemStack stack = new ItemStack(block, 1);
 		TileMaterial.setStackMaterial(stack, TileMaterial.getTile(world, pos).getMaterial());
 		return stack;
-	}
-
-	public static void breakBlock(Block block, World world, BlockPos pos, IBlockState state) {
-		ItemStack stack = new ItemStack(block, 1);
-		TileMaterial.setStackMaterial(stack, TileMaterial.getTile(world, pos).getMaterial());
-		ItemStackUtils.dropFromBlock(world, pos, stack);
 	}
 
 	public static void getSubBlocks(Block block, Item item, CreativeTabs tab, List list) {
