@@ -10,6 +10,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.inventory.MaterialItemStackConsumer;
 import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
@@ -106,6 +108,19 @@ public class ItemTrowel extends Item {
 		else
 			return StatCollector.translateToLocalFormatted("item.trowelBinded.name",
 					mat.getLocalizedName());
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
+		if (tintIndex == 1)
+			return super.getColorFromItemStack(stack, tintIndex);
+		Material mat = getBindedMaterial(stack);
+		if (mat == null)
+			return super.getColorFromItemStack(stack, tintIndex);
+
+		return mat.getBlock(MaterialBlockType.FULL).getItem().getColorFromItemStack(stack,
+				tintIndex);
 	}
 
 }

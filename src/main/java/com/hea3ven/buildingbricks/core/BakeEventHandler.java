@@ -140,7 +140,10 @@ public class BakeEventHandler {
 		ResourceLocation trowelModelLoc = new ResourceLocation("buildingbricks:item/trowel");
 		for (Material material : MaterialRegistry.getAll()) {
 
-			IModel itemModel = getModel(new ResourceLocation("block/cube_all"));
+			// TODO: rework this better
+			String model = (!material.getTextures().containsKey("overlay"))
+					? "block/cube_bottom_top" : "block/grass";
+			IModel itemModel = getModel(new ResourceLocation(model));
 			itemModel = retexture(material.getTextures(), itemModel);
 			Vector3f translation = new Vector3f(0.3f, 0.5f, 0.3f);
 			Vector3f scale = new Vector3f(0.4f, 0.4f, 0.4f);

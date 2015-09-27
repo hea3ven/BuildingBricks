@@ -3,6 +3,7 @@
     * Fix crash when looking up the recipe for the double slabs.
     * Fix blocks dropping items when breaking them in creative mode, fixes #9.
     * Fix silk touching blocks and their drops, fixes #8.
+    * Fix the trowel not respecting the top/side/bottom textures of materials, fixes #6.
     * Change the way the trowel consumes blocks to be more smart, fixes #10.
     * Add keybindings to switch the trowel's block type, fixes #3.
 
