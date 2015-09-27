@@ -10,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.hea3ven.buildingbricks.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.client.settings.TrowelKeyBindings;
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
@@ -30,7 +31,8 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 		super.init();
 
 		MinecraftForge.EVENT_BUS.register(new EventHandlerTrowelOverlay());
-		MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
+
+		TrowelKeyBindings.init();
 
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		for (Block block : MaterialBlockRegistry.instance.getAllBlocks()) {
