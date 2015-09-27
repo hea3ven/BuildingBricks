@@ -1,9 +1,5 @@
 package com.hea3ven.buildingbricks.core.items;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,6 +11,7 @@ import net.minecraft.world.World;
 
 import net.minecraftforge.common.util.Constants.NBT;
 
+import com.hea3ven.buildingbricks.core.inventory.MaterialItemStackConsumer;
 import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
@@ -90,11 +87,13 @@ public class ItemTrowel extends Item {
 		else {
 			MaterialBlockType blockType = getCurrentBlockType(stack);
 			ItemStack useStack = mat.getBlock(blockType).getStack().copy();
-			if (!consumeMaterial(blockType, mat, player, false))
+			MaterialItemStackConsumer consumer = new MaterialItemStackConsumer(blockType, mat,
+					player.inventory);
+			if (consumer.failed())
 				return false;
 			if (!useStack.onItemUse(player, world, pos, side, hitX, hitY, hitZ))
 				return false;
-			consumeMaterial(blockType, mat, player, true);
+			consumer.apply(world, player.getPosition());
 			return true;
 		}
 	}
@@ -107,64 +106,6 @@ public class ItemTrowel extends Item {
 		else
 			return StatCollector.translateToLocalFormatted("item.trowelBinded.name",
 					mat.getLocalizedName());
-	}
-
-	private boolean consumeMaterial(MaterialBlockType blockType, Material mat, EntityPlayer player,
-			boolean doConsume) {
-		// TODO: prototype code, rewrite later
-
-		if (player.capabilities.isCreativeMode)
-			return true;
-
-		int volume = blockType.getVolume();
-		Map<Integer, ItemStack> invSnapshot = new HashMap<Integer, ItemStack>();
-		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-			ItemStack stack = player.inventory.getStackInSlot(i);
-			Material stackMat = MaterialRegistry.getMaterialForStack(stack);
-			if (stackMat != null && stackMat == mat) {
-				int stackVolume = mat.getBlock(stack).getType().getVolume();
-				invSnapshot.put(i, stack.copy());
-				if (volume <= stackVolume * stack.stackSize) {
-					int consumed = volume / stackVolume;
-					volume -= stackVolume * consumed;
-					stack.stackSize -= consumed;
-					if (stack.stackSize == 0) {
-						player.inventory.setInventorySlotContents(i, null);
-					} else {
-						if (volume > 0) {
-							volume -= stackVolume;
-							stack.stackSize -= 1;
-							if (stack.stackSize == 0) {
-								player.inventory.setInventorySlotContents(i, null);
-							}
-							while (volume < 0) {
-								MaterialBlockType partBlockType = MaterialBlockType
-										.getBestForVolume(-volume);
-								if (doConsume) {
-									ItemStack newStack = mat.getBlock(partBlockType).getStack();
-									player.inventory.addItemStackToInventory(newStack.copy());
-								}
-								volume += partBlockType.getVolume();
-							}
-						}
-					}
-				} else {
-					volume -= stackVolume * stack.stackSize;
-					player.inventory.setInventorySlotContents(i, null);
-				}
-
-				if (volume == 0)
-					break;
-			}
-		}
-
-		if (!doConsume || volume > 0) {
-			for (Entry<Integer, ItemStack> slotSnapshot : invSnapshot.entrySet()) {
-				player.inventory.setInventorySlotContents(slotSnapshot.getKey(),
-						slotSnapshot.getValue());
-			}
-		}
-		return volume == 0;
 	}
 
 }

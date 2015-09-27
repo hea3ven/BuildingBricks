@@ -3,6 +3,7 @@
     * Fix crash when looking up the recipe for the double slabs.
     * Fix blocks dropping items when breaking them in creative mode, fixes #9.
     * Fix silk touching blocks and their drops, fixes #8.
+    * Change the way the trowel consumes blocks to be more smart, fixes #10.
 
 1.0.0-beta2:
     * Fix grass slabs not having a name and creative tab.

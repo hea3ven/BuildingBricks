@@ -12,6 +12,9 @@ public class ItemStackUtils {
 	private static final Random RANDOM = new Random();
 
 	public static void dropFromBlock(World world, BlockPos pos, ItemStack stack) {
+		if (world.isRemote)
+			return;
+
 		float xOff = RANDOM.nextFloat() * 0.8F + 0.1F;
 		float yOff = RANDOM.nextFloat() * 0.8F + 0.1F;
 		float zOff = RANDOM.nextFloat() * 0.8F + 0.1F;
