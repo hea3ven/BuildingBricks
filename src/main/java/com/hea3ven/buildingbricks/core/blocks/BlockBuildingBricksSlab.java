@@ -12,11 +12,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
-public class BlockBuildingBricksSlab extends BlockSlab {
+public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingBricks {
 
 	protected MaterialBlockLogic blockLogic;
 
@@ -77,6 +78,11 @@ public class BlockBuildingBricksSlab extends BlockSlab {
 
 	public static IBlockState setHalf(IBlockState state, EnumBlockHalf half) {
 		return state.withProperty(HALF, half);
+	}
+
+	@Override
+	public MaterialBlockLogic getBlockLogic() {
+		return blockLogic;
 	}
 
 	@Override

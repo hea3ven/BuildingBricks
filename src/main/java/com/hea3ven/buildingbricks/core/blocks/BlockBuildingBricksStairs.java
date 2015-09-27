@@ -10,11 +10,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
-public class BlockBuildingBricksStairs extends BlockStairs {
+public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuildingBricks {
 
 	protected MaterialBlockLogic blockLogic;
 
@@ -25,6 +26,11 @@ public class BlockBuildingBricksStairs extends BlockStairs {
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.STAIRS);
 		blockLogic.initBlock(this);
+	}
+
+	@Override
+	public MaterialBlockLogic getBlockLogic() {
+		return blockLogic;
 	}
 
 	@Override

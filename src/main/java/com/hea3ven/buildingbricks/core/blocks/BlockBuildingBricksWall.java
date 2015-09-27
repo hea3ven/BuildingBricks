@@ -15,11 +15,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
-public class BlockBuildingBricksWall extends BlockWall {
+public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingBricks {
 
 	protected MaterialBlockLogic blockLogic;
 
@@ -33,6 +34,11 @@ public class BlockBuildingBricksWall extends BlockWall {
 
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
 		list.add(new ItemStack(itemIn));
+	}
+
+	@Override
+	public MaterialBlockLogic getBlockLogic() {
+		return blockLogic;
 	}
 
 	@Override
