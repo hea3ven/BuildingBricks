@@ -27,34 +27,41 @@ public class BlockBuildingBricksStairs extends BlockStairs {
 		blockLogic.initBlock(this);
 	}
 
+	@Override
 	public boolean requiresUpdates() {
 		return false;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getBlockColor() {
 		return blockLogic.getBlockColor();
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(IBlockState state) {
 		return blockLogic.getRenderColor(state);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
 		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer() {
 		return blockLogic.getBlockLayer();
 	}
 
+	@Override
 	public int getHarvestLevel(IBlockState state) {
 		return 0;
 	}
 
+	@Override
 	public String getHarvestTool(IBlockState state) {
 		return blockLogic.getHarvestTool(state);
 	}
