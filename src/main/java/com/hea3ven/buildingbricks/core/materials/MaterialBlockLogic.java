@@ -45,6 +45,14 @@ public class MaterialBlockLogic {
 		block.slipperiness = structMat.getSlipperiness();
 	}
 
+	public StructureMaterial getStructureMaterial() {
+		return structMat;
+	}
+
+	public MaterialBlockType getBlockType() {
+		return blockType;
+	}
+
 	@SideOnly(Side.CLIENT)
 	public int getBlockColor() {
 		if (!structMat.getColor())

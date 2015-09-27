@@ -2,6 +2,7 @@ package com.hea3ven.buildingbricks.compat.vanilla.blocks;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGrass;
@@ -9,6 +10,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.StatCollector;
@@ -22,6 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksSlab;
 import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
@@ -53,6 +56,19 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer() {
 		return EnumWorldBlockLayer.CUTOUT_MIPPED;
+	}
+
+	@Override
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state,
+			int fortune) {
+		List<ItemStack> stacks = new ArrayList<ItemStack>();
+		stacks.add(MaterialRegistry.get("dirt").getBlock(MaterialBlockType.SLAB).getStack().copy());
+		return stacks;
+	}
+
+	@Override
+	protected boolean canSilkHarvest() {
+		return true;
 	}
 
 	@Override

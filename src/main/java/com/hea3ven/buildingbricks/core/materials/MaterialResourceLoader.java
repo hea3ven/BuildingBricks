@@ -79,6 +79,14 @@ public class MaterialResourceLoader {
 				mat.setResistance(json.get("resistance").getAsFloat());
 			}
 
+			if (json.has("normalHarvest")) {
+				mat.setNormalHarvestMaterial(json.get("normalHarvest").getAsString());
+			}
+
+			if (json.has("silkHarvest")) {
+				mat.setSilkHarvestMaterial(json.get("silkHarvest").getAsString());
+			}
+
 			if (!json.has("textures"))
 				throw new JsonParseException("material does not have textures");
 			if (json.get("textures").isJsonPrimitive())

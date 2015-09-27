@@ -13,10 +13,13 @@ public class Material {
 	private BlockRotation blockRotation;
 	private float hardness = 1.0f;
 	private float resistance = 5.0f;
+	private String normalHarvestMaterial;
+	private String silkHarvestMaterial = null;
 
 	public Material(String materialId) {
 		this.materialId = materialId;
 		blockRotation = new BlockRotation();
+		normalHarvestMaterial = this.materialId;
 	}
 
 	public String materialId() {
@@ -74,6 +77,22 @@ public class Material {
 		return resistance;
 	}
 
+	public void setNormalHarvestMaterial(String mat) {
+		normalHarvestMaterial = mat;
+	}
+
+	public String getNormalHarvestMaterial() {
+		return normalHarvestMaterial;
+	}
+
+	public void setSilkHarvestMaterial(String mat) {
+		silkHarvestMaterial = mat;
+	}
+
+	public String getSilkHarvestMaterial() {
+		return silkHarvestMaterial;
+	}
+
 	public BlockRotation getBlockRotation() {
 		return blockRotation;
 	}
@@ -115,5 +134,4 @@ public class Material {
 				? StatCollector.translateToLocal(getTranslationKey())
 				: getBlock(MaterialBlockType.FULL).getStack().getDisplayName();
 	}
-
 }

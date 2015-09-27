@@ -7,7 +7,9 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,9 +27,11 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.common.util.Constants.NBT;
 
+import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.properties.PropertyMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
 public class TileMaterial extends TileEntity {
@@ -141,5 +145,28 @@ public class TileMaterial extends TileEntity {
 			TileMaterial.setStackMaterial(stack, mat);
 			list.add(stack);
 		}
+	}
+
+	public static ItemStack getHarvestBlock(World world, BlockPos pos, EntityPlayer player) {
+		Block block = world.getBlockState(pos).getBlock();
+		if (!(block instanceof BlockBuildingBricks))
+			return null;
+		MaterialBlockType blockType = ((BlockBuildingBricks) block).getBlockLogic().getBlockType();
+
+		TileMaterial te = TileMaterial.getTile(world, pos);
+		if (te == null)
+			return null;
+		Material mat = te.getMaterial();
+
+		boolean silk = mat.getSilkHarvestMaterial() != null
+				&& EnchantmentHelper.getSilkTouchModifier(player);
+		String harvestMatId = silk ? mat.getSilkHarvestMaterial() : mat.getNormalHarvestMaterial();
+		if (harvestMatId == null)
+			return null;
+		Material itemMat = MaterialRegistry.get(harvestMatId);
+		if (itemMat == null)
+			return null;
+
+		return itemMat.getBlock(blockType).getStack().copy();
 	}
 }

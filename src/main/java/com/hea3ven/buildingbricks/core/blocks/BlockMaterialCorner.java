@@ -75,8 +75,7 @@ public class BlockMaterialCorner extends BlockBuildingBricksCorner implements Bl
 	@Override
 	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player,
 			boolean willHarvest) {
-		ItemStack stack = TileMaterial.getPickBlock(world.getBlockState(pos).getBlock(), null,
-				world, pos);
+		ItemStack stack = TileMaterial.getHarvestBlock(world, pos, player);
 		boolean removed = super.removedByPlayer(world, pos, player, willHarvest);
 		if (removed && !world.isRemote && !player.capabilities.isCreativeMode)
 			ItemStackUtils.dropFromBlock(world, pos, stack);

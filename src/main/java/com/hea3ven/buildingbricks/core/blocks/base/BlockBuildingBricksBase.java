@@ -13,7 +13,7 @@ import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
-public class BlockBuildingBricksBase extends Block {
+public class BlockBuildingBricksBase extends Block implements BlockBuildingBricks {
 
 	protected MaterialBlockLogic blockLogic;
 
@@ -22,6 +22,11 @@ public class BlockBuildingBricksBase extends Block {
 
 		blockLogic = new MaterialBlockLogic(structMat, blockType);
 		blockLogic.initBlock(this);
+	}
+
+	@Override
+	public MaterialBlockLogic getBlockLogic() {
+		return blockLogic;
 	}
 
 	public boolean requiresUpdates() {
