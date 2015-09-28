@@ -30,12 +30,10 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMaterial {
 
-	private Material mat;
+	public Material mat;
 
 	public BlockGrassSlab() {
 		super(StructureMaterial.GRASS);
-
-		mat = MaterialRegistry.get("grass");
 	}
 
 	@SideOnly(Side.CLIENT)

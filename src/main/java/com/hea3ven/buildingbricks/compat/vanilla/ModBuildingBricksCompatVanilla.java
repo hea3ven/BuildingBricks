@@ -59,6 +59,8 @@ public class ModBuildingBricksCompatVanilla {
 		if (Config.generateGrassSlabs)
 			MinecraftForge.EVENT_BUS.register(new GrassSlabWorldGen());
 
+		((BlockGrassSlab) grassSlab).mat = MaterialRegistry.get("grass");
+
 		replaceStoneSlabRecipe();
 
 		if (event.getSide() == Side.CLIENT) {
