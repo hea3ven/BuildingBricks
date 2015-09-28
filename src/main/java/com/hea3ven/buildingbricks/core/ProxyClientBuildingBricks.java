@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.common.MinecraftForge;
 
-import com.hea3ven.buildingbricks.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.client.settings.TrowelKeyBindings;
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
@@ -41,6 +40,6 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 			mesher.register(Item.getItemFromBlock(block), 0, location);
 		}
 		mesher.register(ModBuildingBricks.trowel, 0,
-				new ModelResourceLocation(ModBuildingBricks.MODID + ":trowel", "inventory"));
+				new ModelResourceLocation(Properties.MODID + ":trowel", "inventory"));
 	}
 }

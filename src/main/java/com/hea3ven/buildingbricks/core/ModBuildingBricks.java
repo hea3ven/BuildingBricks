@@ -1,4 +1,4 @@
-package com.hea3ven.buildingbricks;
+package com.hea3ven.buildingbricks.core;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +17,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
@@ -25,13 +24,10 @@ import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
-@Mod(modid = ModBuildingBricks.MODID, name = "Building Bricks", version = ModBuildingBricks.VERSION,
-		dependencies = "required-after:Forge@[11.14.3.1513,)",
+@Mod(modid = Properties.MODID, name = "Building Bricks", version = Properties.VERSION,
+		dependencies = Properties.DEPENDENCIES,
 		guiFactory = "com.hea3ven.buildingbricks.core.config.BuildingBricksConfigGuiFactory")
 public class ModBuildingBricks {
-
-	public static final String MODID = "buildingbricks";
-	public static final String VERSION = "1.0.0-beta2";
 
 	public static final Logger logger = LogManager.getLogger("BuildingBricks");
 
@@ -48,7 +44,7 @@ public class ModBuildingBricks {
 		logger.info("Initializing config");
 		Config.init(event.getModConfigurationDirectory());
 
-		netChannel = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
+		netChannel = NetworkRegistry.INSTANCE.newSimpleChannel(Properties.MODID);
 		netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class,
 				TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);
 

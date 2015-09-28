@@ -15,7 +15,7 @@ import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.client.model.ISmartItemModel;
 
-import com.hea3ven.buildingbricks.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 
 @SuppressWarnings("deprecation")

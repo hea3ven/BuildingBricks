@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.world.World;
 
-import com.hea3ven.buildingbricks.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 
 public class RecipeBindTrowel extends ShapelessRecipes {
 

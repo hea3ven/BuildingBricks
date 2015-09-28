@@ -3,7 +3,7 @@ package com.hea3ven.buildingbricks.core.items.creativetab;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
-import com.hea3ven.buildingbricks.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 
 public class CreativeTabBuildingBricks extends CreativeTabs {
 

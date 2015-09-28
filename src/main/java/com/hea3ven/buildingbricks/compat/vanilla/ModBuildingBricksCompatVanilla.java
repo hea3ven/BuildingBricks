@@ -26,18 +26,16 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
+import com.hea3ven.buildingbricks.core.Properties;
 import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
-@Mod(modid = ModBuildingBricksCompatVanilla.MODID, name = "Building Bricks Vanilla Compatibilty",
-		version = ModBuildingBricksCompatVanilla.VERSION)
+@Mod(modid = Properties.MODID_COMP_VANILLA, name = "Building Bricks Vanilla Compatibilty",
+		version = Properties.VERSION)
 public class ModBuildingBricksCompatVanilla {
-
-	public static final String MODID = "buildingbrickscompatvanilla";
-	public static final String VERSION = "1.0.0-beta2";
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.CompatVanilla");
 

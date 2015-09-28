@@ -2,7 +2,14 @@ plugins {
         id "net.minecraftforge.gradle.forge" version "2.0.1"
 }
 
-version = "1.0.0-beta2"
+repositories {
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven/"
+    }
+}
+
+version = "1.0.0-beta3"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "buildingbricks"
 
@@ -11,6 +18,10 @@ minecraft {
     runDir = "eclipse"
 
     mappings = "snapshot_20141130"
+
+    replace "PROJECTVERSION", project.version
+    replace "MCVERSION", project.minecraft.version
+    replace "FORGEVERSION", project.minecraft.forgeVersion
 }
 
 configurations {
@@ -18,8 +29,8 @@ configurations {
 }
 
 dependencies {
-//    runmods "codechicken:CodeChickenCore:1.8-1.0.5.34:dev"
-//    runmods "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
+    runmods "codechicken:CodeChickenCore:1.8-1.0.5.34:dev"
+    runmods "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
 
     testCompile "junit:junit:4.12"
 }

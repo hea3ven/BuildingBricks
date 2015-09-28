@@ -6,9 +6,9 @@ A minecraft mod focused on the building aspect of the game. It adds all the miss
 
 _For Minecraft 1.8:_
 
-MediaFire: [BuildingBricks v1.0.0-beta2](http://www.mediafire.com/download/h0euucariwkkj3o/buildingbricks-1.0.0-beta2.jar)
+MediaFire: [BuildingBricks v1.0.0-beta3](http://www.mediafire.com/download/0qy776hkpq494zd/buildingbricks-1.0.0-beta3.jar)
 
-Curse: [BuildingBricks v1.0.0-beta2](http://minecraft.curseforge.com/mc-mods/236150-building-bricks/files/2259148)
+Curse: [BuildingBricks v1.0.0-beta3](http://minecraft.curseforge.com/mc-mods/236150-building-bricks/files/2259747)
 
 This mod requires forge to be installed.
 To install the mod copy the file to the "mods" folder

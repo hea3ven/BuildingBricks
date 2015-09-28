@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.client.config.GuiConfig;
 
-import com.hea3ven.buildingbricks.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.Properties;
 
 public class BuildingBricksConfigGuiFactory implements IModGuiFactory {
 
@@ -34,7 +34,7 @@ public class BuildingBricksConfigGuiFactory implements IModGuiFactory {
 	public static class GuiConfigBuildingBricks extends GuiConfig {
 
 		public GuiConfigBuildingBricks(GuiScreen parentScreen) {
-			super(parentScreen, Config.getConfigElements(), ModBuildingBricks.MODID, false, false,
+			super(parentScreen, Config.getConfigElements(), Properties.MODID, false, false,
 					"Building Bricks Configuration");
 		}
 
