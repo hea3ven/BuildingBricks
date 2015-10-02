@@ -1,3 +1,5 @@
+    * Fix material loading when running on servers, fixes #14.
+
 1.0.0-beta4:
     * Fix crash when holding a grass slab.
 

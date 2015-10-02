@@ -16,7 +16,13 @@ import java.util.zip.ZipFile;
 
 import com.google.common.base.Throwables;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class MaterialResourceLoaderServer extends MaterialResourceLoader {
+
+	private static final Logger logger = LogManager
+			.getLogger("BuildingBricks.MaterialResourceLoader");
 
 	public static void discoverMaterialsServer() {
 		// TODO: rewrite this
@@ -27,6 +33,7 @@ public class MaterialResourceLoaderServer extends MaterialResourceLoader {
 				.getLocation();
 		Set<String> matResources = new HashSet<String>();
 		if (jarUrl.getProtocol().equals("jar")) {
+			logger.debug("Running from a jar");
 			String jarFilePath = null;
 			try {
 				jarFilePath = Paths.get(new URI(jarUrl.getPath())).toString();
@@ -40,15 +47,19 @@ public class MaterialResourceLoaderServer extends MaterialResourceLoader {
 			try {
 				jarZip = new ZipFile(jarFilePath);
 			} catch (IOException e) {
+				logger.error("Could not open the jar file", e);
 				return;
 			}
 			try {
 				for (Enumeration<? extends ZipEntry> e = jarZip.entries(); e.hasMoreElements();) {
 					ZipEntry entry = e.nextElement();
-					if (entry
+					if (entry.isDirectory())
+						continue;
+					if (!entry
 							.getName()
-							.startsWith("/assets/buildingbrickscompatvanilla/materials/"))
-						matResources.add(entry.getName());
+							.startsWith("assets/buildingbrickscompatvanilla/materials/"))
+						continue;
+					matResources.add("/" + entry.getName());
 				}
 			} finally {
 				try {
@@ -58,6 +69,7 @@ public class MaterialResourceLoaderServer extends MaterialResourceLoader {
 				}
 			}
 		} else if (jarUrl.getProtocol().equals("file")) {
+			logger.debug("Running from a directory");
 			Path matsPath = Paths
 					.get(jarUrl.getPath().replace(
 							"com/hea3ven/buildingbricks/core/materials/MaterialResourceLoader.class",
