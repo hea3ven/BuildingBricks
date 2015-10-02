@@ -51,7 +51,7 @@ public class RenderDefinitionSimple implements IRenderDefinition {
 	protected IModel getModelOrDefault(String modelLoc, Material mat) {
 		try {
 			return ModelLoaderRegistry.getModel(new ResourceLocation(
-					modelLoc.replace(":block/", ":block/" + mat.materialId() + "_")));
+					modelLoc.replace(":block/", ":block/" + mat.getMaterialId() + "_")));
 		} catch (IOException e) {
 			try {
 				return ModelLoaderRegistry.getModel(new ResourceLocation(modelLoc));

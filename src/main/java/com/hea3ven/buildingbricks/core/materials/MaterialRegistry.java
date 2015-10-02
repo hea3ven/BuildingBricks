@@ -19,7 +19,7 @@ public class MaterialRegistry {
 
 	public static void registerMaterial(Material material) {
 		materials.add(material);
-		materialsById.put(material.materialId(), material);
+		materialsById.put(material.getMaterialId(), material);
 	}
 
 	public static Set<Material> getAll() {

@@ -30,7 +30,7 @@ public class ItemTrowel extends Item {
 		if (stack.getTagCompound() == null)
 			stack.setTagCompound(new NBTTagCompound());
 		if (mat != null) {
-			stack.getTagCompound().setString("material", mat.materialId());
+			stack.getTagCompound().setString("material", mat.getMaterialId());
 			stack.getTagCompound().setInteger("blockType",
 					mat.getBlockRotation().getFirst().ordinal());
 		} else {

@@ -48,7 +48,7 @@ public class MaterialBlockRegistry {
 		Block block = blocks.get(blockType, mat.getStructureMaterial());
 		blocksMaterials.get(block).add(mat);
 		return new BlockDescription(blockType, block, 0, "material",
-				new NBTTagString(mat.materialId()));
+				new NBTTagString(mat.getMaterialId()));
 	}
 
 	private void initBlock(MaterialBlockType blockType, Material mat) {

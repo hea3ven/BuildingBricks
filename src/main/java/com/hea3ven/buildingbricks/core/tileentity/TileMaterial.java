@@ -78,14 +78,14 @@ public class TileMaterial extends TileEntity {
 			nbt = new NBTTagCompound();
 			stack.setTagCompound(nbt);
 		}
-		nbt.setString("material", mat.materialId());
+		nbt.setString("material", mat.getMaterialId());
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setString("material", getMaterial().materialId());
+		nbt.setString("material", getMaterial().getMaterialId());
 	}
 
 	@Override

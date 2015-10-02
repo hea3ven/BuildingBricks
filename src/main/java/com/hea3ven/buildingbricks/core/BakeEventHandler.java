@@ -115,7 +115,7 @@ public class BakeEventHandler {
 					.getItemModelState(itemModel.getDefaultState());
 			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState);
 
-			materialItemModel.put(mat.materialId(), bakedItemModel);
+			materialItemModel.put(mat.getMaterialId(), bakedItemModel);
 			materialItemModel.setDelegate(bakedItemModel);
 
 			for (Object stateObj : block.getBlockState().getValidStates()) {

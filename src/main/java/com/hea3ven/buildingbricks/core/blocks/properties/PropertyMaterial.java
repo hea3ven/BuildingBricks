@@ -23,7 +23,7 @@ public class PropertyMaterial implements IUnlistedProperty<Material> {
 
 	@Override
 	public String valueToString(Material value) {
-		return value.materialId();
+		return value.getMaterialId();
 	}
 
 }

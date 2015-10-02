@@ -22,7 +22,7 @@ public class Material {
 		normalHarvestMaterial = this.materialId;
 	}
 
-	public String materialId() {
+	public String getMaterialId() {
 		return materialId;
 	}
 
@@ -122,11 +122,11 @@ public class Material {
 
 	@Override
 	public String toString() {
-		return "<Material " + materialId() + ">";
+		return "<Material " + getMaterialId() + ">";
 	}
 
 	public String getTranslationKey() {
-		return "material." + materialId();
+		return "material." + getMaterialId();
 	}
 
 	public String getLocalizedName() {
