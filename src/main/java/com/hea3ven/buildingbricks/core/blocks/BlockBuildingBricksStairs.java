@@ -49,11 +49,10 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 
 		BlockPos ownPos = pos.offset(side.getOpposite());
 		IBlockState ownState = world.getBlockState(ownPos);
-		IBlockState state = world.getBlockState(pos);
-		return getHalf(ownState) != getHalf(state);
+		return !isSameStair(world, pos, ownState);
 	}
 
-	private EnumHalf getHalf(IBlockState state) {
+	public EnumHalf getHalf(IBlockState state) {
 		return (EnumHalf) state.getValue(HALF);
 	}
 
