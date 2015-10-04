@@ -1,5 +1,6 @@
     * Fix material loading when running on servers, fixes #14.
     * Improve face culling, fixes #1.
+    * Fix the particles when running on a block being the missing texture.
 
 1.0.0-beta4:
     * Fix crash when holding a grass slab.

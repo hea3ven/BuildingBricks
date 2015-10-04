@@ -17,7 +17,6 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -138,7 +137,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 			}
 		}
 
-		IModel defaultBlockModel = ModelLoaderRegistry.getMissingModel();
+		IModel defaultBlockModel = getModel(new ResourceLocation("block/stone"));
 		cacheModel.setDelegate(bake(defaultBlockModel, defaultBlockModel.getDefaultState()));
 	}
 
