@@ -10,7 +10,7 @@ repositories {
     }
 }
 
-version = "1.0.0-beta4"
+version = "1.0.0"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "BuildingBricks"
 
@@ -30,7 +30,7 @@ curseforge {
 
     project {
         id = '236150'
-        releaseType = 'beta'
+        releaseType = 'release'
         changelog = ''
         addGameVersion '1.8'
     }
@@ -84,7 +84,7 @@ task setCurseForgeProjectChangelog (dependsOn: 'updateChangelog') << {
 allprojects {
     afterEvaluate { project ->
         curseforge.curseProjects.each { proj ->
-            proj.uploadTask.dependsOn
+            proj.uploadTask.dependsOn setCurseForgeProjectChangelog
         }
     }
 }

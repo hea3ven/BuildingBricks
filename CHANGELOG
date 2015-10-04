@@ -1,3 +1,4 @@
+1.0.0:
     * Fix material loading when running on servers, fixes #14.
     * Improve face culling, fixes #1.
     * Fix the particles when running on a block being the missing texture.
