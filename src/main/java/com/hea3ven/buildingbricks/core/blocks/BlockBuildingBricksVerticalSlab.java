@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumFacing.AxisDirection;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.IBlockAccess;
@@ -93,10 +94,25 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
-		BlockPos selfPos = pos.offset(side.getOpposite());
-		EnumFacing facing = BlockProperties.getSide(world.getBlockState(selfPos));
-		if (side == facing && !super.shouldSideBeRendered(world, pos, side))
-			return false;
-		return true;
+		IBlockState state = world.getBlockState(pos);
+		if (!(state.getBlock() instanceof BlockBuildingBricksVerticalSlab)) {
+			return !state.getBlock().isSideSolid(world, pos, side);
+		}
+
+		BlockPos ownPos = pos.offset(side.getOpposite());
+		IBlockState ownState = world.getBlockState(ownPos);
+		if (side.getAxis() == Axis.Y) {
+			return BlockProperties.getSide(ownState) != BlockProperties.getSide(state);
+		}
+
+		EnumFacing facing = BlockProperties.getSide(ownState);
+		EnumFacing ownFacing = BlockProperties.getSide(ownState);
+		if (ownFacing == side) {
+			return facing != ownFacing.getOpposite();
+		} else if (ownFacing == side.getOpposite()) {
+			return true;
+		} else {
+			return ownFacing != facing && facing != side.getOpposite();
+		}
 	}
 }

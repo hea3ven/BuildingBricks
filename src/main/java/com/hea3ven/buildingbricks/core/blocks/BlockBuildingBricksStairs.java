@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 
@@ -26,6 +27,34 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.STAIRS);
 		blockLogic.initBlock(this);
+	}
+
+	public static EnumFacing getFacing(IBlockState state) {
+		return (EnumFacing) state.getValue(FACING);
+	}
+
+	public static EnumShape getShape(IBlockState state) {
+		return (EnumShape) state.getValue(SHAPE);
+	}
+
+	@Override
+	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
+		Block block = world.getBlockState(pos).getBlock();
+		if (!isBlockStairs(block)) {
+			return !block.isSideSolid(world, pos, side);
+		}
+
+		if (isSideSolid(world, pos, side))
+			return false;
+
+		BlockPos ownPos = pos.offset(side.getOpposite());
+		IBlockState ownState = world.getBlockState(ownPos);
+		IBlockState state = world.getBlockState(pos);
+		return getHalf(ownState) != getHalf(state);
+	}
+
+	private EnumHalf getHalf(IBlockState state) {
+		return (EnumHalf) state.getValue(HALF);
 	}
 
 	@Override

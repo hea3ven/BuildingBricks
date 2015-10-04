@@ -11,7 +11,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricksNonSolid;
@@ -91,17 +90,5 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 		AxisAlignedBB bb = new AxisAlignedBB(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f, max.x + 0.5f,
 				max.y + 0.5f, max.z + 0.5f);
 		return bb;
-	}
-
-	@Override
-	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
-		BlockPos selfPos = pos.offset(side.getOpposite());
-		EnumBlockHalf half = BlockProperties.getHalf(world.getBlockState(selfPos));
-		if (side == half.getSide() && !super.shouldSideBeRendered(world, pos, side)) {
-			return false;
-		}
-		// if (side == facing && !super.shouldSideBeRendered(world, pos, side))
-		// return false;
-		return true;
 	}
 }

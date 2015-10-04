@@ -6,6 +6,8 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 
@@ -78,6 +80,26 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 
 	public static IBlockState setHalf(IBlockState state, EnumBlockHalf half) {
 		return state.withProperty(HALF, half);
+	}
+
+	@Override
+	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
+		IBlockState state = world.getBlockState(pos);
+		BlockPos ownPos = pos.offset(side.getOpposite());
+		IBlockState ownState = world.getBlockState(ownPos);
+		if (side.getAxis() != Axis.Y) {
+			if (!(state.getBlock() instanceof BlockSlab))
+				return !state.getBlock().isSideSolid(world, pos, side);
+			else
+				return getHalf(ownState) != getHalf(state);
+		}
+
+		if (getHalf(ownState) == EnumBlockHalf.BOTTOM)
+			return side != EnumFacing.DOWN || getMaterial() != state.getBlock().getMaterial()
+					|| !state.getBlock().isSideSolid(world, pos, side);
+		else
+			return side != EnumFacing.UP || getMaterial() != state.getBlock().getMaterial()
+					|| !state.getBlock().isSideSolid(world, pos, side);
 	}
 
 	@Override

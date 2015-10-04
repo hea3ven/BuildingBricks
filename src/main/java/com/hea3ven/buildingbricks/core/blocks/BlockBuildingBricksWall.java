@@ -9,6 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 
@@ -16,6 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
+import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
@@ -34,6 +36,18 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
 		list.add(new ItemStack(itemIn));
+	}
+
+	@Override
+	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
+		IBlockState state = world.getBlockState(pos);
+		if (!(state.getBlock() instanceof BlockWall)) {
+			return !state.getBlock().isSideSolid(world, pos, side);
+		}
+
+		BlockPos ownPos = pos.offset(side.getOpposite());
+		IBlockState ownState = world.getBlockState(ownPos);
+		return BlockProperties.getConnection(ownState, side);
 	}
 
 	@Override
