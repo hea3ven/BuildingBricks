@@ -22,7 +22,7 @@ import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.core.BakeEventHandler;
+import com.hea3ven.buildingbricks.core.client.ModelBakerBlockMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class MaterialBlockLogic {
@@ -152,14 +152,15 @@ public class MaterialBlockLogic {
 		TileMaterial te = TileMaterial.getTile(world, pos);
 
 		particle.func_174846_a(pos).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F);
-		particle.func_180435_a(BakeEventHandler.instance.particleTextures.get(te.getMaterial()));
+		particle.func_180435_a(
+				ModelBakerBlockMaterial.instance.particleTextures.get(te.getMaterial()));
 		return true;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
 		TileMaterial te = TileMaterial.getTile(world, pos);
-		TextureAtlasSprite texture = BakeEventHandler.instance.particleTextures
+		TextureAtlasSprite texture = ModelBakerBlockMaterial.instance.particleTextures
 				.get(te.getMaterial());
 
 		for (int i = 0; i < 4; ++i) {

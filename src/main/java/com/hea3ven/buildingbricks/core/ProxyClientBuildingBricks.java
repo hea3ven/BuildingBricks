@@ -9,10 +9,11 @@ import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.common.MinecraftForge;
 
+import com.hea3ven.buildingbricks.core.client.ModelBakerBlockMaterial;
+import com.hea3ven.buildingbricks.core.client.ModelBakerItemTrowel;
 import com.hea3ven.buildingbricks.core.client.settings.TrowelKeyBindings;
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 
 public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 
@@ -20,9 +21,8 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 	public void preInit() {
 		super.preInit();
 
-		MaterialBlockType.initRendering();
-
-		MinecraftForge.EVENT_BUS.register(BakeEventHandler.instance);
+		ModelBakerBlockMaterial.init();
+		ModelBakerItemTrowel.init();
 	}
 
 	@Override

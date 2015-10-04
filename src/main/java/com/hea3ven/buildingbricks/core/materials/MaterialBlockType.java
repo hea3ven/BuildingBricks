@@ -5,17 +5,8 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBlockMaterial;
-import com.hea3ven.buildingbricks.core.materials.rendering.IRenderDefinition;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionRotHalf;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionSimple;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionSlab;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionStairs;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionStep;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionWall;
 
 public enum MaterialBlockType {
 	FULL("block", 1000),
@@ -117,21 +108,7 @@ public enum MaterialBlockType {
 		return null;
 	}
 
-	@SideOnly(Side.CLIENT)
-	public static void initRendering() {
-		FULL.setRenderDefinition(new RenderDefinitionSimple("minecraft:block/cube_bottom_top"));
-		STAIRS.setRenderDefinition(new RenderDefinitionStairs());
-		SLAB.setRenderDefinition(new RenderDefinitionSlab());
-		VERTICAL_SLAB.setRenderDefinition(new RenderDefinitionSlab(true));
-		STEP.setRenderDefinition(new RenderDefinitionStep());
-		CORNER.setRenderDefinition(
-				new RenderDefinitionRotHalf("buildingbricks:block/corner_bottom"));
-		WALL.setRenderDefinition(new RenderDefinitionWall());
-	}
-
 	private String name;
-	@SideOnly(Side.CLIENT)
-	private IRenderDefinition renderDefinition;
 	private List<MaterialRecipeBuilder> allwaysRecipes;
 	private List<MaterialRecipeBuilder> materialRecipes;
 	private int volume = 0;
@@ -141,16 +118,6 @@ public enum MaterialBlockType {
 		allwaysRecipes = Lists.newArrayList();
 		materialRecipes = Lists.newArrayList();
 		this.volume = volume;
-	}
-
-	@SideOnly(Side.CLIENT)
-	private void setRenderDefinition(IRenderDefinition renderDefinition) {
-		this.renderDefinition = renderDefinition;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public IRenderDefinition getRenderDefinition() {
-		return renderDefinition;
 	}
 
 	public String getName() {
