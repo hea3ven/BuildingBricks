@@ -88,7 +88,8 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 		BlockPos ownPos = pos.offset(side.getOpposite());
 		IBlockState ownState = world.getBlockState(ownPos);
 		if (side.getAxis() != Axis.Y) {
-			if (!(state.getBlock() instanceof BlockSlab))
+			if (!(state.getBlock() instanceof BlockSlab)
+					|| ((BlockSlab) state.getBlock()).isDouble())
 				return !state.getBlock().isSideSolid(world, pos, side);
 			else
 				return getHalf(ownState) != getHalf(state);
