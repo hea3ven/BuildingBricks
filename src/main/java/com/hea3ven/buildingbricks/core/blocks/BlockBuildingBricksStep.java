@@ -1,8 +1,5 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Point3f;
-
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -106,19 +103,50 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 		EnumBlockHalf half = BlockProperties.getHalf(state);
 		EnumRotation rot = BlockProperties.getRotation(state);
 		Boolean vertical = BlockProperties.getVertical(state);
-		Matrix4f matrix = new Matrix4f();
-		matrix.setIdentity();
-		matrix.rotY(-rot.getAngle());
-
-		Point3f min = new Point3f(-0.5f, (vertical || half == EnumBlockHalf.BOTTOM) ? -0.5f : 0.0f,
-				-0.5f);
-		Point3f max = vertical ? new Point3f(0.0f, 0.5f, 0.0f)
-				: new Point3f(0.5f, (half == EnumBlockHalf.BOTTOM) ? 0.0f : 0.5f, 0.0f);
-		matrix.transform(min);
-		matrix.transform(max);
-		AxisAlignedBB bb = new AxisAlignedBB(min.x + 0.5f, min.y + 0.5f, min.z + 0.5f, max.x + 0.5f,
-				max.y + 0.5f, max.z + 0.5f);
-		return bb;
+		if (!vertical) {
+			double minX, maxX;
+			if (rot == EnumRotation.ROT0 || rot == EnumRotation.ROT180) {
+				minX = 0.0d;
+				maxX = 1.0d;
+			} else if (rot == EnumRotation.ROT90) {
+				minX = 0.5d;
+				maxX = 1.0d;
+			} else {
+				minX = 0.0d;
+				maxX = 0.5d;
+			}
+			double minZ, maxZ;
+			if (rot == EnumRotation.ROT90 || rot == EnumRotation.ROT270) {
+				minZ = 0.0d;
+				maxZ = 1.0d;
+			} else if (rot == EnumRotation.ROT0) {
+				minZ = 0.0d;
+				maxZ = 0.5d;
+			} else {
+				minZ = 0.5d;
+				maxZ = 1.0d;
+			}
+			return new AxisAlignedBB(minX, half == EnumBlockHalf.BOTTOM ? 0.0d : 0.5d, minZ, maxX,
+					half == EnumBlockHalf.BOTTOM ? 0.5d : 1.0d, maxZ);
+		} else {
+			double minX, maxX;
+			if (rot == EnumRotation.ROT0 || rot == EnumRotation.ROT270) {
+				minX = 0.0d;
+				maxX = 0.5d;
+			} else {
+				minX = 0.5d;
+				maxX = 1.0d;
+			}
+			double minZ, maxZ;
+			if (rot == EnumRotation.ROT0 || rot == EnumRotation.ROT90) {
+				minZ = 0.0d;
+				maxZ = 0.5d;
+			} else {
+				minZ = 0.5d;
+				maxZ = 1.0d;
+			}
+			return new AxisAlignedBB(minX, 0.0d, minZ, maxX, 1.0d, maxZ);
+		}
 	}
 
 }
