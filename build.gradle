@@ -10,7 +10,7 @@ repositories {
     }
 }
 
-version = "1.0.0"
+version = "1.0.1"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "BuildingBricks"
 
@@ -69,7 +69,7 @@ task copyRunMods(type: Copy) {
 }
 setupDecompWorkspace.dependsOn copyRunMods
 
-task updateChangelog << {
+task updateChangelog (dependsOn: 'build') << {
     def changelogData = new File("CHANGELOG").getText()
     if (!changelogData.startsWith(project.version)) {
         new File("CHANGELOG").write(project.version + ":\n" + changelogData);
