@@ -92,7 +92,8 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 					|| ((BlockSlab) state.getBlock()).isDouble())
 				return !state.getBlock().isSideSolid(world, pos, side);
 			else
-				return getHalf(ownState) != getHalf(state);
+				return getHalf(ownState) != getHalf(state)
+						|| ownState.getBlock().getMaterial() != state.getBlock().getMaterial();
 		}
 
 		if (getHalf(ownState) == EnumBlockHalf.BOTTOM)

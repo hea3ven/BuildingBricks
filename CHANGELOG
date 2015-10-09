@@ -1,3 +1,5 @@
+    * Fix glass slabs making the sides of other slabs next to them invisible, fixes #17.
+
 1.0.1:
     * Remove usage of javax.vecmath which is not available on servers, fixes #15.
     * Fix crash when placing a double slab blcok next to a slab block, fixes #16.
