@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.block.BlockWall;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.client.resources.model.ModelRotation;
@@ -58,10 +59,11 @@ public class RenderDefinitionWall implements IRenderDefinition {
 	@Override
 	public IModel getModel(IBlockState state, Material mat) {
 		try {
-			if ((BlockProperties.getConnectionNorth(state)
-					&& BlockProperties.getConnectionSouth(state)
-					&& !BlockProperties.getConnectionEast(state)
-					&& !BlockProperties.getConnectionWest(state))
+			if (!(Boolean) state.getValue(BlockWall.UP)
+					&& (BlockProperties.getConnectionNorth(state)
+							&& BlockProperties.getConnectionSouth(state)
+							&& !BlockProperties.getConnectionEast(state)
+							&& !BlockProperties.getConnectionWest(state))
 					|| (!BlockProperties.getConnectionNorth(state)
 							&& !BlockProperties.getConnectionSouth(state)
 							&& BlockProperties.getConnectionEast(state)

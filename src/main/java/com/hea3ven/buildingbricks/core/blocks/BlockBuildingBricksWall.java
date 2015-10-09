@@ -52,6 +52,11 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 	}
 
 	@Override
+	public boolean canPlaceTorchOnTop(IBlockAccess world, BlockPos pos) {
+		return true;
+	}
+
+	@Override
 	public MaterialBlockLogic getBlockLogic() {
 		return blockLogic;
 	}
