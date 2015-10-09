@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 
@@ -47,7 +48,7 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 
 		BlockPos ownPos = pos.offset(side.getOpposite());
 		IBlockState ownState = world.getBlockState(ownPos);
-		return BlockProperties.getConnection(ownState, side);
+		return side.getAxis() == Axis.Y || BlockProperties.getConnection(ownState, side);
 	}
 
 	@Override
