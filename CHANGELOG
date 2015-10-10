@@ -1,3 +1,4 @@
+1.0.2:
     * Fix glass slabs making the sides of other slabs next to them invisible, fixes #17.
     * Fix crash when you place a wall on top of another wall.
     * Fix not being able to place torches on top of walls.

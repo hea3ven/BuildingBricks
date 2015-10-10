@@ -10,7 +10,7 @@ repositories {
     }
 }
 
-version = "1.0.1"
+version = "1.0.2"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "BuildingBricks"
 
@@ -31,7 +31,7 @@ curseforge {
     project {
         id = '236150'
         releaseType = 'release'
-        changelog = ''
+        changelog = readCurrentChangelog()
         addGameVersion '1.8'
     }
 }
@@ -76,19 +76,6 @@ task updateChangelog (dependsOn: 'build') << {
     }
 }
 
-task setCurseForgeProjectChangelog (dependsOn: 'updateChangelog') << {
-    curseforge.curseProjects.each { proj ->
-        proj.changelog = readCurrentChangelog()
-    }
-}
-allprojects {
-    afterEvaluate { project ->
-        curseforge.curseProjects.each { proj ->
-            proj.uploadTask.dependsOn setCurseForgeProjectChangelog
-        }
-    }
-}
-
 task updateReadme (dependsOn: 'curseforge') << {
     def mediafireUrl = System.console().readLine('> enter mediafire url: ')
     def curseFileId = System.console().readLine('> enter curse file id: ')
@@ -98,7 +85,7 @@ task updateReadme (dependsOn: 'curseforge') << {
             if (line.startsWith("MediaFire: [Building Bricks")) {
                 line = "MediaFire: [Building Bricks " + project.version + "]("+ mediafireUrl + ")"
             } else if (line.startsWith("Curse: [Building Bricks")) {
-                line = "Curse: [Building Bricks " + project.version + "](http://minecraft.curseforge.com/mc-mods/236150-building-bricks/files/"+ curseFileId + ")"
+                line = "Curse: [Building Bricks " + project.version + "](http://www.curse.com/mc-mods/Minecraft/236150-building-bricks/"+ curseFileId + ")"
             }
             w << line + "\n"
         }
@@ -108,7 +95,16 @@ task updateReadme (dependsOn: 'curseforge') << {
     new File("README.md.tmp").renameTo(new File("README.md"))
 }
 
-task release (dependsOn: ['setCurseForgeProjectChangelog', 'updateChangelog', 'updateReadme']) << {
+//task commitRelease (type: Exec, dependsOn: [updateChangelog, updateReadme]) << {
+task commitRelease (type: Exec) {
+    commandLine 'git', 'commit', '-am', 'Version ' + project.version
+}
+
+task pushRelease (type: Exec, dependsOn: [commitRelease]) {
+    commandLine 'git', 'push'
+}
+
+task release (dependsOn: pushRelease) << {
     println "Released v" + project.version
 }
 
@@ -124,5 +120,7 @@ def readCurrentChangelog() {
             }
         }
     }
+    if (!changelog.startsWith(project.version))
+        changelog = project.version + ":\n" + changelog
     return changelog
 }
