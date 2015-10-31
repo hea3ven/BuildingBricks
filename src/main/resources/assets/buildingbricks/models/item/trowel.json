@@ -1,8 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "buildingbricks:items/empty",
-        "layer1": "buildingbricks:items/trowel"
+        "layer0": "buildingbricks:items/trowel"
     },
     "display": {
         "thirdperson": {

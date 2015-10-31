@@ -9,6 +9,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,7 +50,14 @@ public class ModelBakerBase {
 		return bake(model, model.getDefaultState());
 	}
 
+	protected IFlexibleBakedModel bake(IModel model, VertexFormat format) {
+		return bake(model, model.getDefaultState(), format);
+	}
+
 	protected IFlexibleBakedModel bake(IModel model, IModelState modelState) {
+		return bake(model, modelState, Attributes.DEFAULT_BAKED_FORMAT);
+	}
+	protected IFlexibleBakedModel bake(IModel model, IModelState modelState, VertexFormat format) {
 		Function<ResourceLocation, TextureAtlasSprite> textureGetter = new Function<ResourceLocation, TextureAtlasSprite>() {
 			public TextureAtlasSprite apply(ResourceLocation location) {
 				return Minecraft
@@ -58,7 +66,7 @@ public class ModelBakerBase {
 						.getAtlasSprite(location.toString());
 			}
 		};
-		return model.bake(modelState, Attributes.DEFAULT_BAKED_FORMAT, textureGetter);
+		return model.bake(modelState, format, textureGetter);
 	}
 
 	protected IModel retexture(HashMap<String, String> textures, IModel blockModel) {

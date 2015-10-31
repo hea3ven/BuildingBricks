@@ -2,6 +2,7 @@ package com.hea3ven.buildingbricks.core.client;
 
 import javax.vecmath.Vector3f;
 
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 
@@ -46,15 +47,15 @@ public class ModelBakerItemTrowel extends ModelBakerBase {
 			Vector3f translation = new Vector3f(0.3f, 0.5f, 0.3f);
 			Vector3f scale = new Vector3f(0.4f, 0.4f, 0.4f);
 			IModelState modelState = new TRSRTransformation(translation, null, scale, null);
-			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState);
+			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState, DefaultVertexFormats.ITEM);
 
 			itemModel = getModel(trowelModelLoc);
-			IFlexibleBakedModel baseBakedItemModel = bake(itemModel);
+			IFlexibleBakedModel baseBakedItemModel = bake(itemModel, DefaultVertexFormats.ITEM);
 
 			ModelTrowel.models.put(material, new ModelTrowel(baseBakedItemModel, bakedItemModel));
 		}
 		IModel baseItemModel = getModel(trowelModelLoc);
-		IFlexibleBakedModel baseBakedItemModel = bake(baseItemModel);
+		IFlexibleBakedModel baseBakedItemModel = bake(baseItemModel, DefaultVertexFormats.ITEM);
 		event.modelRegistry.putObject(new ModelResourceLocation("buildingbricks:trowel#inventory"),
 				new ModelTrowel(baseBakedItemModel));
 	}

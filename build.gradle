@@ -1,5 +1,5 @@
 plugins {
-    id "net.minecraftforge.gradle.forge" version "2.0.1"
+    id "net.minecraftforge.gradle.forge" version "2.0.2"
     id "com.matthewprenger.cursegradle" version "1.0.1"
 }
 
@@ -16,7 +16,7 @@ archivesBaseName = "BuildingBricks"
 
 minecraft {
     version = "1.8-11.14.3.1513"
-    runDir = "eclipse"
+    runDir = "run"
 
     mappings = "snapshot_20141130"
 

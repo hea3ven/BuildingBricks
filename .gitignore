@@ -7,6 +7,8 @@ scratchpad.txt
 /mcp
 /tags
 /logs
-BuildingBricks_Client.launch
-BuildingBricks_Server.launch
+/build
+/run
+*.iml
+*.launch
 
