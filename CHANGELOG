@@ -1,4 +1,6 @@
+1.0.3:
     * Fix crash when using forge versions higher than 1521.
+
 1.0.2:
     * Fix glass slabs making the sides of other slabs next to them invisible, fixes #17.
     * Fix crash when you place a wall on top of another wall.
