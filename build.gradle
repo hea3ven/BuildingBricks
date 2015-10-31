@@ -99,11 +99,37 @@ task commitRelease (type: Exec, dependsOn: [updateChangelog, updateReadme]) << {
     commandLine 'git', 'commit', '-am', 'Version ' + project.version
 }
 
-task pushRelease (type: Exec, dependsOn: [commitRelease]) {
+task pushRelease (type: Exec, dependsOn: [commitRelease]) << {
     commandLine 'git', 'push'
 }
 
-task release (dependsOn: pushRelease) << {
+task githubRelease (dependsOn: pushRelease) << {
+    def httpClient = org.apache.http.impl.client.HttpClientBuilder.create().build();
+
+	def req = new org.apache.http.client.methods.HttpPost('https://api.github.com/repos/hea3ven/BuildingBricks/releases')
+    req.addHeader('User-Agent', 'Mozilla/5.0 Ubuntu/8.10 Firefox/3.0.4')
+	req.addHeader('Authorization', 'Basic ' + (project.githubUser + ':' + project.githubPassword)
+			.getBytes('iso-8859-1')
+			.encodeBase64())
+    req.addHeader("content-type", "application/json")
+    req.setEntity(new org.apache.http.entity.StringEntity('{'
+            + '    "tag_name": "v' + project.version + '",'
+            + '    "name": "Version ' + project.version + '",'
+            + '    "body": "```\\n' + readCurrentChangelog().replace('\n', '\\n') + '```\\n'
+                 + readCurrentDownloads().replace('\n', '\\n') + '",'
+            + '    "draft": false'
+            + '}'))
+
+    def response = httpClient.execute(req);
+    if (response.statusLine.statusCode != 200) {
+        def reader = new BufferedReader(new InputStreamReader(response.entity.content))
+        reader.eachLine { line ->
+            println line
+        }
+    }
+}
+
+task release (dependsOn: githubRelease) << {
     println "Released v" + project.version
 }
 
@@ -122,4 +148,17 @@ def readCurrentChangelog() {
     if (!changelog.startsWith(project.version))
         changelog = project.version + ":\n" + changelog
     return changelog
+}
+
+def readCurrentDownloads() {
+    def downloads = '\n'
+    new File("README.md").eachLine { line ->
+        if (line.contains('www.mediafire.com')) {
+			downloads = line + downloads
+        }
+        if (line.contains('www.curse.com')) {
+			downloads = downloads + line
+        }
+    }
+    return downloads
 }
