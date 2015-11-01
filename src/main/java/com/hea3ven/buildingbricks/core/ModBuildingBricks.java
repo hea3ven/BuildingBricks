@@ -1,5 +1,9 @@
 package com.hea3ven.buildingbricks.core;
 
+import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
+
+import jdk.nashorn.internal.ir.Block;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,57 +29,62 @@ import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 @Mod(modid = Properties.MODID, name = "Building Bricks", version = Properties.VERSION,
-		dependencies = Properties.DEPENDENCIES,
-		guiFactory = "com.hea3ven.buildingbricks.core.config.BuildingBricksConfigGuiFactory")
+        dependencies = Properties.DEPENDENCIES,
+        guiFactory = "com.hea3ven.buildingbricks.core.config.BuildingBricksConfigGuiFactory")
 public class ModBuildingBricks {
 
-	public static final Logger logger = LogManager.getLogger("BuildingBricks");
+    public static final Logger logger = LogManager.getLogger("BuildingBricks");
 
-	@SidedProxy(serverSide = "com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks",
-			clientSide = "com.hea3ven.buildingbricks.core.ProxyClientBuildingBricks")
-	private static ProxyCommonBuildingBricks proxy;
+    @SidedProxy(serverSide = "com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks",
+            clientSide = "com.hea3ven.buildingbricks.core.ProxyClientBuildingBricks")
+    private static ProxyCommonBuildingBricks proxy;
 
-	public static SimpleNetworkWrapper netChannel;
+    public static SimpleNetworkWrapper netChannel;
 
-	public static ItemTrowel trowel;
+    public static ItemTrowel trowel;
+    public static BlockPortableLadder portableLadder;
 
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		logger.info("Initializing config");
-		Config.init(event.getModConfigurationDirectory());
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        logger.info("Initializing config");
+        Config.init(event.getModConfigurationDirectory());
 
-		netChannel = NetworkRegistry.INSTANCE.newSimpleChannel(Properties.MODID);
-		netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class,
-				TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);
+        netChannel = NetworkRegistry.INSTANCE.newSimpleChannel(Properties.MODID);
+        netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class,
+                TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);
 
-		GameRegistry.registerTileEntity(TileMaterial.class, "tile.material");
+        GameRegistry.registerTileEntity(TileMaterial.class, "tile.material");
 
-		logger.info("Registering materials from resources");
-		if (event.getSide() == Side.CLIENT)
-			com.hea3ven.buildingbricks.core.materials.MaterialResourceLoaderClient.discoverMaterialsClient();
-		else
-			com.hea3ven.buildingbricks.core.materials.MaterialResourceLoaderServer.discoverMaterialsServer();
+        trowel = new ItemTrowel();
+        GameRegistry.registerItem(trowel, "trowel");
 
-		trowel = new ItemTrowel();
-		GameRegistry.registerItem(trowel, "trowel");
+        portableLadder = new BlockPortableLadder();
+        GameRegistry.registerBlock(portableLadder, BlockPortableLadder.ItemPortableLadder.class,
+                "portable_ladder").setUnlocalizedName("portableLadder");
 
-		proxy.preInit();
-	}
+        logger.info("Registering materials from resources");
+        if (event.getSide() == Side.CLIENT)
+            com.hea3ven.buildingbricks.core.materials.MaterialResourceLoaderClient.discoverMaterialsClient();
+        else
+            com.hea3ven.buildingbricks.core.materials.MaterialResourceLoaderServer.discoverMaterialsServer();
 
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		MaterialBlockRegistry.instance.logStats();
+        proxy.preInit();
+    }
 
-		MaterialRegistry.logStats();
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        MaterialBlockRegistry.instance.logStats();
 
-		proxy.init();
-	}
+        MaterialRegistry.logStats();
 
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(trowel), " is", "ii ", 's',
-				"stickWood", 'i', "ingotIron"));
+        proxy.init();
+    }
 
-		proxy.postInit();
-	}
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        GameRegistry.addRecipe(
+                new ShapedOreRecipe(new ItemStack(trowel), " is", "ii ", 's', "stickWood", 'i', "ingotIron"));
+
+        proxy.postInit();
+    }
 }

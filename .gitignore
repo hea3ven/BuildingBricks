@@ -9,6 +9,7 @@ scratchpad.txt
 /logs
 /build
 /run
+/classes
 *.iml
 *.launch
 

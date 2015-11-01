@@ -1,4 +1,5 @@
 	* Fix vertical slabs culling when placed next to each other, fixes #18.
+    * Add a portable ladder block.
 
 1.0.3:
     * Fix crash when using forge versions higher than 1521.

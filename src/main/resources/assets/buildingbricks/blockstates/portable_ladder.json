@@ -1,0 +1,12 @@
+{
+	"variants": {
+		"half=bottom,side=north": { "model": "buildingbricks:ladder_bottom" },
+		"half=bottom,side=east": { "model": "buildingbricks:ladder_bottom", "y": 90 },
+		"half=bottom,side=south": { "model": "buildingbricks:ladder_bottom", "y": 180 },
+		"half=bottom,side=west": { "model": "buildingbricks:ladder_bottom", "y": 270 },
+		"half=top,side=north": { "model": "buildingbricks:ladder_top" },
+		"half=top,side=east": { "model": "buildingbricks:ladder_top", "y": 90 },
+		"half=top,side=south": { "model": "buildingbricks:ladder_top", "y": 180 },
+		"half=top,side=west": { "model": "buildingbricks:ladder_top", "y": 270 }
+	}
+}
