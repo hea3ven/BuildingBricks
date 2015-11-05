@@ -1,5 +1,6 @@
-	* Fix vertical slabs culling when placed next to each other, fixes #18.
     * Add a portable ladder block.
+    * Add compatibility for thaumcraft blocks.
+    * Fix vertical slabs culling when placed next to each other, fixes #18.
 
 1.0.3:
     * Fix crash when using forge versions higher than 1521.

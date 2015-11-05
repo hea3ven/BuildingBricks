@@ -1,0 +1,13 @@
+{
+    "name": "Greatwood Planks",
+    "id": "thaumcraft_planks_greatwood",
+    "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
+    "textures": "thaumcraft:blocks/greatwood_plank",
+    "blocks": {
+        "full": { "id": "thaumcraft:plank", "meta": 0 },
+        "stairs": "thaumcraft:greatwood_stairs",
+        "slab": { "id": "thaumcraft:slab_wood", "meta": 0 }
+    }
+}

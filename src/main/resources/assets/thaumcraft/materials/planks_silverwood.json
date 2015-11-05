@@ -1,0 +1,13 @@
+{
+    "name": "Silverwood Planks",
+    "id": "thaumcraft_planks_silverwood",
+    "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
+    "textures": "thaumcraft:blocks/silverwood_plank",
+    "blocks": {
+        "full": { "id": "thaumcraft:plank", "meta": 1 },
+        "stairs": "thaumcraft:silverwood_stairs",
+        "slab": { "id": "thaumcraft:slab_wood", "meta": 1 }
+    }
+}

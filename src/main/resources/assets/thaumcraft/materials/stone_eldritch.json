@@ -1,0 +1,13 @@
+{
+    "name": "Eldritch Stone",
+    "id": "thaumcraft_stone_eldritch",
+    "type": "ROCK",
+    "hardness": 2.0,
+    "resistance": 10.0,
+    "textures": "thaumcraft:blocks/eldritch_stone_1",
+    "blocks": {
+        "full": { "id": "thaumcraft:stone", "meta": 4 },
+        "stairs": "thaumcraft:arcane_stairs",
+        "slab": { "id": "thaumcraft:slab_stone", "meta": 3 }
+    }
+}
