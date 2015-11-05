@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTBase;
 
 public class BlockDescription {
 
+	private String blockName;
 	private Block block;
 	private ItemStack stack;
 	private MaterialBlockType type;
@@ -14,13 +15,17 @@ public class BlockDescription {
 	private String tagName;
 	private NBTBase tagValue;
 
-	public BlockDescription(MaterialBlockType type, Block block, int metadata, String tagName,
-			NBTBase tagValue) {
+	public BlockDescription(MaterialBlockType type, int metadata, String tagName, NBTBase tagValue) {
 		this.type = type;
-		this.block = block;
 		this.meta = metadata;
 		this.tagName = tagName;
 		this.tagValue = tagValue;
+	}
+
+	public BlockDescription(MaterialBlockType type, Block block, int metadata, String tagName,
+			NBTBase tagValue) {
+		this(type, metadata, tagName, tagValue);
+		this.block = block;
 	}
 
 	public BlockDescription(MaterialBlockType type, Block block, int metadata) {
@@ -31,13 +36,27 @@ public class BlockDescription {
 		this(type, block, 0);
 	}
 
+	public BlockDescription(MaterialBlockType type, String blockName, int metadata, String tagName,
+			NBTBase tagValue) {
+		this(type, metadata, tagName, tagValue);
+		this.blockName = blockName;
+	}
+
+	public BlockDescription(MaterialBlockType type, String blockName, int metadata) {
+		this(type, blockName, metadata, null, null);
+	}
+
+	public BlockDescription(MaterialBlockType type, String blockName) {
+		this(type, blockName, 0);
+	}
+
 	public Item getItem() {
 		return getStack().getItem();
 	}
 
 	public ItemStack getStack() {
 		if (stack == null) {
-			stack = new ItemStack(block, 1, meta);
+			stack = new ItemStack(getBlock(), 1, meta);
 			if (tagName != null)
 				stack.setTagInfo(tagName, tagValue);
 		}
@@ -45,11 +64,13 @@ public class BlockDescription {
 	}
 
 	public Block getBlock() {
+		if (block == null) {
+			block = Block.getBlockFromName(blockName);
+		}
 		return block;
 	}
 
 	public MaterialBlockType getType() {
 		return type;
 	}
-
 }
