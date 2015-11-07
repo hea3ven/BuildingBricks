@@ -19,10 +19,7 @@ import com.google.common.collect.Sets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
-
-public class ResourceScannerServer implements ResourceScanner {
+public class ResourceScannerServer extends ResourceScanner {
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialResourceLoader");
 
@@ -111,7 +108,7 @@ public class ResourceScannerServer implements ResourceScanner {
 			DirectoryStream<Path> modDirs = Files.newDirectoryStream(assetsDir);
 			Set<String> resources = Sets.newHashSet();
 			for (Path modDir : modDirs) {
-				if (!Loader.isModLoaded(modDir.getFileName().toString()))
+				if (!isModLoaded(modDir.getFileName().toString()))
 					continue;
 				Path targetDir = modDir.resolve(name);
 				if (!Files.exists(targetDir))
@@ -147,7 +144,7 @@ public class ResourceScannerServer implements ResourceScanner {
 				Path entryPath = Paths.get(entry.getName());
 				if (!entryPath.getName(0).getFileName().equals("assets"))
 					continue;
-				if (!Loader.isModLoaded(entryPath.getName(1).getFileName().toString()))
+				if (!isModLoaded(entryPath.getName(1).getFileName().toString()))
 					continue;
 				if (!entryPath.getName(2).getFileName().equals(name))
 					continue;

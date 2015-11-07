@@ -1,7 +1,6 @@
 package com.hea3ven.tools.commonutils.resources;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -15,18 +14,16 @@ import java.util.zip.ZipFile;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ResourceScannerClient implements ResourceScanner {
+public class ResourceScannerClient extends ResourceScanner {
 	@Override
 	public Iterable<InputStream> scan(String name) {
 		Set<ResourceLocation> res = null;
@@ -62,7 +59,7 @@ public class ResourceScannerClient implements ResourceScanner {
 						Files.newDirectoryStream(Paths.get(rootDir.toString(), "assets"));
 				for (Path modDir : modDirs) {
 					String modName = modDir.getFileName().toString();
-					if (!Loader.isModLoaded(modName))
+					if (!isModLoaded(modName))
 						continue;
 					Path targetDir = modDir.resolve(name);
 					if (!Files.exists(targetDir))
@@ -86,7 +83,7 @@ public class ResourceScannerClient implements ResourceScanner {
 				Path entryPath = Paths.get(entry.getName());
 				if (!entryPath.getName(0).getFileName().equals("assets"))
 					continue;
-				if (!Loader.isModLoaded(entryPath.getName(1).getFileName().toString()))
+				if (!isModLoaded(entryPath.getName(1).getFileName().toString()))
 					continue;
 				if (!entryPath.getName(2).getFileName().equals(name))
 					continue;
