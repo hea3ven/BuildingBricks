@@ -8,7 +8,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,8 +30,7 @@ public class ItemTrowel extends Item {
 			stack.setTagCompound(new NBTTagCompound());
 		if (mat != null) {
 			stack.getTagCompound().setString("material", mat.getMaterialId());
-			stack.getTagCompound().setInteger("blockType",
-					mat.getBlockRotation().getFirst().ordinal());
+			stack.getTagCompound().setInteger("blockType", mat.getBlockRotation().getFirst().ordinal());
 		} else {
 			stack.getTagCompound().removeTag("material");
 			stack.getTagCompound().removeTag("blockType");
@@ -40,16 +38,15 @@ public class ItemTrowel extends Item {
 	}
 
 	public Material getBindedMaterial(ItemStack stack) {
-		if (stack.getTagCompound() == null
-				|| !stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
+		if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
 			return null;
 
 		return MaterialRegistry.get(stack.getTagCompound().getString("material"));
 	}
 
 	public MaterialBlockType getCurrentBlockType(ItemStack stack) {
-		MaterialBlockType blockType = MaterialBlockType
-				.getBlockType(stack.getTagCompound().getInteger("blockType"));
+		MaterialBlockType blockType =
+				MaterialBlockType.getBlockType(stack.getTagCompound().getInteger("blockType"));
 		Material mat = getBindedMaterial(stack);
 		if (mat != null && mat.getBlock(blockType) == null) {
 			blockType = mat.getBlockRotation().getNext(blockType);
@@ -81,16 +78,16 @@ public class ItemTrowel extends Item {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-			EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
 		Material mat = getBindedMaterial(stack);
 		if (mat == null)
 			return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
 		else {
 			MaterialBlockType blockType = getCurrentBlockType(stack);
 			ItemStack useStack = mat.getBlock(blockType).getStack().copy();
-			MaterialItemStackConsumer consumer = new MaterialItemStackConsumer(blockType, mat,
-					player.inventory);
+			MaterialItemStackConsumer consumer =
+					new MaterialItemStackConsumer(blockType, mat, player.inventory);
 			if (consumer.failed())
 				return false;
 			if (!useStack.onItemUse(player, world, pos, side, hitX, hitY, hitZ))
@@ -106,8 +103,7 @@ public class ItemTrowel extends Item {
 		if (mat == null)
 			return super.getItemStackDisplayName(stack);
 		else
-			return StatCollector.translateToLocalFormatted("item.trowelBinded.name",
-					mat.getLocalizedName());
+			return StatCollector.translateToLocalFormatted("item.trowelBinded.name", mat.getLocalizedName());
 	}
 
 	@Override
@@ -119,8 +115,6 @@ public class ItemTrowel extends Item {
 		if (mat == null)
 			return super.getColorFromItemStack(stack, tintIndex);
 
-		return mat.getBlock(MaterialBlockType.FULL).getItem().getColorFromItemStack(stack,
-				tintIndex);
+		return mat.getBlock(MaterialBlockType.FULL).getItem().getColorFromItemStack(stack, tintIndex);
 	}
-
 }

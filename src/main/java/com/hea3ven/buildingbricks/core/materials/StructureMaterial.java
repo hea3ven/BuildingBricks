@@ -20,7 +20,7 @@ public enum StructureMaterial {
 			"axe",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS,
 					MaterialBlockType.SLAB, MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP,
-					MaterialBlockType.CORNER}),
+					MaterialBlockType.CORNER, MaterialBlockType.FENCE}),
 	DIRT(Material.ground, EnumWorldBlockLayer.SOLID, false, Block.soundTypeGravel, 0.5f, -1, 0.6f,
 			"shovel",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS,

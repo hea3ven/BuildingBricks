@@ -31,13 +31,7 @@ import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
-import com.hea3ven.buildingbricks.core.materials.rendering.IRenderDefinition;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionRotHalf;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionSimple;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionSlab;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionStairs;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionStep;
-import com.hea3ven.buildingbricks.core.materials.rendering.RenderDefinitionWall;
+import com.hea3ven.buildingbricks.core.materials.rendering.*;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 @SideOnly(Side.CLIENT)
@@ -47,7 +41,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 
 	public Map<Material, TextureAtlasSprite> particleTextures = Maps.newHashMap();
 
-	private Map<MaterialBlockType, IRenderDefinition> renderDefinitions = Maps.newHashMap();
+	private Map<MaterialBlockType, RenderDefinition> renderDefinitions = Maps.newHashMap();
 
 	public static void init() {
 		instance = new ModelBakerBlockMaterial();
@@ -61,52 +55,52 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 				new RenderDefinitionSimple("minecraft:block/cube_bottom_top"));
 		instance.renderDefinitions.put(MaterialBlockType.STAIRS, new RenderDefinitionStairs());
 		instance.renderDefinitions.put(MaterialBlockType.SLAB, new RenderDefinitionSlab());
-		instance.renderDefinitions.put(MaterialBlockType.VERTICAL_SLAB,
-				new RenderDefinitionSlab(true));
+		instance.renderDefinitions.put(MaterialBlockType.VERTICAL_SLAB, new RenderDefinitionSlab(true));
 		instance.renderDefinitions.put(MaterialBlockType.STEP, new RenderDefinitionStep());
 		instance.renderDefinitions.put(MaterialBlockType.CORNER,
 				new RenderDefinitionRotHalf("buildingbricks:block/corner_bottom"));
-		instance.renderDefinitions.put(MaterialBlockType.WALL, new RenderDefinitionWall());
+		instance.renderDefinitions.put(MaterialBlockType.WALL,
+				new RenderDefinitionWall("minecraft:block/wall_post",
+						"buildingbricks:block/wall_connection"));
+		instance.renderDefinitions.put(MaterialBlockType.FENCE,
+				new RenderDefinitionConnectable("minecraft:block/fence_post",
+						"buildingbricks:block/fence_connection", "minecraft:block/fence_inventory"));
 	}
 
 	@SubscribeEvent
 	public void onTextureStichPreEvent(TextureStitchEvent.Pre event) {
 		for (Material mat : MaterialRegistry.getAll()) {
-			particleTextures.put(mat, event.map
-					.registerSprite(new ResourceLocation(mat.getTextures().get("particle"))));
+			particleTextures.put(mat,
+					event.map.registerSprite(new ResourceLocation(mat.getTextures().get("particle"))));
 		}
 	}
 
 	@SubscribeEvent
 	public void onModelBakeEvent(ModelBakeEvent event) {
-		for (Cell<MaterialBlockType, StructureMaterial, Block> cell : MaterialBlockRegistry.instance
-				.getBlocks()
+		for (Cell<MaterialBlockType, StructureMaterial, Block> cell : MaterialBlockRegistry.instance.getBlocks()
 				.cellSet()) {
 			SmartModelCached model = new SmartModelCached();
 			ModelItemMaterialBlock itemModel = new ModelItemMaterialBlock();
-			bakeBlockModels(event.modelRegistry, cell.getRowKey(), cell.getColumnKey(),
-					cell.getValue(), itemModel, model);
+			bakeBlockModels(event.modelRegistry, cell.getRowKey(), cell.getColumnKey(), cell.getValue(),
+					itemModel, model);
 		}
 	}
 
 	private void bakeBlockModels(IRegistry modelRegistry, MaterialBlockType blockType,
 			StructureMaterial structMat, Block block, ModelItemMaterialBlock materialItemModel,
 			SmartModelCached cacheModel) {
-		IRenderDefinition renderDefinition = renderDefinitions.get(blockType);
+		RenderDefinition renderDefinition = renderDefinitions.get(blockType);
 		if (renderDefinition == null)
 			return;
 
-		ResourceLocation blockName = (ResourceLocation) GameData
-				.getBlockRegistry()
-				.getNameForObject(block);
+		ResourceLocation blockName = (ResourceLocation) GameData.getBlockRegistry().getNameForObject(block);
 
 		// Register models in the registry
-		modelRegistry.putObject(new ModelResourceLocation(blockName + "#inventory"),
-				materialItemModel);
+		modelRegistry.putObject(new ModelResourceLocation(blockName + "#inventory"), materialItemModel);
 
 		for (Object stateObj : block.getBlockState().getValidStates()) {
-			ModelResourceLocation modelLoc = new ModelResourceLocation(blockName,
-					getPropertyString((IBlockState) stateObj));
+			ModelResourceLocation modelLoc =
+					new ModelResourceLocation(blockName, getPropertyString((IBlockState) stateObj));
 			modelRegistry.putObject(modelLoc, cacheModel);
 		}
 
@@ -116,8 +110,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 			// Item model
 			IModel itemModel = renderDefinition.getItemModel(mat);
 			itemModel = retexture(mat.getTextures(), itemModel);
-			IModelState modelState = renderDefinition
-					.getItemModelState(itemModel.getDefaultState());
+			IModelState modelState = renderDefinition.getItemModelState(itemModel.getDefaultState());
 			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState);
 
 			materialItemModel.put(mat.getMaterialId(), bakedItemModel);
@@ -140,5 +133,4 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 		IModel defaultBlockModel = getModel(new ResourceLocation("block/stone"));
 		cacheModel.setDelegate(bake(defaultBlockModel, defaultBlockModel.getDefaultState()));
 	}
-
 }

@@ -33,6 +33,20 @@ public class MaterialRecipeBuilder {
 
 	}
 
+	private class OreDictIngredient implements Ingredient {
+
+		private String oreDictName;
+
+		public OreDictIngredient(String oreDictName) {
+			this.oreDictName = oreDictName;
+		}
+
+		@Override
+		public Object getStack(Material mat) {
+			return oreDictName;
+		}
+
+	}
 	public static MaterialRecipeBuilder create() {
 		return new MaterialRecipeBuilder();
 	}
@@ -56,6 +70,10 @@ public class MaterialRecipeBuilder {
 		return this;
 	}
 
+	public MaterialRecipeBuilder map(char key, String oreDictName) {
+		mapping.put(key, new OreDictIngredient(oreDictName));
+		return this;
+	}
 	public MaterialRecipeBuilder validate() {
 		if (pattern == null)
 			throw new IllegalStateException("missing pattern");

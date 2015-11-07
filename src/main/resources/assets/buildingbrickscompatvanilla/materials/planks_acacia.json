@@ -8,6 +8,7 @@
     "blocks": {
         "full": { "id": "minecraft:planks", "meta": 4 },
         "stairs": "minecraft:acacia_stairs",
-        "slab": { "id": "minecraft:wooden_slab", "meta": 4 }
+        "slab": { "id": "minecraft:wooden_slab", "meta": 4 },
+        "fence": "minecraft:acacia_fence"
     }
 }

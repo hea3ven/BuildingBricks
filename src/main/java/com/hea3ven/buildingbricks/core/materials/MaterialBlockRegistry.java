@@ -17,13 +17,7 @@ import net.minecraft.nbt.NBTTagString;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialBlock;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialCorner;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialSlab;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStairs;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialStep;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialVerticalSlab;
-import com.hea3ven.buildingbricks.core.blocks.BlockMaterialWall;
+import com.hea3ven.buildingbricks.core.blocks.*;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
@@ -32,8 +26,7 @@ public class MaterialBlockRegistry {
 
 	public static MaterialBlockRegistry instance = new MaterialBlockRegistry();
 
-	private static final Logger logger = LogManager
-			.getLogger("BuildingBricks.MaterialBlockRegistry");
+	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialBlockRegistry");
 
 	private Table<MaterialBlockType, StructureMaterial, Block> blocks = HashBasedTable.create();
 	private HashMap<Block, Set<Material>> blocksMaterials = new HashMap<Block, Set<Material>>();
@@ -47,35 +40,37 @@ public class MaterialBlockRegistry {
 
 		Block block = blocks.get(blockType, mat.getStructureMaterial());
 		blocksMaterials.get(block).add(mat);
-		return new BlockDescription(blockType, block, 0, "material",
-				new NBTTagString(mat.getMaterialId()));
+		return new BlockDescription(blockType, block, 0, "material", new NBTTagString(mat.getMaterialId()));
 	}
 
 	private void initBlock(MaterialBlockType blockType, Material mat) {
 		Class<? extends Block> cls = null;
 		switch (blockType) {
-		default:
-		case FULL:
-			cls = BlockMaterialBlock.class;
-			break;
-		case SLAB:
-			cls = BlockMaterialSlab.class;
-			break;
-		case VERTICAL_SLAB:
-			cls = BlockMaterialVerticalSlab.class;
-			break;
-		case STEP:
-			cls = BlockMaterialStep.class;
-			break;
-		case CORNER:
-			cls = BlockMaterialCorner.class;
-			break;
-		case WALL:
-			cls = BlockMaterialWall.class;
-			break;
-		case STAIRS:
-			cls = BlockMaterialStairs.class;
-			break;
+			default:
+			case FULL:
+				cls = BlockMaterialBlock.class;
+				break;
+			case SLAB:
+				cls = BlockMaterialSlab.class;
+				break;
+			case VERTICAL_SLAB:
+				cls = BlockMaterialVerticalSlab.class;
+				break;
+			case STEP:
+				cls = BlockMaterialStep.class;
+				break;
+			case CORNER:
+				cls = BlockMaterialCorner.class;
+				break;
+			case WALL:
+				cls = BlockMaterialWall.class;
+				break;
+			case FENCE:
+				cls = BlockMaterialFence.class;
+				break;
+			case STAIRS:
+				cls = BlockMaterialStairs.class;
+				break;
 		}
 
 		createBlock(cls, mat.getStructureMaterial(), blockType);
@@ -97,8 +92,8 @@ public class MaterialBlockRegistry {
 		if (!blocksMaterials.containsKey(block))
 			blocksMaterials.put(block, new HashSet<Material>());
 
-		Class<? extends ItemBlock> itemCls = !structMat.getColor() ? ItemMaterialBlock.class
-				: ItemColoredWrapper.class;
+		Class<? extends ItemBlock> itemCls =
+				!structMat.getColor() ? ItemMaterialBlock.class : ItemColoredWrapper.class;
 		GameRegistry.registerBlock(block, itemCls, structMat.getName() + "_" + blockType.getName());
 		return block;
 	}

@@ -20,8 +20,7 @@ public class MaterialItemStackConsumer {
 	private int[] consumedStacks;
 	private int totalConsumed;
 
-	public MaterialItemStackConsumer(MaterialBlockType blockType, Material mat,
-			IInventory inventory) {
+	public MaterialItemStackConsumer(MaterialBlockType blockType, Material mat, IInventory inventory) {
 		this.blockType = blockType;
 		this.mat = mat;
 		this.inventory = inventory;
@@ -61,8 +60,8 @@ public class MaterialItemStackConsumer {
 		}
 		for (int slot = 0; slot < inventorySize; slot++) {
 			ItemStack stack = inventory.getStackInSlot(slot);
-			if (ItemStack.areItemsEqual(newStack, stack)
-					&& ItemStack.areItemStackTagsEqual(newStack, stack)) {
+			if (ItemStack.areItemsEqual(newStack, stack) && ItemStack.areItemStackTagsEqual(newStack,
+					stack)) {
 				if (stack.stackSize + 1 <= stack.getMaxStackSize()) {
 					stack.stackSize += 1;
 					newStack = null;
@@ -135,5 +134,4 @@ public class MaterialItemStackConsumer {
 			}
 		}
 	}
-
 }

@@ -1,6 +1,8 @@
 package com.hea3ven.buildingbricks.core.items.crafting;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import com.google.common.collect.Maps;
 
@@ -11,11 +13,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
-public class RecipeBlockMaterial extends ShapedRecipes {
+public class RecipeBlockMaterial extends ShapedOreRecipe {
 
-	public RecipeBlockMaterial(int width, int height, ItemStack[] inputs, ItemStack output) {
-		super(width, height, inputs, output);
+	public RecipeBlockMaterial(Object[] inputs, ItemStack output) {
+		super(output, inputs);
 	}
 
 	public static IRecipe createRecipe(ItemStack output, Object[] inputs) {
@@ -59,84 +63,67 @@ public class RecipeBlockMaterial extends ShapedRecipes {
 			hashmap.put(character, itemstack1);
 		}
 
-		ItemStack[] aitemstack = new ItemStack[j * k];
+		Object[] aitemstack = new ItemStack[j * k];
 
 		for (int i1 = 0; i1 < j * k; ++i1) {
 			char c0 = s.charAt(i1);
 
 			if (hashmap.containsKey(Character.valueOf(c0))) {
-				aitemstack[i1] = ((ItemStack) hashmap.get(Character.valueOf(c0))).copy();
+				Object input = hashmap.get(Character.valueOf(c0));
+				if (input instanceof ItemStack)
+					aitemstack[i1] = ((ItemStack) input).copy();
+				else
+					aitemstack[i1] = input;
 			} else {
 				aitemstack[i1] = null;
 			}
 		}
-		return new RecipeBlockMaterial(j, k, aitemstack, output);
+		return new RecipeBlockMaterial(inputs, output);
 	}
 
-	public boolean matches(InventoryCrafting inv, World world) {
-		for (int i = 0; i <= 3 - this.recipeWidth; ++i) {
-			for (int j = 0; j <= 3 - this.recipeHeight; ++j) {
-				if (this.checkMatch(inv, i, j, true)) {
-					return true;
-				}
+	@Override
+	protected boolean checkMatch(InventoryCrafting inv, int startX, int startY, boolean mirror) {
+		for (int x = 0; x < MAX_CRAFT_GRID_WIDTH; x++) {
+			for (int y = 0; y < MAX_CRAFT_GRID_HEIGHT; y++) {
+				int subX = x - startX;
+				int subY = y - startY;
+				Object target = null;
 
-				if (this.checkMatch(inv, i, j, false)) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Checks if the region of a crafting inventory is match for the recipe.
-	 */
-	private boolean checkMatch(InventoryCrafting inv, int i, int j, boolean p_77573_4_) {
-		for (int k = 0; k < 3; ++k) {
-			for (int l = 0; l < 3; ++l) {
-				int i1 = k - i;
-				int j1 = l - j;
-				ItemStack itemstack = null;
-
-				if (i1 >= 0 && j1 >= 0 && i1 < this.recipeWidth && j1 < this.recipeHeight) {
-					if (p_77573_4_) {
-						itemstack = this.recipeItems[this.recipeWidth - i1 - 1
-								+ j1 * this.recipeWidth];
+				if (subX >= 0 && subY >= 0 && subX < width && subY < height) {
+					if (mirror) {
+						target = input[width - subX - 1 + subY * width];
 					} else {
-						itemstack = this.recipeItems[i1 + j1 * this.recipeWidth];
+						target = input[subX + subY * width];
 					}
 				}
 
-				ItemStack itemstack1 = inv.getStackInRowAndColumn(k, l);
+				ItemStack slot = inv.getStackInRowAndColumn(x, y);
 
-				if (itemstack1 != null || itemstack != null) {
-					if (itemstack1 == null && itemstack != null
-							|| itemstack1 != null && itemstack == null) {
+				if (target instanceof ItemStack) {
+					if (!OreDictionary.itemMatches((ItemStack) target, slot, false)
+							&& !ItemStack.areItemStackTagsEqual((ItemStack) target, slot)) {
 						return false;
 					}
+				} else if (target instanceof List) {
+					boolean matched = false;
 
-					if (itemstack.getItem() != itemstack1.getItem()) {
-						return false;
+					Iterator<ItemStack> itr = ((List<ItemStack>) target).iterator();
+					while (itr.hasNext() && !matched) {
+						ItemStack it = itr.next();
+						matched =
+								OreDictionary.itemMatches(it, slot, false) && ItemStack.areItemStackTagsEqual(
+										it, slot);
 					}
 
-					if (itemstack.getMetadata() != 32767
-							&& itemstack.getMetadata() != itemstack1.getMetadata()) {
+					if (!matched) {
 						return false;
 					}
-
-					if (!itemstack.hasTagCompound()) {
-						if (itemstack1.hasTagCompound())
-							return false;
-					} else if (!itemstack1.hasTagCompound()
-							|| !itemstack.getTagCompound().equals(itemstack1.getTagCompound())) {
-						return false;
-					}
+				} else if (target == null && slot != null) {
+					return false;
 				}
 			}
 		}
 
 		return true;
 	}
-
 }

@@ -8,6 +8,7 @@
     "blocks": {
         "full": { "id": "minecraft:planks", "meta": 3 },
         "stairs": "minecraft:jungle_stairs",
-        "slab": { "id": "minecraft:wooden_slab", "meta": 3 }
+        "slab": { "id": "minecraft:wooden_slab", "meta": 3 },
+        "fence": "minecraft:jungle_fence"
     }
 }
