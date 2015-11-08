@@ -35,6 +35,8 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 		super(material);
 	}
 
+	//region COMMON TILE CODE
+
 	@Override
 	protected BlockState createBlockState() {
 		return TileMaterial.createBlockState(super.createBlockState());
@@ -109,4 +111,6 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
 		return blockLogic.addDestroyEffects(world, pos, effectRenderer);
 	}
+
+	//endregion COMMON TILE CODE
 }

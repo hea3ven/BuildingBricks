@@ -56,6 +56,8 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 		return true;
 	}
 
+	//region COMMON BLOCK CODE
+
 	@Override
 	public MaterialBlockLogic getBlockLogic() {
 		return blockLogic;
@@ -99,4 +101,6 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 	public String getHarvestTool(IBlockState state) {
 		return blockLogic.getHarvestTool(state);
 	}
+
+	//endregion COMMON BLOCK CODE
 }

@@ -38,6 +38,8 @@ public class BlockMaterialSlab extends BlockBuildingBricksSlab implements BlockM
 		setDefaultState(state);
 	}
 
+	//region COMMON TILE CODE
+
 	@Override
 	protected BlockState createBlockState() {
 		return TileMaterial.createBlockState(super.createBlockState());
@@ -112,4 +114,6 @@ public class BlockMaterialSlab extends BlockBuildingBricksSlab implements BlockM
 	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
 		return blockLogic.addDestroyEffects(world, pos, effectRenderer);
 	}
+
+	//endregion COMMON TILE CODE
 }
