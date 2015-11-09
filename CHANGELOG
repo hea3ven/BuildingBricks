@@ -1,3 +1,4 @@
+	* Add materials for the stone variants and the prismarine blocks, fixes #21.
 	* Fix vertical slabs culling when placed next to each other, fixes #18.
 
 1.0.3:
