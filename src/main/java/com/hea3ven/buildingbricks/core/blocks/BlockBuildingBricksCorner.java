@@ -53,8 +53,8 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
-			float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer) {
 		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
 
 		if (facing.getAxis() == Axis.Y) {
@@ -63,8 +63,7 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 			state = BlockProperties.setRotation(state,
 					BlockPlacingUtil.getClosestCorner(facing, hitX, hitY, hitZ));
 		} else {
-			state = BlockProperties.setHalf(state,
-					hitY >= 0.5f ? EnumBlockHalf.TOP : EnumBlockHalf.BOTTOM);
+			state = BlockProperties.setHalf(state, hitY >= 0.5f ? EnumBlockHalf.TOP : EnumBlockHalf.BOTTOM);
 			state = BlockProperties.setRotation(state,
 					BlockPlacingUtil.getRotationHalf(facing, hitX, hitY, hitZ));
 		}
@@ -92,8 +91,8 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 			minZ = 0.5d;
 			maxZ = 1.0d;
 		}
-		AxisAlignedBB bb = new AxisAlignedBB(minX, half == EnumBlockHalf.BOTTOM ? 0.0d : 0.5d, minZ,
-				maxX, half == EnumBlockHalf.BOTTOM ? 0.5d : 1.0d, maxZ);
+		AxisAlignedBB bb = new AxisAlignedBB(minX, half == EnumBlockHalf.BOTTOM ? 0.0d : 0.5d, minZ, maxX,
+				half == EnumBlockHalf.BOTTOM ? 0.5d : 1.0d, maxZ);
 		return bb;
 	}
 }

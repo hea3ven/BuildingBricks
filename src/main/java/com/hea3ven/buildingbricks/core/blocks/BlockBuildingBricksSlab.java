@@ -104,6 +104,8 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 					|| !state.getBlock().isSideSolid(world, pos, side);
 	}
 
+	//region COMMON BLOCK CODE
+
 	@Override
 	public MaterialBlockLogic getBlockLogic() {
 		return blockLogic;
@@ -147,4 +149,6 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 	public String getHarvestTool(IBlockState state) {
 		return blockLogic.getHarvestTool(state);
 	}
+
+	//endregion COMMON BLOCK CODE
 }

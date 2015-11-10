@@ -3,6 +3,8 @@ plugins {
     id "com.matthewprenger.cursegradle" version "1.0.1"
 }
 
+import groovy.io.FileType
+
 repositories {
     maven {
         name = "chickenbones"
@@ -15,7 +17,7 @@ group = "com.hea3ven.buildingbricks"
 archivesBaseName = "BuildingBricks"
 
 minecraft {
-    version = "1.8-11.14.3.1513"
+    version = "1.8-11.14.3.1521"
     runDir = "run"
 
     mappings = "snapshot_20141130"
@@ -48,20 +50,20 @@ dependencies {
 }
 
 processResources
-{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-    inputs.property "forgeversion", project.minecraft.forgeVersion
+        {
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
+            inputs.property "forgeversion", project.minecraft.forgeVersion
 
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version, 'forgeversion':project.minecraft.forgeVersion
-    }
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+                expand 'version': project.version, 'mcversion': project.minecraft.version, 'forgeversion': project.minecraft.forgeVersion
+            }
 
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
 
 task copyRunMods(type: Copy) {
     from configurations.runmods.files
@@ -69,54 +71,54 @@ task copyRunMods(type: Copy) {
 }
 setupDecompWorkspace.dependsOn copyRunMods
 
-task updateChangelog (dependsOn: 'build') << {
+task updateChangelog(dependsOn: 'build') << {
     def changelogData = new File("CHANGELOG").getText()
     if (!changelogData.startsWith(project.version)) {
-        new File("CHANGELOG").write(project.version + ":\n" + changelogData);
+        new File(project.projectDir, "CHANGELOG").write(project.version + ":\n" + changelogData);
     }
 }
 
-task updateReadme (dependsOn: 'curseforge') << {
+task updateReadme(dependsOn: 'curseforge') << {
     def mediafireUrl = System.console().readLine('> enter mediafire url: ')
     def curseFileId = System.console().readLine('> enter curse file id: ')
 
-    new File("README.md.tmp").withWriter { w ->
-        new File("README.md").eachLine { line ->
+    new File(project.projectDir, "README.md.tmp").withWriter { w ->
+        new File(project.projectDir, "README.md").eachLine { line ->
             if (line.startsWith("MediaFire: [Building Bricks")) {
-                line = "MediaFire: [Building Bricks " + project.version + "]("+ mediafireUrl + ")"
+                line = "MediaFire: [Building Bricks " + project.version + "](" + mediafireUrl + ")"
             } else if (line.startsWith("Curse: [Building Bricks")) {
-                line = "Curse: [Building Bricks " + project.version + "](http://www.curse.com/mc-mods/Minecraft/236150-building-bricks/"+ curseFileId + ")"
+                line = "Curse: [Building Bricks " + project.version + "](http://www.curse.com/mc-mods/Minecraft/236150-building-bricks/" + curseFileId + ")"
             }
             w << line + "\n"
         }
     }
 
-    new File("README.md").delete()
-    new File("README.md.tmp").renameTo(new File("README.md"))
+    new File(project.projectDir, "README.md").delete()
+    new File(project.projectDir, "README.md.tmp").renameTo(new File(project.projectDir, "README.md"))
 }
 
-task commitRelease (type: Exec, dependsOn: [updateChangelog, updateReadme]) << {
+task commitRelease(type: Exec, dependsOn: [updateChangelog, updateReadme]) << {
     commandLine 'git', 'commit', '-am', 'Version ' + project.version
 }
 
-task pushRelease (type: Exec, dependsOn: [commitRelease]) << {
+task pushRelease(type: Exec, dependsOn: [commitRelease]) << {
     commandLine 'git', 'push'
 }
 
-task githubRelease (dependsOn: pushRelease) << {
+task githubRelease(dependsOn: pushRelease) << {
     def httpClient = org.apache.http.impl.client.HttpClientBuilder.create().build();
 
-	def req = new org.apache.http.client.methods.HttpPost('https://api.github.com/repos/hea3ven/BuildingBricks/releases')
+    def req = new org.apache.http.client.methods.HttpPost('https://api.github.com/repos/hea3ven/BuildingBricks/releases')
     req.addHeader('User-Agent', 'Mozilla/5.0 Ubuntu/8.10 Firefox/3.0.4')
-	req.addHeader('Authorization', 'Basic ' + (project.githubUser + ':' + project.githubPassword)
-			.getBytes('iso-8859-1')
-			.encodeBase64())
+    req.addHeader('Authorization', 'Basic ' + (project.githubUser + ':' + project.githubPassword)
+            .getBytes('iso-8859-1')
+            .encodeBase64())
     req.addHeader("content-type", "application/json")
     req.setEntity(new org.apache.http.entity.StringEntity('{'
             + '    "tag_name": "v' + project.version + '",'
             + '    "name": "Version ' + project.version + '",'
             + '    "body": "```\\n' + readCurrentChangelog().replace('\n', '\\n') + '```\\n'
-                 + readCurrentDownloads().replace('\n', '\\n') + '",'
+            + readCurrentDownloads().replace('\n', '\\n') + '",'
             + '    "draft": false'
             + '}'))
 
@@ -129,14 +131,14 @@ task githubRelease (dependsOn: pushRelease) << {
     }
 }
 
-task release (dependsOn: githubRelease) << {
+task release(dependsOn: githubRelease) << {
     println "Released v" + project.version
 }
 
 def readCurrentChangelog() {
     def changelog = ''
     def ended = false
-    new File("CHANGELOG").eachLine { line ->
+    new File(project.projectDir, "CHANGELOG").eachLine { line ->
         if (!ended) {
             if (line.equals('')) {
                 ended = true
@@ -152,13 +154,58 @@ def readCurrentChangelog() {
 
 def readCurrentDownloads() {
     def downloads = '\n'
-    new File("README.md").eachLine { line ->
+    new File(project.projectDir, "README.md").eachLine { line ->
         if (line.contains('www.mediafire.com')) {
-			downloads = line + downloads
+            downloads = line + downloads
         }
         if (line.contains('www.curse.com')) {
-			downloads = downloads + line
+            downloads = downloads + line
         }
     }
     return downloads
+}
+
+task updateCommonCode << {
+    updateCommonCodeFrom("base/BlockBuildingBricksBase.java", "COMMON BLOCK CODE")
+    updateCommonCodeFrom("BlockMaterialBlock.java", "COMMON TILE CODE")
+}
+
+def updateCommonCodeFrom(String masterCodeFile, regionName) {
+    def commonCode = new ArrayList()
+    def found = false
+    def blocksDir = new File(project.projectDir, "src/main/java/com/hea3ven/buildingbricks/core/blocks");
+    new File(blocksDir, masterCodeFile).eachLine { line ->
+        if (line.contains("//region " + regionName))
+            found = true
+        else if (line.contains("//endregion" + regionName))
+            found = false
+        else {
+            if (found)
+                commonCode.add(line)
+        }
+    }
+
+    blocksDir.eachFileRecurse(FileType.FILES) { file ->
+        def tmpFile = new File(file.toString() + "tmp")
+        found = false
+        def index = 0
+        tmpFile.withWriter { w ->
+            file.eachLine { line ->
+                if (line.contains("//region " + regionName)) {
+                    found = true
+                    w << line + "\n"
+                    commonCode.forEach { w << it + "\n" }
+                } else {
+                    if (line.contains("//endregion" + regionName))
+                        found = false
+                    if (!found) {
+                        w << line + "\n"
+                    }
+                }
+            }
+        }
+
+        file.delete()
+        tmpFile.renameTo(file)
+    }
 }

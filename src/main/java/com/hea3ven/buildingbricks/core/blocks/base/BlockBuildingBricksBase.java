@@ -24,6 +24,8 @@ public class BlockBuildingBricksBase extends Block implements BlockBuildingBrick
 		blockLogic.initBlock(this);
 	}
 
+	//region COMMON BLOCK CODE
+
 	@Override
 	public MaterialBlockLogic getBlockLogic() {
 		return blockLogic;
@@ -67,4 +69,6 @@ public class BlockBuildingBricksBase extends Block implements BlockBuildingBrick
 	public String getHarvestTool(IBlockState state) {
 		return blockLogic.getHarvestTool(state);
 	}
+
+	//endregion COMMON BLOCK CODE
 }
