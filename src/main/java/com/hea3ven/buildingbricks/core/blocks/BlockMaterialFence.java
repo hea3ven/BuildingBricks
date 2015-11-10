@@ -33,6 +33,8 @@ public class BlockMaterialFence extends BlockBuildingBricksFence implements Bloc
 		super(structMat);
 	}
 
+	//region COMMON TILE CODE
+
 	@Override
 	protected BlockState createBlockState() {
 		return TileMaterial.createBlockState(super.createBlockState());
@@ -103,4 +105,6 @@ public class BlockMaterialFence extends BlockBuildingBricksFence implements Bloc
 	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
 		return blockLogic.addDestroyEffects(world, pos, effectRenderer);
 	}
+
+	//endregion COMMON TILE CODE
 }

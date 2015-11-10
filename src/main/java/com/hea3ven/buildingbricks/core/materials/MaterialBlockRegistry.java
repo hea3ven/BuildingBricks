@@ -68,6 +68,9 @@ public class MaterialBlockRegistry {
 			case FENCE:
 				cls = BlockMaterialFence.class;
 				break;
+			case FENCE_GATE:
+				cls = BlockMaterialFenceGate.class;
+				break;
 			case STAIRS:
 				cls = BlockMaterialStairs.class;
 				break;

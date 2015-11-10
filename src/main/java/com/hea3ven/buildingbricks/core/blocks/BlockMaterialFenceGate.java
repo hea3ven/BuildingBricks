@@ -18,7 +18,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,14 +27,9 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.buildingbricks.core.utils.ItemStackUtils;
 
-public class BlockMaterialSlab extends BlockBuildingBricksSlab implements BlockMaterial {
-
-	public BlockMaterialSlab(StructureMaterial structMat) {
+public class BlockMaterialFenceGate extends BlockBuildingBricksFenceGate implements BlockMaterial {
+	public BlockMaterialFenceGate(StructureMaterial structMat) {
 		super(structMat);
-
-		IBlockState state = getDefaultState();
-		state = setHalf(state, EnumBlockHalf.BOTTOM);
-		setDefaultState(state);
 	}
 
 	//region COMMON TILE CODE

@@ -1,28 +1,27 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.BlockFence;
+import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
-import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockLogic;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
-public class BlockBuildingBricksFence extends BlockFence implements BlockBuildingBricks {
+public class BlockBuildingBricksFenceGate extends BlockFenceGate implements BlockBuildingBricks {
 
 	protected MaterialBlockLogic blockLogic;
 
-	public BlockBuildingBricksFence(StructureMaterial structMat) {
-		super(structMat.getMcMaterial());
+	public BlockBuildingBricksFenceGate(StructureMaterial structMat) {
+		super();
 
-		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.FENCE);
+		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.FENCE_GATE);
 		blockLogic.initBlock(this);
 	}
 

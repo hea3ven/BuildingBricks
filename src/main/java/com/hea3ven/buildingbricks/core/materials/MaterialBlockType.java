@@ -16,7 +16,8 @@ public enum MaterialBlockType {
 	STEP("step", 250),
 	CORNER("corner", 125),
 	WALL("wall", 1000),
-	FENCE("fence", 1500);
+	FENCE("fence", 1500),
+	FENCE_GATE("fence_gate", 3000);
 
 	static {
 		FULL.addRecipe(true, MaterialRecipeBuilder
@@ -91,6 +92,12 @@ public enum MaterialBlockType {
 				.pattern("xyx", "xyx")
 				.map('x', FULL)
 				.map('y', "stickWood")
+				.validate());
+		FENCE_GATE.addRecipe(false, MaterialRecipeBuilder
+				.create()
+				.pattern("xyx", "xyx")
+				.map('x', "stickWood")
+				.map('y', FULL)
 				.validate());
 	}
 

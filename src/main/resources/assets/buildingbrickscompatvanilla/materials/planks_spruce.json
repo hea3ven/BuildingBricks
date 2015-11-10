@@ -9,6 +9,7 @@
         "full": { "id": "minecraft:planks", "meta": 1 },
         "stairs": "minecraft:spruce_stairs",
         "slab": { "id": "minecraft:wooden_slab", "meta": 1 },
-        "fence": "minecraft:spruce_fence"
+        "fence": "minecraft:spruce_fence",
+        "fence_gate": "minecraft:spruce_fence_gate"
     }
 }

@@ -57,8 +57,8 @@ public class BlockMaterialBlock extends BlockBuildingBricksBlock implements Bloc
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state,
-			EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
+			ItemStack stack) {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		TileMaterial.onBlockPlacedBy(this, world, pos, state, placer, stack);
 	}
@@ -69,20 +69,17 @@ public class BlockMaterialBlock extends BlockBuildingBricksBlock implements Bloc
 	}
 
 	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state,
-			int fortune) {
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		return Lists.newArrayList();
 	}
 
 	@Override
-	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player,
-			boolean willHarvest) {
+	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		ItemStack stack = TileMaterial.getHarvestBlock(world, pos, player);
 		boolean removed = super.removedByPlayer(world, pos, player, willHarvest);
 		if (removed && !world.isRemote && !player.capabilities.isCreativeMode)
 			ItemStackUtils.dropFromBlock(world, pos, stack);
 		return removed;
-
 	}
 
 	@Override
@@ -100,8 +97,7 @@ public class BlockMaterialBlock extends BlockBuildingBricksBlock implements Bloc
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(World world, MovingObjectPosition target,
-			EffectRenderer effectRenderer) {
+	public boolean addHitEffects(World world, MovingObjectPosition target, EffectRenderer effectRenderer) {
 		return blockLogic.addHitEffects(world, target, effectRenderer);
 	}
 

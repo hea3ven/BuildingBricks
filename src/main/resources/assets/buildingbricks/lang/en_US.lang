@@ -19,6 +19,7 @@ blockType.step=%s Step
 blockType.corner=%s Corner
 blockType.wall=%s Wall
 blockType.fence=%s Fence
+blockType.fenceGate=%s Fence Gate
 
 material.stone_slab=Double Stone
 material.coal_block=Coal
