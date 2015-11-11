@@ -65,7 +65,7 @@ public class ModBuildingBricks {
 				"portable_ladder").setUnlocalizedName("portableLadder");
 
 		logger.info("Registering materials from resources");
-		MaterialResourceLoader.loadResources(resScanner);
+		MaterialResourceLoader.loadResources(resScanner, Properties.MODID);
 
 		proxy.preInit();
 	}

@@ -14,6 +14,7 @@ import java.util.zip.ZipFile;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.*;
@@ -25,14 +26,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ResourceScannerClient extends ResourceScanner {
 	@Override
-	public Iterable<InputStream> scan(String name) {
+	public Iterable<InputStream> scan(String modid, String name) {
 		Set<ResourceLocation> res = null;
 		IResourceManager resourceManager = Minecraft.getMinecraft().getResourceManager();
 
 		res = new HashSet<ResourceLocation>();
 		for (IResourceManager mgr : getDomainResourceManagers(resourceManager).values()) {
 			for (IResourcePack resPack : getResourcePackages(mgr)) {
-				res.addAll(getMaterials(resPack, name));
+				res.addAll(getMaterials(resPack, modid, name));
 			}
 		}
 		return new ResourceLocationIterable(res);
@@ -49,50 +50,70 @@ public class ResourceScannerClient extends ResourceScanner {
 				"domainResourceManagers");
 	}
 
-	private static Set<ResourceLocation> getMaterials(IResourcePack resPack, String name) {
-		Set<ResourceLocation> materials = new HashSet<ResourceLocation>();
+	private static Set<ResourceLocation> getMaterials(IResourcePack resPack, String modid, String name) {
 		if (resPack instanceof FolderResourcePack) {
-			File rootDir = ReflectionHelper.getPrivateValue(AbstractResourcePack.class,
-					(AbstractResourcePack) resPack, "field_110597_b", "resourcePackFile");
-			try {
-				DirectoryStream<Path> modDirs =
-						Files.newDirectoryStream(Paths.get(rootDir.toString(), "assets"));
-				for (Path modDir : modDirs) {
-					String modName = modDir.getFileName().toString();
-					if (!isModLoaded(modName))
-						continue;
-					Path targetDir = modDir.resolve(name);
-					if (!Files.exists(targetDir))
-						continue;
+			return getResourcesFromDir((FolderResourcePack) resPack, modid, name);
+		} else if (resPack instanceof FileResourcePack) {
+			return getResourcesFromZip((FileResourcePack) resPack, modid, name);
+		} else
+			return Sets.newHashSet();
+	}
 
-					DirectoryStream<Path> entries = Files.newDirectoryStream(targetDir);
+	private static Set<ResourceLocation> getResourcesFromDir(FolderResourcePack resPack, String modid,
+			String name) {
+		Set<ResourceLocation> materials = new HashSet<ResourceLocation>();
+		File rootDir = ReflectionHelper.getPrivateValue(AbstractResourcePack.class, resPack, "field_110597_b",
+				"resourcePackFile");
+		try {
+			DirectoryStream<Path> modDirs = Files.newDirectoryStream(Paths.get(rootDir.toString(), "assets"));
+			for (Path modDir : modDirs) {
+				String modName = modDir.getFileName().toString();
+				if (!modName.equals(modid))
+					continue;
+				Path targetDir = modDir.resolve(name);
+				if (!Files.exists(targetDir))
+					continue;
+
+				DirectoryStream<Path> modResDirs = Files.newDirectoryStream(targetDir);
+				for (Path modResDir : modResDirs) {
+					if (!Files.isDirectory(modResDir))
+						continue;
+					if (!isModLoaded(modResDir.getFileName().toString()))
+						continue;
+					DirectoryStream<Path> entries = Files.newDirectoryStream(modResDir);
 					for (Path entry : entries) {
 						if (!entry.getFileName().toString().endsWith(".json"))
 							continue;
-						materials.add(
-								new ResourceLocation(modName, name + "/" + entry.getFileName().toString()));
+						materials.add(new ResourceLocation(modName, modDir.relativize(entry).toString()));
 					}
 				}
-			} catch (IOException e) {
-				return materials;
 			}
-		} else if (resPack instanceof FileResourcePack) {
-			ZipFile packFile = getZipFromResPack((FileResourcePack) resPack);
-			for (Enumeration<? extends ZipEntry> entries = packFile.entries(); entries.hasMoreElements(); ) {
-				ZipEntry entry = entries.nextElement();
-				Path entryPath = Paths.get(entry.getName());
-				if (!entryPath.getName(0).getFileName().equals("assets"))
-					continue;
-				if (!isModLoaded(entryPath.getName(1).getFileName().toString()))
-					continue;
-				if (!entryPath.getName(2).getFileName().equals(name))
-					continue;
-				if (!entryPath.getFileName().toString().endsWith(".json"))
-					continue;
+			return materials;
+		} catch (IOException e) {
+			return materials;
+		}
+	}
 
-				materials.add(new ResourceLocation(entryPath.getName(1).getFileName().toString(),
-						entryPath.getName(3).getFileName().toString()));
-			}
+	private static Set<ResourceLocation> getResourcesFromZip(FileResourcePack resPack, String modid,
+			String name) {
+		Set<ResourceLocation> materials = new HashSet<ResourceLocation>();
+		ZipFile packFile = getZipFromResPack(resPack);
+		for (Enumeration<? extends ZipEntry> entries = packFile.entries(); entries.hasMoreElements(); ) {
+			ZipEntry entry = entries.nextElement();
+			Path entryPath = Paths.get(entry.getName());
+			if (!entryPath.getName(0).getFileName().equals("assets"))
+				continue;
+			if (!entryPath.getName(1).getFileName().equals(modid))
+				continue;
+			if (!entryPath.getName(2).getFileName().equals(name))
+				continue;
+			if (!isModLoaded(entryPath.getName(3).getFileName().toString()))
+				continue;
+			if (!entryPath.getFileName().toString().endsWith(".json"))
+				continue;
+
+			materials.add(new ResourceLocation(entryPath.getName(1).getFileName().toString(),
+					entryPath.getName(3).getFileName().toString()));
 		}
 		return materials;
 	}

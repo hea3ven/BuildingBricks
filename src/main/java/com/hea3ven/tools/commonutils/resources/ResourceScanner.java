@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.ModContainer;
 
 public abstract class ResourceScanner {
-	public abstract Iterable<InputStream> scan(String name);
+	public abstract Iterable<InputStream> scan(String modid, String name);
 
 	protected static boolean isModLoaded(String name) {
 		for (ModContainer mod : Loader.instance().getActiveModList()) {

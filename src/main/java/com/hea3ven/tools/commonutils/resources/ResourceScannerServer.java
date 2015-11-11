@@ -85,7 +85,7 @@ public class ResourceScannerServer extends ResourceScanner {
 //	}
 
 	@Override
-	public Iterable<InputStream> scan(String name) {
+	public Iterable<InputStream> scan(String modid, String name) {
 		Set<String> resources = Sets.newHashSet();
 		final String[] classPathParts = System.getProperty("java.class.path", ".").split(":");
 		for (final String element : classPathParts) {
