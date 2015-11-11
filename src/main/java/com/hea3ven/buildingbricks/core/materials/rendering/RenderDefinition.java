@@ -32,7 +32,7 @@ public abstract class RenderDefinition {
 		try {
 			return ModelLoaderRegistry.getModel(new ResourceLocation(
 					modelLoc.replace("minecraft:", "buildingbricks:")
-							.replace(":block/", ":block/" + mat.getMaterialId() + "_")));
+							.replace(":block/", ":block/" + mat.getMaterialId() + "/")));
 		} catch (IOException e) {
 			try {
 				return ModelLoaderRegistry.getModel(new ResourceLocation(modelLoc));
