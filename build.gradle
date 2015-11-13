@@ -12,7 +12,7 @@ repositories {
     }
 }
 
-version = "1.0.3"
+version = "1.0.4"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "BuildingBricks"
 
@@ -97,11 +97,11 @@ task updateReadme(dependsOn: 'curseforge') << {
     new File(project.projectDir, "README.md.tmp").renameTo(new File(project.projectDir, "README.md"))
 }
 
-task commitRelease(type: Exec, dependsOn: [updateChangelog, updateReadme]) << {
+task commitRelease(type: Exec, dependsOn: [updateChangelog, updateReadme]) {
     commandLine 'git', 'commit', '-am', 'Version ' + project.version
 }
 
-task pushRelease(type: Exec, dependsOn: [commitRelease]) << {
+task pushRelease(type: Exec, dependsOn: [commitRelease]) {
     commandLine 'git', 'push'
 }
 
