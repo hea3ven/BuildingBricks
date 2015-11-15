@@ -3,7 +3,6 @@ package com.hea3ven.buildingbricks.core;
 import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -11,7 +10,6 @@ import net.minecraftforge.oredict.RecipeSorter.Category;
 
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerOverrideBlockPlacing;
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
-import com.hea3ven.buildingbricks.core.items.crafting.RecipeBlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
@@ -27,10 +25,8 @@ public class ProxyCommonBuildingBricks {
 	}
 
 	public void postInit() {
-		RecipeSorter.register("buildingbricks:bindtrowel", RecipeBindTrowel.class,
-				Category.SHAPELESS, "after:minecraft:shapeless");
-		RecipeSorter.register("buildingbricks:blockmaterial", RecipeBlockMaterial.class,
-				Category.SHAPED, "after:minecraft:shaped");
+		RecipeSorter.register("buildingbricks:bindtrowel", RecipeBindTrowel.class, Category.SHAPELESS,
+				"after:minecraft:shapeless");
 
 		addTrowelRecipes();
 
@@ -41,11 +37,10 @@ public class ProxyCommonBuildingBricks {
 		ModBuildingBricks.logger.info("Registering trowel's recipes");
 		for (Material mat : MaterialRegistry.getAll()) {
 			for (BlockDescription blockDesc : mat.getBlockRotation().getAll().values()) {
-				ItemStack bindedTrowelStack = new ItemStack(ModBuildingBricks.trowel);
-				ModBuildingBricks.trowel.setBindedMaterial(bindedTrowelStack, mat);
 				ItemStack trowelStack = new ItemStack(ModBuildingBricks.trowel, 1);
-				GameRegistry.addRecipe(
-						new RecipeBindTrowel(bindedTrowelStack, trowelStack, blockDesc.getStack()));
+				RecipeBindTrowel recipe = new RecipeBindTrowel(mat, blockDesc);
+				ModBuildingBricks.recipes.add(recipe);
+				GameRegistry.addRecipe(recipe);
 			}
 		}
 	}
@@ -53,8 +48,7 @@ public class ProxyCommonBuildingBricks {
 	private void addMaterialBlocksRecipes() {
 		ModBuildingBricks.logger.info("Registering materials recipes");
 		for (Material mat : MaterialRegistry.getAll()) {
-			for (Entry<MaterialBlockType, BlockDescription> entry : mat
-					.getBlockRotation()
+			for (Entry<MaterialBlockType, BlockDescription> entry : mat.getBlockRotation()
 					.getAll()
 					.entrySet()) {
 				entry.getKey().registerRecipes(mat);

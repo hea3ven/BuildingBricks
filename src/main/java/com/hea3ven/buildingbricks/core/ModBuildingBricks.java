@@ -1,9 +1,13 @@
 package com.hea3ven.buildingbricks.core;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -19,9 +23,11 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
+import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
+import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
@@ -45,6 +51,8 @@ public class ModBuildingBricks {
 
 	public static ItemTrowel trowel;
 	public static BlockPortableLadder portableLadder;
+
+	public static Set<RecipeBindTrowel> recipes = Sets.newHashSet();
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -83,6 +91,8 @@ public class ModBuildingBricks {
 	public void postInit(FMLPostInitializationEvent event) {
 		GameRegistry.addRecipe(
 				new ShapedOreRecipe(new ItemStack(trowel), " is", "ii ", 's', "stickWood", 'i', "ingotIron"));
+
+		MinecraftForge.EVENT_BUS.register(new IdMappingLoader());
 
 		proxy.postInit();
 	}

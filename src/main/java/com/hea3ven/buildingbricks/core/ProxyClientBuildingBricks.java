@@ -35,13 +35,18 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		for (Block block : MaterialBlockRegistry.instance.getAllBlocks()) {
-			ModelResourceLocation location = new ModelResourceLocation(
-					(ResourceLocation) Block.blockRegistry.getNameForObject(block), "inventory");
-			mesher.register(Item.getItemFromBlock(block), 0, location);
+			ModelResourceLocation location =
+					new ModelResourceLocation((ResourceLocation) Block.blockRegistry.getNameForObject(block),
+							"inventory");
+			for (int i = 0; i < 300; i++) {
+				mesher.register(Item.getItemFromBlock(block), i, location);
+			}
 		}
 		mesher.register(Item.getItemFromBlock(ModBuildingBricks.portableLadder), 0,
 				new ModelResourceLocation(Properties.MODID + ":portable_ladder", "inventory"));
-		mesher.register(ModBuildingBricks.trowel, 0,
-				new ModelResourceLocation(Properties.MODID + ":trowel", "inventory"));
+		for (int i = 0; i < 300; i++) {
+			mesher.register(ModBuildingBricks.trowel, i,
+					new ModelResourceLocation(Properties.MODID + ":trowel", "inventory"));
+		}
 	}
 }

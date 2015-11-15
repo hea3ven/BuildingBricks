@@ -13,6 +13,9 @@ import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.ISmartItemModel;
 import net.minecraftforge.common.util.Constants.NBT;
 
+import com.hea3ven.buildingbricks.core.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.materials.Material;
+
 @SuppressWarnings("deprecation")
 public class ModelItemMaterialBlock extends DelegatedSmartModel implements ISmartItemModel {
 
@@ -43,8 +46,9 @@ public class ModelItemMaterialBlock extends DelegatedSmartModel implements ISmar
 
 	@Override
 	public IBakedModel handleItemState(ItemStack stack) {
-		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			return models.get(stack.getTagCompound().getString("material"));
+		Material mat = ModBuildingBricks.trowel.getBindedMaterial(stack);
+		if (mat != null)
+			return models.get(mat.getMaterialId());
 		else
 			return this;
 	}

@@ -8,7 +8,12 @@ import java.util.Map.Entry;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Chars;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagString;
+
+import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 
 public class MaterialRecipeBuilder {
 
@@ -28,9 +33,13 @@ public class MaterialRecipeBuilder {
 		@Override
 		public Object getStack(Material mat) {
 			BlockDescription block = mat.getBlock(blockType);
-			return block != null ? block.getStack() : null;
-		}
+			if (block == null)
+				return null;
 
+			ItemStack stack = block.getStack().copy();
+			stack.setTagInfo("material", new NBTTagString(mat.getMaterialId()));
+			return stack;
+		}
 	}
 
 	private class OreDictIngredient implements Ingredient {
@@ -45,8 +54,8 @@ public class MaterialRecipeBuilder {
 		public Object getStack(Material mat) {
 			return oreDictName;
 		}
-
 	}
+
 	public static MaterialRecipeBuilder create() {
 		return new MaterialRecipeBuilder();
 	}
@@ -74,6 +83,7 @@ public class MaterialRecipeBuilder {
 		mapping.put(key, new OreDictIngredient(oreDictName));
 		return this;
 	}
+
 	public MaterialRecipeBuilder validate() {
 		if (pattern == null)
 			throw new IllegalStateException("missing pattern");
@@ -96,6 +106,7 @@ public class MaterialRecipeBuilder {
 	public ItemStack buildOutput(Material mat, MaterialBlockType blockType) {
 		ItemStack output = mat.getBlock(blockType).getStack().copy();
 		output.stackSize = this.output;
+		output.setTagInfo("material", new NBTTagString(mat.getMaterialId()));
 		return output;
 	}
 
@@ -114,5 +125,4 @@ public class MaterialRecipeBuilder {
 		}
 		return recipe.toArray();
 	}
-
 }

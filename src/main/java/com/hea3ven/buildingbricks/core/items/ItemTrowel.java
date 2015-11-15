@@ -17,34 +17,53 @@ import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBric
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.MaterialStack.ItemMaterial;
+import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 
-public class ItemTrowel extends Item {
+public class ItemTrowel extends Item implements ItemMaterial {
 
 	public ItemTrowel() {
 		setCreativeTab(CreativeTabBuildingBricks.get());
 		setUnlocalizedName("trowel");
 	}
 
+	@Override
+	public void setMaterial(ItemStack stack, Material mat) {
+		setBindedMaterial(stack, mat);
+	}
+
+	@Override
+	public Material getMaterial(ItemStack stack) {
+		return getBindedMaterial(stack);
+	}
+
 	public void setBindedMaterial(ItemStack stack, Material mat) {
-		if (stack.getTagCompound() == null)
-			stack.setTagCompound(new NBTTagCompound());
-		if (mat != null) {
-			stack.getTagCompound().setString("material", mat.getMaterialId());
-			stack.getTagCompound().setInteger("blockType", mat.getBlockRotation().getFirst().ordinal());
-		} else {
-			stack.getTagCompound().removeTag("material");
-			stack.getTagCompound().removeTag("blockType");
-		}
+		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
+			updateStack(stack); // convert from 1.0.x format
+
+		if (mat == null)
+			stack.setItemDamage(0);
+		else
+			stack.setItemDamage(MaterialIdMapping.get().getIdForMaterial(mat));
 	}
 
 	public Material getBindedMaterial(ItemStack stack) {
-		if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			return null;
+		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
+			updateStack(stack); // convert from 1.0.x format
 
-		return MaterialRegistry.get(stack.getTagCompound().getString("material"));
+		short matId = (short) getMetadata(stack);
+		if (matId == 0)
+			return null;
+		else
+			return MaterialIdMapping.get().getMaterialById(matId);
 	}
 
 	public MaterialBlockType getCurrentBlockType(ItemStack stack) {
+		if (stack.getTagCompound() == null) {
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setInteger("blockType", getBindedMaterial(stack).getBlockRotation().getFirst().ordinal());
+			stack.setTagCompound(nbt);
+		}
 		MaterialBlockType blockType =
 				MaterialBlockType.getBlockType(stack.getTagCompound().getInteger("blockType"));
 		Material mat = getBindedMaterial(stack);
@@ -88,11 +107,12 @@ public class ItemTrowel extends Item {
 			ItemStack useStack = mat.getBlock(blockType).getStack().copy();
 			MaterialItemStackConsumer consumer =
 					new MaterialItemStackConsumer(blockType, mat, player.inventory);
-			if (consumer.failed())
+			if (!player.capabilities.isCreativeMode && consumer.failed())
 				return false;
 			if (!useStack.onItemUse(player, world, pos, side, hitX, hitY, hitZ))
 				return false;
-			consumer.apply(world, player.getPosition());
+			if (!player.capabilities.isCreativeMode)
+				consumer.apply(world, player.getPosition());
 			return true;
 		}
 	}
@@ -116,5 +136,11 @@ public class ItemTrowel extends Item {
 			return super.getColorFromItemStack(stack, tintIndex);
 
 		return mat.getBlock(MaterialBlockType.FULL).getItem().getColorFromItemStack(stack, tintIndex);
+	}
+
+	private void updateStack(ItemStack stack) {
+		String matId = stack.getTagCompound().getString("material");
+		stack.getTagCompound().removeTag("material");
+		setBindedMaterial(stack, MaterialRegistry.get(matId));
 	}
 }

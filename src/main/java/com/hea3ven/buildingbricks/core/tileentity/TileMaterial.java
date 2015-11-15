@@ -21,23 +21,20 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.common.util.Constants.NBT;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.properties.PropertyMaterial;
-import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
-import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.*;
+import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 
 public class TileMaterial extends TileEntity {
 
 	public static final PropertyMaterial MATERIAL = new PropertyMaterial();
 
+	private short materialId = 0;
 	private Material material;
 
 	public Material getMaterial() {
@@ -64,39 +61,28 @@ public class TileMaterial extends TileEntity {
 		return tile;
 	}
 
-	public static Material getStackMaterial(ItemStack stack) {
-		NBTTagCompound nbt = stack.getTagCompound();
-		if (nbt == null || !nbt.hasKey("material", NBT.TAG_STRING)) {
-			return MaterialRegistry.get("stone");
-		}
-		return MaterialRegistry.get(nbt.getString("material"));
-	}
-
-	public static void setStackMaterial(ItemStack stack, Material mat) {
-		NBTTagCompound nbt = stack.getTagCompound();
-		if (nbt == null) {
-			nbt = new NBTTagCompound();
-			stack.setTagCompound(nbt);
-		}
-		nbt.setString("material", mat.getMaterialId());
-	}
-
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setString("material", getMaterial().getMaterialId());
+		nbt.setShort("m", materialId);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		setMaterial(MaterialRegistry.get(nbt.getString("material")));
+
+		if (nbt.hasKey("material")) {
+			setMaterial(MaterialRegistry.get(nbt.getString("material")));
+			materialId = MaterialIdMapping.get().getIdForMaterial(getMaterial());
+		} else {
+			materialId = nbt.getShort("m");
+			setMaterial(MaterialIdMapping.get().getMaterialById(materialId));
+		}
 	}
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState,
-			IBlockState newSate) {
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		return oldState.getBlock() != newSate.getBlock();
 	}
 
@@ -118,8 +104,7 @@ public class TileMaterial extends TileEntity {
 				new IUnlistedProperty[] {TileMaterial.MATERIAL});
 	}
 
-	public static IBlockState getExtendedState(IBlockState state, IBlockAccess world,
-			BlockPos pos) {
+	public static IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileMaterial tile = getTile(world, pos);
 		if (tile != null && tile.getMaterial() != null)
 			return TileMaterial.setStateMaterial((IExtendedBlockState) state, tile.getMaterial());
@@ -129,20 +114,20 @@ public class TileMaterial extends TileEntity {
 
 	public static void onBlockPlacedBy(Block block, World world, BlockPos pos, IBlockState state,
 			EntityLivingBase placer, ItemStack stack) {
-		TileMaterial.getTile(world, pos).setMaterial(TileMaterial.getStackMaterial(stack));
+		TileMaterial.getTile(world, pos).setMaterial(MaterialStack.get(stack));
 	}
 
 	public static ItemStack getPickBlock(Block block, MovingObjectPosition target, World world,
 			BlockPos pos) {
 		ItemStack stack = new ItemStack(block, 1);
-		TileMaterial.setStackMaterial(stack, TileMaterial.getTile(world, pos).getMaterial());
+		MaterialStack.set(stack, TileMaterial.getTile(world, pos).getMaterial());
 		return stack;
 	}
 
 	public static void getSubBlocks(Block block, Item item, CreativeTabs tab, List list) {
 		for (Material mat : MaterialBlockRegistry.instance.getBlockMaterials(block)) {
 			ItemStack stack = new ItemStack(item);
-			TileMaterial.setStackMaterial(stack, mat);
+			MaterialStack.set(stack, mat);
 			list.add(stack);
 		}
 	}
@@ -158,8 +143,7 @@ public class TileMaterial extends TileEntity {
 			return null;
 		Material mat = te.getMaterial();
 
-		boolean silk = mat.getSilkHarvestMaterial() != null
-				&& EnchantmentHelper.getSilkTouchModifier(player);
+		boolean silk = mat.getSilkHarvestMaterial() != null && EnchantmentHelper.getSilkTouchModifier(player);
 		String harvestMatId = silk ? mat.getSilkHarvestMaterial() : mat.getNormalHarvestMaterial();
 		if (harvestMatId == null)
 			return null;
