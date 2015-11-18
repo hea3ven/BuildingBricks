@@ -1,24 +1,32 @@
 package com.hea3ven.buildingbricks.core.items;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.hea3ven.buildingbricks.core.Properties;
+import com.hea3ven.buildingbricks.core.gui.BuildingBricksGuiHandler;
 import com.hea3ven.buildingbricks.core.inventory.MaterialItemStackConsumer;
+import com.hea3ven.buildingbricks.core.inventory.SlotTrowelBlockType;
+import com.hea3ven.buildingbricks.core.inventory.SlotTrowelMaterial;
 import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack.ItemMaterial;
 import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
+import com.hea3ven.tools.commonutils.inventory.GenericContainer;
+import com.hea3ven.tools.commonutils.inventory.GenericContainer.SlotType;
 
 public class ItemTrowel extends Item implements ItemMaterial {
 
@@ -97,6 +105,16 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	}
 
 	@Override
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+		if (playerIn.isSneaking()) {
+			playerIn.openGui(Properties.MODID, BuildingBricksGuiHandler.GUI_TROWEL, worldIn,
+					MathHelper.floor_double(playerIn.posX), MathHelper.floor_double(playerIn.posY),
+					MathHelper.floor_double(playerIn.posZ));
+		}
+		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
+	}
+
+	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
 			float hitX, float hitY, float hitZ) {
 		Material mat = getBindedMaterial(stack);
@@ -142,5 +160,11 @@ public class ItemTrowel extends Item implements ItemMaterial {
 		String matId = stack.getTagCompound().getString("material");
 		stack.getTagCompound().removeTag("material");
 		setBindedMaterial(stack, MaterialRegistry.get(matId));
+	}
+
+	public Container getContainer(EntityPlayer player, ItemStack trowel) {
+		return new GenericContainer().addSlots(0, 44, 36, 1, 1, SlotTrowelMaterial.class, player)
+				.addSlots(SlotType.DISPLAY, 0, 98, 9, 4, 4, SlotTrowelBlockType.class, player)
+				.addPlayerSlots(player.inventory);
 	}
 }
