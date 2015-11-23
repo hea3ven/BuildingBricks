@@ -66,7 +66,7 @@ public class ModelBakerItemTrowel extends ModelBakerBase {
 					new ResourceLocation(itemName.getResourceDomain(), "item/" + itemName.getResourcePath());
 			IModel itemModel = getModel(model);
 			itemModel = retexture(material.getTextures(), itemModel);
-			Vector3f translation = new Vector3f(0.3f, 0.5f, 0.3f);
+			Vector3f translation = new Vector3f(0.3f, 0.0625f, 0.125f);
 			Vector3f scale = new Vector3f(0.4f, 0.4f, 0.4f);
 			IModelState modelState = new TRSRTransformation(translation, null, scale, null);
 			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState, DefaultVertexFormats.ITEM);

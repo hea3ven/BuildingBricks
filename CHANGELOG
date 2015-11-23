@@ -3,6 +3,7 @@
     * Add fence and fence gate block types.
     * Add materials for the stone variants and the prismarine blocks, fixes #21.
     * Add a GUI for the trowel when you shift-right click on the air, fixes #23.
+    * Add a model for the trowel.
     * Reduced significantly the blocks' space usage on disk and made it able to better handle removing/adding materials from existing worlds.
     * Fix vertical slabs culling when placed next to each other, fixes #18.
 

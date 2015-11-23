@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.vecmath.Vector3f;
-
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemStack;
@@ -32,13 +29,7 @@ public class ModelTrowel implements ISmartItemModel {
 	}
 
 	public ModelTrowel(IBakedModel baseModel, IBakedModel matModel) {
-		cameraTransforms = new ItemCameraTransforms(
-				new ItemTransformVec3f(new Vector3f(0, 90, -130), new Vector3f(0, 0.15f, -0.15f),
-						new Vector3f(1, 1, 1)),
-				new ItemTransformVec3f(new Vector3f(-10, 240, 10), new Vector3f(0.1f, 0.1f, 0),
-						new Vector3f(1.3f, 1.3f, 1.3f)),
-				new ItemTransformVec3f(new Vector3f(), new Vector3f(), new Vector3f(1, 1, 1)),
-				new ItemTransformVec3f(new Vector3f(), new Vector3f(), new Vector3f(1, 1, 1)));
+		cameraTransforms = baseModel.getItemCameraTransforms();
 		texture = baseModel.getTexture();
 		for (EnumFacing side : EnumFacing.VALUES) {
 			List sideFaces = new ArrayList(baseModel.getFaceQuads(side));
@@ -96,5 +87,4 @@ public class ModelTrowel implements ISmartItemModel {
 			return models.get(mat);
 		}
 	}
-
 }
