@@ -34,9 +34,11 @@ public class GuiTrowel extends GuiContainer {
 
 		ItemStack stack = player.getCurrentEquippedItem();
 		Material mat = MaterialStack.get(stack);
-		int i = mat.getBlockRotation().getIndex(ModBuildingBricks.trowel.getCurrentBlockType(stack));
-		int xCol = i % 4;
-		int yCol = i / 4;
-		this.drawTexturedModalRect(k + 95 + 18 * xCol, l + 6 + 18 * yCol, 176, 0, 22, 22);
+		if (mat != null) {
+			int i = mat.getBlockRotation().getIndex(ModBuildingBricks.trowel.getCurrentBlockType(stack));
+			int xCol = i % 4;
+			int yCol = i / 4;
+			this.drawTexturedModalRect(k + 95 + 18 * xCol, l + 6 + 18 * yCol, 176, 0, 22, 22);
+		}
 	}
 }
