@@ -21,6 +21,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
@@ -46,6 +47,7 @@ public class TileMaterial extends TileEntity {
 
 	public void setMaterial(Material material) {
 		this.material = material;
+		this.materialId = MaterialIdMapping.get().getIdForMaterial(material);
 	}
 
 	public static IExtendedBlockState setStateMaterial(IExtendedBlockState state, Material mat) {

@@ -36,9 +36,7 @@ public class MaterialRecipeBuilder {
 			if (block == null)
 				return null;
 
-			ItemStack stack = block.getStack().copy();
-			stack.setTagInfo("material", new NBTTagString(mat.getMaterialId()));
-			return stack;
+			return block.getStack();
 		}
 	}
 
@@ -106,7 +104,6 @@ public class MaterialRecipeBuilder {
 	public ItemStack buildOutput(Material mat, MaterialBlockType blockType) {
 		ItemStack output = mat.getBlock(blockType).getStack().copy();
 		output.stackSize = this.output;
-		output.setTagInfo("material", new NBTTagString(mat.getMaterialId()));
 		return output;
 	}
 

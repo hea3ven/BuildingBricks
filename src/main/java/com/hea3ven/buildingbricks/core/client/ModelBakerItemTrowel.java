@@ -44,7 +44,6 @@ public class ModelBakerItemTrowel extends ModelBakerBase {
 	}
 
 	private void bakeItemTrowelModels(ModelBakeEvent event) {
-		Minecraft.getMinecraft().setIngameNotInFocus();
 		ResourceLocation trowelModelLoc = new ResourceLocation("buildingbricks:item/trowel");
 		for (Material material : MaterialRegistry.getAll()) {
 

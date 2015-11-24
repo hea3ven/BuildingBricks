@@ -1,11 +1,11 @@
 package com.hea3ven.buildingbricks.core.materials.mapping;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +23,7 @@ public class MaterialIdMapping {
 
 	private RegistryNamespaced registry = new RegistryNamespaced();
 	private Map<Short, String> missingRegistry = Maps.newHashMap();
-	private Set<Pair<Short, String>> notFoundMaterials = Sets.newHashSet();
+	private Map<String, Short> notFoundMaterials = Maps.newHashMap();
 	private short nextId = 1;
 
 	public MaterialIdMapping() {
@@ -38,7 +38,21 @@ public class MaterialIdMapping {
 	}
 
 	public short getIdForMaterial(Material mat) {
-		return (short) registry.getIDForObject(mat);
+		if (mat == null)
+			return 0;
+
+		short id = (short) registry.getIDForObject(mat);
+		if (id != -1)
+			return id;
+
+		if (notFoundMaterials.containsKey(mat.getMaterialId())) {
+			id = notFoundMaterials.get(mat.getMaterialId());
+			registry.register(id, mat.getMaterialId(), mat);
+			notFoundMaterials.remove(mat.getMaterialId());
+			return id;
+		}
+
+		return 0;
 	}
 
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -48,7 +62,7 @@ public class MaterialIdMapping {
 		for (String name : (Set<String>) mappingNbt.getKeySet()) {
 			Material mat = MaterialRegistry.get(name);
 			if (mat == null)
-				notFoundMaterials.add(Pair.of(mappingNbt.getShort(name), name));
+				notFoundMaterials.put(name, mappingNbt.getShort(name));
 			else
 				registry.register(mappingNbt.getShort(name), name, mat);
 		}
@@ -81,14 +95,14 @@ public class MaterialIdMapping {
 			loadedMaterials.remove(mat);
 		}
 
-		for (Pair<Short, String> entry : notFoundMaterials) {
-			Material mat = MaterialRegistry.get(entry.getValue());
+		for (Entry<String, Short> entry : notFoundMaterials.entrySet()) {
+			Material mat = MaterialRegistry.get(entry.getKey());
 			if (mat != null) {
 				loadedMaterials.remove(mat);
-				registry.register(entry.getKey(), entry.getValue(), mat);
+				registry.register(entry.getValue(), entry.getValue(), mat);
 			} else {
 				logger.warn("Missing material {} which had id {}", entry.getValue(), entry.getKey());
-				missingRegistry.put(entry.getKey(), entry.getValue());
+				missingRegistry.put(entry.getValue(), entry.getKey());
 			}
 		}
 		notFoundMaterials.clear();
@@ -105,9 +119,13 @@ public class MaterialIdMapping {
 		}
 
 		for (Material mat : loadedMaterials) {
-			short newId = nextId++;
-			logger.info("Registering material {} with id {}", mat.getMaterialId(), newId);
-			registry.register(newId, mat.getMaterialId(), mat);
+			add(mat);
 		}
+	}
+
+	public void add(Material mat) {
+		short newId = nextId++;
+		logger.info("Registering material {} with id {}", mat.getMaterialId(), newId);
+		registry.register(newId, mat.getMaterialId(), mat);
 	}
 }

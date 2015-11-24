@@ -33,8 +33,8 @@ public class MaterialRegistry {
 	public static Material getMaterialForStack(ItemStack stack) {
 		for (Material mat : materials) {
 			for (BlockDescription blockDesc : mat.getBlockRotation().getAll().values()) {
-				if (ItemStack.areItemsEqual(stack, blockDesc.getStack())
-						&& ItemStack.areItemStackTagsEqual(stack, blockDesc.getStack())) {
+				if (ItemStack.areItemsEqual(stack, blockDesc.getStack()) &&
+						ItemStack.areItemStackTagsEqual(stack, blockDesc.getStack())) {
 					return mat;
 				}
 			}
@@ -45,5 +45,4 @@ public class MaterialRegistry {
 	public static void logStats() {
 		logger.info("Registered {} material(s)", materials.size());
 	}
-
 }
