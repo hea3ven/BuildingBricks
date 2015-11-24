@@ -1,6 +1,6 @@
 {
     "name": "Purple Wool",
-    "id": "wool_purple",
+    "id": "buildingbrickscompatvanilla:wool_purple",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_purple",

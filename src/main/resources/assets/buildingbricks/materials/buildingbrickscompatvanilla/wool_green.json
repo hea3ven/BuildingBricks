@@ -1,6 +1,6 @@
 {
     "name": "Green Wool",
-    "id": "wool_green",
+    "id": "buildingbrickscompatvanilla:wool_green",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_green",

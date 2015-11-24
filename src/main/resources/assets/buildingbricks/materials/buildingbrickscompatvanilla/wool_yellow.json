@@ -1,6 +1,6 @@
 {
     "name": "Yellow Wool",
-    "id": "wool_yellow",
+    "id": "buildingbrickscompatvanilla:wool_yellow",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_yellow",

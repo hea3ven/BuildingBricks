@@ -1,6 +1,6 @@
 {
     "name": "Oak Planks",
-    "id": "planks_oak",
+    "id": "buildingbrickscompatvanilla:planks_oak",
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,

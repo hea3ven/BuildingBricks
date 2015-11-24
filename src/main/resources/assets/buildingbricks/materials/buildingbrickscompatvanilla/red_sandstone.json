@@ -1,6 +1,6 @@
 {
     "name": "Red Sandstone",
-    "id": "red_sandstone",
+    "id": "buildingbrickscompatvanilla:red_sandstone",
     "type": "rock",
     "hardness": 0.8,
     "textures": {

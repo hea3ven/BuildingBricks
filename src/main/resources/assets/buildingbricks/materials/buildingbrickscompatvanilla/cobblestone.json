@@ -1,6 +1,6 @@
 {
     "name": "Cobblestone",
-    "id": "cobblestone",
+    "id": "buildingbrickscompatvanilla:cobblestone",
     "type": "rock",
     "hardness": 2.0,
     "resistance": 10.0,

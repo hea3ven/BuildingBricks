@@ -1,6 +1,6 @@
 {
     "name": "Greatwood Planks",
-    "id": "thaumcraft_planks_greatwood",
+    "id": "thaumcraft:planks_greatwood",
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,

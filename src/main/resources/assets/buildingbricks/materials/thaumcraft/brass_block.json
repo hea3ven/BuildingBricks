@@ -1,6 +1,6 @@
 {
     "name": "Brass Block",
-    "id": "thaumcraft_brass_block",
+    "id": "thaumcraft:brass_block",
     "type": "METAL",
     "hardness": 4.0,
     "resistance": 10.0,

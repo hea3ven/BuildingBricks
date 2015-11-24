@@ -1,6 +1,6 @@
 {
     "name": "Gray Stained Clay",
-    "id": "stained_hardened_clay_gray",
+    "id": "buildingbrickscompatvanilla:stained_hardened_clay_gray",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

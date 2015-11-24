@@ -1,6 +1,6 @@
 {
     "name": "Mossy Cobblestone",
-    "id": "mossy_cobblestone",
+    "id": "buildingbrickscompatvanilla:mossy_cobblestone",
     "type": "rock",
     "hardness": 2.0,
     "resistance": 10.0,

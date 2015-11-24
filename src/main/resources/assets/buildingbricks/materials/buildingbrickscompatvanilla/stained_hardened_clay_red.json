@@ -1,6 +1,6 @@
 {
     "name": "Red Stained Clay",
-    "id": "stained_hardened_clay_red",
+    "id": "buildingbrickscompatvanilla:stained_hardened_clay_red",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

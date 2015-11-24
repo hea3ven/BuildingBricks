@@ -1,6 +1,6 @@
 {
     "name": "Birch Planks",
-    "id": "planks_birch",
+    "id": "buildingbrickscompatvanilla:planks_birch",
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,

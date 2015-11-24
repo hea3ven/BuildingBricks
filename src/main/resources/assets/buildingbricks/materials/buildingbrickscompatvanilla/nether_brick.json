@@ -1,6 +1,6 @@
 {
     "name": "Nether Brick",
-    "id": "nether_brick",
+    "id": "buildingbrickscompatvanilla:nether_brick",
     "type": "rock",
     "hardness": 2.0,
     "resistance": 10.0,

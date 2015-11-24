@@ -1,6 +1,6 @@
 {
     "name": "Arcane Stone Brick",
-    "id": "thaumcraft_stone_arcane_brick",
+    "id": "thaumcraft:stone_arcane_brick",
     "type": "ROCK",
     "hardness": 2.0,
     "resistance": 10.0,

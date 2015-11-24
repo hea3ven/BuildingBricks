@@ -1,6 +1,6 @@
 {
     "name": "Jungle Planks",
-    "id": "planks_jungle",
+    "id": "buildingbrickscompatvanilla:planks_jungle",
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,

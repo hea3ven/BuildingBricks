@@ -1,6 +1,6 @@
 {
     "name": "Smooth Red Sandstone",
-    "id": "smooth_red_sandstone",
+    "id": "buildingbrickscompatvanilla:smooth_red_sandstone",
     "type": "rock",
     "hardness": 0.8,
     "textures": {

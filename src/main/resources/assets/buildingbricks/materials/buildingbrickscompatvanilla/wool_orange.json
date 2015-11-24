@@ -1,6 +1,6 @@
 {
     "name": "Orange Wool",
-    "id": "wool_orange",
+    "id": "buildingbrickscompatvanilla:wool_orange",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_orange",

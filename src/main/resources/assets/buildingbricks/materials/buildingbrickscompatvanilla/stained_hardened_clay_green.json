@@ -1,6 +1,6 @@
 {
     "name": "Green Stained Clay",
-    "id": "stained_hardened_clay_green",
+    "id": "buildingbrickscompatvanilla:stained_hardened_clay_green",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

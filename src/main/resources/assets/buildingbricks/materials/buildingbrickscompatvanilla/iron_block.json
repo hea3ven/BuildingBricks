@@ -1,6 +1,6 @@
 {
     "name": "Iron Block",
-    "id": "iron_block",
+    "id": "buildingbrickscompatvanilla:iron_block",
     "type": "metal",
     "hardness": 5.0,
     "resistance": 10.0,

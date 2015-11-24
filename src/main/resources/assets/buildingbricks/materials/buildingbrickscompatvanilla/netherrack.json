@@ -1,6 +1,6 @@
 {
     "name": "Netherrack",
-    "id": "netherrack",
+    "id": "buildingbrickscompatvanilla:netherrack",
     "type": "rock",
     "hardness": 0.4,
     "textures": "minecraft:blocks/netherrack",

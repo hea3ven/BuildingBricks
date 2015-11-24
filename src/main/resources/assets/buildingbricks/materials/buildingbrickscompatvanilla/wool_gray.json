@@ -1,6 +1,6 @@
 {
     "name": "Gray Wool",
-    "id": "wool_gray",
+    "id": "buildingbrickscompatvanilla:wool_gray",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_gray",

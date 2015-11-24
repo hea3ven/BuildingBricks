@@ -1,6 +1,6 @@
 {
     "name": "Pink Wool",
-    "id": "wool_pink",
+    "id": "buildingbrickscompatvanilla:wool_pink",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_pink",

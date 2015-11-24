@@ -1,6 +1,6 @@
 {
     "name": "Packed Ice",
-    "id": "packed_ice",
+    "id": "buildingbrickscompatvanilla:packed_ice",
     "type": "packed_ice",
     "hardness": 0.5,
     "normalHarvest": "",

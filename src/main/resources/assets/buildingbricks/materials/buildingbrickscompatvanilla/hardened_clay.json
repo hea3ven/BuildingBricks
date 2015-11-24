@@ -1,6 +1,6 @@
 {
     "name": "Hardened Clay",
-    "id": "hardened_clay",
+    "id": "buildingbrickscompatvanilla:hardened_clay",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

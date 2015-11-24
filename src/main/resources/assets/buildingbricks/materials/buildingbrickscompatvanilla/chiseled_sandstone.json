@@ -1,6 +1,6 @@
 {
     "name": "Chiseled Sandstone",
-    "id": "chiseled_sandstone",
+    "id": "buildingbrickscompatvanilla:chiseled_sandstone",
     "type": "rock",
     "hardness": 0.8,
     "textures": {

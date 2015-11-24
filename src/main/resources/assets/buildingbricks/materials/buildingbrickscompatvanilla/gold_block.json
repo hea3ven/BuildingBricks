@@ -1,6 +1,6 @@
 {
     "name": "Gold Block",
-    "id": "gold_block",
+    "id": "buildingbrickscompatvanilla:gold_block",
     "type": "metal",
     "hardness": 3.0,
     "resistance": 10.0,

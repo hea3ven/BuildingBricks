@@ -1,6 +1,6 @@
 {
     "name": "Smooth Granite",
-    "id": "granite_smooth",
+    "id": "buildingbrickscompatvanilla:granite_smooth",
     "type": "rock",
     "hardness": 1.5,
     "resistance": 10.0,

@@ -1,6 +1,6 @@
 {
     "name": "Lime Wool",
-    "id": "wool_lime",
+    "id": "buildingbrickscompatvanilla:wool_lime",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_lime",

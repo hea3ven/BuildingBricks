@@ -1,6 +1,6 @@
 {
     "name": "Lapis Block",
-    "id": "lapis_block",
+    "id": "buildingbrickscompatvanilla:lapis_block",
     "type": "rock",
     "hardness": 3.0,
     "resistance": 5.0,

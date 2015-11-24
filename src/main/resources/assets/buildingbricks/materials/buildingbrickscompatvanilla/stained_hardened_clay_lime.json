@@ -1,6 +1,6 @@
 {
     "name": "Lime Stained Clay",
-    "id": "stained_hardened_clay_lime",
+    "id": "buildingbrickscompatvanilla:stained_hardened_clay_lime",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

@@ -1,6 +1,6 @@
 {
     "name": "Magenta Wool",
-    "id": "wool_magenta",
+    "id": "buildingbrickscompatvanilla:wool_magenta",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_magenta",

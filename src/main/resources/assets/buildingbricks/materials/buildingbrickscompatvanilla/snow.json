@@ -1,6 +1,6 @@
 {
     "name": "Snow",
-    "id": "snow",
+    "id": "buildingbrickscompatvanilla:snow",
     "type": "snow",
     "hardness": 0.2,
     "textures": "minecraft:blocks/snow",

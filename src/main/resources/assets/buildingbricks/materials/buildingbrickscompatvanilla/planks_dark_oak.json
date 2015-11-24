@@ -1,6 +1,6 @@
 {
     "name": "Dark Oak Planks",
-    "id": "planks_dark_oak",
+    "id": "buildingbrickscompatvanilla:planks_dark_oak",
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,

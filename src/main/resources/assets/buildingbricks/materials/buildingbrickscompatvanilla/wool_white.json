@@ -1,6 +1,6 @@
 {
     "name": "White Wool",
-    "id": "wool_white",
+    "id": "buildingbrickscompatvanilla:wool_white",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_white",

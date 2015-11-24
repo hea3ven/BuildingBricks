@@ -1,6 +1,6 @@
 {
     "name": "Void Metal Block",
-    "id": "thaumcraft_void_metal_block",
+    "id": "thaumcraft:void_metal_block",
     "type": "METAL",
     "hardness": 4.0,
     "resistance": 10.0,

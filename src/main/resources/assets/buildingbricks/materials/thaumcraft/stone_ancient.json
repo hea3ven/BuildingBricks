@@ -1,6 +1,6 @@
 {
     "name": "Ancient Stone",
-    "id": "thaumcraft_stone_ancient",
+    "id": "thaumcraft:stone_ancient",
     "type": "ROCK",
     "hardness": 2.0,
     "resistance": 10.0,

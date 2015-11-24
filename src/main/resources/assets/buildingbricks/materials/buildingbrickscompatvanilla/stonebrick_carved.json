@@ -1,6 +1,6 @@
 {
     "name": "Chiseled Stone Brick",
-    "id": "stonebrick_carved",
+    "id": "buildingbrickscompatvanilla:stonebrick_carved",
     "type": "rock",
     "hardness": 1.5,
     "resistance": 10.0,

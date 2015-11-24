@@ -1,6 +1,6 @@
 {
     "name": "Brown Stained Clay",
-    "id": "stained_hardened_clay_brown",
+    "id": "buildingbrickscompatvanilla:stained_hardened_clay_brown",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

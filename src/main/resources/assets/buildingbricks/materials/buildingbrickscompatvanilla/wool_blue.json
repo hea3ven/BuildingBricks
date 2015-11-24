@@ -1,6 +1,6 @@
 {
     "name": "Blue Wool",
-    "id": "wool_blue",
+    "id": "buildingbrickscompatvanilla:wool_blue",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_blue",

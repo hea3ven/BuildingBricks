@@ -1,6 +1,6 @@
 {
     "name": "Spruce Planks",
-    "id": "planks_spruce",
+    "id": "buildingbrickscompatvanilla:planks_spruce",
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,

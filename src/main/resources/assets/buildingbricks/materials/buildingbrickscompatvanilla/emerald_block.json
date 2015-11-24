@@ -1,6 +1,6 @@
 {
     "name": "Emerald Block",
-    "id": "emerald_block",
+    "id": "buildingbrickscompatvanilla:emerald_block",
     "type": "metal",
     "hardness": 5.0,
     "resistance": 10.0,

@@ -1,6 +1,6 @@
 {
     "name": "Diorite",
-    "id": "diorite",
+    "id": "buildingbrickscompatvanilla:diorite",
     "type": "rock",
     "hardness": 1.5,
     "resistance": 10.0,

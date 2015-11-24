@@ -1,6 +1,6 @@
 {
     "name": "Grass",
-    "id": "grass",
+    "id": "buildingbrickscompatvanilla:grass",
     "type": "grass",
     "normalHarvest": "dirt",
     "silkHarvest": "grass",

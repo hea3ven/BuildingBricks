@@ -1,6 +1,6 @@
 {
     "name": "Black Wool",
-    "id": "wool_black",
+    "id": "buildingbrickscompatvanilla:wool_black",
     "type": "cloth",
     "hardness": 0.8,
     "textures": "minecraft:blocks/wool_colored_black",

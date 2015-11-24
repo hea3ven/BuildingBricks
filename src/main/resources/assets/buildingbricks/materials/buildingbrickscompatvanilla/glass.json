@@ -1,6 +1,6 @@
 {
     "name": "Glass",
-    "id": "glass",
+    "id": "buildingbrickscompatvanilla:glass",
     "type": "glass",
     "hardness": 0.3,
     "normalHarvest": "",

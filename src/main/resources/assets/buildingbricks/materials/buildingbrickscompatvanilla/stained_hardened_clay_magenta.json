@@ -1,6 +1,6 @@
 {
     "name": "Magenta Stained Clay",
-    "id": "stained_hardened_clay_magenta",
+    "id": "buildingbrickscompatvanilla:stained_hardened_clay_magenta",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

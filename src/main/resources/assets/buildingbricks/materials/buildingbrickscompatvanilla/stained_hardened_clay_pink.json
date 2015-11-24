@@ -1,6 +1,6 @@
 {
     "name": "Pink Stained Clay",
-    "id": "stained_hardened_clay_pink",
+    "id": "buildingbrickscompatvanilla:stained_hardened_clay_pink",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

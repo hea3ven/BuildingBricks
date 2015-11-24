@@ -1,6 +1,6 @@
 {
     "name": "Stone",
-    "id": "stone",
+    "id": "buildingbrickscompatvanilla:stone",
     "type": "rock",
     "hardness": 1.5,
     "resistance": 10.0,

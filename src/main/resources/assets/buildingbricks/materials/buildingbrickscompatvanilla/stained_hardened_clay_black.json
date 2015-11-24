@@ -1,6 +1,6 @@
 {
     "name": "Black Stained Clay",
-    "id": "stained_hardened_clay_black",
+    "id": "buildingbrickscompatvanilla:stained_hardened_clay_black",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

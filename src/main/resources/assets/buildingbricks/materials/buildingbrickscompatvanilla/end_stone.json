@@ -1,6 +1,6 @@
 {
     "name": "End Stone",
-    "id": "end_stone",
+    "id": "buildingbrickscompatvanilla:end_stone",
     "type": "rock",
     "hardness": 3.0,
     "resistance": 15.0,

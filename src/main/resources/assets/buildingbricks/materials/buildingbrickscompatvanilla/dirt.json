@@ -1,6 +1,6 @@
 {
     "name": "Dirt",
-    "id": "dirt",
+    "id": "buildingbrickscompatvanilla:dirt",
     "type": "dirt",
     "hardness": 0.5,
     "textures": "minecraft:blocks/dirt",

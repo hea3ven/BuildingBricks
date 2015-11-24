@@ -1,6 +1,6 @@
 {
     "name": "Cyan Stained Clay",
-    "id": "stained_hardened_clay_cyan",
+    "id": "sbuildingbrickscompatvanilla:tained_hardened_clay_cyan",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

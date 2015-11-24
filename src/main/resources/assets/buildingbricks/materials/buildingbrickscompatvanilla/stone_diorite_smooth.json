@@ -1,6 +1,6 @@
 {
     "name": "Smooth Diorite",
-    "id": "diorite_smooth",
+    "id": "buildingbrickscompatvanilla:diorite_smooth",
     "type": "rock",
     "hardness": 1.5,
     "resistance": 10.0,

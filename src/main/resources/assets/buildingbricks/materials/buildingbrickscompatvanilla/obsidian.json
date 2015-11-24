@@ -1,6 +1,6 @@
 {
     "name": "Obsidian",
-    "id": "obsidian",
+    "id": "buildingbrickscompatvanilla:obsidian",
     "type": "rock",
     "hardness": 50.0,
     "resistance": 2000.0,

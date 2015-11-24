@@ -1,6 +1,6 @@
 {
     "name": "Andesite",
-    "id": "andesite",
+    "id": "buildingbrickscompatvanilla:andesite",
     "type": "rock",
     "hardness": 1.5,
     "resistance": 10.0,

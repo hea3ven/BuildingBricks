@@ -1,6 +1,6 @@
 {
     "name": "Thaumium Block",
-    "id": "thaumcraft_thaumium_block",
+    "id": "thaumcraft:thaumium_block",
     "type": "METAL",
     "hardness": 4.0,
     "resistance": 10.0,

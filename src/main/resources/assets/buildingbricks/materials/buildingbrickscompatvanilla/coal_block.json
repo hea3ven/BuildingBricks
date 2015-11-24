@@ -1,6 +1,6 @@
 {
     "name": "Coal Block",
-    "id": "coal_block",
+    "id": "buildingbrickscompatvanilla:coal_block",
     "type": "rock",
     "hardness": 5.0,
     "resistance": 10.0,

@@ -1,6 +1,6 @@
 {
     "name": "Stone Slab",
-    "id": "stone_slab",
+    "id": "buildingbrickscompatvanilla:stone_slab",
     "type": "rock",
     "hardness": 2.0,
     "resistance": 10.0,

@@ -1,6 +1,6 @@
 {
     "name": "Diamond Block",
-    "id": "diamond_block",
+    "id": "buildingbrickscompatvanilla:diamond_block",
     "type": "metal",
     "hardness": 5.0,
     "resistance": 10.0,

@@ -1,6 +1,6 @@
 {
     "name": "Eldritch Stone",
-    "id": "thaumcraft_stone_eldritch",
+    "id": "thaumcraft:stone_eldritch",
     "type": "ROCK",
     "hardness": 2.0,
     "resistance": 10.0,

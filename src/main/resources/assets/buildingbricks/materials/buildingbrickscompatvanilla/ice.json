@@ -1,6 +1,6 @@
 {
     "name": "Ice",
-    "id": "ice",
+    "id": "buildingbrickscompatvanilla:ice",
     "type": "ice",
     "hardness": 0.5,
     "normalHarvest": "",

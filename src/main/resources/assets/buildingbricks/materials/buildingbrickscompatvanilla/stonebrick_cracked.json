@@ -1,6 +1,6 @@
 {
     "name": "Cracked Stone Brick",
-    "id": "stonebrick_cracked",
+    "id": "buildingbrickscompatvanilla:stonebrick_cracked",
     "type": "rock",
     "hardness": 1.5,
     "resistance": 10.0,

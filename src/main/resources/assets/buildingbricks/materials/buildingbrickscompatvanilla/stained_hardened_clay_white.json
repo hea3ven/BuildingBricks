@@ -1,6 +1,6 @@
 {
     "name": "White Stained Clay",
-    "id": "stained_hardened_clay_white",
+    "id": "buildingbrickscompatvanilla:stained_hardened_clay_white",
     "type": "rock",
     "hardness": 1.25,
     "resistance": 7.0,

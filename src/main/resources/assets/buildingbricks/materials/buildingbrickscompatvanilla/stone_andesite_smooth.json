@@ -1,6 +1,6 @@
 {
     "name": "Smooth Andesite",
-    "id": "andesite_smooth",
+    "id": "buildingbrickscompatvanilla:andesite_smooth",
     "type": "rock",
     "hardness": 1.5,
     "resistance": 10.0,

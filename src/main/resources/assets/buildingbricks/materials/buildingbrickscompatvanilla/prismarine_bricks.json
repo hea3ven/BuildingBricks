@@ -1,6 +1,6 @@
 {
     "name": "Prismarine Bricks",
-    "id": "prismarine_bricks",
+    "id": "buildingbrickscompatvanilla:prismarine_bricks",
     "type": "rock",
     "hardness": 1.5,
     "resistance": 10.0,

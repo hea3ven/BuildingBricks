@@ -1,6 +1,6 @@
 {
     "name": "Dark Prismarine",
-    "id": "prismarine_dark",
+    "id": "buildingbrickscompatvanilla:prismarine_dark",
     "type": "rock",
     "hardness": 1.5,
     "resistance": 10.0,
