@@ -1,50 +1,47 @@
 package com.hea3ven.buildingbricks.core.materials.mapping;
 
-import java.util.Set;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
-import com.google.common.collect.Sets;
+import com.google.common.base.Throwables;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.storage.MapStorage;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import com.hea3ven.buildingbricks.core.ModBuildingBricks;
-import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
-import com.hea3ven.buildingbricks.core.materials.Material;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class IdMappingLoader {
+	private static Path idMappingFile;
 
-	public static Set<Pair<ItemStack, Material>> dynamicStacks = Sets.newHashSet();
+	public static void init(Path idMappingFile) {
+		IdMappingLoader.idMappingFile = idMappingFile;
 
-	@SubscribeEvent
-	public void onWorldLoadEvent(WorldEvent.Load event) {
-		if (!event.world.isRemote && event.world.provider.getDimensionId() == 0) {
-			MaterialIdMapping.logger.info("Loading the material mapping for the world");
-			MapStorage storage = event.world.getPerWorldStorage();
-			MaterialIdMapping mapping =
-					(MaterialIdMapping) storage.loadData(MaterialIdMapping.class, "materialsIdMapping");
-			if (mapping == null) {
-				MaterialIdMapping.logger.info("Material mapping not found, generating a new one");
-				mapping = new MaterialIdMapping("materialsIdMapping");
-				storage.setData("materialsIdMapping", mapping);
-			}
-			MaterialIdMapping.logger.info("Verifying the material mapping");
-			mapping.validate();
-			MaterialIdMapping.instance = mapping;
-			for (Pair<ItemStack, Material> stack : dynamicStacks) {
-				ModBuildingBricks.trowel.setBindedMaterial(stack.getLeft(), stack.getRight());
+		MaterialIdMapping mapping = new MaterialIdMapping();
+		if (Files.exists(idMappingFile)) {
+			MaterialIdMapping.logger.info("Loading the material mapping");
+			try (InputStream stream = Files.newInputStream(idMappingFile)) {
+				NBTTagCompound nbt = CompressedStreamTools.readCompressed(stream);
+				mapping.readFromNBT(nbt);
+			} catch (IOException e) {
+				Throwables.propagate(e);
 			}
 		}
+		MaterialIdMapping.instance = mapping;
 	}
 
-	@SubscribeEvent
-	public void onWorldUnloadEvent(WorldEvent.Unload event) {
-		if (event.world.provider.getDimensionId() == 0) {
-			MaterialIdMapping.logger.info("Unloading the material mapping for the world");
-			MaterialIdMapping.instance = null;
+	public static void save() {
+		MaterialIdMapping.logger.info("Verifying the material mapping");
+		MaterialIdMapping.instance.validate();
+		MaterialIdMapping.logger.info("Saving the material mapping");
+		try (OutputStream stream = Files.newOutputStream(idMappingFile, StandardOpenOption.CREATE,
+				StandardOpenOption.TRUNCATE_EXISTING)) {
+			NBTTagCompound nbt = new NBTTagCompound();
+			MaterialIdMapping.instance.writeToNBT(nbt);
+			CompressedStreamTools.writeCompressed(nbt, stream);
+		} catch (IOException e) {
+			Throwables.propagate(e);
 		}
 	}
 }

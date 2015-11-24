@@ -21,6 +21,7 @@ import com.hea3ven.buildingbricks.core.blocks.*;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
+import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 
 public class MaterialBlockRegistry {
 
@@ -40,7 +41,7 @@ public class MaterialBlockRegistry {
 
 		Block block = blocks.get(blockType, mat.getStructureMaterial());
 		blocksMaterials.get(block).add(mat);
-		return new BlockDescriptionMaterial(blockType, block, mat);
+		return new BlockDescription(blockType, block, MaterialIdMapping.get().getIdForMaterial(mat));
 	}
 
 	private void initBlock(MaterialBlockType blockType, Material mat) {

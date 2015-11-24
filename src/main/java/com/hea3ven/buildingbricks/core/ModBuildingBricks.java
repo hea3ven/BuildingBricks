@@ -1,8 +1,5 @@
 package com.hea3ven.buildingbricks.core;
 
-import java.util.Set;
-
-import com.google.common.collect.Sets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +20,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
-import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
@@ -51,8 +47,6 @@ public class ModBuildingBricks {
 
 	public static ItemTrowel trowel;
 	public static BlockPortableLadder portableLadder;
-
-	public static Set<RecipeBindTrowel> recipes = Sets.newHashSet();
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -83,6 +77,8 @@ public class ModBuildingBricks {
 		MaterialBlockRegistry.instance.logStats();
 
 		MaterialRegistry.logStats();
+
+		IdMappingLoader.save();
 
 		proxy.init();
 	}

@@ -11,12 +11,11 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.RegistryNamespaced;
-import net.minecraft.world.WorldSavedData;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
-public class MaterialIdMapping extends WorldSavedData {
+public class MaterialIdMapping {
 
 	static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialIdMapping");
 
@@ -27,8 +26,7 @@ public class MaterialIdMapping extends WorldSavedData {
 	private Set<Pair<Short, String>> notFoundMaterials = Sets.newHashSet();
 	private short nextId = 1;
 
-	public MaterialIdMapping(String name) {
-		super(name);
+	public MaterialIdMapping() {
 	}
 
 	public static MaterialIdMapping get() {
@@ -43,7 +41,6 @@ public class MaterialIdMapping extends WorldSavedData {
 		return (short) registry.getIDForObject(mat);
 	}
 
-	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		nextId = nbt.getShort("nextId");
 
@@ -62,7 +59,6 @@ public class MaterialIdMapping extends WorldSavedData {
 		}
 	}
 
-	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setShort("nextId", nextId);
 
@@ -113,6 +109,5 @@ public class MaterialIdMapping extends WorldSavedData {
 			logger.info("Registering material {} with id {}", mat.getMaterialId(), newId);
 			registry.register(newId, mat.getMaterialId(), mat);
 		}
-		markDirty();
 	}
 }

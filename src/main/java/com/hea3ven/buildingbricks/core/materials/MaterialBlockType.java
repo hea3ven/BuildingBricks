@@ -3,13 +3,9 @@ package com.hea3ven.buildingbricks.core.materials;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.tuple.Pair;
 
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-
-import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 
 public enum MaterialBlockType {
 	FULL("block", 1000),
@@ -123,37 +119,16 @@ public enum MaterialBlockType {
 		for (MaterialRecipeBuilder recipeDesc : allwaysRecipes) {
 			Object[] recipe = recipeDesc.build(mat);
 			if (recipe != null) {
-				ShapedOreRecipe oreRecipe = new ShapedOreRecipe(recipeDesc.buildOutput(mat, this), recipe);
-				handleMaterialStack(oreRecipe.getRecipeOutput());
-				for (Object stack : oreRecipe.getInput()) {
-					if (stack instanceof ItemStack)
-						handleMaterialStack(oreRecipe.getRecipeOutput());
-				}
-				GameRegistry.addRecipe(oreRecipe);
+				GameRegistry.addRecipe(new ShapedOreRecipe(recipeDesc.buildOutput(mat, this), recipe));
 			}
 		}
 		if (MaterialBlockRegistry.instance.getAllBlocks().contains(mat.getBlock(this).getBlock())) {
 			for (MaterialRecipeBuilder recipeDesc : materialRecipes) {
 				Object[] recipe = recipeDesc.build(mat);
 				if (recipe != null) {
-					ShapedOreRecipe oreRecipe =
-							new ShapedOreRecipe(recipeDesc.buildOutput(mat, this), recipe);
-					handleMaterialStack(oreRecipe.getRecipeOutput());
-					for (Object stack : oreRecipe.getInput()) {
-						if (stack instanceof ItemStack)
-							handleMaterialStack(oreRecipe.getRecipeOutput());
-					}
-					GameRegistry.addRecipe(oreRecipe);
+					GameRegistry.addRecipe(new ShapedOreRecipe(recipeDesc.buildOutput(mat, this), recipe));
 				}
 			}
-		}
-	}
-
-	private void handleMaterialStack(ItemStack stack) {
-		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("material")) {
-			Material mat = MaterialRegistry.get(stack.getTagCompound().getString("material"));
-			IdMappingLoader.dynamicStacks.add(Pair.of(stack, mat));
-			stack.setTagCompound(null);
 		}
 	}
 
