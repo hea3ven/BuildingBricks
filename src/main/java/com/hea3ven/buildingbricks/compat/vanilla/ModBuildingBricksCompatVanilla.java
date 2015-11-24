@@ -88,7 +88,7 @@ public class ModBuildingBricksCompatVanilla {
 		}
 
 		ItemStack stoneSlab = MaterialRegistry
-				.get("stone")
+				.get("buildingbrickscompatvanilla:stone")
 				.getBlock(MaterialBlockType.SLAB)
 				.getStack();
 		ItemStack stoneSlabSlab = new ItemStack(Blocks.stone_slab, 2,

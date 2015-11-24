@@ -38,13 +38,13 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 			ModelResourceLocation location =
 					new ModelResourceLocation((ResourceLocation) Block.blockRegistry.getNameForObject(block),
 							"inventory");
-			for (int i = 0; i < 300; i++) {
+			for (int i = 0; i < 1000; i++) {
 				mesher.register(Item.getItemFromBlock(block), i, location);
 			}
 		}
 		mesher.register(Item.getItemFromBlock(ModBuildingBricks.portableLadder), 0,
 				new ModelResourceLocation(Properties.MODID + ":portable_ladder", "inventory"));
-		for (int i = 0; i < 300; i++) {
+		for (int i = 0; i < 1000; i++) {
 			mesher.register(ModBuildingBricks.trowel, i,
 					new ModelResourceLocation(Properties.MODID + ":trowel", "inventory"));
 		}

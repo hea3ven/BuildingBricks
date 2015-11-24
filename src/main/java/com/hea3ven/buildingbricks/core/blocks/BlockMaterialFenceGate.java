@@ -8,6 +8,7 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -103,6 +105,22 @@ public class BlockMaterialFenceGate extends BlockBuildingBricksFenceGate impleme
 	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
 		return blockLogic.addDestroyEffects(world, pos, effectRenderer);
+	}
+
+	@Override
+	public float getBlockHardness(World world, BlockPos pos) {
+		TileMaterial tile = TileMaterial.getTile(world, pos);
+		if (tile == null)
+			return super.getBlockHardness(world, pos);
+		return tile.getMaterial().getHardness();
+	}
+
+	@Override
+	public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
+		TileMaterial tile = TileMaterial.getTile(world, pos);
+		if (tile == null)
+			return super.getExplosionResistance(world, pos, exploder, explosion);
+		return tile.getMaterial().getResistance() * 3 / 5;
 	}
 
 	//endregion COMMON TILE CODE

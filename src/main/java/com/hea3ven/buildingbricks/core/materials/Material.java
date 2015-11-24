@@ -5,6 +5,8 @@ import java.util.HashMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
+import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
+
 public class Material {
 
 	private String materialId;
@@ -90,7 +92,6 @@ public class Material {
 
 	public void addBlock(BlockDescription blockDesc) {
 		getBlockRotation().add(blockDesc.getType(), blockDesc);
-
 	}
 
 	public void addBlock(MaterialBlockType blockType) {
@@ -103,8 +104,8 @@ public class Material {
 
 	public BlockDescription getBlock(ItemStack stack) {
 		for (BlockDescription blockDesc : getBlockRotation().getAll().values()) {
-			if (ItemStack.areItemsEqual(stack, blockDesc.getStack())
-					&& ItemStack.areItemStackTagsEqual(stack, blockDesc.getStack())) {
+			if (ItemStack.areItemsEqual(stack, blockDesc.getStack()) &&
+					ItemStack.areItemStackTagsEqual(stack, blockDesc.getStack())) {
 				return blockDesc;
 			}
 		}
@@ -121,8 +122,13 @@ public class Material {
 	}
 
 	public String getLocalizedName() {
-		return StatCollector.canTranslate(getTranslationKey())
-				? StatCollector.translateToLocal(getTranslationKey())
-				: getBlock(MaterialBlockType.FULL).getStack().getDisplayName();
+		if (StatCollector.canTranslate(getTranslationKey()))
+			return StatCollector.translateToLocal(getTranslationKey());
+
+		BlockDescription block = getBlock(MaterialBlockType.FULL);
+		if (block.getBlock() instanceof BlockMaterial)
+			return materialId;
+	
+		return block.getStack().getDisplayName();
 	}
 }

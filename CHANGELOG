@@ -5,6 +5,7 @@
     * Add a GUI for the trowel when you shift-right click on the air, fixes #23.
     * Add a model for the trowel.
     * Reduced significantly the blocks' space usage on disk and made it able to better handle removing/adding materials from existing worlds.
+    * Blocks now have the block hardness and explosion resistance of their material.
     * Fix vertical slabs culling when placed next to each other, fixes #18.
 
 1.0.3:

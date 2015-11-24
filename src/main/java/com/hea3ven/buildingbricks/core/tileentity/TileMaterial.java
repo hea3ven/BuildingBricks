@@ -42,7 +42,7 @@ public class TileMaterial extends TileEntity {
 		if (material != null)
 			return material;
 		else
-			return MaterialRegistry.get("stone");
+			return MaterialRegistry.get("buildingbrickscompatvanilla:stone");
 	}
 
 	public void setMaterial(Material material) {
