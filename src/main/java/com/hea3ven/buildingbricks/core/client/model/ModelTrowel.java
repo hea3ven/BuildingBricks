@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
@@ -17,12 +18,12 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 
 @SuppressWarnings("deprecation")
 public class ModelTrowel implements ISmartItemModel {
-	public static HashMap<Material, ModelTrowel> models = new HashMap<Material, ModelTrowel>();
+	public static HashMap<Material, ModelTrowel> models = new HashMap<>();
 
 	private TextureAtlasSprite texture;
 	private ItemCameraTransforms cameraTransforms;
-	private HashMap<EnumFacing, List> faces = new HashMap<EnumFacing, List>();
-	private List quads;
+	private HashMap<EnumFacing, List<BakedQuad>> faces = new HashMap<>();
+	private List<BakedQuad> quads;
 
 	public ModelTrowel(IBakedModel baseModel) {
 		this(baseModel, null);
@@ -32,13 +33,13 @@ public class ModelTrowel implements ISmartItemModel {
 		cameraTransforms = baseModel.getItemCameraTransforms();
 		texture = baseModel.getTexture();
 		for (EnumFacing side : EnumFacing.VALUES) {
-			List sideFaces = new ArrayList(baseModel.getFaceQuads(side));
+			List<BakedQuad> sideFaces = new ArrayList<>(baseModel.getFaceQuads(side));
 			if (matModel != null) {
 				sideFaces.addAll(matModel.getFaceQuads(side));
 			}
 			faces.put(side, sideFaces);
 		}
-		quads = new ArrayList(baseModel.getGeneralQuads());
+		quads = new ArrayList<>(baseModel.getGeneralQuads());
 		if (matModel != null)
 			quads.addAll(matModel.getGeneralQuads());
 	}

@@ -82,8 +82,7 @@ public class MaterialBlockLogic {
 	}
 
 	public String getLocalizedName(Material mat) {
-		return StatCollector.translateToLocalFormatted(blockType.getTranslationKey(),
-				mat.getLocalizedName());
+		return StatCollector.translateToLocalFormatted(blockType.getTranslationKey(), mat.getLocalizedName());
 	}
 
 	public String getHarvestTool(IBlockState state) {
@@ -91,8 +90,7 @@ public class MaterialBlockLogic {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(World world, MovingObjectPosition target,
-			EffectRenderer effectRenderer) {
+	public boolean addHitEffects(World world, MovingObjectPosition target, EffectRenderer effectRenderer) {
 		BlockPos pos = target.getBlockPos();
 		IBlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
@@ -102,9 +100,8 @@ public class MaterialBlockLogic {
 
 		double x = pos.getX();
 		if (side.getAxis() != Axis.X) {
-			x += rand.nextDouble()
-					* (block.getBlockBoundsMaxX() - block.getBlockBoundsMinX() - f * 2.0F) + f
-					+ block.getBlockBoundsMinX();
+			x += rand.nextDouble() * (block.getBlockBoundsMaxX() - block.getBlockBoundsMinX() - f * 2.0F) +
+					f + block.getBlockBoundsMinX();
 		} else {
 			if (side == EnumFacing.WEST) {
 				x += block.getBlockBoundsMinX() - f;
@@ -117,9 +114,8 @@ public class MaterialBlockLogic {
 
 		double y = pos.getY();
 		if (side.getAxis() != Axis.Y) {
-			y += rand.nextDouble()
-					* (block.getBlockBoundsMaxY() - block.getBlockBoundsMinY() - f * 2.0F) + f
-					+ block.getBlockBoundsMinY();
+			y += rand.nextDouble() * (block.getBlockBoundsMaxY() - block.getBlockBoundsMinY() - f * 2.0F) +
+					f + block.getBlockBoundsMinY();
 		} else {
 			if (side == EnumFacing.DOWN) {
 				y += block.getBlockBoundsMinY() - f;
@@ -128,13 +124,11 @@ public class MaterialBlockLogic {
 			if (side == EnumFacing.UP) {
 				y += block.getBlockBoundsMaxY() + f;
 			}
-
 		}
 		double z = pos.getZ();
 		if (side.getAxis() != Axis.Z) {
-			z += rand.nextDouble()
-					* (block.getBlockBoundsMaxZ() - block.getBlockBoundsMinZ() - f * 2.0F) + f
-					+ block.getBlockBoundsMinZ();
+			z += rand.nextDouble() * (block.getBlockBoundsMaxZ() - block.getBlockBoundsMinZ() - f * 2.0F) +
+					f + block.getBlockBoundsMinZ();
 		} else {
 			if (side == EnumFacing.NORTH) {
 				z += block.getBlockBoundsMinZ() - f;
@@ -152,16 +146,14 @@ public class MaterialBlockLogic {
 		TileMaterial te = TileMaterial.getTile(world, pos);
 
 		particle.func_174846_a(pos).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F);
-		particle.func_180435_a(
-				ModelBakerBlockMaterial.instance.particleTextures.get(te.getMaterial()));
+		particle.func_180435_a(ModelBakerBlockMaterial.instance.particleTextures.get(te.getMaterial()));
 		return true;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
 		TileMaterial te = TileMaterial.getTile(world, pos);
-		TextureAtlasSprite texture = ModelBakerBlockMaterial.instance.particleTextures
-				.get(te.getMaterial());
+		TextureAtlasSprite texture = ModelBakerBlockMaterial.instance.particleTextures.get(te.getMaterial());
 
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
@@ -170,8 +162,8 @@ public class MaterialBlockLogic {
 					double y = pos.getY() + (j + 0.5d) / 4;
 					double z = pos.getZ() + (k + 0.5d) / 4;
 					EntityDiggingFX particle = (EntityDiggingFX) effectRenderer.spawnEffectParticle(
-							EnumParticleTypes.BLOCK_CRACK.getParticleID(), x, y, z,
-							x - pos.getX() - 0.5d, y - pos.getY() - 0.5d, z - pos.getZ() - 0.5d,
+							EnumParticleTypes.BLOCK_CRACK.getParticleID(), x, y, z, x - pos.getX() - 0.5d,
+							y - pos.getY() - 0.5d, z - pos.getZ() - 0.5d,
 							Block.getStateId(world.getBlockState(pos)));
 
 					particle.func_174846_a(pos);

@@ -14,8 +14,13 @@ public class MaterialRegistry {
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialRegistry");
 
-	private static Set<Material> materials = new HashSet<Material>();
-	private static Map<String, Material> materialsById = new HashMap<String, Material>();
+	private static Set<Material> materials;
+
+	static {
+		materials = new HashSet<>();
+	}
+
+	private static Map<String, Material> materialsById = new HashMap<>();
 
 	public static void registerMaterial(Material material) {
 		materials.add(material);

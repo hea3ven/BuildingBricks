@@ -10,7 +10,7 @@ import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 public class Material {
 
 	private String materialId;
-	private HashMap<String, String> textures = new HashMap<String, String>();
+	private HashMap<String, String> textures = new HashMap<>();
 	private StructureMaterial structureMaterial;
 	private BlockRotation blockRotation;
 	private float hardness = 1.0f;
@@ -128,7 +128,7 @@ public class Material {
 		BlockDescription block = getBlock(MaterialBlockType.FULL);
 		if (block.getBlock() instanceof BlockMaterial)
 			return materialId;
-	
+
 		return block.getStack().getDisplayName();
 	}
 }

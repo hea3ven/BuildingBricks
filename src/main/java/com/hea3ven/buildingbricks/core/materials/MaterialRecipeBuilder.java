@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.core.materials;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,12 +9,7 @@ import java.util.Map.Entry;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Chars;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagString;
-
-import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 
 public class MaterialRecipeBuilder {
 
@@ -85,7 +81,7 @@ public class MaterialRecipeBuilder {
 	public MaterialRecipeBuilder validate() {
 		if (pattern == null)
 			throw new IllegalStateException("missing pattern");
-		HashSet<Character> keys = new HashSet<Character>();
+		HashSet<Character> keys = new HashSet<>();
 		for (String pat : pattern) {
 			keys.addAll(Chars.asList(pat.toCharArray()));
 		}
@@ -108,10 +104,8 @@ public class MaterialRecipeBuilder {
 	}
 
 	public Object[] build(Material mat) {
-		ArrayList<Object> recipe = new ArrayList<Object>();
-		for (String pat : pattern) {
-			recipe.add(pat);
-		}
+		ArrayList<Object> recipe = new ArrayList<>();
+		Collections.addAll(recipe, pattern);
 		for (Entry<Character, Ingredient> entry : mapping.entrySet()) {
 			Object stack = entry.getValue().getStack(mat);
 			if (stack == null)

@@ -1,6 +1,5 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,7 +30,7 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 
 	@Override
 	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] {BlockProperties.SIDE});
+		return new BlockState(this, BlockProperties.SIDE);
 	}
 
 	@Override
@@ -49,16 +48,14 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
-			float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer) {
 		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
 
-		if (facing.getHorizontalIndex() != -1
-				&& BlockPlacingUtil.isInnerRing(facing, hitX, hitY, hitZ)) {
+		if (facing.getHorizontalIndex() != -1 && BlockPlacingUtil.isInnerRing(facing, hitX, hitY, hitZ)) {
 			state = BlockProperties.setSide(state, facing.getOpposite());
 		} else {
-			state = BlockProperties.setSide(state,
-					BlockPlacingUtil.getClosestSide(facing, hitX, hitY, hitZ));
+			state = BlockProperties.setSide(state, BlockPlacingUtil.getClosestSide(facing, hitX, hitY, hitZ));
 		}
 
 		//		if (BlockPlacingUtil.isInnerRing(facing, hitX, hitY, hitZ)) {
@@ -75,15 +72,10 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 		EnumFacing facing = BlockProperties.getSide(state);
 		Vec3i dir = facing.getDirectionVec();
 		return new AxisAlignedBB(
-				(dir.getX() != 0 && facing.getAxisDirection() != AxisDirection.NEGATIVE) ? 0.5f
-						: 0.0f,
-				0.0f,
-				(dir.getZ() != 0 && facing.getAxisDirection() != AxisDirection.NEGATIVE) ? 0.5f
-						: 0.0f,
-				(dir.getX() != 0 && facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0.5f
-						: 1.0f,
-				1.0f, (dir.getZ() != 0 && facing.getAxisDirection() == AxisDirection.NEGATIVE)
-						? 0.5f : 1.0f);
+				(dir.getX() != 0 && facing.getAxisDirection() != AxisDirection.NEGATIVE) ? 0.5f : 0.0f, 0.0f,
+				(dir.getZ() != 0 && facing.getAxisDirection() != AxisDirection.NEGATIVE) ? 0.5f : 0.0f,
+				(dir.getX() != 0 && facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0.5f : 1.0f, 1.0f,
+				(dir.getZ() != 0 && facing.getAxisDirection() == AxisDirection.NEGATIVE) ? 0.5f : 1.0f);
 	}
 
 	@Override

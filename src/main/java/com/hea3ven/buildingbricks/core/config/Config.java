@@ -64,7 +64,7 @@ public class Config {
 	}
 
 	public static List<IConfigElement> getConfigElements() {
-		List<IConfigElement> elems = new ArrayList<IConfigElement>();
+		List<IConfigElement> elems = new ArrayList<>();
 		elems.add(new ConfigElement(INSTANCE.conf.getCategory("world")));
 		return elems;
 	}

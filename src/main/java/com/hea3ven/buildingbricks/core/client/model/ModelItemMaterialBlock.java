@@ -21,10 +21,8 @@ public class ModelItemMaterialBlock extends DelegatedSmartModel implements ISmar
 
 	private static ItemCameraTransforms cameraTransforms = new ItemCameraTransforms(
 			new ItemTransformVec3f(new Vector3f(-20, 135, 180),
-					new Vector3f(0, 1.5f * 0.0625f, -2.75f * 0.0625f),
-					new Vector3f(0.375f, 0.375f, 0.375f)),
-			new ItemTransformVec3f(new Vector3f(0, 180, 0), new Vector3f(0, 0, 0),
-					new Vector3f(1f, 1f, 1f)),
+					new Vector3f(0, 1.5f * 0.0625f, -2.75f * 0.0625f), new Vector3f(0.375f, 0.375f, 0.375f)),
+			new ItemTransformVec3f(new Vector3f(0, 180, 0), new Vector3f(0, 0, 0), new Vector3f(1f, 1f, 1f)),
 			new ItemTransformVec3f(new Vector3f(), new Vector3f(), new Vector3f(1, 1, 1)),
 			new ItemTransformVec3f(new Vector3f(), new Vector3f(), new Vector3f(1, 1, 1)));
 

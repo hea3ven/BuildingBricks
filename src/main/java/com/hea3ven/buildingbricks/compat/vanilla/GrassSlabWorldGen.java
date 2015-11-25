@@ -66,7 +66,6 @@ public class GrassSlabWorldGen {
 			if (event.world.getBlockState(pos.west(2)).getBlock() == Blocks.grass) {
 				event.world.setBlockState(pos.east(),
 						ModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
-				continue;
 			}
 		}
 	}

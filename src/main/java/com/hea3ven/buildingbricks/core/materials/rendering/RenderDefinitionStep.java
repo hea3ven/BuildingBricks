@@ -3,7 +3,6 @@ package com.hea3ven.buildingbricks.core.materials.rendering;
 import net.minecraft.block.state.IBlockState;
 
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,16 +26,5 @@ public class RenderDefinitionStep extends RenderDefinitionRotHalf {
 		if (BlockProperties.getVertical(state))
 			return getModelOrDefault("buildingbricks:block/step_vertical", mat);
 		return getModelOrDefault("buildingbricks:block/step_bottom", mat);
-	}
-
-	@Override
-	public IModelState getModelState(IModelState modelState, IBlockState state) {
-		// if (BlockProperties.getVertical(state)) {
-		// EnumRotation rot = BlockProperties.getRotation(state);
-		// ModelRotation modelRot = ModelRotation.getModelRotation(0,
-		// rot.getAngleDeg());
-		// return modelRot;
-		// }
-		return super.getModelState(modelState, state);
 	}
 }

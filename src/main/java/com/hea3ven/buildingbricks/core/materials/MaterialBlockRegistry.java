@@ -7,13 +7,11 @@ import java.util.Set;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.nbt.NBTTagString;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -30,7 +28,7 @@ public class MaterialBlockRegistry {
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialBlockRegistry");
 
 	private Table<MaterialBlockType, StructureMaterial, Block> blocks = HashBasedTable.create();
-	private HashMap<Block, Set<Material>> blocksMaterials = new HashMap<Block, Set<Material>>();
+	private HashMap<Block, Set<Material>> blocksMaterials = new HashMap<>();
 
 	private MaterialBlockRegistry() {
 	}
@@ -45,7 +43,7 @@ public class MaterialBlockRegistry {
 	}
 
 	private void initBlock(MaterialBlockType blockType, Material mat) {
-		Class<? extends Block> cls = null;
+		Class<? extends Block> cls;
 		switch (blockType) {
 			default:
 			case FULL:

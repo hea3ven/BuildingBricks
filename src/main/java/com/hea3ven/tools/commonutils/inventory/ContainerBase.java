@@ -25,7 +25,7 @@ public abstract class ContainerBase extends Container {
 				argsTypes[i] = args[i].getClass();
 			argsTypes[i++] = Integer.TYPE;
 			argsTypes[i++] = Integer.TYPE;
-			argsTypes[i++] = Integer.TYPE;
+			argsTypes[i] = Integer.TYPE;
 
 			Constructor<? extends Slot> ctor =
 					ConstructorUtils.getMatchingAccessibleConstructor(cls, argsTypes);
@@ -36,7 +36,7 @@ public abstract class ContainerBase extends Container {
 						objArgs[i] = args[i];
 					objArgs[i++] = slotOff + x + y * xSize;
 					objArgs[i++] = xOff + x * 18;
-					objArgs[i++] = yOff + y * 18;
+					objArgs[i] = yOff + y * 18;
 					this.addSlotToContainer(ctor.newInstance(objArgs));
 				}
 			}
@@ -63,7 +63,7 @@ public abstract class ContainerBase extends Container {
 					}
 
 					if (itemstack4.stackSize == 0) {
-						playerIn.inventory.setItemStack((ItemStack) null);
+						playerIn.inventory.setItemStack(null);
 					}
 				}
 				return null;

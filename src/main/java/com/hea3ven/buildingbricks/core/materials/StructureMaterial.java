@@ -56,7 +56,7 @@ public enum StructureMaterial {
 	private String tool;
 	private MaterialBlockType[] blockTypes;
 
-	private StructureMaterial(Material mcMaterial, EnumWorldBlockLayer blockLayer, boolean color,
+	StructureMaterial(Material mcMaterial, EnumWorldBlockLayer blockLayer, boolean color,
 			Block.SoundType sound, float hardness, float resistance, float slipperiness, String tool,
 			MaterialBlockType[] blockTypes) {
 		this.mcMaterial = mcMaterial;

@@ -135,9 +135,9 @@ public class GenericContainer extends ContainerBase {
 					return null;
 			}
 
-			if (stack.stackSize == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
+			if (stack.stackSize == 0)
+				slot.putStack(null);
+			else {
 				slot.onSlotChanged();
 			}
 

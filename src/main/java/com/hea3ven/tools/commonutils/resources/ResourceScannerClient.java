@@ -19,6 +19,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.*;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -27,10 +28,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ResourceScannerClient extends ResourceScanner {
 	@Override
 	public Iterable<InputStream> scan(String modid, String name) {
-		Set<ResourceLocation> res = null;
 		IResourceManager resourceManager = Minecraft.getMinecraft().getResourceManager();
 
-		res = new HashSet<ResourceLocation>();
+		Set<ResourceLocation> res = new HashSet<>();
 		for (IResourceManager mgr : getDomainResourceManagers(resourceManager).values()) {
 			for (IResourcePack resPack : getResourcePackages(mgr)) {
 				res.addAll(getMaterials(resPack, modid, name));
@@ -61,7 +61,7 @@ public class ResourceScannerClient extends ResourceScanner {
 
 	private static Set<ResourceLocation> getResourcesFromDir(FolderResourcePack resPack, String modid,
 			String name) {
-		Set<ResourceLocation> materials = new HashSet<ResourceLocation>();
+		Set<ResourceLocation> materials = new HashSet<>();
 		File rootDir = ReflectionHelper.getPrivateValue(AbstractResourcePack.class, resPack, "field_110597_b",
 				"resourcePackFile");
 		try {
@@ -120,9 +120,9 @@ public class ResourceScannerClient extends ResourceScanner {
 
 	private static ZipFile getZipFromResPack(FileResourcePack resPack) {
 		Method mthd = ReflectionHelper.findMethod(FileResourcePack.class, resPack,
-				new String[] {"getResourcePackZipFile", "func_110599_c"}, new Class<?>[0]);
+				new String[] {"getResourcePackZipFile", "func_110599_c"});
 		try {
-			return (ZipFile) mthd.invoke(resPack, new Object[0]);
+			return (ZipFile) mthd.invoke(resPack);
 		} catch (Exception e) {
 			Throwables.propagate(e);
 			return null;

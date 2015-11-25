@@ -16,6 +16,9 @@ version = "1.0.3"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "BuildingBricks"
 
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
 minecraft {
     version = "1.8-11.14.3.1521"
     runDir = "run"
@@ -188,7 +191,6 @@ def updateCommonCodeFrom(String masterCodeFile, regionName) {
     blocksDir.eachFileRecurse(FileType.FILES) { file ->
         def tmpFile = new File(file.toString() + "tmp")
         found = false
-        def index = 0
         tmpFile.withWriter { w ->
             file.eachLine { line ->
                 if (line.contains("//region " + regionName)) {

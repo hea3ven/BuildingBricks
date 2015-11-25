@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core.tileentity;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -58,7 +59,7 @@ public class TileMaterial extends TileEntity {
 		TileMaterial tile;
 		TileEntity te = world.getTileEntity(pos);
 		if (!(te instanceof TileMaterial))
-			tile = null;
+			return null;
 		tile = (TileMaterial) te;
 		return tile;
 	}
@@ -101,8 +102,9 @@ public class TileMaterial extends TileEntity {
 	}
 
 	public static BlockState createBlockState(BlockState superState) {
+		Collection props = superState.getProperties();
 		return new ExtendedBlockState(superState.getBlock(),
-				(IProperty[]) superState.getProperties().toArray(new IProperty[0]),
+				(IProperty[]) props.toArray(new IProperty[props.size()]),
 				new IUnlistedProperty[] {TileMaterial.MATERIAL});
 	}
 

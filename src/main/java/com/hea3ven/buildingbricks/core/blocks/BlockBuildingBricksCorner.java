@@ -91,8 +91,7 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 			minZ = 0.5d;
 			maxZ = 1.0d;
 		}
-		AxisAlignedBB bb = new AxisAlignedBB(minX, half == EnumBlockHalf.BOTTOM ? 0.0d : 0.5d, minZ, maxX,
+		return new AxisAlignedBB(minX, half == EnumBlockHalf.BOTTOM ? 0.0d : 0.5d, minZ, maxX,
 				half == EnumBlockHalf.BOTTOM ? 0.5d : 1.0d, maxZ);
-		return bb;
 	}
 }

@@ -1,6 +1,5 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -32,8 +31,7 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 
 	@Override
 	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] {BlockProperties.VERTICAL, BlockProperties.HALF,
-				BlockProperties.ROTATION});
+		return new BlockState(this, BlockProperties.VERTICAL, BlockProperties.HALF, BlockProperties.ROTATION);
 	}
 
 	@Override
@@ -55,8 +53,8 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
-			float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer) {
 		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
 
 		if (facing.getAxis() == Axis.Y) {
@@ -64,8 +62,8 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 				state = BlockProperties.setVertical(state, false);
 				state = BlockProperties.setHalf(state,
 						facing == EnumFacing.UP ? EnumBlockHalf.BOTTOM : EnumBlockHalf.TOP);
-				state = BlockProperties.setRotation(state, EnumRotation
-						.getRotation(BlockPlacingUtil.getClosestFace(facing, hitX, hitY, hitZ)));
+				state = BlockProperties.setRotation(state,
+						EnumRotation.getRotation(BlockPlacingUtil.getClosestFace(facing, hitX, hitY, hitZ)));
 			} else {
 				state = BlockProperties.setVertical(state, true);
 				state = BlockProperties.setHalf(state, EnumBlockHalf.BOTTOM);
@@ -148,5 +146,4 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 			return new AxisAlignedBB(minX, 0.0d, minZ, maxX, 1.0d, maxZ);
 		}
 	}
-
 }

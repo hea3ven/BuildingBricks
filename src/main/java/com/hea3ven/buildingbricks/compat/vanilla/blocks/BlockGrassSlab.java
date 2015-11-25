@@ -57,9 +57,8 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 	}
 
 	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state,
-			int fortune) {
-		List<ItemStack> stacks = new ArrayList<ItemStack>();
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		List<ItemStack> stacks = new ArrayList<>();
 		stacks.add(MaterialRegistry.get("dirt").getBlock(MaterialBlockType.SLAB).getStack().copy());
 		return stacks;
 	}
@@ -71,10 +70,9 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 
 	@Override
 	protected BlockState createBlockState() {
-		Collection<IProperty> props = new ArrayList<IProperty>(
-				super.createBlockState().getProperties());
+		Collection<IProperty> props = new ArrayList<>(super.createBlockState().getProperties());
 		props.add(BlockGrass.SNOWY);
-		return new BlockState(this, props.toArray(new IProperty[0]));
+		return new BlockState(this, props.toArray(new IProperty[props.size()]));
 	}
 
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
@@ -83,10 +81,9 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 		Block blockE = worldIn.getBlockState(pos.east()).getBlock();
 		Block blockW = worldIn.getBlockState(pos.west()).getBlock();
 		return setSnowy(state,
-				blockN == Blocks.snow || blockN == Blocks.snow_layer || blockS == Blocks.snow
-						|| blockS == Blocks.snow_layer || blockE == Blocks.snow
-						|| blockE == Blocks.snow_layer || blockW == Blocks.snow
-						|| blockW == Blocks.snow_layer);
+				blockN == Blocks.snow || blockN == Blocks.snow_layer || blockS == Blocks.snow ||
+						blockS == Blocks.snow_layer || blockE == Blocks.snow || blockE == Blocks.snow_layer ||
+						blockW == Blocks.snow || blockW == Blocks.snow_layer);
 	}
 
 	public static boolean getSnowy(IBlockState state) {

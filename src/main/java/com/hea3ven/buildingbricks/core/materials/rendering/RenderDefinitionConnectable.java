@@ -5,9 +5,9 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.tuple.Pair;
 
-import net.minecraft.block.BlockWall;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelRotation;
+
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.ModelLoader;
@@ -39,10 +39,7 @@ public class RenderDefinitionConnectable extends RenderDefinition {
 	}
 
 	public IModel getModel(IBlockState state, Material mat) {
-		if (state.getBlock() instanceof BlockWall) {
-		}
-		IModel base = null;
-		base = getModelOrDefault(postModelLocation, mat);
+		IModel base = getModelOrDefault(postModelLocation, mat);
 		Map<String, Pair<IModel, IModelState>> parts = Maps.newHashMap();
 		if (BlockProperties.getConnectionNorth(state)) {
 			parts.put("north", Pair.of(getModelOrDefault(connModelLocation, mat),
@@ -64,8 +61,8 @@ public class RenderDefinitionConnectable extends RenderDefinition {
 	}
 
 	public IModelState getModelState(IModelState modelState, IBlockState state) {
-		if (!BlockProperties.getConnectionNorth(state) && !BlockProperties.getConnectionSouth(state)
-				&& BlockProperties.getConnectionEast(state) && BlockProperties.getConnectionWest(state)) {
+		if (!BlockProperties.getConnectionNorth(state) && !BlockProperties.getConnectionSouth(state) &&
+				BlockProperties.getConnectionEast(state) && BlockProperties.getConnectionWest(state)) {
 			return ModelRotation.X0_Y90;
 		}
 		return modelState;

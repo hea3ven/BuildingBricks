@@ -64,7 +64,8 @@ public class BlockMaterialFenceGate extends BlockBuildingBricksFenceGate impleme
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) {
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos,
+			EntityPlayer player) {
 		return TileMaterial.getPickBlock(this, target, world, pos);
 	}
 

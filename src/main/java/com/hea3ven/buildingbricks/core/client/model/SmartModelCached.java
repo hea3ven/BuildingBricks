@@ -21,7 +21,7 @@ public class SmartModelCached extends DelegatedSmartModel implements ISmartBlock
 
 	public SmartModelCached() {
 		super(null);
-		cache = new HashMap<Integer, SmartModelCached>();
+		cache = new HashMap<>();
 	}
 
 	public SmartModelCached(IFlexibleBakedModel delegate) {

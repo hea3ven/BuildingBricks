@@ -10,7 +10,7 @@ public class BlockRotation {
 	private HashMap<MaterialBlockType, BlockDescription> items;
 
 	public BlockRotation() {
-		items = new HashMap<MaterialBlockType, BlockDescription>();
+		items = new HashMap<>();
 	}
 
 	public void add(MaterialBlockType blockType, BlockDescription blockDesc) {
@@ -41,8 +41,8 @@ public class BlockRotation {
 		// TODO: Rewrite this
 		for (int i = 1; i < MaterialBlockType.values().length; i++) {
 			MaterialBlockType nextBlockType = MaterialBlockType.getBlockType(
-					(blockType.ordinal() + MaterialBlockType.values().length - i)
-							% MaterialBlockType.values().length);
+					(blockType.ordinal() + MaterialBlockType.values().length - i) %
+							MaterialBlockType.values().length);
 			if (items.containsKey(nextBlockType))
 				return nextBlockType;
 		}

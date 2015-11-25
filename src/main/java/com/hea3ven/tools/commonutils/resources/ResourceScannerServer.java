@@ -23,67 +23,6 @@ public class ResourceScannerServer extends ResourceScanner {
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialResourceLoader");
 
-//	public static void discoverMaterialsServer() {
-//		// TODO: rewrite this
-//
-//		URL jarUrl = MaterialResourceLoader.class.getProtectionDomain().getCodeSource().getLocation();
-//		Set<String> matResources = new HashSet<String>();
-//		if (jarUrl.getProtocol().equals("jar")) {
-//			logger.debug("Running from a jar");
-//			String jarFilePath = null;
-//			try {
-//				jarFilePath = Paths.get(new URI(jarUrl.getPath())).toString();
-//			} catch (URISyntaxException e) {
-//				Throwables.propagate(e);
-//			}
-//			if (jarFilePath.lastIndexOf('!') != -1)
-//				jarFilePath = jarFilePath.substring(0, jarFilePath.lastIndexOf('!'));
-//
-//			ZipFile jarZip = null;
-//			try {
-//				jarZip = new ZipFile(jarFilePath);
-//			} catch (IOException e) {
-//				logger.error("Could not open the jar file", e);
-//				return;
-//			}
-//			try {
-//				for (Enumeration<? extends ZipEntry> e = jarZip.entries(); e.hasMoreElements(); ) {
-//					ZipEntry entry = e.nextElement();
-//					if (entry.isDirectory())
-//						continue;
-//					if (!entry.getName().startsWith("assets/buildingbrickscompatvanilla/materials/"))
-//						continue;
-//					matResources.add("/" + entry.getName());
-//				}
-//			} finally {
-//				try {
-//					jarZip.close();
-//				} catch (IOException e) {
-//					return;
-//				}
-//			}
-//		} else if (jarUrl.getProtocol().equals("file")) {
-//			logger.debug("Running from a directory");
-//			Path matsPath = Paths.get(jarUrl.getPath()
-//					.replace("com/hea3ven/buildingbricks/core/materials/MaterialResourceLoader.class", ""))
-//					.resolve("assets")
-//					.resolve("buildingbrickscompatvanilla")
-//					.resolve("materials");
-//			try {
-//				DirectoryStream<Path> ds = Files.newDirectoryStream(matsPath);
-//				for (Path entry : ds) {
-//					matResources.add(
-//							"/assets/buildingbrickscompatvanilla/materials/" + matsPath.relativize(entry));
-//				}
-//			} catch (IOException e) {
-//				return;
-//			}
-//		}
-//		for (String matRes : matResources) {
-//			loadMaterialFromStream(MaterialResourceLoader.class.getResourceAsStream(matRes));
-//		}
-//	}
-
 	@Override
 	public Iterable<InputStream> scan(String modid, String name) {
 		Set<String> resources = Sets.newHashSet();
@@ -129,14 +68,7 @@ public class ResourceScannerServer extends ResourceScanner {
 
 	private Set<String> scanZip(Path zip, String name) {
 		Set<String> resources = Sets.newHashSet();
-		ZipFile jarZip;
-		try {
-			jarZip = new ZipFile(zip.toFile());
-		} catch (IOException e) {
-			logger.error("Could not open the jar file", e);
-			return resources;
-		}
-		try {
+		try (ZipFile jarZip = new ZipFile(zip.toFile())) {
 			for (Enumeration<? extends ZipEntry> e = jarZip.entries(); e.hasMoreElements(); ) {
 				ZipEntry entry = e.nextElement();
 				if (entry.isDirectory())
@@ -152,12 +84,9 @@ public class ResourceScannerServer extends ResourceScanner {
 					continue;
 				resources.add("/" + entry.getName());
 			}
-		} finally {
-			try {
-				jarZip.close();
-			} catch (IOException e) {
-				return resources;
-			}
+		} catch (IOException e) {
+			logger.error("Could not open the jar file", e);
+			return resources;
 		}
 		return resources;
 	}

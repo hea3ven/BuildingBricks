@@ -96,7 +96,7 @@ public enum MaterialBlockType {
 	private List<MaterialRecipeBuilder> materialRecipes;
 	private int volume = 0;
 
-	private MaterialBlockType(String name, int volume) {
+	MaterialBlockType(String name, int volume) {
 		this.name = name;
 		allwaysRecipes = Lists.newArrayList();
 		materialRecipes = Lists.newArrayList();
