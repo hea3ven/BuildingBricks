@@ -6,6 +6,7 @@
     * Add a model for the trowel.
     * Reduced significantly the blocks' space usage on disk and made it able to better handle removing/adding materials from existing worlds.
     * Blocks now have the block hardness and explosion resistance of their material.
+    * Fix grass slabs world gen generating chunks recursively, fixes #22.
     * Fix vertical slabs culling when placed next to each other, fixes #18.
 
 1.0.3:
