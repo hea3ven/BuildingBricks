@@ -105,7 +105,7 @@ public class MaterialParser {
 		@Override
 		public StructureMaterial deserialize(JsonElement json, Type typeOfT,
 				JsonDeserializationContext context) throws JsonParseException {
-			String strucMatName = JsonUtils.getJsonElementStringValue(json, "type");
+			String strucMatName = JsonUtils.getString(json, "type");
 			return StructureMaterial.valueOf(strucMatName.toUpperCase());
 		}
 	}

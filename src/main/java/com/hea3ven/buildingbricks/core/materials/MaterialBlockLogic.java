@@ -146,7 +146,7 @@ public class MaterialBlockLogic {
 		TileMaterial te = TileMaterial.getTile(world, pos);
 
 		particle.func_174846_a(pos).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F);
-		particle.func_180435_a(ModelBakerBlockMaterial.instance.particleTextures.get(te.getMaterial()));
+		particle.setParticleIcon(ModelBakerBlockMaterial.instance.particleTextures.get(te.getMaterial()));
 		return true;
 	}
 
@@ -167,7 +167,7 @@ public class MaterialBlockLogic {
 							Block.getStateId(world.getBlockState(pos)));
 
 					particle.func_174846_a(pos);
-					particle.func_180435_a(texture);
+					particle.setParticleIcon(texture);
 				}
 			}
 		}
