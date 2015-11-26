@@ -1,7 +1,23 @@
-plugins {
-    id "net.minecraftforge.gradle.forge" version "2.0.2"
-    id "com.matthewprenger.cursegradle" version "1.0.1"
+buildscript {
+	repositories {
+		jcenter()
+			maven {
+				name = "forge"
+					url = "http://files.minecraftforge.net/maven"
+			}
+		maven {
+			name = "sonatype"
+				url = "https://oss.sonatype.org/content/repositories/snapshots/"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+		classpath 'com.matthewprenger:CurseGradle:1.0-SNAPSHOT'
+	}
 }
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.matthewprenger.cursegradle'
 
 import groovy.io.FileType
 
@@ -20,7 +36,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 minecraft {
-    version = "1.8-11.14.3.1521"
+    version = "1.8.8-11.14.4.1580-1.8.8"
     runDir = "run"
 
     mappings = "snapshot_20151122"

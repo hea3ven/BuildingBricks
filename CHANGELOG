@@ -1,3 +1,5 @@
+    - 1.8.8:
+        * Updated to Minecraft Forge version 1.8.8.
     * Add a portable ladder block.
     * Add compatibility for thaumcraft blocks.
     * Add fence and fence gate block types.

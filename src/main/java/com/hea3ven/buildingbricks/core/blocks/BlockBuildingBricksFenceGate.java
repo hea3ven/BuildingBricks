@@ -2,6 +2,7 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
+import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -19,7 +20,7 @@ public class BlockBuildingBricksFenceGate extends BlockFenceGate implements Bloc
 	protected MaterialBlockLogic blockLogic;
 
 	public BlockBuildingBricksFenceGate(StructureMaterial structMat) {
-		super();
+		super(EnumType.OAK);
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.FENCE_GATE);
 		blockLogic.initBlock(this);
