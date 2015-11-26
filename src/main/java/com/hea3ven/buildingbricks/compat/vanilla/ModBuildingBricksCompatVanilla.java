@@ -59,7 +59,7 @@ public class ModBuildingBricksCompatVanilla {
 		if (Config.generateGrassSlabs)
 			MinecraftForge.EVENT_BUS.register(new GrassSlabWorldGen());
 
-		((BlockGrassSlab) grassSlab).mat = MaterialRegistry.get("grass");
+		((BlockGrassSlab) grassSlab).mat = MaterialRegistry.get("buildingbrickscompatvanilla:grass");
 
 		replaceStoneSlabRecipe();
 

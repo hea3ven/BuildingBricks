@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -30,9 +31,12 @@ public abstract class RenderDefinition {
 
 	protected IModel getModelOrDefault(String modelLoc, Material mat) {
 		try {
+			ResourceLocation matLoc = new ResourceLocation(mat.getMaterialId());
 			return ModelLoaderRegistry.getModel(new ResourceLocation(
 					modelLoc.replace("minecraft:", "buildingbricks:")
-							.replace(":block/", ":block/" + mat.getMaterialId() + "/")));
+							.replace(":block/",
+									":block/" + matLoc.getResourceDomain() + "/" + matLoc.getResourcePath() +
+											"/")));
 		} catch (IOException e) {
 			try {
 				return ModelLoaderRegistry.getModel(new ResourceLocation(modelLoc));
