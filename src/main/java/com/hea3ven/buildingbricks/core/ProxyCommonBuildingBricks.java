@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.hea3ven.buildingbricks.core.gui.BuildingBricksGuiHandler;
 import com.hea3ven.buildingbricks.core.materials.BlockDescription;
@@ -24,9 +25,17 @@ public class ProxyCommonBuildingBricks {
 	}
 
 	public void postInit() {
+		addPortableLadderRecipe();
+
 		addTrowelRecipes();
 
 		addMaterialBlocksRecipes();
+	}
+
+	private void addPortableLadderRecipe() {
+		GameRegistry.addRecipe(
+				new ShapedOreRecipe(new ItemStack(ModBuildingBricks.portableLadder), "x x", "xxx", "x x", 'x',
+						"ingotIron"));
 	}
 
 	private void addTrowelRecipes() {
