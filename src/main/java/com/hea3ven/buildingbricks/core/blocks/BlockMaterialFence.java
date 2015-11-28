@@ -114,7 +114,10 @@ public class BlockMaterialFence extends BlockBuildingBricksFence implements Bloc
 		TileMaterial tile = TileMaterial.getTile(world, pos);
 		if (tile == null)
 			return super.getBlockHardness(world, pos);
-		return tile.getMaterial().getHardness();
+		Material mat = tile.getMaterial();
+		if (mat == null)
+			return super.getBlockHardness(world, pos);
+		return mat.getHardness();
 	}
 
 	@Override
@@ -122,7 +125,10 @@ public class BlockMaterialFence extends BlockBuildingBricksFence implements Bloc
 		TileMaterial tile = TileMaterial.getTile(world, pos);
 		if (tile == null)
 			return super.getExplosionResistance(world, pos, exploder, explosion);
-		return tile.getMaterial().getResistance() * 3 / 5;
+		Material mat = tile.getMaterial();
+		if (mat == null)
+			return super.getExplosionResistance(world, pos, exploder, explosion);
+		return mat.getResistance() * 3 / 5;
 	}
 
 	//endregion COMMON TILE CODE
