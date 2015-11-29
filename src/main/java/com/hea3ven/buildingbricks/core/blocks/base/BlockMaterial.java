@@ -5,5 +5,4 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 public interface BlockMaterial {
 
 	String getLocalizedName(Material mat);
-
 }

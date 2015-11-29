@@ -79,16 +79,16 @@ public class BlockPortableLadder extends Block {
 			switch (BlockProperties.getSide(state)) {
 				default:
 				case NORTH:
-					this.setBlockBounds(0.0f, 0.0f, bottom ? 0.25f : 0.0f, 1.0f, bottom ? 1.0f : 0.5f, 0.5f);
+					this.setBlockBounds(0.0f, 0.0f, bottom ? 0.25f : 0.0f, 1.0f, 1.0f, 0.5f);
 					break;
 				case EAST:
-					this.setBlockBounds(0.5f, 0.0f, 0.0f, bottom ? 0.75f : 1.0f, bottom ? 1.0f : 0.5f, 1.0f);
+					this.setBlockBounds(0.5f, 0.0f, 0.0f, bottom ? 0.75f : 1.0f, 1.0f, 1.0f);
 					break;
 				case SOUTH:
-					this.setBlockBounds(0.0f, 0.0f, 0.5f, 1.0f, bottom ? 1.0f : 0.5f, bottom ? 0.75f : 1.0f);
+					this.setBlockBounds(0.0f, 0.0f, 0.5f, 1.0f, 1.0f, bottom ? 0.75f : 1.0f);
 					break;
 				case WEST:
-					this.setBlockBounds(bottom ? 0.25f : 0.0f, 0.0f, 0.0f, 0.5f, bottom ? 1.0f : 0.5f, 1.0f);
+					this.setBlockBounds(bottom ? 0.25f : 0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 1.0f);
 					break;
 			}
 		}

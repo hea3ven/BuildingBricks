@@ -101,19 +101,21 @@ public class ResourceScannerClient extends ResourceScanner {
 		for (Enumeration<? extends ZipEntry> entries = packFile.entries(); entries.hasMoreElements(); ) {
 			ZipEntry entry = entries.nextElement();
 			Path entryPath = Paths.get(entry.getName());
-			if (!entryPath.getName(0).getFileName().equals("assets"))
+			if (entryPath.getNameCount() < 5)
 				continue;
-			if (!entryPath.getName(1).getFileName().equals(modid))
+			if (!entryPath.getName(0).getFileName().toString().equals("assets"))
 				continue;
-			if (!entryPath.getName(2).getFileName().equals(name))
+			if (!entryPath.getName(1).getFileName().toString().equals(modid))
+				continue;
+			if (!entryPath.getName(2).getFileName().toString().equals(name))
 				continue;
 			if (!isModLoaded(entryPath.getName(3).getFileName().toString()))
 				continue;
 			if (!entryPath.getFileName().toString().endsWith(".json"))
 				continue;
 
-			materials.add(new ResourceLocation(entryPath.getName(1).getFileName().toString(),
-					entryPath.getName(3).getFileName().toString()));
+			materials.add(
+					new ResourceLocation(modid, Paths.get("assets", modid).relativize(entryPath).toString()));
 		}
 		return materials;
 	}

@@ -1,6 +1,8 @@
+1.1.0:
     - 1.8.8:
         * Updated to Minecraft Forge version 1.8.8.
     * Add a portable ladder block.
+    * Add materials for coarse dirt, podzol and mycelium, fixes #25.
     * Add compatibility for thaumcraft blocks.
     * Add fence and fence gate block types.
     * Add a GUI for the trowel when you shift-right click on the air, fixes #23.

@@ -2,6 +2,7 @@ package com.hea3ven.tools.commonutils.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,29 +17,30 @@ import java.util.zip.ZipFile;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import net.minecraft.launchwrapper.Launch;
+
+import net.minecraftforge.fml.common.Loader;
 
 public class ResourceScannerServer extends ResourceScanner {
-
-	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialResourceLoader");
 
 	@Override
 	public Iterable<InputStream> scan(String modid, String name) {
 		Set<String> resources = Sets.newHashSet();
-		final String[] classPathParts = System.getProperty("java.class.path", ".").split(":");
-		for (final String element : classPathParts) {
-			Path elemPath = Paths.get(element);
+		for (final URL element : Launch.classLoader.getSources()) {
+			if (!element.getProtocol().equals("file"))
+				continue;
+			Path elemPath = Paths.get(element.getFile());
 			if (Files.isDirectory(elemPath)) {
-				resources.addAll(scanDirectory(elemPath, name));
+				resources.addAll(scanDirectory(elemPath, modid, name));
 			} else {
-				resources.addAll(scanZip(elemPath, name));
+				resources.addAll(scanZip(elemPath, modid, name));
 			}
 		}
 		return Iterables.concat(new ResourceIterable(resources));
 	}
 
-	private Set<String> scanDirectory(Path dir, String name) {
+	private Set<String> scanDirectory(Path dir, String modid, String name) {
 		Path assetsDir = dir.resolve("assets");
 		if (!Files.exists(assetsDir))
 			return Sets.newHashSet();
@@ -47,17 +49,25 @@ public class ResourceScannerServer extends ResourceScanner {
 			DirectoryStream<Path> modDirs = Files.newDirectoryStream(assetsDir);
 			Set<String> resources = Sets.newHashSet();
 			for (Path modDir : modDirs) {
-				if (!isModLoaded(modDir.getFileName().toString()))
+				String modName = modDir.getFileName().toString();
+				if (!modName.equals(modid))
 					continue;
 				Path targetDir = modDir.resolve(name);
 				if (!Files.exists(targetDir))
 					continue;
 
-				DirectoryStream<Path> entries = Files.newDirectoryStream(targetDir);
-				for (Path entry : entries) {
-					if (!entry.getFileName().toString().endsWith(".json"))
+				DirectoryStream<Path> modResDirs = Files.newDirectoryStream(targetDir);
+				for (Path modResDir : modResDirs) {
+					if (!Files.isDirectory(modResDir))
 						continue;
-					resources.add("/" + dir.relativize(entry).toString());
+					if (!isModLoaded(modResDir.getFileName().toString()))
+						continue;
+					DirectoryStream<Path> entries = Files.newDirectoryStream(modResDir);
+					for (Path entry : entries) {
+						if (!entry.getFileName().toString().endsWith(".json"))
+							continue;
+						resources.add("/" + dir.relativize(entry).toString());
+					}
 				}
 			}
 			return resources;
@@ -66,21 +76,27 @@ public class ResourceScannerServer extends ResourceScanner {
 		}
 	}
 
-	private Set<String> scanZip(Path zip, String name) {
+	private Set<String> scanZip(Path zip, String modid, String name) {
 		Set<String> resources = Sets.newHashSet();
 		try (ZipFile jarZip = new ZipFile(zip.toFile())) {
+			logger.info(jarZip.getName());
 			for (Enumeration<? extends ZipEntry> e = jarZip.entries(); e.hasMoreElements(); ) {
 				ZipEntry entry = e.nextElement();
 				if (entry.isDirectory())
 					continue;
 				Path entryPath = Paths.get(entry.getName());
-				if (!entryPath.getName(0).getFileName().equals("assets"))
+				logger.info(entryPath.toString());
+				if (entryPath.getNameCount() < 5)
 					continue;
-				if (!isModLoaded(entryPath.getName(1).getFileName().toString()))
+				if (!entryPath.getName(0).getFileName().toString().equals("assets"))
 					continue;
-				if (!entryPath.getName(2).getFileName().equals(name))
+				if (!entryPath.getName(1).getFileName().toString().equals(modid))
 					continue;
-				if (!entryPath.endsWith(".json"))
+				if (!entryPath.getName(2).getFileName().toString().equals(name))
+					continue;
+				if (!isModLoaded(entryPath.getName(3).getFileName().toString()))
+					continue;
+				if (!entryPath.getFileName().toString().endsWith(".json"))
 					continue;
 				resources.add("/" + entry.getName());
 			}

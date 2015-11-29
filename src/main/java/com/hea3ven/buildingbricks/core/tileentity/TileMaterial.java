@@ -43,7 +43,7 @@ public class TileMaterial extends TileEntity {
 		if (material != null)
 			return material;
 		else
-			return MaterialRegistry.get("buildingbrickscompatvanilla:stone");
+			return null;
 	}
 
 	public void setMaterial(Material material) {
@@ -76,7 +76,7 @@ public class TileMaterial extends TileEntity {
 		super.readFromNBT(nbt);
 
 		if (nbt.hasKey("material")) {
-			setMaterial(MaterialRegistry.get(nbt.getString("material")));
+			setMaterial(MaterialRegistry.get("buildingbrickscompatvanilla:" + nbt.getString("material")));
 			materialId = MaterialIdMapping.get().getIdForMaterial(getMaterial());
 		} else {
 			materialId = nbt.getShort("m");
@@ -110,10 +110,9 @@ public class TileMaterial extends TileEntity {
 
 	public static IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileMaterial tile = getTile(world, pos);
-		if (tile != null && tile.getMaterial() != null)
-			return TileMaterial.setStateMaterial((IExtendedBlockState) state, tile.getMaterial());
-		else
+		if (tile == null || tile.getMaterial() == null)
 			return state;
+		return TileMaterial.setStateMaterial((IExtendedBlockState) state, tile.getMaterial());
 	}
 
 	public static void onBlockPlacedBy(Block block, World world, BlockPos pos, IBlockState state,

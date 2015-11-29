@@ -17,6 +17,7 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -26,11 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.client.model.ModelItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.client.model.SmartModelCached;
-import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
-import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
+import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.rendering.*;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
@@ -131,7 +128,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 			}
 		}
 
-		IModel defaultBlockModel = getModel(new ResourceLocation("block/stone"));
+		IModel defaultBlockModel = ModelLoaderRegistry.getMissingModel();
 		cacheModel.setDelegate(bake(defaultBlockModel, defaultBlockModel.getDefaultState()));
 	}
 }
