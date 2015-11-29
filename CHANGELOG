@@ -1,3 +1,4 @@
+1.1.0:
     * Add a portable ladder block.
     * Add materials for coarse dirt, podzol and mycelium, fixes #25.
     * Add compatibility for thaumcraft blocks.
