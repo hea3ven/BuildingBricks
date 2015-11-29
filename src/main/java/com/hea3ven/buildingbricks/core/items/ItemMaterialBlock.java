@@ -1,7 +1,6 @@
 package com.hea3ven.buildingbricks.core.items;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
@@ -44,7 +43,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 
 		short matId = (short) stack.getItemDamage();
 		if (matId == 0)
-			return MaterialRegistry.get("cobblestone");
+			return null;
 		return MaterialIdMapping.get().getMaterialById(matId);
 	}
 }
