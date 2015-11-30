@@ -66,7 +66,7 @@ public class ResourceScannerServer extends ResourceScanner {
 					for (Path entry : entries) {
 						if (!entry.getFileName().toString().endsWith(".json"))
 							continue;
-						resources.add("/" + dir.relativize(entry).toString());
+						resources.add("/" + dir.relativize(entry).toString().replace('\\', '/'));
 					}
 				}
 			}
@@ -98,7 +98,7 @@ public class ResourceScannerServer extends ResourceScanner {
 					continue;
 				if (!entryPath.getFileName().toString().endsWith(".json"))
 					continue;
-				resources.add("/" + entry.getName());
+				resources.add("/" + entry.getName().replace('\\', '/'));
 			}
 		} catch (IOException e) {
 			logger.error("Could not open the jar file", e);
