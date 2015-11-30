@@ -145,6 +145,8 @@ public class TileMaterial extends TileEntity {
 		if (te == null)
 			return null;
 		Material mat = te.getMaterial();
+		if (mat == null)
+			return null;
 
 		boolean silk = mat.getSilkHarvestMaterial() != null && EnchantmentHelper.getSilkTouchModifier(player);
 		String harvestMatId = silk ? mat.getSilkHarvestMaterial() : mat.getNormalHarvestMaterial();

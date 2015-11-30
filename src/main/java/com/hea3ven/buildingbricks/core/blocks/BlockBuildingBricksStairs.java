@@ -5,6 +5,7 @@ import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 
@@ -49,7 +50,10 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 
 		BlockPos ownPos = pos.offset(side.getOpposite());
 		IBlockState ownState = world.getBlockState(ownPos);
-		return !isSameStair(world, pos, ownState);
+		if (side.getAxis() != Axis.Y)
+			return !isSameStair(world, pos, ownState);
+		else
+			return true;
 	}
 
 	public EnumHalf getHalf(IBlockState state) {

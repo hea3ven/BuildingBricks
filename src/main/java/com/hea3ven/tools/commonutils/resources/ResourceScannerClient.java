@@ -84,7 +84,7 @@ public class ResourceScannerClient extends ResourceScanner {
 					for (Path entry : entries) {
 						if (!entry.getFileName().toString().endsWith(".json"))
 							continue;
-						materials.add(new ResourceLocation(modName, modDir.relativize(entry).toString()));
+						materials.add(new ResourceLocation(modName, modDir.relativize(entry).toString().replace('\\', '/')));
 					}
 				}
 			}
@@ -115,7 +115,7 @@ public class ResourceScannerClient extends ResourceScanner {
 				continue;
 
 			materials.add(
-					new ResourceLocation(modid, Paths.get("assets", modid).relativize(entryPath).toString()));
+					new ResourceLocation(modid, Paths.get("assets", modid).relativize(entryPath).toString().replace('\\', '/')));
 		}
 		return materials;
 	}

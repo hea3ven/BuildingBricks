@@ -1,3 +1,7 @@
+1.1.1:
+    * Fix startup crash on windows.
+    * Fix invisible faces on stairs when stacked on top of each other.
+
 1.1.0:
     - 1.8.8:
         * Updated to Minecraft Forge version 1.8.8.
