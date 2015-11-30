@@ -28,7 +28,7 @@ repositories {
     }
 }
 
-version = "1.8.8-1.1.0"
+version = "1.8.8-1.1.1"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "BuildingBricks"
 
@@ -53,7 +53,7 @@ curseforge {
         id = '236150'
         releaseType = 'release'
         changelog = readCurrentChangelog()
-        addGameVersion '1.8'
+        addGameVersion '1.8.8'
     }
 }
 
@@ -92,7 +92,7 @@ setupDecompWorkspace.dependsOn copyRunMods
 
 task updateChangelog(dependsOn: 'build') << {
     def changelogData = new File("CHANGELOG").getText()
-    if (!changelogData.startsWith(project.version)) {
+    if (!changelogData.startsWith(project.version.replace("1.8.8-", ""))) {
         new File(project.projectDir, "CHANGELOG").write(project.version + ":\n" + changelogData);
     }
 }
@@ -135,6 +135,7 @@ task githubRelease(dependsOn: pushRelease) << {
     req.addHeader("content-type", "application/json")
     req.setEntity(new org.apache.http.entity.StringEntity('{'
             + '    "tag_name": "v' + project.version + '",'
+            + '    "target_commitish": "mc1.8.8",'
             + '    "name": "Version ' + project.version + '",'
             + '    "body": "```\\n' + readCurrentChangelog().replace('\n', '\\n').replace('\t', '    ') + '```\\n'
             + readCurrentDownloads().replace('\n', '\\n') + '",'
@@ -166,7 +167,7 @@ def readCurrentChangelog() {
             }
         }
     }
-    if (!changelog.startsWith(project.version))
+    if (!changelog.startsWith(project.version.replace("1.8.8-", "")))
         changelog = project.version + ":\n" + changelog
     return changelog
 }
