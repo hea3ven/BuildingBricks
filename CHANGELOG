@@ -1,3 +1,5 @@
+    * Fix crash when a grass slab is destroyed by an explosion.
+
 1.1.1:
     * Fix startup crash on windows.
     * Fix invisible faces on stairs when stacked on top of each other.
