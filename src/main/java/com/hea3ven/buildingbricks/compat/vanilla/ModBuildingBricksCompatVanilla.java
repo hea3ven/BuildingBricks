@@ -26,9 +26,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
+import com.hea3ven.buildingbricks.compat.vanilla.items.ItemBlockGrassSlab;
 import com.hea3ven.buildingbricks.core.Properties;
 import com.hea3ven.buildingbricks.core.config.Config;
-import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
@@ -48,10 +48,9 @@ public class ModBuildingBricksCompatVanilla {
 	public void preInit(FMLPreInitializationEvent event) {
 
 		logger.info("Registering the grass slab block");
-		grassSlab = new BlockGrassSlab()
-				.setUnlocalizedName("grass_slab")
+		grassSlab = new BlockGrassSlab().setUnlocalizedName("grass_slab")
 				.setCreativeTab(CreativeTabBuildingBricks.get());
-		GameRegistry.registerBlock(grassSlab, ItemColoredWrapper.class, "grass_slab");
+		GameRegistry.registerBlock(grassSlab, ItemBlockGrassSlab.class, "grass_slab");
 	}
 
 	@EventHandler
@@ -64,12 +63,9 @@ public class ModBuildingBricksCompatVanilla {
 		replaceStoneSlabRecipe();
 
 		if (event.getSide() == Side.CLIENT) {
-			ItemModelMesher modelMesher = Minecraft
-					.getMinecraft()
-					.getRenderItem()
-					.getItemModelMesher();
-			modelMesher.register(Item.getItemFromBlock(grassSlab), 0, new ModelResourceLocation(
-					"buildingbrickscompatvanilla:grass_slab", "inventory"));
+			ItemModelMesher modelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+			modelMesher.register(Item.getItemFromBlock(grassSlab), 0,
+					new ModelResourceLocation("buildingbrickscompatvanilla:grass_slab", "inventory"));
 		}
 	}
 
@@ -79,21 +75,19 @@ public class ModBuildingBricksCompatVanilla {
 		for (int i = 0; i < recipes.size(); i++) {
 			IRecipe recipe = recipes.get(i);
 			ItemStack result = recipe.getRecipeOutput();
-			if (result != null && result.getItem() instanceof ItemBlock
-					&& ((ItemBlock) result.getItem()).getBlock() == Blocks.stone_slab
-					&& result.getMetadata() == BlockStoneSlab.EnumType.STONE.getMetadata()) {
+			if (result != null && result.getItem() instanceof ItemBlock &&
+					((ItemBlock) result.getItem()).getBlock() == Blocks.stone_slab &&
+					result.getMetadata() == BlockStoneSlab.EnumType.STONE.getMetadata()) {
 				logger.debug("Found original slab recipe");
 				recipes.remove(i);
 			}
 		}
 
-		ItemStack stoneSlab = MaterialRegistry
-				.get("buildingbrickscompatvanilla:stone")
+		ItemStack stoneSlab = MaterialRegistry.get("buildingbrickscompatvanilla:stone")
 				.getBlock(MaterialBlockType.SLAB)
 				.getStack();
-		ItemStack stoneSlabSlab = new ItemStack(Blocks.stone_slab, 2,
-				BlockStoneSlab.EnumType.STONE.getMetadata());
+		ItemStack stoneSlabSlab =
+				new ItemStack(Blocks.stone_slab, 2, BlockStoneSlab.EnumType.STONE.getMetadata());
 		GameRegistry.addShapedRecipe(stoneSlabSlab, "x", "x", 'x', stoneSlab);
 	}
-
 }

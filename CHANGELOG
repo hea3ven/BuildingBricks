@@ -1,4 +1,5 @@
     * Fix crash when a grass slab is destroyed by an explosion.
+    * Fix the grass slab item having the wrong name.
 
 1.1.1:
     * Fix startup crash on windows.
