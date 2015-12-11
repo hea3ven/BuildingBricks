@@ -28,7 +28,7 @@ repositories {
     }
 }
 
-version = "1.8.8-1.1.1"
+version = "1.8.8-1.1.2"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "BuildingBricks"
 
