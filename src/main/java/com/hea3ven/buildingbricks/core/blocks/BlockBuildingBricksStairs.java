@@ -45,7 +45,8 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 			return !block.isSideSolid(world, pos, side);
 		}
 
-		if (isSideSolid(world, pos, side))
+		if (isSideSolid(world, pos, side.getOpposite()) &&
+				isSideSolid(world, pos.offset(side.getOpposite()), side))
 			return false;
 
 		BlockPos ownPos = pos.offset(side.getOpposite());

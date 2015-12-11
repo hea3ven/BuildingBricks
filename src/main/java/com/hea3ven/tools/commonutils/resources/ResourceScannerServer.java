@@ -2,6 +2,7 @@ package com.hea3ven.tools.commonutils.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -30,11 +31,14 @@ public class ResourceScannerServer extends ResourceScanner {
 		for (final URL element : Launch.classLoader.getSources()) {
 			if (!element.getProtocol().equals("file"))
 				continue;
-			Path elemPath = Paths.get(element.getFile());
-			if (Files.isDirectory(elemPath)) {
-				resources.addAll(scanDirectory(elemPath, modid, name));
-			} else {
-				resources.addAll(scanZip(elemPath, modid, name));
+			try {
+				Path elemPath = Paths.get(element.toURI());
+				if (Files.isDirectory(elemPath)) {
+					resources.addAll(scanDirectory(elemPath, modid, name));
+				} else {
+					resources.addAll(scanZip(elemPath, modid, name));
+				}
+			} catch (URISyntaxException e) {
 			}
 		}
 		return Iterables.concat(new ResourceIterable(resources));

@@ -11,7 +11,7 @@ import com.hea3ven.buildingbricks.core.materials.MaterialStack;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack.ItemMaterial;
 import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 
-public class ItemColoredWrapper extends ItemColored implements ItemMaterial{
+public class ItemColoredWrapper extends ItemColored implements ItemMaterial {
 
 	public ItemColoredWrapper(Block block) {
 		super(block, false);
