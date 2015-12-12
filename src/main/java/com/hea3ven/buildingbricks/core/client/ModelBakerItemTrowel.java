@@ -1,10 +1,8 @@
 package com.hea3ven.buildingbricks.core.client;
 
 import javax.vecmath.Vector3f;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -27,6 +25,7 @@ import com.hea3ven.buildingbricks.core.client.model.ModelTrowel;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.tools.commonutils.client.ModelBakerBase;
 
 @SideOnly(Side.CLIENT)
 public class ModelBakerItemTrowel extends ModelBakerBase {

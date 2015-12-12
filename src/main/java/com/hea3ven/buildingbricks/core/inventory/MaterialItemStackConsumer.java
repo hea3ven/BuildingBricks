@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import com.hea3ven.buildingbricks.core.materials.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
-import com.hea3ven.buildingbricks.core.utils.ItemStackUtils;
+import com.hea3ven.tools.commonutils.util.ItemStackUtil;
 
 public class MaterialItemStackConsumer {
 
@@ -79,7 +79,7 @@ public class MaterialItemStackConsumer {
 			}
 		}
 		if (newStack != null) {
-			ItemStackUtils.dropFromBlock(world, pos, newStack);
+			ItemStackUtil.dropFromBlock(world, pos, newStack);
 		}
 	}
 

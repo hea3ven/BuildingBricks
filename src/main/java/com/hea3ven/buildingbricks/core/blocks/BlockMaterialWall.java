@@ -28,7 +28,7 @@ import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
-import com.hea3ven.buildingbricks.core.utils.ItemStackUtils;
+import com.hea3ven.tools.commonutils.util.ItemStackUtil;
 
 public class BlockMaterialWall extends BlockBuildingBricksWall implements BlockMaterial {
 
@@ -81,7 +81,7 @@ public class BlockMaterialWall extends BlockBuildingBricksWall implements BlockM
 		ItemStack stack = TileMaterial.getHarvestBlock(world, pos, player);
 		boolean removed = super.removedByPlayer(world, pos, player, willHarvest);
 		if (removed && !world.isRemote && !player.capabilities.isCreativeMode)
-			ItemStackUtils.dropFromBlock(world, pos, stack);
+			ItemStackUtil.dropFromBlock(world, pos, stack);
 		return removed;
 	}
 

@@ -11,7 +11,7 @@ import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.world.World;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricksNonSolid;
-import com.hea3ven.buildingbricks.core.blocks.blockstate.BlockStateUtil;
+import com.hea3ven.tools.commonutils.util.BlockStateUtil;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;

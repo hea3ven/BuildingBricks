@@ -26,7 +26,7 @@ public class BlockProperties {
 			CONNECT_NORTH, CONNECT_SOUTH, CONNECT_WEST, CONNECT_EAST};
 
 	public static EnumFacing getFacing(IBlockState state) {
-		return (EnumFacing) state.getValue(FACING);
+		return state.getValue(FACING);
 	}
 
 	public static IBlockState setFacing(IBlockState state, EnumFacing facing) {
@@ -66,7 +66,7 @@ public class BlockProperties {
 	}
 
 	public static boolean getConnectionNorth(IBlockState state) {
-		return (Boolean) state.getValue(CONNECT_NORTH);
+		return state.getValue(CONNECT_NORTH);
 	}
 
 	public static IBlockState setConnectionNorth(IBlockState state, Boolean connected) {
@@ -82,7 +82,7 @@ public class BlockProperties {
 	}
 
 	public static boolean getConnectionSouth(IBlockState state) {
-		return (Boolean) state.getValue(CONNECT_SOUTH);
+		return state.getValue(CONNECT_SOUTH);
 	}
 
 	public static IBlockState setConnectionSouth(IBlockState state, Boolean connected) {
@@ -90,7 +90,7 @@ public class BlockProperties {
 	}
 
 	public static boolean getConnectionWest(IBlockState state) {
-		return (Boolean) state.getValue(CONNECT_WEST);
+		return state.getValue(CONNECT_WEST);
 	}
 
 	public static IBlockState setConnectionWest(IBlockState state, Boolean connected) {

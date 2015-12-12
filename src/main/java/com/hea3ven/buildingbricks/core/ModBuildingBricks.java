@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -26,12 +27,18 @@ import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
+import com.hea3ven.tools.bootstrap.Bootstrap;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
 
 @Mod(modid = Properties.MODID, name = "Building Bricks", version = Properties.VERSION,
 		dependencies = Properties.DEPENDENCIES,
 		guiFactory = "com.hea3ven.buildingbricks.core.config.BuildingBricksConfigGuiFactory")
 public class ModBuildingBricks {
+
+	static {
+		Bootstrap.require(Properties.MODID, "1.0.x");
+		Bootstrap.initLib(Properties.MODID, "h3nt-commonutils", "1.0.2", "1.0.x");
+	}
 
 	public static final Logger logger = LogManager.getLogger("BuildingBricks");
 

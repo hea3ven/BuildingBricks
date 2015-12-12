@@ -22,6 +22,7 @@ apply plugin: 'com.matthewprenger.cursegradle'
 import groovy.io.FileType
 
 repositories {
+    mavenLocal()
     maven {
         name = "chickenbones"
         url = "http://chickenbones.net/maven/"
@@ -58,31 +59,43 @@ curseforge {
 }
 
 configurations {
+    release
     runmods
 }
 
 dependencies {
-    runmods "codechicken:CodeChickenCore:1.8-1.0.5.34:dev"
-    runmods "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
+    compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:1.0.2'
+    release('com.hea3ven.tools.commonutils:h3nt-commonutils:1.0.2') {
+        transitive = false
+    }
 
     testCompile "junit:junit:4.12"
 }
 
-processResources
-        {
-            inputs.property "version", project.version
-            inputs.property "mcversion", project.minecraft.version
-            inputs.property "forgeversion", project.minecraft.forgeVersion
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+    inputs.property "forgeversion", project.minecraft.forgeVersion
 
-            from(sourceSets.main.resources.srcDirs) {
-                include 'mcmod.info'
-                expand 'version': project.version, 'mcversion': project.minecraft.version, 'forgeversion': project.minecraft.forgeVersion
-            }
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version, 'mcversion': project.minecraft.version, 'forgeversion': project.minecraft.forgeVersion
+    }
 
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
-            }
-        }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+sourceSets.main.java {
+    srcDirs += 'src/bootstrap/java'
+}
+
+jar {
+    into ('libs') {
+        from configurations.release
+    }
+}
 
 task copyRunMods(type: Copy) {
     from configurations.runmods.files

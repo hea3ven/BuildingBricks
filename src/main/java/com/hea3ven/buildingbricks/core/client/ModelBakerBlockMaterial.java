@@ -26,10 +26,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.client.model.ModelItemMaterialBlock;
-import com.hea3ven.buildingbricks.core.client.model.SmartModelCached;
+import com.hea3ven.tools.commonutils.client.model.SmartModelCached;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.rendering.*;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
+import com.hea3ven.tools.commonutils.client.ModelBakerBase;
 
 @SideOnly(Side.CLIENT)
 public class ModelBakerBlockMaterial extends ModelBakerBase {
