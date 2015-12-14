@@ -2,11 +2,14 @@ package com.hea3ven.buildingbricks.core;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.hea3ven.buildingbricks.core.client.ModelBakerBlockMaterial;
@@ -23,6 +26,24 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 
 		ModelBakerBlockMaterial.init();
 		ModelBakerItemTrowel.init();
+
+		for (final Block block : MaterialBlockRegistry.instance.getAllBlocks()) {
+			ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(block), new ItemMeshDefinition() {
+				@Override
+				public ModelResourceLocation getModelLocation(ItemStack stack) {
+					return new ModelResourceLocation(Block.blockRegistry.getNameForObject(block),
+							"inventory");
+				}
+			});
+		}
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBuildingBricks.portableLadder), 0,
+				new ModelResourceLocation(Properties.MODID + ":portable_ladder", "inventory"));
+		ModelLoader.setCustomMeshDefinition(ModBuildingBricks.trowel, new ItemMeshDefinition() {
+			@Override
+			public ModelResourceLocation getModelLocation(ItemStack stack) {
+				return new ModelResourceLocation(Properties.MODID + ":trowel", "inventory");
+			}
+		});
 	}
 
 	@Override
@@ -32,21 +53,5 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 		MinecraftForge.EVENT_BUS.register(new EventHandlerTrowelOverlay());
 
 		TrowelKeyBindings.init();
-
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-		for (Block block : MaterialBlockRegistry.instance.getAllBlocks()) {
-			ModelResourceLocation location =
-					new ModelResourceLocation((ResourceLocation) Block.blockRegistry.getNameForObject(block),
-							"inventory");
-			for (int i = 0; i < 1000; i++) {
-				mesher.register(Item.getItemFromBlock(block), i, location);
-			}
-		}
-		mesher.register(Item.getItemFromBlock(ModBuildingBricks.portableLadder), 0,
-				new ModelResourceLocation(Properties.MODID + ":portable_ladder", "inventory"));
-		for (int i = 0; i < 1000; i++) {
-			mesher.register(ModBuildingBricks.trowel, i,
-					new ModelResourceLocation(Properties.MODID + ":trowel", "inventory"));
-		}
 	}
 }

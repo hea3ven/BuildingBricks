@@ -36,7 +36,7 @@ public class ModelTrowel implements ISmartItemModel, IPerspectiveAwareModel {
 
 	public ModelTrowel(IBakedModel baseModel, IBakedModel matModel) {
 		base = (IPerspectiveAwareModel) baseModel;
-		texture = baseModel.getTexture();
+		texture = baseModel.getParticleTexture();
 		for (EnumFacing side : EnumFacing.VALUES) {
 			List<BakedQuad> sideFaces = new ArrayList<>(baseModel.getFaceQuads(side));
 			if (matModel != null) {
@@ -75,7 +75,7 @@ public class ModelTrowel implements ISmartItemModel, IPerspectiveAwareModel {
 	}
 
 	@Override
-	public TextureAtlasSprite getTexture() {
+	public TextureAtlasSprite getParticleTexture() {
 		return texture;
 	}
 
