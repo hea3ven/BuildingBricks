@@ -37,9 +37,8 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 minecraft {
-    version = "1.8.8-11.14.4.1580-1.8.8"
+    version = "1.8.8-11.15.0.1623-1.8.8"
     runDir = "run"
-
     mappings = "snapshot_20151212"
 
     replace "PROJECTVERSION", project.version
@@ -92,6 +91,9 @@ sourceSets.main.java {
 }
 
 jar {
+    manifest {
+        attributes("H3NTBootstrap": "/assets/buildingbricks/bootstrap.json")
+    }
     into ('libs') {
         from configurations.release
     }

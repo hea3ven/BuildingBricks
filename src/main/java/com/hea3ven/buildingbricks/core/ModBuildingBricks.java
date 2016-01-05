@@ -36,8 +36,7 @@ import com.hea3ven.tools.commonutils.resources.ResourceScanner;
 public class ModBuildingBricks {
 
 	static {
-		Bootstrap.require(Properties.MODID, "1.0.x");
-		Bootstrap.initLib(Properties.MODID, "h3nt-commonutils", "1.0.2", "1.0.x");
+		Bootstrap.init();
 	}
 
 	public static final Logger logger = LogManager.getLogger("BuildingBricks");
