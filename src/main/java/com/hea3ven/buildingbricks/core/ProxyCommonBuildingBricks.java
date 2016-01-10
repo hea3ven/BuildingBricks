@@ -2,62 +2,103 @@ package com.hea3ven.buildingbricks.core;
 
 import java.util.Map.Entry;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.OreDictionary;
 
-import com.hea3ven.buildingbricks.core.gui.BuildingBricksGuiHandler;
-import com.hea3ven.buildingbricks.core.materials.BlockDescription;
-import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
-import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
+import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
+import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
+import com.hea3ven.buildingbricks.core.items.ItemTrowel;
+import com.hea3ven.buildingbricks.core.materials.*;
+import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
+import com.hea3ven.tools.commonutils.inventory.ISimpleGuiHandler;
+import com.hea3ven.tools.commonutils.mod.ProxyModBase;
 
-public class ProxyCommonBuildingBricks {
+public class ProxyCommonBuildingBricks extends ProxyModBase {
 
-	public void preInit() {
+	public ProxyCommonBuildingBricks() {
+		super(Properties.MODID);
+		ModBuildingBricks.trowel = new ItemTrowel();
+		ModBuildingBricks.portableLadder =
+				(BlockPortableLadder) new BlockPortableLadder().setUnlocalizedName("portableLadder");
 	}
 
-	public void init() {
-		NetworkRegistry.INSTANCE.registerGuiHandler(Properties.MODID, new BuildingBricksGuiHandler());
+	@Override
+	public void onInitEvent() {
+		MaterialBlockRegistry.instance.logStats();
+		MaterialRegistry.logStats();
+
+		super.onInitEvent();
 	}
 
-	public void postInit() {
-		addPortableLadderRecipe();
-
-		addTrowelRecipes();
-
-		addMaterialBlocksRecipes();
+	public <T extends Block> void addMaterialBlock(T block, Class<? extends ItemBlock> itemCls, String name) {
+		addBlock(block, name, itemCls);
 	}
 
-	private void addPortableLadderRecipe() {
-		GameRegistry.addRecipe(
-				new ShapedOreRecipe(new ItemStack(ModBuildingBricks.portableLadder), "x x", "xxx", "x x", 'x',
-						"ingotIron"));
+	@Override
+	protected void registerBlocks() {
+		addBlock(ModBuildingBricks.portableLadder, "portable_ladder",
+				BlockPortableLadder.ItemPortableLadder.class);
 	}
 
-	private void addTrowelRecipes() {
+	@Override
+	protected void registerTileEntities() {
+		addTileEntity(TileMaterial.class, "tile.material");
+	}
+
+	@Override
+	protected void registerItems() {
+		addItem(ModBuildingBricks.trowel, "trowel");
+	}
+
+	@Override
+	public void registerRecipes() {
+		addRecipe(ModBuildingBricks.portableLadder, "x x", "xxx", "x x", 'x', "ingotIron");
+		addRecipe(ModBuildingBricks.trowel, " is", "ii ", 's', "stickWood", 'i', "ingotIron");
+
 		ModBuildingBricks.logger.info("Registering trowel's recipes");
 		for (Material mat : MaterialRegistry.getAll()) {
 			for (BlockDescription blockDesc : mat.getBlockRotation().getAll().values()) {
-				ItemStack trowelStack = new ItemStack(ModBuildingBricks.trowel, 1);
-				ItemStack bindedTrowelStack = new ItemStack(ModBuildingBricks.trowel, 1,
-						MaterialIdMapping.get().getIdForMaterial(mat));
-				GameRegistry.addShapelessRecipe(bindedTrowelStack, trowelStack, blockDesc.getStack());
+				ItemStack trowelStack = ModBuildingBricks.trowel.createStack();
+				trowelStack.setItemDamage(OreDictionary.WILDCARD_VALUE);
+				ItemStack bindedTrowelStack = ModBuildingBricks.trowel.createStack(mat);
+				// TODO: prevent recipe from consuming the block
+				addRecipe(true, bindedTrowelStack, trowelStack, blockDesc.getStack());
 			}
 		}
-	}
 
-	private void addMaterialBlocksRecipes() {
 		ModBuildingBricks.logger.info("Registering materials recipes");
 		for (Material mat : MaterialRegistry.getAll()) {
 			for (Entry<MaterialBlockType, BlockDescription> entry : mat.getBlockRotation()
 					.getAll()
 					.entrySet()) {
-				entry.getKey().registerRecipes(mat);
+				for (IRecipe recipe : entry.getKey().registerRecipes(mat)) {
+					addRecipe(recipe);
+				}
 			}
 		}
+	}
+
+	@Override
+	public void registerGuis() {
+		addGui(GuiTrowel.ID, new ISimpleGuiHandler() {
+			@Override
+			public Container createContainer(EntityPlayer player, World world, BlockPos pos) {
+				return ModBuildingBricks.trowel.getContainer(player);
+			}
+
+			@Override
+			public Gui createGui(EntityPlayer player, World world, BlockPos pos) {
+				return new GuiTrowel(player, player.getCurrentEquippedItem());
+			}
+		});
 	}
 }

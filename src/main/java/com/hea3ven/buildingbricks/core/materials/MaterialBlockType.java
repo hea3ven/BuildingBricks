@@ -1,10 +1,13 @@
 package com.hea3ven.buildingbricks.core.materials;
 
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.item.crafting.IRecipe;
+
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public enum MaterialBlockType {
@@ -115,21 +118,23 @@ public enum MaterialBlockType {
 		}
 	}
 
-	public void registerRecipes(Material mat) {
+	public Set<IRecipe> registerRecipes(Material mat) {
+		Set<IRecipe> recipes = Sets.newHashSet();
 		for (MaterialRecipeBuilder recipeDesc : allwaysRecipes) {
 			Object[] recipe = recipeDesc.build(mat);
 			if (recipe != null) {
-				GameRegistry.addRecipe(new ShapedOreRecipe(recipeDesc.buildOutput(mat, this), recipe));
+				recipes.add(new ShapedOreRecipe(recipeDesc.buildOutput(mat, this), recipe));
 			}
 		}
 		if (MaterialBlockRegistry.instance.getAllBlocks().contains(mat.getBlock(this).getBlock())) {
 			for (MaterialRecipeBuilder recipeDesc : materialRecipes) {
 				Object[] recipe = recipeDesc.build(mat);
 				if (recipe != null) {
-					GameRegistry.addRecipe(new ShapedOreRecipe(recipeDesc.buildOutput(mat, this), recipe));
+					recipes.add(new ShapedOreRecipe(recipeDesc.buildOutput(mat, this), recipe));
 				}
 			}
 		}
+		return recipes;
 	}
 
 	public int getVolume() {

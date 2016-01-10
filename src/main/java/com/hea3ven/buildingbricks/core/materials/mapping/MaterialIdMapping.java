@@ -21,7 +21,7 @@ public class MaterialIdMapping {
 
 	static MaterialIdMapping instance;
 
-	private RegistryNamespaced registry = new RegistryNamespaced();
+	private RegistryNamespaced<String, Material> registry = new RegistryNamespaced<>();
 	private Map<Short, String> missingRegistry = Maps.newHashMap();
 	private Map<String, Short> notFoundMaterials = Maps.newHashMap();
 	private short nextId = 1;
@@ -34,7 +34,7 @@ public class MaterialIdMapping {
 	}
 
 	public Material getMaterialById(short matId) {
-		return (Material) registry.getObjectById(matId);
+		return registry.getObjectById(matId);
 	}
 
 	public short getIdForMaterial(Material mat) {
@@ -59,7 +59,7 @@ public class MaterialIdMapping {
 		nextId = nbt.getShort("nextId");
 
 		NBTTagCompound mappingNbt = nbt.getCompoundTag("mapping");
-		for (String name : (Set<String>) mappingNbt.getKeySet()) {
+		for (String name : mappingNbt.getKeySet()) {
 			Material mat = MaterialRegistry.get(name);
 			if (mat == null)
 				notFoundMaterials.put(name, mappingNbt.getShort(name));
@@ -68,7 +68,7 @@ public class MaterialIdMapping {
 		}
 
 		NBTTagCompound missingNbt = nbt.getCompoundTag("missing");
-		for (String name : (Set<String>) missingNbt.getKeySet()) {
+		for (String name : missingNbt.getKeySet()) {
 			missingRegistry.put(missingNbt.getShort(name), name);
 		}
 	}
@@ -77,7 +77,7 @@ public class MaterialIdMapping {
 		nbt.setShort("nextId", nextId);
 
 		NBTTagCompound mappingNbt = new NBTTagCompound();
-		for (Material mat : (Iterable<Material>) registry) {
+		for (Material mat : registry) {
 			mappingNbt.setShort(mat.getMaterialId(), (short) registry.getIDForObject(mat));
 		}
 		nbt.setTag("mapping", mappingNbt);
@@ -91,7 +91,7 @@ public class MaterialIdMapping {
 
 	public void validate() {
 		Set<Material> loadedMaterials = Sets.newHashSet(MaterialRegistry.getAll());
-		for (Material mat : (Iterable<Material>) registry) {
+		for (Material mat : registry) {
 			loadedMaterials.remove(mat);
 		}
 
@@ -99,7 +99,7 @@ public class MaterialIdMapping {
 			Material mat = MaterialRegistry.get(entry.getKey());
 			if (mat != null) {
 				loadedMaterials.remove(mat);
-				registry.register(entry.getValue(), entry.getValue(), mat);
+				registry.register(entry.getValue(), entry.getKey(), mat);
 			} else {
 				logger.warn("Missing material {} which had id {}", entry.getValue(), entry.getKey());
 				missingRegistry.put(entry.getValue(), entry.getKey());

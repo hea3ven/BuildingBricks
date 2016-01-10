@@ -33,7 +33,7 @@ public class ModelItemMaterialBlock extends DelegatedSmartModel implements ISmar
 	public ModelItemMaterialBlock() {
 		super(null);
 
-		models = new HashMap<String, ModelItemMaterialBlock>();
+		models = new HashMap<>();
 	}
 
 	public ModelItemMaterialBlock(IFlexibleBakedModel delegate) {

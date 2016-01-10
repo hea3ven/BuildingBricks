@@ -12,13 +12,14 @@ import com.hea3ven.buildingbricks.core.materials.MaterialStack;
 
 public class GuiTrowel extends GuiContainer {
 
+	public static final int ID = 0;
 	private static final ResourceLocation BG_RESOURCE =
 			new ResourceLocation("buildingbricks:textures/gui/container/trowel.png");
 
 	private EntityPlayer player;
 
 	public GuiTrowel(EntityPlayer player, ItemStack trowel) {
-		super(ModBuildingBricks.trowel.getContainer(player, trowel));
+		super(ModBuildingBricks.trowel.getContainer(player));
 
 		this.player = player;
 	}

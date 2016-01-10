@@ -13,8 +13,7 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
+import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.*;
 import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
@@ -96,7 +95,11 @@ public class MaterialBlockRegistry {
 
 		Class<? extends ItemBlock> itemCls =
 				!structMat.getColor() ? ItemMaterialBlock.class : ItemColoredWrapper.class;
-		GameRegistry.registerBlock(block, itemCls, structMat.getName() + "_" + blockType.getName());
+
+		// TODO: make block initialization better
+		ModBuildingBricks.proxy.addMaterialBlock(block, itemCls,
+				structMat.getName() + "_" + blockType.getName());
+
 		return block;
 	}
 

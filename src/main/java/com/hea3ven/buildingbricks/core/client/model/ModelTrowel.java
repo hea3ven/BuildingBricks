@@ -50,12 +50,12 @@ public class ModelTrowel implements ISmartItemModel, IPerspectiveAwareModel {
 	}
 
 	@Override
-	public List getFaceQuads(EnumFacing side) {
+	public List<BakedQuad> getFaceQuads(EnumFacing side) {
 		return faces.get(side);
 	}
 
 	@Override
-	public List getGeneralQuads() {
+	public List<BakedQuad> getGeneralQuads() {
 		return quads;
 	}
 

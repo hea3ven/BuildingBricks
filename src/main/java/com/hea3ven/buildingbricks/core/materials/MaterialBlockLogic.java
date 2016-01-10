@@ -70,7 +70,7 @@ public class MaterialBlockLogic {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 		if (!structMat.getColor())
 			return 16777215;
 		else
@@ -146,14 +146,14 @@ public class MaterialBlockLogic {
 		TileMaterial te = TileMaterial.getTile(world, pos);
 
 		particle.func_174846_a(pos).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F);
-		particle.setParticleIcon(ModelBakerBlockMaterial.instance.particleTextures.get(te.getMaterial()));
+		particle.setParticleIcon(ModelBakerBlockMaterial.particleTextures.get(te.getMaterial()));
 		return true;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
 		TileMaterial te = TileMaterial.getTile(world, pos);
-		TextureAtlasSprite texture = ModelBakerBlockMaterial.instance.particleTextures.get(te.getMaterial());
+		TextureAtlasSprite texture = ModelBakerBlockMaterial.particleTextures.get(te.getMaterial());
 
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {

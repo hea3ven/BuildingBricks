@@ -31,11 +31,11 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 	}
 
 	public static EnumFacing getFacing(IBlockState state) {
-		return (EnumFacing) state.getValue(FACING);
+		return state.getValue(FACING);
 	}
 
 	public static EnumShape getShape(IBlockState state) {
-		return (EnumShape) state.getValue(SHAPE);
+		return state.getValue(SHAPE);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 	}
 
 	public EnumHalf getHalf(IBlockState state) {
-		return (EnumHalf) state.getValue(HALF);
+		return state.getValue(HALF);
 	}
 
 	//region COMMON BLOCK CODE

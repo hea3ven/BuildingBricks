@@ -35,7 +35,7 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 		blockLogic.initBlock(this);
 	}
 
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		list.add(new ItemStack(itemIn));
 	}
 

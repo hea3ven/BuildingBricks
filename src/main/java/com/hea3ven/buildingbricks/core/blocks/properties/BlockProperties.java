@@ -34,7 +34,7 @@ public class BlockProperties {
 	}
 
 	public static EnumFacing getSide(IBlockState state) {
-		return (EnumFacing) state.getValue(SIDE);
+		return state.getValue(SIDE);
 	}
 
 	public static IBlockState setSide(IBlockState state, EnumFacing facing) {
@@ -42,7 +42,7 @@ public class BlockProperties {
 	}
 
 	public static Boolean getVertical(IBlockState state) {
-		return (Boolean) state.getValue(VERTICAL);
+		return state.getValue(VERTICAL);
 	}
 
 	public static IBlockState setVertical(IBlockState state, Boolean vert) {
@@ -74,7 +74,7 @@ public class BlockProperties {
 	}
 
 	public static boolean getConnectionEast(IBlockState state) {
-		return (Boolean) state.getValue(CONNECT_EAST);
+		return state.getValue(CONNECT_EAST);
 	}
 
 	public static IBlockState setConnectionEast(IBlockState state, Boolean connected) {

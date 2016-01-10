@@ -75,7 +75,7 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 	}
 
 	public static EnumBlockHalf getHalf(IBlockState state) {
-		return (EnumBlockHalf) state.getValue(HALF);
+		return state.getValue(HALF);
 	}
 
 	public static IBlockState setHalf(IBlockState state, EnumBlockHalf half) {

@@ -90,7 +90,7 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 	}
 
 	public static boolean getSnowy(IBlockState state) {
-		return (Boolean) state.getValue(BlockGrass.SNOWY);
+		return state.getValue(BlockGrass.SNOWY);
 	}
 
 	public static IBlockState setSnowy(IBlockState state, boolean snowy) {

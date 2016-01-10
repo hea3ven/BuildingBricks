@@ -38,7 +38,7 @@ public class RenderDefinitionWall extends RenderDefinitionConnectable {
 
 	@Override
 	public IModel getModel(IBlockState state, Material mat) {
-		if (!(Boolean) state.getValue(BlockWall.UP) && (BlockProperties.getConnectionNorth(state)
+		if (!state.getValue(BlockWall.UP) && (BlockProperties.getConnectionNorth(state)
 				&& BlockProperties.getConnectionSouth(state) && !BlockProperties.getConnectionEast(state)
 				&& !BlockProperties.getConnectionWest(state)) || (!BlockProperties.getConnectionNorth(state)
 				&& !BlockProperties.getConnectionSouth(state) && BlockProperties.getConnectionEast(state)

@@ -85,7 +85,7 @@ public class BlockMaterialFence extends BlockBuildingBricksFence implements Bloc
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		TileMaterial.getSubBlocks(this, itemIn, tab, list);
 	}
 

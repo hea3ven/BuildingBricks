@@ -127,7 +127,7 @@ public class TileMaterial extends TileEntity {
 		return stack;
 	}
 
-	public static void getSubBlocks(Block block, Item item, CreativeTabs tab, List list) {
+	public static void getSubBlocks(Block block, Item item, CreativeTabs tab, List<ItemStack> list) {
 		for (Material mat : MaterialBlockRegistry.instance.getBlockMaterials(block)) {
 			ItemStack stack = new ItemStack(item);
 			MaterialStack.set(stack, mat);

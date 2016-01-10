@@ -8,6 +8,7 @@ import com.google.common.collect.Table.Cell;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.IRegistry;
 import net.minecraft.util.ResourceLocation;
@@ -18,55 +19,45 @@ import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.client.model.ModelItemMaterialBlock;
-import com.hea3ven.tools.commonutils.client.model.SmartModelCached;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.rendering.*;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.tools.commonutils.client.ModelBakerBase;
+import com.hea3ven.tools.commonutils.client.model.SmartModelCached;
 
 @SideOnly(Side.CLIENT)
 public class ModelBakerBlockMaterial extends ModelBakerBase {
 
-	public static ModelBakerBlockMaterial instance;
-
-	public Map<Material, TextureAtlasSprite> particleTextures = Maps.newHashMap();
+	public static Map<Material, TextureAtlasSprite> particleTextures = Maps.newHashMap();
 
 	private Map<MaterialBlockType, RenderDefinition> renderDefinitions = Maps.newHashMap();
 
-	public static void init() {
-		instance = new ModelBakerBlockMaterial();
+	public ModelBakerBlockMaterial() {
+		super();
 
-		initBlockTypeRendering();
-		MinecraftForge.EVENT_BUS.register(instance);
-	}
-
-	private static void initBlockTypeRendering() {
-		instance.renderDefinitions.put(MaterialBlockType.FULL,
+		renderDefinitions.put(MaterialBlockType.FULL,
 				new RenderDefinitionSimple("minecraft:block/cube_bottom_top"));
-		instance.renderDefinitions.put(MaterialBlockType.STAIRS, new RenderDefinitionStairs());
-		instance.renderDefinitions.put(MaterialBlockType.SLAB, new RenderDefinitionSlab());
-		instance.renderDefinitions.put(MaterialBlockType.VERTICAL_SLAB, new RenderDefinitionSlab(true));
-		instance.renderDefinitions.put(MaterialBlockType.STEP, new RenderDefinitionStep());
-		instance.renderDefinitions.put(MaterialBlockType.CORNER,
+		renderDefinitions.put(MaterialBlockType.STAIRS, new RenderDefinitionStairs());
+		renderDefinitions.put(MaterialBlockType.SLAB, new RenderDefinitionSlab());
+		renderDefinitions.put(MaterialBlockType.VERTICAL_SLAB, new RenderDefinitionSlab(true));
+		renderDefinitions.put(MaterialBlockType.STEP, new RenderDefinitionStep());
+		renderDefinitions.put(MaterialBlockType.CORNER,
 				new RenderDefinitionRotHalf("buildingbricks:block/corner_bottom"));
-		instance.renderDefinitions.put(MaterialBlockType.WALL,
-				new RenderDefinitionWall("minecraft:block/wall_post",
-						"buildingbricks:block/wall_connection"));
-		instance.renderDefinitions.put(MaterialBlockType.FENCE,
+		renderDefinitions.put(MaterialBlockType.WALL, new RenderDefinitionWall("minecraft:block/wall_post",
+				"buildingbricks:block/wall_connection"));
+		renderDefinitions.put(MaterialBlockType.FENCE,
 				new RenderDefinitionConnectable("minecraft:block/fence_post",
 						"buildingbricks:block/fence_connection", "minecraft:block/fence_inventory"));
-		instance.renderDefinitions.put(MaterialBlockType.FENCE_GATE, new RenderDefinitionFenceGate());
+		renderDefinitions.put(MaterialBlockType.FENCE_GATE, new RenderDefinitionFenceGate());
 	}
 
-	@SubscribeEvent
+	@Override
 	public void onTextureStichPreEvent(TextureStitchEvent.Pre event) {
 		for (Material mat : MaterialRegistry.getAll()) {
 			particleTextures.put(mat,
@@ -74,7 +65,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 		}
 	}
 
-	@SubscribeEvent
+	@Override
 	public void onModelBakeEvent(ModelBakeEvent event) {
 		for (Cell<MaterialBlockType, StructureMaterial, Block> cell : MaterialBlockRegistry.instance.getBlocks()
 				.cellSet()) {
@@ -85,14 +76,14 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 		}
 	}
 
-	private void bakeBlockModels(IRegistry modelRegistry, MaterialBlockType blockType,
-			StructureMaterial structMat, Block block, ModelItemMaterialBlock materialItemModel,
-			SmartModelCached cacheModel) {
+	private void bakeBlockModels(IRegistry<ModelResourceLocation, IBakedModel> modelRegistry,
+			MaterialBlockType blockType, StructureMaterial structMat, Block block,
+			ModelItemMaterialBlock materialItemModel, SmartModelCached cacheModel) {
 		RenderDefinition renderDefinition = renderDefinitions.get(blockType);
 		if (renderDefinition == null)
 			return;
 
-		ResourceLocation blockName = (ResourceLocation) GameData.getBlockRegistry().getNameForObject(block);
+		ResourceLocation blockName = GameData.getBlockRegistry().getNameForObject(block);
 
 		// Register models in the registry
 		modelRegistry.putObject(new ModelResourceLocation(blockName + "#inventory"), materialItemModel);

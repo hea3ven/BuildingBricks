@@ -15,8 +15,6 @@ import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.TRSRTransformation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -32,17 +30,8 @@ public class ModelBakerItemTrowel extends ModelBakerBase {
 
 	public static ModelBakerItemTrowel instance;
 
-	public static void init() {
-		instance = new ModelBakerItemTrowel();
-		MinecraftForge.EVENT_BUS.register(instance);
-	}
-
-	@SubscribeEvent
+	@Override
 	public void onModelBakeEvent(ModelBakeEvent event) {
-		bakeItemTrowelModels(event);
-	}
-
-	private void bakeItemTrowelModels(ModelBakeEvent event) {
 		ResourceLocation trowelModelLoc = new ResourceLocation("buildingbricks:item/trowel");
 		for (Material material : MaterialRegistry.getAll()) {
 

@@ -87,7 +87,7 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		TileMaterial.getSubBlocks(this, itemIn, tab, list);
 	}
 

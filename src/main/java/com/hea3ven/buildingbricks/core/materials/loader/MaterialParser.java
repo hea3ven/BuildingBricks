@@ -8,7 +8,6 @@ import java.util.Map;
 import com.google.common.base.Charsets;
 import com.google.gson.*;
 
-import net.minecraft.block.Block;
 import net.minecraft.util.JsonUtils;
 
 import com.hea3ven.buildingbricks.core.materials.*;

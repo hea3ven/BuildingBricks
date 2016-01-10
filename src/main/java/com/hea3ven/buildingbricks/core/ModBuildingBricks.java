@@ -3,9 +3,6 @@ package com.hea3ven.buildingbricks.core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.item.ItemStack;
-
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -14,19 +11,14 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockRegistry;
-import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
-import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.tools.bootstrap.Bootstrap;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
 
@@ -43,7 +35,7 @@ public class ModBuildingBricks {
 
 	@SidedProxy(serverSide = "com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks",
 			clientSide = "com.hea3ven.buildingbricks.core.ProxyClientBuildingBricks")
-	private static ProxyCommonBuildingBricks proxy;
+	public static ProxyCommonBuildingBricks proxy;
 
 	@SidedProxy(serverSide = "com.hea3ven.tools.commonutils.resources.ResourceScannerServer",
 			clientSide = "com.hea3ven.tools.commonutils.resources.ResourceScannerClient")
@@ -63,39 +55,21 @@ public class ModBuildingBricks {
 		netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class,
 				TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);
 
-		GameRegistry.registerTileEntity(TileMaterial.class, "tile.material");
-
-		trowel = new ItemTrowel();
-		GameRegistry.registerItem(trowel, "trowel");
-
-		portableLadder = new BlockPortableLadder();
-		GameRegistry.registerBlock(portableLadder, BlockPortableLadder.ItemPortableLadder.class,
-				"portable_ladder").setUnlocalizedName("portableLadder");
-
 		logger.info("Registering materials from resources");
 		MaterialResourceLoader.loadResources(resScanner, Properties.MODID);
 
-		proxy.preInit();
+		proxy.onPreInitEvent();
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		MaterialBlockRegistry.instance.logStats();
-
-		MaterialRegistry.logStats();
-
 		IdMappingLoader.save();
 
-		proxy.init();
+		proxy.onInitEvent();
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		GameRegistry.addRecipe(
-				new ShapedOreRecipe(new ItemStack(trowel), " is", "ii ", 's', "stickWood", 'i', "ingotIron"));
-
-		MinecraftForge.EVENT_BUS.register(new IdMappingLoader());
-
-		proxy.postInit();
+		proxy.onPostInitEvent();
 	}
 }
