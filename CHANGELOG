@@ -1,3 +1,5 @@
+    * Add: blocks now combine with themselves if possible when being placed (i.e. placing a step next to another one will convert into a slab), fixes #11.
+
 1.1.2:
     * Fix crash when a grass slab is destroyed by an explosion.
     * Fix the grass slab item having the wrong name.

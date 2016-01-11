@@ -29,6 +29,7 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.tools.commonutils.util.ItemStackUtil;
+import com.hea3ven.tools.commonutils.util.WorldHelper;
 
 public class BlockMaterialFence extends BlockBuildingBricksFence implements BlockMaterial {
 	public BlockMaterialFence(StructureMaterial structMat) {
@@ -50,6 +51,11 @@ public class BlockMaterialFence extends BlockBuildingBricksFence implements Bloc
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileMaterial();
+	}
+
+	@Override
+	public TileMaterial getTile(IBlockAccess world, BlockPos pos) {
+		return WorldHelper.getTile(world, pos);
 	}
 
 	@Override

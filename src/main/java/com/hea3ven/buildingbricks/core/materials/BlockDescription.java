@@ -1,7 +1,7 @@
 package com.hea3ven.buildingbricks.core.materials;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 
@@ -50,8 +50,8 @@ public class BlockDescription {
 		this(type, blockName, 0);
 	}
 
-	public Item getItem() {
-		return getStack().getItem();
+	public ItemBlock getItem() {
+		return (ItemBlock) getStack().getItem();
 	}
 
 	public ItemStack getStack() {

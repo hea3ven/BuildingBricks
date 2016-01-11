@@ -30,7 +30,7 @@ public class BlockPlacingUtil {
 		return EnumRotation.getRotation((getRotationIndex(facing) + offset) % 4);
 	}
 
-	private static float getFaceX(EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public static float getFaceX(EnumFacing facing, float hitX, float hitY, float hitZ) {
 		switch (facing.getAxis()) {
 		default:
 		case X:
@@ -54,7 +54,7 @@ public class BlockPlacingUtil {
 		}
 	}
 
-	private static float getFaceY(EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public static float getFaceY(EnumFacing facing, float hitX, float hitY, float hitZ) {
 		switch (facing.getAxis()) {
 		default:
 		case X:

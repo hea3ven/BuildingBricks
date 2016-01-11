@@ -14,8 +14,8 @@ public class BlockProperties {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
 	public static final PropertyDirection SIDE = PropertyDirection.create("side",
 			EnumFacing.Plane.HORIZONTAL);
-	public static final PropertyEnum HALF = PropertyEnum.create("half", EnumBlockHalf.class);
-	public static final PropertyEnum ROTATION = PropertyEnum.create("rotation", EnumRotation.class);
+	public static final PropertyEnum<EnumBlockHalf> HALF = PropertyEnum.create("half", EnumBlockHalf.class);
+	public static final PropertyEnum<EnumRotation> ROTATION = PropertyEnum.create("rotation", EnumRotation.class);
 	public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
 	public static final PropertyBool CONNECT_NORTH = PropertyBool.create("north");
 	public static final PropertyBool CONNECT_EAST = PropertyBool.create("east");
@@ -50,7 +50,7 @@ public class BlockProperties {
 	}
 
 	public static EnumBlockHalf getHalf(IBlockState state) {
-		return (EnumBlockHalf) state.getValue(HALF);
+		return state.getValue(HALF);
 	}
 
 	public static IBlockState setHalf(IBlockState state, EnumBlockHalf half) {
@@ -58,7 +58,7 @@ public class BlockProperties {
 	}
 
 	public static EnumRotation getRotation(IBlockState state) {
-		return (EnumRotation) state.getValue(ROTATION);
+		return state.getValue(ROTATION);
 	}
 
 	public static IBlockState setRotation(IBlockState state, EnumRotation rotation) {

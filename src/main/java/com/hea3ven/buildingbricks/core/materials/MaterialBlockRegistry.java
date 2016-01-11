@@ -15,7 +15,6 @@ import net.minecraft.item.ItemBlock;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.*;
-import com.hea3ven.buildingbricks.core.items.ItemColoredWrapper;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
@@ -93,8 +92,7 @@ public class MaterialBlockRegistry {
 		if (!blocksMaterials.containsKey(block))
 			blocksMaterials.put(block, new HashSet<Material>());
 
-		Class<? extends ItemBlock> itemCls =
-				!structMat.getColor() ? ItemMaterialBlock.class : ItemColoredWrapper.class;
+		Class<? extends ItemBlock> itemCls = ItemMaterialBlock.class;
 
 		// TODO: make block initialization better
 		ModBuildingBricks.proxy.addMaterialBlock(block, itemCls,
