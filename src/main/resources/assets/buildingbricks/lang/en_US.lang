@@ -7,6 +7,8 @@ itemGroup.buildingBricks=Building Bricks
 item.trowel.name=Trowel
 item.trowelBinded.name=Trowel (%s)
 
+tile.portableLadder.name=Portable Ladder
+
 key.categories.trowel=Trowel
 key.trowelNext=Next Block Type
 key.trowelPrev=Previous Block Type
