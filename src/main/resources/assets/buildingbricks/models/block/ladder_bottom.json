@@ -1,6 +1,7 @@
 {
 	"textures": {
-		"all": "minecraft:blocks/iron_block"
+		"all": "minecraft:blocks/iron_block",
+		"particle": "minecraft:blocks/iron_block"
 	},
 	"elements": [
 		{
