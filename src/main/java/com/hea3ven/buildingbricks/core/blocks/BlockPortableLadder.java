@@ -3,7 +3,6 @@ package com.hea3ven.buildingbricks.core.blocks;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
-import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -27,7 +26,6 @@ public class BlockPortableLadder extends Block {
 	public BlockPortableLadder() {
 		super(Material.iron);
 		setHardness(0.05f);
-		setCreativeTab(CreativeTabBuildingBricks.get());
 
 		IBlockState state = blockState.getBaseState();
 		state = BlockProperties.setSide(state, EnumFacing.NORTH);

@@ -16,7 +16,6 @@ import net.minecraft.item.ItemBlock;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.*;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
-import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 
 public class MaterialBlockRegistry {
@@ -86,7 +85,6 @@ public class MaterialBlockRegistry {
 		}
 
 		block.setUnlocalizedName(structMat.getName() + "_" + blockType.getName());
-		block.setCreativeTab(CreativeTabBuildingBricks.get());
 
 		blocks.put(blockType, structMat, block);
 		if (!blocksMaterials.containsKey(block))

@@ -1,11 +1,13 @@
 package com.hea3ven.buildingbricks.core;
 
 import java.util.Map.Entry;
+import java.util.function.Supplier;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -26,6 +28,7 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 
 	public ProxyCommonBuildingBricks() {
 		super(Properties.MODID);
+
 		ModBuildingBricks.trowel = new ItemTrowel();
 		ModBuildingBricks.portableLadder =
 				(BlockPortableLadder) new BlockPortableLadder().setUnlocalizedName("portableLadder");
@@ -57,6 +60,21 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 	@Override
 	protected void registerItems() {
 		addItem(ModBuildingBricks.trowel, "trowel");
+	}
+
+	@Override
+	protected void registerCreativeTabs() {
+		addCreativeTab("buildingBricks", new Supplier<Item>() {
+					@Override
+					public Item get() {
+						return ModBuildingBricks.trowel;
+					}
+				});
+		ModBuildingBricks.trowel.setCreativeTab(getCreativeTab("buildingBricks"));
+		ModBuildingBricks.portableLadder.setCreativeTab(getCreativeTab("buildingBricks"));
+		for (Block block : MaterialBlockRegistry.instance.getAllBlocks()) {
+			block.setCreativeTab(getCreativeTab("buildingBricks"));
+		}
 	}
 
 	@Override

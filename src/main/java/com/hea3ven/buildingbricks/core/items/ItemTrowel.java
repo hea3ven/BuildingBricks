@@ -20,7 +20,6 @@ import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
 import com.hea3ven.buildingbricks.core.inventory.MaterialItemStackConsumer;
 import com.hea3ven.buildingbricks.core.inventory.SlotTrowelBlockType;
 import com.hea3ven.buildingbricks.core.inventory.SlotTrowelMaterial;
-import com.hea3ven.buildingbricks.core.items.creativetab.CreativeTabBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
@@ -32,7 +31,6 @@ import com.hea3ven.tools.commonutils.inventory.GenericContainer.SlotType;
 public class ItemTrowel extends Item implements ItemMaterial {
 
 	public ItemTrowel() {
-		setCreativeTab(CreativeTabBuildingBricks.get());
 		setUnlocalizedName("trowel");
 	}
 
