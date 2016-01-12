@@ -14,12 +14,14 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.*;
+import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.tools.commonutils.inventory.ISimpleGuiHandler;
 import com.hea3ven.tools.commonutils.mod.ProxyModBase;
@@ -65,11 +67,11 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 	@Override
 	protected void registerCreativeTabs() {
 		addCreativeTab("buildingBricks", new Supplier<Item>() {
-					@Override
-					public Item get() {
-						return ModBuildingBricks.trowel;
-					}
-				});
+			@Override
+			public Item get() {
+				return ModBuildingBricks.trowel;
+			}
+		});
 		ModBuildingBricks.trowel.setCreativeTab(getCreativeTab("buildingBricks"));
 		ModBuildingBricks.portableLadder.setCreativeTab(getCreativeTab("buildingBricks"));
 		for (Block block : MaterialBlockRegistry.instance.getAllBlocks()) {
@@ -118,5 +120,11 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 				return new GuiTrowel(player, player.getCurrentEquippedItem());
 			}
 		});
+	}
+
+	@Override
+	protected void registerNetworkPackets() {
+		addNetworkPacket(TrowelRotateBlockTypeMessage.Handler.class, TrowelRotateBlockTypeMessage.class, 0,
+				Side.SERVER);
 	}
 }

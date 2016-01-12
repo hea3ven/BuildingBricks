@@ -14,7 +14,7 @@ import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 public class TrowelRotateBlockTypeMessage implements IMessage {
 
 	public static void send(boolean forward) {
-		ModBuildingBricks.netChannel.sendToServer(new TrowelRotateBlockTypeMessage(forward));
+		ModBuildingBricks.proxy.getNetChannel().sendToServer(new TrowelRotateBlockTypeMessage(forward));
 	}
 
 	public static class Handler implements IMessageHandler<TrowelRotateBlockTypeMessage, IMessage> {
@@ -52,5 +52,4 @@ public class TrowelRotateBlockTypeMessage implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		buf.writeBoolean(forward);
 	}
-
 }

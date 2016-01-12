@@ -9,16 +9,12 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
-import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.tools.bootstrap.Bootstrap;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
 
@@ -41,8 +37,6 @@ public class ModBuildingBricks {
 			clientSide = "com.hea3ven.tools.commonutils.resources.ResourceScannerClient")
 	private static ResourceScanner resScanner;
 
-	public static SimpleNetworkWrapper netChannel;
-
 	public static ItemTrowel trowel;
 	public static BlockPortableLadder portableLadder;
 
@@ -50,10 +44,6 @@ public class ModBuildingBricks {
 	public void preInit(FMLPreInitializationEvent event) {
 		logger.info("Initializing config");
 		Config.init(event.getModConfigurationDirectory());
-
-		netChannel = NetworkRegistry.INSTANCE.newSimpleChannel(Properties.MODID);
-		netChannel.registerMessage(TrowelRotateBlockTypeMessage.Handler.class,
-				TrowelRotateBlockTypeMessage.class, 0, Side.SERVER);
 
 		logger.info("Registering materials from resources");
 		MaterialResourceLoader.loadResources(resScanner, Properties.MODID);
