@@ -13,7 +13,7 @@ key.categories.trowel=Trowel
 key.trowelNext=Next Block Type
 key.trowelPrev=Previous Block Type
 
-blockType.full=%s
+blockType.block=%s
 blockType.stairs=%s Stairs
 blockType.slab=%s Slab
 blockType.verticalSlab=%s Vertical Slab
@@ -23,12 +23,12 @@ blockType.wall=%s Wall
 blockType.fence=%s Fence
 blockType.fenceGate=%s Fence Gate
 
-material.stone_slab=Double Stone
-material.coal_block=Coal
-material.iron_block=Iron
-material.gold_block=Gold
-material.diamond_block=Diamond
-material.emerald_block=Emerald
-material.lapis_block=Lapis Lazuli
+material.buildingbrickscompatvanilla.stone_slab=Double Stone
+material.buildingbrickscompatvanilla.coal_block=Coal
+material.buildingbrickscompatvanilla.iron_block=Iron
+material.buildingbrickscompatvanilla.gold_block=Gold
+material.buildingbrickscompatvanilla.diamond_block=Diamond
+material.buildingbrickscompatvanilla.emerald_block=Emerald
+material.buildingbrickscompatvanilla.lapis_block=Lapis Lazuli
 
 tile.stoneSlab.stone.name=Double Stone Slab

@@ -193,7 +193,6 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 
 	private boolean tryCombineSteps(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
 			IBlockState state, EnumFacing side, float hitX, float hitY, float hitZ) {
-		Minecraft.getMinecraft().setIngameNotInFocus();
 		boolean vertical = state.getValue(BlockProperties.VERTICAL);
 		EnumFacing blockSide = state.getValue(BlockProperties.ROTATION).getSide();
 		if (!vertical) {
@@ -247,7 +246,6 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 
 	private boolean tryCombineCorner(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
 			IBlockState state, EnumFacing side, float hitX, float hitY, float hitZ) {
-		Minecraft.getMinecraft().setIngameNotInFocus();
 		EnumFacing blockSide = state.getValue(BlockProperties.ROTATION).getSide();
 		com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf blockHalf =
 				state.getValue(BlockProperties.HALF);

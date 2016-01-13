@@ -122,5 +122,6 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 
 		IModel defaultBlockModel = ModelLoaderRegistry.getMissingModel();
 		cacheModel.setDelegate(bake(defaultBlockModel, defaultBlockModel.getDefaultState()));
+
 	}
 }

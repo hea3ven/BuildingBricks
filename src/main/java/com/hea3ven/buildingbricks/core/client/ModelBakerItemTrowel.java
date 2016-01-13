@@ -51,7 +51,7 @@ public class ModelBakerItemTrowel extends ModelBakerBase {
 					variantNames.size() > 1 ? variantNames.get(stack.getMetadata()) : variantNames.get(0));
 			ResourceLocation model =
 					new ResourceLocation(itemName.getResourceDomain(), "item/" + itemName.getResourcePath());
-			IModel itemModel = getModel(model);
+			IModel itemModel = getModel(model, new ResourceLocation("minecraft", "block/cube_bottom_top"));
 			itemModel = retexture(material.getTextures(), itemModel);
 			Vector3f translation = new Vector3f(0.3f, 0.0625f, 0.125f);
 			Vector3f scale = new Vector3f(0.4f, 0.4f, 0.4f);

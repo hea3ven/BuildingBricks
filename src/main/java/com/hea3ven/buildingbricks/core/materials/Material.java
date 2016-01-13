@@ -118,7 +118,7 @@ public class Material {
 	}
 
 	public String getTranslationKey() {
-		return "material." + getMaterialId();
+		return "material." + getMaterialId().replace(':', '.');
 	}
 
 	public String getLocalizedName() {
