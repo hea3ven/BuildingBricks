@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.core;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 import com.hea3ven.buildingbricks.core.client.ModelBakerBlockMaterial;
 import com.hea3ven.buildingbricks.core.client.ModelBakerItemTrowel;
@@ -17,8 +18,8 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 	}
 
 	@Override
-	public void onInitEvent() {
-		super.onInitEvent();
+	public void onInitEvent(FMLInitializationEvent event) {
+		super.onInitEvent(event);
 
 		MinecraftForge.EVENT_BUS.register(new EventHandlerTrowelOverlay());
 

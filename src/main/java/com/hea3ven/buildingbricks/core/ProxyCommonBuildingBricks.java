@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core;
 
+import java.nio.file.Path;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
@@ -14,17 +15,26 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.config.Property.Type;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 
+import com.hea3ven.buildingbricks.compat.vanilla.GrassSlabWorldGen;
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.*;
+import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
+import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.tools.commonutils.inventory.ISimpleGuiHandler;
 import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.config.ConfigManager;
+import com.hea3ven.tools.commonutils.mod.config.ConfigManagerBuilder;
+import com.hea3ven.tools.commonutils.mod.config.DirectoryConfigManagerBuilder;
+import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder;
 
 public class ProxyCommonBuildingBricks extends ProxyModBase {
 
@@ -37,11 +47,11 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 	}
 
 	@Override
-	public void onInitEvent() {
+	public void onInitEvent(FMLInitializationEvent event) {
 		MaterialBlockRegistry.instance.logStats();
 		MaterialRegistry.logStats();
 
-		super.onInitEvent();
+		super.onInitEvent(event);
 	}
 
 	public <T extends Block> void addMaterialBlock(T block, Class<? extends ItemBlock> itemCls, String name) {
@@ -49,7 +59,28 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 	}
 
 	@Override
+	public void registerConfig() {
+		addConfigManager(new DirectoryConfigManagerBuilder().setDirName("BuildingBricks")
+				.addFile(new FileConfigManagerBuilder().setFileName("general.cfg")
+						.setDesc("Building Bricks Configuration")
+						.addCategory("world")
+						.addValue("generateGrassSlabs", "true", Type.BOOLEAN,
+								"Enable to generate grass slabs in the world to smooth out the surface",
+								GrassSlabWorldGen.get())
+						.endCategory())
+				.addFile(new ConfigManagerBuilder() {
+					@Override
+					public ConfigManager build(String modId, Path path) {
+						IdMappingLoader.init(path.resolve("material_ids.nbt"));
+						return null;
+					}
+				}));
+	}
+
+	@Override
 	protected void registerBlocks() {
+		MaterialResourceLoader.loadResources(ModBuildingBricks.resScanner, Properties.MODID);
+
 		addBlock(ModBuildingBricks.portableLadder, "portable_ladder",
 				BlockPortableLadder.ItemPortableLadder.class);
 	}

@@ -11,9 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
-import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
-import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.tools.bootstrap.Bootstrap;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
@@ -35,31 +33,25 @@ public class ModBuildingBricks {
 
 	@SidedProxy(serverSide = "com.hea3ven.tools.commonutils.resources.ResourceScannerServer",
 			clientSide = "com.hea3ven.tools.commonutils.resources.ResourceScannerClient")
-	private static ResourceScanner resScanner;
+	static ResourceScanner resScanner;
 
 	public static ItemTrowel trowel;
 	public static BlockPortableLadder portableLadder;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		logger.info("Initializing config");
-		Config.init(event.getModConfigurationDirectory());
-
-		logger.info("Registering materials from resources");
-		MaterialResourceLoader.loadResources(resScanner, Properties.MODID);
-
-		proxy.onPreInitEvent();
+		proxy.onPreInitEvent(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		IdMappingLoader.save();
 
-		proxy.onInitEvent();
+		proxy.onInitEvent(event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		proxy.onPostInitEvent();
+		proxy.onPostInitEvent(event);
 	}
 }

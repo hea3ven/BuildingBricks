@@ -29,7 +29,6 @@ import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.compat.vanilla.items.ItemBlockGrassSlab;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.Properties;
-import com.hea3ven.buildingbricks.core.config.Config;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
@@ -55,8 +54,6 @@ public class ModBuildingBricksCompatVanilla {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		grassSlab.setCreativeTab(ModBuildingBricks.proxy.getCreativeTab("buildingBricks"));
-		if (Config.generateGrassSlabs)
-			MinecraftForge.EVENT_BUS.register(new GrassSlabWorldGen());
 
 		((BlockGrassSlab) grassSlab).mat = MaterialRegistry.get("buildingbrickscompatvanilla:grass");
 

@@ -1,18 +1,38 @@
 package com.hea3ven.buildingbricks.compat.vanilla;
 
+import java.util.function.Consumer;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.chunk.IChunkProvider;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.tools.commonutils.util.BlockPosUtil;
 import com.hea3ven.tools.commonutils.util.ModifiableBlockPos;
 
-public class GrassSlabWorldGen {
+public class GrassSlabWorldGen implements Consumer<Property> {
+
+	private static GrassSlabWorldGen instance;
+
+	public static GrassSlabWorldGen get() {
+		if (instance == null)
+			instance = new GrassSlabWorldGen();
+		return instance;
+	}
+
+	@Override
+	public void accept(Property property) {
+		if (property.getBoolean())
+			MinecraftForge.EVENT_BUS.register(this);
+		else
+			MinecraftForge.EVENT_BUS.unregister(this);
+	}
 
 	@SubscribeEvent
 	public void onPopulateChunkPreEvent(PopulateChunkEvent.Pre event) {
