@@ -96,6 +96,6 @@ public class ModelTrowel implements ISmartItemModel, IPerspectiveAwareModel {
 
 	@Override
 	public Pair<IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-		return base.handlePerspective(cameraTransformType);
+		return Pair.of((IBakedModel)this, base.handlePerspective(cameraTransformType).getRight());
 	}
 }

@@ -1,6 +1,7 @@
     * Add: blocks now combine with themselves if possible when being placed (i.e. placing a step next to another one will convert into a slab), fixes #11.
     * Fix portable ladder not having localization.
     * Fix portable ladder not having a texture for the break particles.
+    * Fix the trowel not showing the binded block in the item model.
 
 1.1.2:
     * Fix crash when a grass slab is destroyed by an explosion.
