@@ -6,14 +6,20 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import com.google.common.base.Throwables;
+
+import org.apache.commons.io.IOUtils;
 
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class IdMappingLoader {
 	private static Path idMappingFile;
+	static byte[] checksum;
 
 	public static void init(Path idMappingFile) {
 		IdMappingLoader.idMappingFile = idMappingFile;
@@ -43,5 +49,19 @@ public class IdMappingLoader {
 		} catch (IOException e) {
 			Throwables.propagate(e);
 		}
+		try (InputStream stream = Files.newInputStream(idMappingFile)) {
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+			byte[] data = IOUtils.toByteArray(stream);
+			md5.update(data);
+			checksum = md5.digest();
+		} catch (IOException e) {
+			Throwables.propagate(e);
+		} catch (NoSuchAlgorithmException e) {
+			Throwables.propagate(e);
+		}
+	}
+
+	public static boolean isInvalid(byte[] checksum) {
+		return !Arrays.equals(IdMappingLoader.checksum, checksum);
 	}
 }

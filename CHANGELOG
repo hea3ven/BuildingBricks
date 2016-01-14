@@ -1,5 +1,6 @@
     * Add: blocks now combine with themselves if possible when being placed (i.e. placing a step next to another one will convert into a slab), fixes #11.
     * Add keybindings for the trowel to directly select block types (by default numpad 0 = full block, numpad 1 = stairs, numpad 2 = slab, etc.), fixes #24.
+    * Add a validation of the material id mapping of the clients when they connect to servers, fixes #28.
     * Fix portable ladder not having localization.
     * Fix portable ladder not having a texture for the break particles.
     * Fix the trowel not showing the binded block in the item model.

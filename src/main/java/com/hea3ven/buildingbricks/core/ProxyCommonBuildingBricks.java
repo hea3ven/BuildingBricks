@@ -17,6 +17,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,6 +32,8 @@ import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
+import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMappingChecker;
+import com.hea3ven.buildingbricks.core.network.MaterialIdMappingCheckMessage;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.tools.commonutils.inventory.ISimpleGuiHandler;
@@ -56,6 +59,8 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 		MaterialRegistry.logStats();
 
 		super.onInitEvent(event);
+
+		MinecraftForge.EVENT_BUS.register(new MaterialIdMappingChecker());
 	}
 
 	public <T extends Block> void addMaterialBlock(T block, Class<? extends ItemBlock> itemCls, String name) {
@@ -162,6 +167,8 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 	protected void registerNetworkPackets() {
 		addNetworkPacket(TrowelRotateBlockTypeMessage.Handler.class, TrowelRotateBlockTypeMessage.class, 0,
 				Side.SERVER);
+		addNetworkPacket(MaterialIdMappingCheckMessage.Handler.class, MaterialIdMappingCheckMessage.class, 1,
+				Side.CLIENT);
 	}
 
 	@Override
