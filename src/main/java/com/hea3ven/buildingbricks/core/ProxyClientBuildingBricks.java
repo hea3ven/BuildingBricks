@@ -5,7 +5,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 import com.hea3ven.buildingbricks.core.client.ModelBakerBlockMaterial;
 import com.hea3ven.buildingbricks.core.client.ModelBakerItemTrowel;
-import com.hea3ven.buildingbricks.core.client.settings.TrowelKeyBindings;
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 
 public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
@@ -22,7 +21,5 @@ public class ProxyClientBuildingBricks extends ProxyCommonBuildingBricks {
 		super.onInitEvent(event);
 
 		MinecraftForge.EVENT_BUS.register(new EventHandlerTrowelOverlay());
-
-		TrowelKeyBindings.init();
 	}
 }

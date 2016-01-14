@@ -10,11 +10,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 
 public class TrowelRotateBlockTypeMessage implements IMessage {
 
-	public static void send(boolean forward) {
-		ModBuildingBricks.proxy.getNetChannel().sendToServer(new TrowelRotateBlockTypeMessage(forward));
+	public static void send(boolean forward, MaterialBlockType blockType) {
+		ModBuildingBricks.proxy.getNetChannel()
+				.sendToServer(new TrowelRotateBlockTypeMessage(forward, blockType));
 	}
 
 	public static class Handler implements IMessageHandler<TrowelRotateBlockTypeMessage, IMessage> {
@@ -24,10 +26,14 @@ public class TrowelRotateBlockTypeMessage implements IMessage {
 			EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 			ItemStack stack = player.getCurrentEquippedItem();
 			if (stack.getItem() == ModBuildingBricks.trowel) {
-				if (message.forward) {
-					ModBuildingBricks.trowel.setNextBlockRotation(stack);
-				} else {
-					ModBuildingBricks.trowel.setPrevBlockRotation(stack);
+				if(message.blockType != null){
+					ModBuildingBricks.trowel.setCurrentBlockType(stack, message.blockType);
+				}else {
+					if (message.forward) {
+						ModBuildingBricks.trowel.setNextBlockRotation(stack);
+					} else {
+						ModBuildingBricks.trowel.setPrevBlockRotation(stack);
+					}
 				}
 			}
 			return null;
@@ -35,21 +41,26 @@ public class TrowelRotateBlockTypeMessage implements IMessage {
 	}
 
 	private boolean forward;
+	private MaterialBlockType blockType;
 
 	public TrowelRotateBlockTypeMessage() {
 	}
 
-	private TrowelRotateBlockTypeMessage(boolean forward) {
+	private TrowelRotateBlockTypeMessage(boolean forward, MaterialBlockType blockType) {
 		this.forward = forward;
+		this.blockType = blockType;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		forward = buf.getBoolean(0);
+		short blockTypeId = buf.getShort(1);
+		blockType = blockTypeId >= 0 ? MaterialBlockType.getBlockType(blockTypeId) : null;
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		buf.writeBoolean(forward);
+		buf.writeShort(blockType != null ? blockType.ordinal() : -1);
 	}
 }

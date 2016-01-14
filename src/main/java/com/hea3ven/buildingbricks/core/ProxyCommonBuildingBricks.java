@@ -4,6 +4,8 @@ import java.nio.file.Path;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +25,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import com.hea3ven.buildingbricks.compat.vanilla.GrassSlabWorldGen;
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
+import com.hea3ven.buildingbricks.core.client.settings.TrowelKeyBindings;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
@@ -157,5 +160,24 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 	protected void registerNetworkPackets() {
 		addNetworkPacket(TrowelRotateBlockTypeMessage.Handler.class, TrowelRotateBlockTypeMessage.class, 0,
 				Side.SERVER);
+	}
+
+	@Override
+	protected void registerKeyBindings() {
+		addKeyBinding("key.trowel.prev", Keyboard.KEY_J, "key.trowel", TrowelKeyBindings.getOnTrowelPrev());
+		addKeyBinding("key.trowel.next", Keyboard.KEY_K, "key.trowel", TrowelKeyBindings.getOnTrowelNext());
+		addItemScrollWheelBinding(ModBuildingBricks.trowel, TrowelKeyBindings.getOnTrowelScroll());
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectFull", Keyboard.KEY_NUMPAD0,
+				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.FULL));
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectStairs", Keyboard.KEY_NUMPAD1,
+				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.STAIRS));
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectSlab", Keyboard.KEY_NUMPAD2,
+				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.SLAB));
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectVertSlab", Keyboard.KEY_NUMPAD3,
+				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.VERTICAL_SLAB));
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectStep", Keyboard.KEY_NUMPAD4,
+				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.STEP));
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectCorner", Keyboard.KEY_NUMPAD5,
+				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.CORNER));
 	}
 }

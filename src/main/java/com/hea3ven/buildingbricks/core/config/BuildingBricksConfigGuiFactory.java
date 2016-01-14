@@ -6,10 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 import net.minecraftforge.fml.client.IModGuiFactory;
-import net.minecraftforge.fml.client.config.GuiConfig;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
-import com.hea3ven.buildingbricks.core.Properties;
 import com.hea3ven.tools.commonutils.mod.config.GuiConfigAutomatic;
 
 public class BuildingBricksConfigGuiFactory implements IModGuiFactory {
