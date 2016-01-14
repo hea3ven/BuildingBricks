@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.hea3ven.buildingbricks.compat.vanilla.GrassSlabWorldGen;
@@ -150,6 +151,7 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 			}
 
 			@Override
+			@SideOnly(Side.CLIENT)
 			public Gui createGui(EntityPlayer player, World world, BlockPos pos) {
 				return new GuiTrowel(player, player.getCurrentEquippedItem());
 			}

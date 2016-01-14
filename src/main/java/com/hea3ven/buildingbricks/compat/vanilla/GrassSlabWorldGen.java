@@ -69,13 +69,10 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 				pos.up();
 			}
 			if (pos.getY() >= 255) {
-				if (event.chunkX == -4 && event.chunkZ == 4)
-					System.out.println("ignoring pos " + pos.toString());
 				continue;
 			}
 
 			if (event.chunkX == -4 && event.chunkZ == 4)
-				System.out.println("testing pos " + pos.toString());
 			for (EnumFacing face : EnumFacing.HORIZONTALS) {
 				pos.offset(face, 1);
 				Block block = event.world.getBlockState(pos).getBlock();
