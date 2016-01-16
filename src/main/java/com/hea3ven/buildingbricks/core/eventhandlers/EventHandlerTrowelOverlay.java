@@ -29,7 +29,7 @@ public class EventHandlerTrowelOverlay {
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 			ItemStack stack = player.getCurrentEquippedItem();
 			if (stack != null && stack.getItem() == ModBuildingBricks.trowel) {
-				Material mat = ModBuildingBricks.trowel.getBindedMaterial(stack);
+				Material mat = ModBuildingBricks.trowel.getMaterial(stack);
 				if (mat != null) {
 					MaterialBlockType type = ModBuildingBricks.trowel.getCurrentBlockType(stack);
 					renderTrowelOverlay(event.resolution, event.partialTicks, mat, type);
@@ -82,5 +82,4 @@ public class EventHandlerTrowelOverlay {
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.disableBlend();
 	}
-
 }

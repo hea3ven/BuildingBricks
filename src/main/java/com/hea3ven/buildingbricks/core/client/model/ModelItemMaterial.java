@@ -22,21 +22,23 @@ import net.minecraftforge.client.model.ISmartItemModel;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialStack;
 
 @SuppressWarnings("deprecation")
-public class ModelTrowel implements ISmartItemModel, IPerspectiveAwareModel {
-	public static HashMap<Material, ModelTrowel> models = new HashMap<>();
+public class ModelItemMaterial implements ISmartItemModel, IPerspectiveAwareModel {
+	public HashMap<Material, ModelItemMaterial> models;
 
 	private IPerspectiveAwareModel base;
 	private TextureAtlasSprite texture;
 	private HashMap<EnumFacing, List<BakedQuad>> faces = new HashMap<>();
 	private List<BakedQuad> quads;
 
-	public ModelTrowel(IBakedModel baseModel) {
+	public ModelItemMaterial(IBakedModel baseModel) {
 		this(baseModel, null);
+		models = new HashMap<>();
 	}
 
-	public ModelTrowel(IBakedModel baseModel, IBakedModel matModel) {
+	public ModelItemMaterial(IBakedModel baseModel, IBakedModel matModel) {
 		base = (IPerspectiveAwareModel) baseModel;
 		texture = baseModel.getParticleTexture();
 		for (EnumFacing side : EnumFacing.VALUES) {
@@ -93,7 +95,7 @@ public class ModelTrowel implements ISmartItemModel, IPerspectiveAwareModel {
 
 	@Override
 	public IBakedModel handleItemState(ItemStack stack) {
-		Material mat = ModBuildingBricks.trowel.getBindedMaterial(stack);
+		Material mat = MaterialStack.get(stack);
 		if (mat == null)
 			return this;
 		else {

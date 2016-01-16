@@ -19,20 +19,37 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.core.client.model.ModelTrowel;
+import com.hea3ven.buildingbricks.core.client.model.ModelItemMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.tools.commonutils.client.ModelBakerBase;
 
 @SideOnly(Side.CLIENT)
-public class ModelBakerItemTrowel extends ModelBakerBase {
+public class ModelBakerItemMaterial extends ModelBakerBase {
 
-	public static ModelBakerItemTrowel instance;
+	public static ModelBakerItemMaterial instance;
+	private ResourceLocation modelLoc;
+	private ModelResourceLocation targetModelLoc;
+	private Vector3f translation;
+	private Vector3f scale;
+
+	public ModelBakerItemMaterial(String modelLocName, String targetModelLocName, Vector3f translation,
+			Vector3f scale) {
+		modelLoc = new ResourceLocation(modelLocName);
+		targetModelLoc = new ModelResourceLocation(targetModelLocName);
+		this.translation = translation;
+		this.scale = scale;
+	}
 
 	@Override
 	public void onModelBakeEvent(ModelBakeEvent event) {
-		ResourceLocation trowelModelLoc = new ResourceLocation("buildingbricks:item/trowel");
+
+		IModel baseItemModel = getModel(modelLoc);
+		IFlexibleBakedModel baseBakedItemModel = bake(baseItemModel, DefaultVertexFormats.ITEM);
+		ModelItemMaterial dynModel = new ModelItemMaterial(baseBakedItemModel);
+		event.modelRegistry.putObject(targetModelLoc, dynModel);
+
 		for (Material material : MaterialRegistry.getAll()) {
 
 			ItemStack stack = material.getBlock(MaterialBlockType.FULL).getStack();
@@ -53,19 +70,13 @@ public class ModelBakerItemTrowel extends ModelBakerBase {
 					new ResourceLocation(itemName.getResourceDomain(), "item/" + itemName.getResourcePath());
 			IModel itemModel = getModel(model, new ResourceLocation("minecraft", "block/cube_bottom_top"));
 			itemModel = retexture(material.getTextures(), itemModel);
-			Vector3f translation = new Vector3f(0.3f, 0.0625f, 0.125f);
-			Vector3f scale = new Vector3f(0.4f, 0.4f, 0.4f);
 			IModelState modelState = new TRSRTransformation(translation, null, scale, null);
 			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState, DefaultVertexFormats.ITEM);
 
-			itemModel = getModel(trowelModelLoc);
-			IFlexibleBakedModel baseBakedItemModel = bake(itemModel, DefaultVertexFormats.ITEM);
+			itemModel = getModel(modelLoc);
+			baseBakedItemModel = bake(itemModel, DefaultVertexFormats.ITEM);
 
-			ModelTrowel.models.put(material, new ModelTrowel(baseBakedItemModel, bakedItemModel));
+			dynModel.models.put(material, new ModelItemMaterial(baseBakedItemModel, bakedItemModel));
 		}
-		IModel baseItemModel = getModel(trowelModelLoc);
-		IFlexibleBakedModel baseBakedItemModel = bake(baseItemModel, DefaultVertexFormats.ITEM);
-		event.modelRegistry.putObject(new ModelResourceLocation("buildingbricks:trowel#inventory"),
-				new ModelTrowel(baseBakedItemModel));
 	}
 }

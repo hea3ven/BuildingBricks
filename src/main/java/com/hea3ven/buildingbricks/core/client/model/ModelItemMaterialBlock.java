@@ -14,6 +14,7 @@ import net.minecraftforge.client.model.ISmartItemModel;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialStack;
 import com.hea3ven.tools.commonutils.client.model.DelegatedSmartModel;
 
 @SuppressWarnings("deprecation")
@@ -46,7 +47,7 @@ public class ModelItemMaterialBlock extends DelegatedSmartModel implements ISmar
 
 	@Override
 	public IBakedModel handleItemState(ItemStack stack) {
-		Material mat = ModBuildingBricks.trowel.getBindedMaterial(stack);
+		Material mat = MaterialStack.get(stack);
 		if (mat != null)
 			return models.get(mat.getMaterialId());
 		else
