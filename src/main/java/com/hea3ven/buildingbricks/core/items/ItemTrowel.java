@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core.items;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
@@ -31,7 +32,6 @@ import com.hea3ven.tools.commonutils.inventory.GenericContainer.SlotType;
 public class ItemTrowel extends Item implements ItemMaterial {
 
 	public ItemTrowel() {
-		setUnlocalizedName("trowel");
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.materials.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
@@ -18,6 +19,7 @@ public class MaterialItemStackConsumer {
 	private IInventory inventory;
 
 	private int[] consumedStacks;
+	private int[] consumedMaterialBag;
 	private int totalConsumed;
 
 	public MaterialItemStackConsumer(MaterialBlockType blockType, Material mat, IInventory inventory) {
@@ -26,9 +28,7 @@ public class MaterialItemStackConsumer {
 		this.inventory = inventory;
 
 		consumedStacks = new int[inventory.getSizeInventory()];
-		for (int i = 0; i < consumedStacks.length; i++) {
-			consumedStacks[i] = 0;
-		}
+		consumedMaterialBag = new int[inventory.getSizeInventory()];
 		totalConsumed = 0;
 
 		parseInventory();
@@ -39,6 +39,13 @@ public class MaterialItemStackConsumer {
 	}
 
 	public void apply(World world, BlockPos pos) {
+		for (int slot = 0; slot < consumedMaterialBag.length; slot++) {
+			if (consumedMaterialBag[slot] > 0) {
+				ItemStack stack = inventory.getStackInSlot(slot);
+				ItemMaterialBag bag = (ItemMaterialBag) stack.getItem();
+				bag.setVolume(stack, bag.getVolume(stack) - consumedMaterialBag[slot]);
+			}
+		}
 		for (int slot = 0; slot < consumedStacks.length; slot++) {
 			if (consumedStacks[slot] > 0) {
 				inventory.decrStackSize(slot, consumedStacks[slot]);
@@ -60,8 +67,8 @@ public class MaterialItemStackConsumer {
 		}
 		for (int slot = 0; slot < inventorySize; slot++) {
 			ItemStack stack = inventory.getStackInSlot(slot);
-			if (ItemStack.areItemsEqual(newStack, stack) && ItemStack.areItemStackTagsEqual(newStack,
-					stack)) {
+			if (ItemStack.areItemsEqual(newStack, stack) &&
+					ItemStack.areItemStackTagsEqual(newStack, stack)) {
 				if (stack.stackSize + 1 <= stack.getMaxStackSize()) {
 					stack.stackSize += 1;
 					newStack = null;
@@ -84,12 +91,40 @@ public class MaterialItemStackConsumer {
 	}
 
 	private void parseInventory() {
+		searchMaterialBag();
+
 		searchExactMatch();
 
 		searchMaterialBlocks();
 	}
 
+	private void searchMaterialBag() {
+		for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
+			ItemStack stack = inventory.getStackInSlot(slot);
+			if(stack == null)
+				continue;
+			if (!(stack.getItem() instanceof ItemMaterialBag))
+				continue;
+
+			ItemMaterialBag bag = (ItemMaterialBag) stack.getItem();
+			Material bagMat = bag.getMaterial(stack);
+			if (mat != bagMat)
+				continue;
+
+			int bagVolume = bag.getVolume(stack);
+			if (bagVolume > (blockType.getVolume() - totalConsumed)) {
+				consumedMaterialBag[slot] = (blockType.getVolume() - totalConsumed);
+				totalConsumed += (blockType.getVolume() - totalConsumed);
+			} else {
+				consumedMaterialBag[slot] = bagVolume;
+				totalConsumed += bagVolume;
+			}
+		}
+	}
+
 	private void searchExactMatch() {
+		if (totalConsumed != 0)
+			return;
 		for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
 			ItemStack stack = inventory.getStackInSlot(slot);
 			BlockDescription blockDesc = mat.getBlock(stack);

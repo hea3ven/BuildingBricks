@@ -8,6 +8,8 @@ itemGroup.buildingBricks=Building Bricks
 
 item.trowel.name=Trowel
 item.trowelBinded.name=Trowel (%s)
+item.materialBag.name=Material Bag
+item.materialBagBinded.name=Material Bag (%s)
 
 tile.portableLadder.name=Portable Ladder
 

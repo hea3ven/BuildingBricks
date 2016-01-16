@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
+import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.tools.bootstrap.Bootstrap;
@@ -36,6 +37,7 @@ public class ModBuildingBricks {
 	static ResourceScanner resScanner;
 
 	public static ItemTrowel trowel;
+	public static ItemMaterialBag materialBag;
 	public static BlockPortableLadder portableLadder;
 
 	@EventHandler

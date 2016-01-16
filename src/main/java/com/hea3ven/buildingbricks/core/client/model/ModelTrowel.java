@@ -11,10 +11,12 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
+import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ISmartItemModel;
 
@@ -85,6 +87,11 @@ public class ModelTrowel implements ISmartItemModel, IPerspectiveAwareModel {
 	}
 
 	@Override
+	public VertexFormat getFormat() {
+		return base.getFormat();
+	}
+
+	@Override
 	public IBakedModel handleItemState(ItemStack stack) {
 		Material mat = ModBuildingBricks.trowel.getBindedMaterial(stack);
 		if (mat == null)
@@ -95,7 +102,8 @@ public class ModelTrowel implements ISmartItemModel, IPerspectiveAwareModel {
 	}
 
 	@Override
-	public Pair<IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-		return Pair.of((IBakedModel)this, base.handlePerspective(cameraTransformType).getRight());
+	public Pair<? extends IFlexibleBakedModel, Matrix4f> handlePerspective(
+			TransformType cameraTransformType) {
+		return Pair.of(this, base.handlePerspective(cameraTransformType).getRight());
 	}
 }

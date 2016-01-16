@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
@@ -26,8 +27,10 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import com.hea3ven.buildingbricks.compat.vanilla.GrassSlabWorldGen;
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
+import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
 import com.hea3ven.buildingbricks.core.client.settings.TrowelKeyBindings;
+import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
@@ -48,7 +51,10 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 	public ProxyCommonBuildingBricks() {
 		super(Properties.MODID);
 
-		ModBuildingBricks.trowel = new ItemTrowel();
+		ModBuildingBricks.trowel = (ItemTrowel) new ItemTrowel().
+				setUnlocalizedName("trowel");
+		ModBuildingBricks.materialBag =
+				(ItemMaterialBag) new ItemMaterialBag().setUnlocalizedName("materialBag");
 		ModBuildingBricks.portableLadder =
 				(BlockPortableLadder) new BlockPortableLadder().setUnlocalizedName("portableLadder");
 	}
@@ -102,6 +108,7 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 	@Override
 	protected void registerItems() {
 		addItem(ModBuildingBricks.trowel, "trowel");
+		addItem(ModBuildingBricks.materialBag, "material_bag");
 	}
 
 	@Override
@@ -112,10 +119,12 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 				return ModBuildingBricks.trowel;
 			}
 		});
-		ModBuildingBricks.trowel.setCreativeTab(getCreativeTab("buildingBricks"));
-		ModBuildingBricks.portableLadder.setCreativeTab(getCreativeTab("buildingBricks"));
+		CreativeTabs tab = getCreativeTab("buildingBricks");
+		ModBuildingBricks.trowel.setCreativeTab(tab);
+		ModBuildingBricks.materialBag.setCreativeTab(tab);
+		ModBuildingBricks.portableLadder.setCreativeTab(tab);
 		for (Block block : MaterialBlockRegistry.instance.getAllBlocks()) {
-			block.setCreativeTab(getCreativeTab("buildingBricks"));
+			block.setCreativeTab(tab);
 		}
 	}
 
@@ -159,6 +168,18 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 			@SideOnly(Side.CLIENT)
 			public Gui createGui(EntityPlayer player, World world, BlockPos pos) {
 				return new GuiTrowel(player, player.getCurrentEquippedItem());
+			}
+		});
+		addGui(GuiMaterialBag.ID, new ISimpleGuiHandler() {
+			@Override
+			public Container createContainer(EntityPlayer player, World world, BlockPos pos) {
+				return ModBuildingBricks.materialBag.getContainer(player);
+			}
+
+			@Override
+			@SideOnly(Side.CLIENT)
+			public Gui createGui(EntityPlayer player, World world, BlockPos pos) {
+				return new GuiMaterialBag(ModBuildingBricks.materialBag.getContainer(player));
 			}
 		});
 	}
