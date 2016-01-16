@@ -198,6 +198,8 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		public void setInventorySlotContents(int index, ItemStack stack) {
 			if (stack == null)
 				return;
+			if (index != 1)
+				return;
 			if (mat == null) {
 				mat = MaterialRegistry.getMaterialForStack(stack);
 				inv[0] = mat.getBlock(MaterialBlockType.FULL).getStack().copy();
@@ -214,13 +216,11 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 				stack.stackSize = volume / type.getVolume();
 				if (stack.stackSize > stack.getMaxStackSize())
 					stack.stackSize = stack.getMaxStackSize();
-				if (player.worldObj.isRemote) {
-					volume -= type.getVolume() * stack.stackSize;
-					if (volume <= 0) {
-						mat = null;
-						volume = 0;
-						inv[0].stackSize = 0;
-					}
+				volume -= type.getVolume() * stack.stackSize;
+				if (volume <= 0) {
+					mat = null;
+					volume = 0;
+					inv[0] = null;
 				}
 				return stack;
 			} else if (index == 1)
