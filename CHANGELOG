@@ -6,6 +6,7 @@
     * Fix portable ladder not having a texture for the break particles.
     * Fix the trowel not showing the binded block in the item model.
     * Fix localization issue with the double stone slabs.
+    * Fix blocks being consumed by the trowel binding recipe.
 
 1.1.2:
     * Fix crash when a grass slab is destroyed by an explosion.

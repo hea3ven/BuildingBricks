@@ -32,6 +32,7 @@ import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
 import com.hea3ven.buildingbricks.core.client.settings.TrowelKeyBindings;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
+import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
@@ -136,11 +137,7 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 		ModBuildingBricks.logger.info("Registering trowel's recipes");
 		for (Material mat : MaterialRegistry.getAll()) {
 			for (BlockDescription blockDesc : mat.getBlockRotation().getAll().values()) {
-				ItemStack trowelStack = ModBuildingBricks.trowel.createStack();
-				trowelStack.setItemDamage(OreDictionary.WILDCARD_VALUE);
-				ItemStack bindedTrowelStack = ModBuildingBricks.trowel.createStack(mat);
-				// TODO: prevent recipe from consuming the block
-				addRecipe(true, bindedTrowelStack, trowelStack, blockDesc.getStack());
+				addRecipe(new RecipeBindTrowel(mat, blockDesc.getStack()));
 			}
 		}
 
