@@ -8,9 +8,9 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack;
-import com.hea3ven.tools.commonutils.inventory.SlotGhost;
+import com.hea3ven.tools.commonutils.inventory.SlotCustom;
 
-public class SlotTrowelMaterial extends Slot implements SlotGhost {
+public class SlotTrowelMaterial extends Slot implements SlotCustom {
 	private EntityPlayer player;
 	private ItemStack trowel;
 
@@ -60,5 +60,16 @@ public class SlotTrowelMaterial extends Slot implements SlotGhost {
 
 	@Override
 	public void onSlotChanged() {
+	}
+
+	@Override
+	public ItemStack provideItemStack() {
+		return null;
+	}
+
+	@Override
+	public boolean receiveItemStack(ItemStack stack) {
+		putStack(stack);
+		return true;
 	}
 }

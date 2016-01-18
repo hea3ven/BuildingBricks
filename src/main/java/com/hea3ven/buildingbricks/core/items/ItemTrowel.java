@@ -133,9 +133,8 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		if (playerIn.isSneaking()) {
-			playerIn.openGui(Properties.MODID, GuiTrowel.ID, worldIn,
-					MathHelper.floor_double(playerIn.posX), MathHelper.floor_double(playerIn.posY),
-					MathHelper.floor_double(playerIn.posZ));
+			playerIn.openGui(Properties.MODID, GuiTrowel.ID, worldIn, MathHelper.floor_double(playerIn.posX),
+					MathHelper.floor_double(playerIn.posY), MathHelper.floor_double(playerIn.posZ));
 		}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
 	}
@@ -216,7 +215,8 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	}
 
 	public Container getContainer(EntityPlayer player) {
-		return new GenericContainer().addSlots(0, 44, 36, 1, 1, SlotTrowelMaterial.class, player)
+		return new GenericContainer().addSlots(SlotType.DISPLAY, 0, 44, 36, 1, 1, SlotTrowelMaterial.class,
+				player)
 				.addSlots(SlotType.DISPLAY, 0, 98, 9, 4, 4, SlotTrowelBlockType.class, player)
 				.addPlayerSlots(player.inventory);
 	}

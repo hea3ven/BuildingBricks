@@ -2,13 +2,10 @@ package com.hea3ven.buildingbricks.core.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBag.InventoryMaterialBag;
-import com.hea3ven.tools.commonutils.inventory.GenericContainer;
 
 public class GuiMaterialBag extends GuiContainer {
 	public static final int ID = 1;

@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentTranslation;
 
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -12,9 +11,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
-import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 
 public class MaterialIdMappingCheckMessage implements IMessage {
 
