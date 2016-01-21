@@ -222,13 +222,21 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 			}
 		} else {
 			EnumFacing newSide = null;
-			if ((blockSide == EnumFacing.NORTH || blockSide == EnumFacing.EAST) && hitZ <= 0.5f)
+			if (blockSide == EnumFacing.NORTH && hitZ <= 0.5f && hitX >= 0.5f)
 				newSide = EnumFacing.NORTH;
-			else if ((blockSide == EnumFacing.EAST || blockSide == EnumFacing.SOUTH) && hitX >= 0.5)
+			else if (blockSide == EnumFacing.EAST && hitZ <= 0.5f && hitX <= 0.5f)
+				newSide = EnumFacing.NORTH;
+			else if (blockSide == EnumFacing.EAST && hitX >= 0.5 && hitZ >= 0.5f)
 				newSide = EnumFacing.EAST;
-			else if ((blockSide == EnumFacing.SOUTH || blockSide == EnumFacing.WEST) && hitZ >= 0.5)
+			else if (blockSide == EnumFacing.SOUTH && hitX >= 0.5 && hitZ <= 0.5f)
+				newSide = EnumFacing.EAST;
+			else if (blockSide == EnumFacing.SOUTH && hitX <= 0.5f && hitZ >= 0.5)
 				newSide = EnumFacing.SOUTH;
-			else if ((blockSide == EnumFacing.WEST || blockSide == EnumFacing.NORTH) && hitX <= 0.5)
+			else if (blockSide == EnumFacing.WEST && hitX >= 0.5 && hitZ >= 0.5)
+				newSide = EnumFacing.SOUTH;
+			else if (blockSide == EnumFacing.WEST && hitX <= 0.5 && hitZ <= 0.5)
+				newSide = EnumFacing.WEST;
+			else if (blockSide == EnumFacing.NORTH && hitX <= 0.5 && hitZ >= 0.5)
 				newSide = EnumFacing.WEST;
 			if (newSide != null) {
 				Material mat = ((BlockMaterial) state.getBlock()).getTile(world, pos).getMaterial();
