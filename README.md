@@ -37,7 +37,21 @@ The other block added is the "Corner", which is half of a step:
 
 ### Trowel
 
-The trowel is an item that can be binded to any material. Once binded it allows you to place blocks of the binded material consuming any available block of the material in the player's inventory. See https://www.youtube.com/watch?v=SSI_TNFE7MU
+The trowel is an item that can be binded to any material. Once binded it allows you to place blocks of the binded material consuming any available block of the material in the player's inventory. See https://www.youtube.com/watch?v=SSI_TNFE7MU and https://www.youtube.com/watch?v=bjEig9Sf-tk
+
+![](https://raw.githubusercontent.com/hea3ven/BuildingBricks/master/media/trowel_gui.png)
+
+### Material Bag
+
+The material bag is an item that can store several stacks of blocks of only one material. The trowel can directly use the material contained inside of material bags.
+
+![](https://raw.githubusercontent.com/hea3ven/BuildingBricks/master/media/material_bag_gui.png)
+
+### Portable Ladder
+
+The portable ladder is a 3 blocks high ladder which can be easily placed and picked up.
+
+![](https://raw.githubusercontent.com/hea3ven/BuildingBricks/master/media/portable_ladder.png)
 
 ### Grass slabs world gen
 
