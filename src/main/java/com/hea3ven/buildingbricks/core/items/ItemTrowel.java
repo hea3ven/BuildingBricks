@@ -91,6 +91,8 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	}
 
 	public void setCurrentBlockType(ItemStack stack, MaterialBlockType blockType) {
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setInteger("blockType", blockType.ordinal());
 	}
 
