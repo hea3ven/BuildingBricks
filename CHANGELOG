@@ -1,3 +1,4 @@
+1.8.9-1.2.0:
     * Add a Material Bag item that can hold 27 stacks of blocks of a single material, which the trowel can use as a source of materials.
     * Add: blocks now combine with themselves if possible when being placed (i.e. placing a step next to another one will convert into a slab), fixes #11.
     * Add keybindings for the trowel to directly select block types (by default numpad 0 = full block, numpad 1 = stairs, numpad 2 = slab, etc.), fixes #24.

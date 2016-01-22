@@ -24,12 +24,15 @@ import groovy.io.FileType
 repositories {
     mavenLocal()
     maven {
+        url "https://raw.github.com/hea3ven/mvn-repo/master"
+    }
+    maven {
         name = "chickenbones"
         url = "http://chickenbones.net/maven/"
     }
 }
 
-version = "1.8.8-1.1.2"
+version = "1.8.9-1.2.0"
 group = "com.hea3ven.buildingbricks"
 archivesBaseName = "BuildingBricks"
 
@@ -37,7 +40,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 minecraft {
-    version = "1.8.8-11.15.0.1623-1.8.8"
+	version = "1.8.9-11.15.0.1699"
     runDir = "run"
     mappings = "snapshot_20151212"
 
@@ -63,7 +66,7 @@ configurations {
 }
 
 dependencies {
-    compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:1.0.2'
+    compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:1.0.2:deobf'
     release('com.hea3ven.tools.commonutils:h3nt-commonutils:1.0.2') {
         transitive = false
     }
