@@ -3,6 +3,7 @@ package com.hea3ven.buildingbricks.core.network;
 import io.netty.buffer.ByteBuf;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentTranslation;
 
@@ -24,8 +25,10 @@ public class MaterialIdMappingCheckMessage implements IMessage {
 		@Override
 		public IMessage onMessage(MaterialIdMappingCheckMessage message, MessageContext ctx) {
 			if (IdMappingLoader.isInvalid(message.checksum)) {
-				Minecraft.getMinecraft().thePlayer.addChatMessage(
-						new ChatComponentTranslation("buildingbricks.chat.idMappingsInvalid"));
+				EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+				if (player != null)
+					player.addChatMessage(
+							new ChatComponentTranslation("buildingbricks.chat.idMappingsInvalid"));
 			}
 			return null;
 		}
