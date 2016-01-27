@@ -10,5 +10,5 @@ public interface BlockMaterial {
 
 	String getLocalizedName(Material mat);
 
-	TileMaterial getTile(IBlockAccess world, BlockPos pos);
+	Material getMaterial(IBlockAccess world, BlockPos pos);
 }

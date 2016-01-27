@@ -59,8 +59,8 @@ public class BlockMaterialSlab extends BlockBuildingBricksSlab implements BlockM
 	}
 
 	@Override
-	public TileMaterial getTile(IBlockAccess world, BlockPos pos) {
-		return WorldHelper.getTile(world, pos);
+	public Material getMaterial(IBlockAccess world, BlockPos pos) {
+		return WorldHelper.<TileMaterial>getTile(world, pos).getMaterial();
 	}
 
 	@Override

@@ -83,7 +83,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 		}
 
 		Material stackMat = getMaterial(stack);
-		Material mat = ((BlockMaterial) state.getBlock()).getTile(world, pos).getMaterial();
+		Material mat = ((BlockMaterial) state.getBlock()).getMaterial(world, pos);
 		if (stackMat != mat) {
 			if (firstTry)
 				return onItemUse(stack, player, world, pos.offset(side), side, hitX - side.getFrontOffsetX(),
@@ -136,7 +136,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 		}
 
 		Material stackMat = getMaterial(stack);
-		Material mat = ((BlockMaterial) state.getBlock()).getTile(world, pos).getMaterial();
+		Material mat = ((BlockMaterial) state.getBlock()).getMaterial(world, pos);
 		if (stackMat != mat) {
 			if (firstTry)
 				return canPlaceBlockOnSide(world, pos.offset(side), side, player, stack, false);
@@ -165,7 +165,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 		EnumBlockHalf blockHalf = state.getValue(BlockSlab.HALF);
 		if ((blockHalf == EnumBlockHalf.BOTTOM && hitY >= 0.5f) ||
 				(blockHalf == EnumBlockHalf.TOP && hitY <= 0.5f)) {
-			Material mat = ((BlockMaterial) state.getBlock()).getTile(world, pos).getMaterial();
+			Material mat = ((BlockMaterial) state.getBlock()).getMaterial(world, pos);
 			BlockDescription blockDesc = mat.getBlock(MaterialBlockType.FULL);
 
 			IBlockState newState = getStateFromStack(blockDesc);
@@ -181,7 +181,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 				(blockSide.getDirectionVec().getX() < 0 && hitX >= 0.5f) ||
 				(blockSide.getDirectionVec().getZ() > 0 && hitZ <= 0.5f) ||
 				(blockSide.getDirectionVec().getZ() < 0 && hitZ >= 0.5f)) {
-			Material mat = ((BlockMaterial) state.getBlock()).getTile(world, pos).getMaterial();
+			Material mat = ((BlockMaterial) state.getBlock()).getMaterial(world, pos);
 			BlockDescription blockDesc = mat.getBlock(MaterialBlockType.FULL);
 
 			IBlockState newState = getStateFromStack(blockDesc);
@@ -213,7 +213,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 						(blockSide.getDirectionVec().getZ() < 0 && hitZ >= 0.5f);
 			}
 			if (join) {
-				Material mat = ((BlockMaterial) state.getBlock()).getTile(world, pos).getMaterial();
+				Material mat = ((BlockMaterial) state.getBlock()).getMaterial(world, pos);
 				BlockDescription blockDesc = mat.getBlock(MaterialBlockType.SLAB);
 
 				IBlockState newState = getStateFromStack(blockDesc);
@@ -239,7 +239,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 			else if (blockSide == EnumFacing.NORTH && hitX <= 0.5 && hitZ >= 0.5)
 				newSide = EnumFacing.WEST;
 			if (newSide != null) {
-				Material mat = ((BlockMaterial) state.getBlock()).getTile(world, pos).getMaterial();
+				Material mat = ((BlockMaterial) state.getBlock()).getMaterial(world, pos);
 				BlockDescription blockDesc = mat.getBlock(MaterialBlockType.VERTICAL_SLAB);
 
 				IBlockState newState = getStateFromStack(blockDesc);
@@ -270,7 +270,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 				join = true;
 			}
 			if (join) {
-				Material mat = ((BlockMaterial) state.getBlock()).getTile(world, pos).getMaterial();
+				Material mat = ((BlockMaterial) state.getBlock()).getMaterial(world, pos);
 				BlockDescription blockDesc = mat.getBlock(MaterialBlockType.STEP);
 
 				IBlockState newState = getStateFromStack(blockDesc);
@@ -300,7 +300,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 			else if (blockSide == EnumFacing.WEST && hitX >= 0.5f && hitZ >= 0.5f)
 				newSide = EnumFacing.SOUTH;
 			if (newSide != null) {
-				Material mat = ((BlockMaterial) state.getBlock()).getTile(world, pos).getMaterial();
+				Material mat = ((BlockMaterial) state.getBlock()).getMaterial(world, pos);
 				BlockDescription blockDesc = mat.getBlock(MaterialBlockType.STEP);
 
 				IBlockState newState = getStateFromStack(blockDesc);

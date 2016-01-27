@@ -39,9 +39,6 @@ public class ModBuildingBricksCompatVanilla {
 
 	public static Block grassSlab;
 
-	static {
-	}
-
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 
@@ -53,8 +50,6 @@ public class ModBuildingBricksCompatVanilla {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		grassSlab.setCreativeTab(ModBuildingBricks.proxy.getCreativeTab("buildingBricks"));
-
-		((BlockGrassSlab) grassSlab).mat = MaterialRegistry.get("buildingbrickscompatvanilla:grass");
 
 		replaceStoneSlabRecipe();
 

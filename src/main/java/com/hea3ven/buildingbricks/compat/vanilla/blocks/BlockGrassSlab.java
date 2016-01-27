@@ -13,6 +13,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeColorHelper;
@@ -21,14 +22,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksSlab;
+import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
-public class BlockGrassSlab extends BlockBuildingBricksSlab {
+public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMaterial {
 
-	public Material mat;
+	private Material mat;
 
 	public BlockGrassSlab() {
 		super(StructureMaterial.GRASS);
@@ -93,5 +95,24 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab {
 
 	public static IBlockState setSnowy(IBlockState state, boolean snowy) {
 		return state.withProperty(BlockGrass.SNOWY, snowy);
+	}
+
+	@Override
+	public String getLocalizedName(Material mat) {
+		if (StatCollector.canTranslate(getUnlocalizedName() + ".name"))
+			return super.getLocalizedName();
+		else
+			return blockLogic.getLocalizedName(mat);
+	}
+
+	@Override
+	public Material getMaterial(IBlockAccess world, BlockPos pos) {
+		return getGrassMaterial();
+	}
+
+	private Material getGrassMaterial() {
+		if (mat == null)
+			mat = MaterialRegistry.get("buildingbrickscompatvanilla:grass");
+		return mat;
 	}
 }
