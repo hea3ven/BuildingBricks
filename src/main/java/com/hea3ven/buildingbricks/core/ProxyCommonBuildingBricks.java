@@ -48,7 +48,7 @@ import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder;
 public class ProxyCommonBuildingBricks extends ProxyModBase {
 
 	public ProxyCommonBuildingBricks() {
-		super(Properties.MODID);
+		super(ModBuildingBricks.MODID);
 
 		ModBuildingBricks.trowel = (ItemTrowel) new ItemTrowel().
 				setUnlocalizedName("trowel");
@@ -93,7 +93,7 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 
 	@Override
 	protected void registerBlocks() {
-		MaterialResourceLoader.loadResources(ModBuildingBricks.resScanner, Properties.MODID);
+		MaterialResourceLoader.loadResources(ModBuildingBricks.resScanner, ModBuildingBricks.MODID);
 
 		addBlock(ModBuildingBricks.portableLadder, "portable_ladder",
 				BlockPortableLadder.ItemPortableLadder.class);
