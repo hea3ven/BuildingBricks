@@ -6,20 +6,24 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
+import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.Properties;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
-import com.hea3ven.buildingbricks.core.materials.BlockDescription;
-import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
-import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack.ItemMaterial;
 import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer;
@@ -60,6 +64,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 	public void setVolume(ItemStack stack, int volume) {
 		if (volume == 0) {
 			stack.setTagCompound(null);
+			setMaterial(stack, null);
 			return;
 		}
 
@@ -158,9 +163,14 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		return stack;
 	}
 
+	@Override
+	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+		return new CapabilityProviderMaterialBag(stack, nbt);
+	}
+
 	public class InventoryMaterialBag extends InventoryGeneric {
 		private final EntityPlayer player;
-		private final ItemStack stack;
+		private ItemStack stack;
 		private Material mat;
 		private int volume;
 
@@ -212,8 +222,8 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		public ItemStack decrStackSize(int index, int count) {
 			if (index == 0) {
 				MaterialBlockType type = MaterialBlockType.getBestForVolume(volume);
-				ItemStack stack = mat.getBlock(type).getStack().copy();
-				stack.stackSize = volume / type.getVolume();
+				ItemStack stack = ItemHandlerHelper.copyStackWithSize(mat.getBlock(type).getStack(),
+						volume / type.getVolume());
 				if (stack.stackSize > stack.getMaxStackSize())
 					stack.stackSize = stack.getMaxStackSize();
 				volume -= type.getVolume() * stack.stackSize;
@@ -256,6 +266,101 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 			} else {
 				return super.transferStackInSlot(player, index);
 			}
+		}
+	}
+
+	private class CapabilityProviderMaterialBag implements ICapabilityProvider {
+		private final ItemStack stack;
+
+		public CapabilityProviderMaterialBag(ItemStack stack, NBTTagCompound nbt) {
+			this.stack = stack;
+		}
+
+		@Override
+		public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+			return capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+		}
+
+		@Override
+		public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+			if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+				return (T) new ItemHandlerMaterialBag(stack);
+			return null;
+		}
+	}
+
+	private class ItemHandlerMaterialBag implements IItemHandler {
+		private final ItemStack stack;
+		private final Material mat;
+		private final MaterialBlockType[] slots;
+
+		public ItemHandlerMaterialBag(ItemStack stack) {
+			this.stack = stack;
+			mat = MaterialStack.get(stack);
+			if (mat != null) {
+				slots = new MaterialBlockType[mat.getBlockRotation().getAll().size()];
+				slots[0] = mat.getBlockRotation().getFirst();
+				for (int i = 0; i < slots.length; i++) {
+					slots[i] = mat.getBlockRotation().get(i).getType();
+				}
+			} else {
+				slots = new MaterialBlockType[0];
+			}
+		}
+
+		@Override
+		public int getSlots() {
+			return slots.length;
+		}
+
+		@Override
+		public ItemStack getStackInSlot(int slot) {
+			return ItemHandlerHelper.copyStackWithSize(mat.getBlock(slots[slot]).getStack(),
+					ModBuildingBricks.materialBag.getVolume(stack) / slots[slot].getVolume());
+		}
+
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+			if (mat == null)
+				return stack;
+
+			Material stackMat = MaterialRegistry.getMaterialForStack(stack);
+			if (mat != stackMat)
+				return stack;
+
+			int volume = ModBuildingBricks.materialBag.getVolume(stack);
+			int capacity = (BAG_VOLUME - volume) / slots[slot].getVolume();
+			if (stack.stackSize < capacity) {
+				if (!simulate) {
+					volume += stack.stackSize * slots[slot].getVolume();
+					ModBuildingBricks.materialBag.setVolume(stack, volume);
+				}
+				return null;
+			} else {
+				if (!simulate) {
+					stack.splitStack(capacity);
+					volume += capacity * slots[slot].getVolume();
+					ModBuildingBricks.materialBag.setVolume(stack, volume);
+				} else {
+					stack.stackSize -= capacity;
+				}
+				return stack;
+			}
+		}
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			int volume = ModBuildingBricks.materialBag.getVolume(stack);
+			int volumeToExtract = amount * slots[slot].getVolume();
+			if (volumeToExtract > volume) {
+				amount = volume / slots[slot].getVolume();
+				volumeToExtract = amount * slots[slot].getVolume();
+			}
+			if (!simulate) {
+				volume -= volumeToExtract;
+				ModBuildingBricks.materialBag.setVolume(stack, volume);
+			}
+			return ItemHandlerHelper.copyStackWithSize(mat.getBlock(slots[slot]).getStack(), amount);
 		}
 	}
 }

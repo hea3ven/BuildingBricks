@@ -12,18 +12,19 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 
 public class BlockProperties {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
-	public static final PropertyDirection SIDE = PropertyDirection.create("side",
-			EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyDirection SIDE =
+			PropertyDirection.create("side", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyEnum<EnumBlockHalf> HALF = PropertyEnum.create("half", EnumBlockHalf.class);
-	public static final PropertyEnum<EnumRotation> ROTATION = PropertyEnum.create("rotation", EnumRotation.class);
+	public static final PropertyEnum<EnumRotation> ROTATION =
+			PropertyEnum.create("rotation", EnumRotation.class);
 	public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
 	public static final PropertyBool CONNECT_NORTH = PropertyBool.create("north");
 	public static final PropertyBool CONNECT_EAST = PropertyBool.create("east");
 	public static final PropertyBool CONNECT_SOUTH = PropertyBool.create("south");
 	public static final PropertyBool CONNECT_WEST = PropertyBool.create("west");
 
-	private static final PropertyBool[] connectionProps = new PropertyBool[] {null, null,
-			CONNECT_NORTH, CONNECT_SOUTH, CONNECT_WEST, CONNECT_EAST};
+	private static final PropertyBool[] connectionProps =
+			new PropertyBool[] {null, null, CONNECT_NORTH, CONNECT_SOUTH, CONNECT_WEST, CONNECT_EAST};
 
 	public static EnumFacing getFacing(IBlockState state) {
 		return state.getValue(FACING);
@@ -101,8 +102,7 @@ public class BlockProperties {
 		return getProp(state, connectionProps[side.getIndex()]);
 	}
 
-	public static <T> T getProp(IBlockState state, IProperty prop) {
-		return (T) state.getValue(prop);
+	public static <T extends Comparable<T>> T getProp(IBlockState state, IProperty<T> prop) {
+		return state.getValue(prop);
 	}
-
 }

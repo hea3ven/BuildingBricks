@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 import com.hea3ven.buildingbricks.core.Properties;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
@@ -160,7 +161,7 @@ public class ItemTrowel extends Item implements ItemMaterial {
 			MaterialBlockType blockType = getCurrentBlockType(stack);
 			ItemStack useStack = mat.getBlock(blockType).getStack().copy();
 			MaterialItemStackConsumer consumer =
-					new MaterialItemStackConsumer(blockType, mat, player.inventory);
+					new MaterialItemStackConsumer(blockType, mat, new InvWrapper(player.inventory));
 			if (!player.capabilities.isCreativeMode && consumer.failed())
 				return false;
 			if (!useStack.onItemUse(player, world, pos, side, hitX, hitY, hitZ))

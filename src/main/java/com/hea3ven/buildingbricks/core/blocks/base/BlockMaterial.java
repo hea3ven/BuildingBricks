@@ -4,7 +4,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public interface BlockMaterial {
 
