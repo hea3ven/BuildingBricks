@@ -27,12 +27,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.compat.vanilla.items.ItemBlockGrassSlab;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
-import com.hea3ven.buildingbricks.core.Properties;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
-@Mod(modid = Properties.MODID_COMP_VANILLA, name = "Building Bricks Vanilla Compatibilty",
-		version = Properties.VERSION)
+@Mod(modid = ModBuildingBricks.MODID_COMP_VANILLA, name = "Building Bricks Vanilla Compatibilty",
+		version = ModBuildingBricks.VERSION)
 public class ModBuildingBricksCompatVanilla {
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.CompatVanilla");

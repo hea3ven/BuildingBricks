@@ -21,7 +21,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
-import com.hea3ven.buildingbricks.core.Properties;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack.ItemMaterial;
@@ -93,7 +92,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		playerIn.openGui(Properties.MODID, GuiMaterialBag.ID, worldIn, MathHelper.floor_double(playerIn.posX),
+		playerIn.openGui(ModBuildingBricks.MODID, GuiMaterialBag.ID, worldIn, MathHelper.floor_double(playerIn.posX),
 				MathHelper.floor_double(playerIn.posY), MathHelper.floor_double(playerIn.posZ));
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
 	}

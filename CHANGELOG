@@ -1,3 +1,7 @@
+1.8.9-1.2.1:
+    * Fix crash when placing a grass slab on top of another grass slab, fixes #32
+    * Fix NPE sometimes when a player connects to a server, fixes #31
+
 1.8.9-1.2.0:
     * Add a Material Bag item that can hold 27 stacks of blocks of a single material, which the trowel can use as a source of materials.
     * Add: blocks now combine with themselves if possible when being placed (i.e. placing a step next to another one will convert into a slab), fixes #11.
@@ -8,6 +12,28 @@
     * Fix the trowel not showing the binded block in the item model.
     * Fix localization issue with the double stone slabs.
     * Fix blocks being consumed by the trowel binding recipe.
+
+1.8.8-1.1.2:
+    * Fix crash when a grass slab is destroyed by an explosion.
+    * Fix the grass slab item having the wrong name.
+    * Fix more culling bugs in the stairs.
+    * Fix crash when starting a server on Windows.
+
+1.8.8-1.1.1:
+    * Fix startup crash on windows.
+    * Fix invisible faces on stairs when stacked on top of each other.
+
+1.8.8-1.1.0:
+    * Add a portable ladder block.
+    * Add materials for coarse dirt, podzol and mycelium, fixes #25.
+    * Add compatibility for thaumcraft blocks.
+    * Add fence and fence gate block types.
+    * Add a GUI for the trowel when you shift-right click on the air, fixes #23.
+    * Add a model for the trowel.
+    * Updated to Minecraft Forge version 1.8.8
+    * Reduced significantly the blocks' space usage on disk and made it able to better handle removing/adding materials from existing worlds.
+    * Blocks now have the block hardness and explosion resistance of their material.
+    * Fix grass slabs world gen generating chunks recursively, fixes #22.
 
 1.1.2:
     * Fix crash when a grass slab is destroyed by an explosion.
@@ -20,8 +46,6 @@
     * Fix invisible faces on stairs when stacked on top of each other.
 
 1.1.0:
-    - 1.8.8:
-        * Updated to Minecraft Forge version 1.8.8.
     * Add a portable ladder block.
     * Add materials for coarse dirt, podzol and mycelium, fixes #25.
     * Add compatibility for thaumcraft blocks.
@@ -33,39 +57,39 @@
     * Fix grass slabs world gen generating chunks recursively, fixes #22.
 
 1.0.4:
-	* Add materials for the stone variants and the prismarine blocks, fixes #21.
-	* Fix vertical slabs culling when placed next to each other, fixes #18.
+    * Add materials for the stone variants and the prismarine blocks, fixes #21.
+    * Fix vertical slabs culling when placed next to each other, fixes #18
 
 1.0.3:
     * Fix crash when using forge versions higher than 1521.
 
 1.0.2:
+    * Reduce memory usage in the grass slabs world gen.
     * Fix glass slabs making the sides of other slabs next to them invisible, fixes #17.
     * Fix crash when you place a wall on top of another wall.
     * Fix not being able to place torches on top of walls.
-    * Reduce memory usage in the grass slabs world gen.
 
 1.0.1:
     * Remove usage of javax.vecmath which is not available on servers, fixes #15.
     * Fix crash when placing a double slab blcok next to a slab block, fixes #16.
 
 1.0.0:
-    * Fix material loading when running on servers, fixes #14.
     * Improve face culling, fixes #1.
+    * Fix material loading when running on servers, fixes #14.
     * Fix the particles when running on a block being the missing texture.
 
 1.0.0-beta4:
     * Fix crash when holding a grass slab.
 
 1.0.0-beta3:
+    * Add keybindings to switch the trowel's block type, fixes #3.
+    * Change the way the trowel consumes blocks to be more smart, fixes #10.
     * Fix block breaking particles not having textures, fixes #7.
     * Fix crash when placing blocks, fixes #13.
     * Fix crash when looking up the recipe for the double slabs.
     * Fix blocks dropping items when breaking them in creative mode, fixes #9.
     * Fix silk touching blocks and their drops, fixes #8.
     * Fix the trowel not respecting the top/side/bottom textures of materials, fixes #6.
-    * Change the way the trowel consumes blocks to be more smart, fixes #10.
-    * Add keybindings to switch the trowel's block type, fixes #3.
 
 1.0.0-beta2:
     * Fix grass slabs not having a name and creative tab.
@@ -75,3 +99,4 @@
 
 1.0.0-beta1:
     * Initial release
+

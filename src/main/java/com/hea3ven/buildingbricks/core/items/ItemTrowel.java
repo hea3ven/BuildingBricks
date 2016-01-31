@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-import com.hea3ven.buildingbricks.core.Properties;
+import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
 import com.hea3ven.buildingbricks.core.inventory.MaterialItemStackConsumer;
 import com.hea3ven.buildingbricks.core.inventory.SlotTrowelBlockType;
@@ -136,7 +136,7 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		if (playerIn.isSneaking()) {
-			playerIn.openGui(Properties.MODID, GuiTrowel.ID, worldIn, MathHelper.floor_double(playerIn.posX),
+			playerIn.openGui(ModBuildingBricks.MODID, GuiTrowel.ID, worldIn, MathHelper.floor_double(playerIn.posX),
 					MathHelper.floor_double(playerIn.posY), MathHelper.floor_double(playerIn.posZ));
 		}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
