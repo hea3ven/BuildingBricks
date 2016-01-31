@@ -1,9 +1,15 @@
+// Hea3veN's build script for minecraft mods
+// v1.0.0 (2016-01-31):
+//     * Initial release
+
+
 buildscript {
 	repositories {
 		jcenter()
 	}
 	dependencies {
 		classpath 'org.ajoberstar:grgit:1.4.1'
+		classpath 'org.apache.httpcomponents:httpclient:4.3.3'
 	}
 }
 
@@ -14,6 +20,7 @@ import groovy.json.JsonSlurper
 import org.ajoberstar.grgit.Grgit
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.HttpClientBuilder
 
 version = "${version_mc}-${project_version}"
 group = "${project_group}"
@@ -247,10 +254,13 @@ task updateReadme(dependsOn: 'curseforge') << {
 	new File(project.projectDir, "README.md.tmp").renameTo(new File(project.projectDir, "README.md"))
 }
 
-task pushRelease(dependsOn: updateReadme) << {
+task commitRelease(dependsOn: updateReadme) << {
 	def repo = Grgit.open(file("."))
 	repo.commit(message: 'Version ' + project.version, all: true)
-	repo.push()
+}
+
+task pushRelease(type: Exec, dependsOn: commitRelease) {
+	commandLine 'git', 'push'
 }
 
 def readCurrentDownloads() {
@@ -267,7 +277,7 @@ def readCurrentDownloads() {
 }
 
 task githubRelease(dependsOn: pushRelease) << {
-	def httpClient = org.apache.http.impl.client.HttpClientBuilder.create().build();
+	def httpClient = HttpClientBuilder.create().build();
 
 	def req = new HttpPost('https://api.github.com/repos/' + project_repo + '/releases')
 	req.addHeader('User-Agent', 'Mozilla/5.0 Ubuntu/8.10 Firefox/3.0.4')
@@ -281,18 +291,18 @@ task githubRelease(dependsOn: pushRelease) << {
 			+ '    "name": "Version ' + project.version + '",'
 			+ '    "body": "```\\n' +
 			UpdateFile.getChangelog(new File(projectDir, project_update_file), version_mc, project.version).
-					replace('\n', '\\n').replace('\t', '    ') + '```\\n'
+					replace('\n', '\\n').replace('\t', '    ') + '\\n```\\n'
 			+ readCurrentDownloads().replace('\n', '\\n') + '",'
 			+ '    "draft": false'
 			+ '}'))
 
 	def response = httpClient.execute(req);
-	if (response.statusLine.statusCode != 200) {
-		def reader = new BufferedReader(new InputStreamReader(response.entity.content))
-		reader.eachLine { line ->
-			println line
-		}
-	}
+//	if (response.statusLine.statusCode != 200) {
+//		def reader = new BufferedReader(new InputStreamReader(response.entity.content))
+//		reader.eachLine { line ->
+//			println line
+//		}
+//	}
 }
 
 task release(dependsOn: 'githubRelease') << {
