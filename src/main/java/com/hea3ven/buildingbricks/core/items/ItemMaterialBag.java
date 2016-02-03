@@ -1,5 +1,9 @@
 package com.hea3ven.buildingbricks.core.items;
 
+import java.util.UUID;
+
+import com.google.common.collect.ImmutableSet;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -16,9 +20,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.*;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
@@ -33,9 +35,6 @@ import com.hea3ven.tools.commonutils.inventory.SlotInputOutput;
 public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	public static final int BAG_VOLUME = 3 * 9 * 64 * 1000;
-
-	public ItemMaterialBag() {
-	}
 
 	@Override
 	public void setMaterial(ItemStack stack, Material mat) {
@@ -62,9 +61,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	public void setVolume(ItemStack stack, int volume) {
 		if (volume == 0) {
-			stack.setTagCompound(null);
 			setMaterial(stack, null);
-			return;
 		}
 
 		if (stack.getTagCompound() == null)
@@ -76,8 +73,24 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 	public int getVolume(ItemStack stack) {
 		if (stack.getTagCompound() == null)
 			return 0;
+		if (!stack.getTagCompound().hasKey("Volume"))
+			return 0;
 
 		return stack.getTagCompound().getInteger("Volume");
+	}
+
+	private void initUuid(ItemStack stack) {
+		if (stack.getTagCompound() == null)
+			stack.setTagCompound(new NBTTagCompound());
+
+		if (!stack.getTagCompound().hasKey("UUID"))
+			stack.getTagCompound().setString("UUID", UUID.randomUUID().toString());
+	}
+
+	private boolean areSameItem(ItemStack stack1, ItemStack stack2) {
+		NBTTagCompound nbt1 = stack1.getTagCompound();
+		NBTTagCompound nbt2 = stack2.getTagCompound();
+		return nbt1 != null && nbt2 != null && nbt1.getString("UUID").equals(nbt2.getString("UUID"));
 	}
 
 	@Override
@@ -92,8 +105,9 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		playerIn.openGui(ModBuildingBricks.MODID, GuiMaterialBag.ID, worldIn, MathHelper.floor_double(playerIn.posX),
-				MathHelper.floor_double(playerIn.posY), MathHelper.floor_double(playerIn.posZ));
+		playerIn.openGui(ModBuildingBricks.MODID, GuiMaterialBag.ID, worldIn,
+				MathHelper.floor_double(playerIn.posX), MathHelper.floor_double(playerIn.posY),
+				MathHelper.floor_double(playerIn.posZ));
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
 	}
 
@@ -144,9 +158,11 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 	}
 
 	public Container getContainer(EntityPlayer player) {
-		InventoryMaterialBag inv = new InventoryMaterialBag(player);
-		return new ContainerMaterialBag().addSlots(SlotType.DISPLAY, 0, 80, 44, 1, 1, SlotInputOutput.class,
-				inv).addInputOutputSlots(inv, 1, 10000, 62, 1, 1).addPlayerSlots(player.inventory);
+		ItemHandlerMaterialBag inv = new ItemHandlerMaterialBag(player);
+		return new ContainerMaterialBag().addSlots(SlotType.DISPLAY, 0, 80, 44, 1, 1, SlotItemHandler.class,
+				inv)
+				.addInputOutputSlots(inv, 1, 10000, 62, MaterialBlockType.values().length, 1)
+				.addPlayerSlots(player.inventory, ImmutableSet.of(player.inventory.currentItem));
 	}
 
 	public ItemStack createStack() {
@@ -165,86 +181,6 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
 		return new CapabilityProviderMaterialBag(stack, nbt);
-	}
-
-	public class InventoryMaterialBag extends InventoryGeneric {
-		private final EntityPlayer player;
-		private ItemStack stack;
-		private Material mat;
-		private int volume;
-
-		public InventoryMaterialBag(EntityPlayer player) {
-			super(2, 1728);
-			this.player = player;
-			this.stack = player.getCurrentEquippedItem();
-			mat = getMaterial(stack);
-			volume = getVolume(stack);
-			if (mat != null && volume > 0) {
-				inv[0] = mat.getBlock(MaterialBlockType.FULL).getStack().copy();
-			}
-		}
-
-		public int getCurrentVolume() {
-			return volume;
-		}
-
-		@Override
-		public String getName() {
-			return "buildingbricks.container.materialBag";
-		}
-
-		@Override
-		public boolean isItemValidForSlot(int index, ItemStack stack) {
-			if (index == 0)
-				return false;
-			if (mat == null)
-				return MaterialRegistry.getMaterialForStack(stack) != null;
-			BlockDescription desc = mat.getBlock(stack);
-			return desc != null && volume + desc.getType().getVolume() < BAG_VOLUME;
-		}
-
-		@Override
-		public void setInventorySlotContents(int index, ItemStack stack) {
-			if (stack == null)
-				return;
-			if (index != 1)
-				return;
-			if (mat == null) {
-				mat = MaterialRegistry.getMaterialForStack(stack);
-				inv[0] = mat.getBlock(MaterialBlockType.FULL).getStack().copy();
-			}
-			BlockDescription desc = mat.getBlock(stack);
-			volume += stack.stackSize * desc.getType().getVolume();
-		}
-
-		@Override
-		public ItemStack decrStackSize(int index, int count) {
-			if (index == 0) {
-				MaterialBlockType type = MaterialBlockType.getBestForVolume(volume);
-				ItemStack stack = ItemHandlerHelper.copyStackWithSize(mat.getBlock(type).getStack(),
-						volume / type.getVolume());
-				if (stack.stackSize > stack.getMaxStackSize())
-					stack.stackSize = stack.getMaxStackSize();
-				volume -= type.getVolume() * stack.stackSize;
-				if (volume <= 0) {
-					mat = null;
-					volume = 0;
-					inv[0] = null;
-				}
-				return stack;
-			} else if (index == 1)
-				return null;
-			else
-				return super.decrStackSize(index, count);
-		}
-
-		@Override
-		public void markDirty() {
-			super.markDirty();
-			setMaterial(stack, mat);
-			setVolume(stack, volume);
-			player.setCurrentItemOrArmor(0, stack);
-		}
 	}
 
 	class ContainerMaterialBag extends GenericContainer {
@@ -288,78 +224,144 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		}
 	}
 
-	private class ItemHandlerMaterialBag implements IItemHandler {
-		private final ItemStack stack;
-		private final Material mat;
-		private final MaterialBlockType[] slots;
+	public class ItemHandlerMaterialBag implements IItemHandler {
+		private EntityPlayer player = null;
+		private final ItemStack origStack;
+		private Material mat;
+		private MaterialBlockType[] slots;
+
+		public ItemHandlerMaterialBag(EntityPlayer player) {
+			this(player.getCurrentEquippedItem());
+			this.player = player;
+		}
 
 		public ItemHandlerMaterialBag(ItemStack stack) {
-			this.stack = stack;
+			ModBuildingBricks.materialBag.initUuid(stack);
+			origStack = stack;
 			mat = MaterialStack.get(stack);
-			if (mat != null) {
-				slots = new MaterialBlockType[mat.getBlockRotation().getAll().size()];
-				slots[0] = mat.getBlockRotation().getFirst();
-				for (int i = 0; i < slots.length; i++) {
-					slots[i] = mat.getBlockRotation().get(i).getType();
+			slots = MaterialBlockType.values();
+		}
+
+		private ItemStack getBagStack() {
+			if (player != null) {
+				ItemStack playerStack = player.getCurrentEquippedItem();
+
+				if (ModBuildingBricks.materialBag.areSameItem(origStack, playerStack)) {
+					return playerStack;
 				}
-			} else {
-				slots = new MaterialBlockType[0];
 			}
+			return origStack;
+		}
+
+		public float getCurrentVolume() {
+			return ModBuildingBricks.materialBag.getVolume(getBagStack());
 		}
 
 		@Override
 		public int getSlots() {
-			return slots.length;
+			return slots.length + 1;
 		}
 
 		@Override
 		public ItemStack getStackInSlot(int slot) {
-			return ItemHandlerHelper.copyStackWithSize(mat.getBlock(slots[slot]).getStack(),
-					ModBuildingBricks.materialBag.getVolume(stack) / slots[slot].getVolume());
+			if (slot == 0) {
+				if (mat == null)
+					return null;
+				else
+					return mat.getBlock(mat.getBlockRotation().getFirst()).getStack();
+			} else {
+				slot--;
+
+				if (mat == null)
+					return null;
+
+				if (mat.getBlock(slots[slot]) == null) // Invalid block type for the material
+					return null;
+
+				return ItemHandlerHelper.copyStackWithSize(mat.getBlock(slots[slot]).getStack(),
+						ModBuildingBricks.materialBag.getVolume(getBagStack()) / slots[slot].getVolume());
+			}
 		}
 
 		@Override
 		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-			if (mat == null)
+			if (slot == 0)
 				return stack;
+			else {
+				slot--;
 
-			Material stackMat = MaterialRegistry.getMaterialForStack(stack);
-			if (mat != stackMat)
-				return stack;
+				Material stackMat = MaterialRegistry.getMaterialForStack(stack);
+				if (stackMat == null) // Input stack doesn't have a material
+					return stack;
 
-			int volume = ModBuildingBricks.materialBag.getVolume(stack);
-			int capacity = (BAG_VOLUME - volume) / slots[slot].getVolume();
-			if (stack.stackSize < capacity) {
-				if (!simulate) {
-					volume += stack.stackSize * slots[slot].getVolume();
-					ModBuildingBricks.materialBag.setVolume(stack, volume);
-				}
-				return null;
-			} else {
-				if (!simulate) {
-					stack.splitStack(capacity);
-					volume += capacity * slots[slot].getVolume();
-					ModBuildingBricks.materialBag.setVolume(stack, volume);
+				BlockDescription desc = stackMat.getBlock(stack);
+				if (desc.getType() != slots[slot]) // Input stack doesn't match the MaterialBlockType
+					return stack;
+
+				if (mat == null) {
+					if (!simulate) {
+						mat = stackMat;
+						ItemStack bagStack = getBagStack();
+						ModBuildingBricks.materialBag.setMaterial(bagStack, mat);
+						ModBuildingBricks.materialBag.setVolume(bagStack,
+								stack.stackSize * slots[slot].getVolume());
+					}
+					return null;
 				} else {
-					stack.stackSize -= capacity;
+					if (mat.getBlock(slots[slot]) == null) // Invalid block type for the material
+						return stack;
+
+					if (mat != stackMat) // Materials don't match
+						return stack;
+
+					ItemStack bagStack = getBagStack();
+					int volume = ModBuildingBricks.materialBag.getVolume(bagStack);
+					int capacity = (BAG_VOLUME - volume) / slots[slot].getVolume();
+					if (stack.stackSize < capacity) {
+						if (!simulate) {
+							volume += stack.stackSize * slots[slot].getVolume();
+							ModBuildingBricks.materialBag.setVolume(bagStack, volume);
+						}
+						return null;
+					} else {
+						stack.stackSize -= capacity;
+						if (!simulate) {
+							stack.splitStack(capacity);
+							volume += capacity * slots[slot].getVolume();
+							ModBuildingBricks.materialBag.setVolume(bagStack, volume);
+						}
+						return stack;
+					}
 				}
-				return stack;
 			}
 		}
 
 		@Override
 		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-			int volume = ModBuildingBricks.materialBag.getVolume(stack);
-			int volumeToExtract = amount * slots[slot].getVolume();
-			if (volumeToExtract > volume) {
-				amount = volume / slots[slot].getVolume();
-				volumeToExtract = amount * slots[slot].getVolume();
+			if (slot == 0) {
+				if (mat == null)
+					return null;
+
+				ItemStack bagStack = getBagStack();
+				int volume = ModBuildingBricks.materialBag.getVolume(bagStack);
+				MaterialBlockType type = MaterialBlockType.getBestForVolume(volume);
+				ItemStack stack = ItemHandlerHelper.copyStackWithSize(mat.getBlock(type).getStack(),
+						volume / type.getVolume());
+				if (stack.stackSize > stack.getMaxStackSize())
+					stack.stackSize = stack.getMaxStackSize();
+				if (!simulate) {
+					volume -= type.getVolume() * stack.stackSize;
+					if (volume <= 0) {
+						mat = null;
+						ModBuildingBricks.materialBag.setMaterial(bagStack, mat);
+						ModBuildingBricks.materialBag.setVolume(bagStack, 0);
+					} else {
+						ModBuildingBricks.materialBag.setVolume(bagStack, volume);
+					}
+				}
+				return stack;
 			}
-			if (!simulate) {
-				volume -= volumeToExtract;
-				ModBuildingBricks.materialBag.setVolume(stack, volume);
-			}
-			return ItemHandlerHelper.copyStackWithSize(mat.getBlock(slots[slot]).getStack(), amount);
+			return null;
 		}
 	}
 }

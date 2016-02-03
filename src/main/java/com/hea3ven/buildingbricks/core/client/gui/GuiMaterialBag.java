@@ -5,7 +5,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
-import com.hea3ven.buildingbricks.core.items.ItemMaterialBag.InventoryMaterialBag;
+import net.minecraftforge.items.SlotItemHandler;
+
+import com.hea3ven.buildingbricks.core.items.ItemMaterialBag.ItemHandlerMaterialBag;
 
 public class GuiMaterialBag extends GuiContainer {
 	public static final int ID = 1;
@@ -20,8 +22,8 @@ public class GuiMaterialBag extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		this.fontRendererObj.drawString(String.format("%.2f",
-				((InventoryMaterialBag) inventorySlots.inventorySlots.get(0).inventory).getCurrentVolume() /
-						1000f), 70, 64, 4210752);
+				((ItemHandlerMaterialBag) ((SlotItemHandler) inventorySlots.inventorySlots.get(
+						0)).itemHandler).getCurrentVolume() / 1000f), 70, 64, 4210752);
 	}
 
 	@Override
