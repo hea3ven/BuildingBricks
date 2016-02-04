@@ -28,6 +28,7 @@ import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
 import com.hea3ven.buildingbricks.core.client.settings.TrowelKeyBindings;
+import com.hea3ven.buildingbricks.core.command.CommandCreateMaterial;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
@@ -204,5 +205,10 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.STEP));
 		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectCorner", Keyboard.KEY_NUMPAD5,
 				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.CORNER));
+	}
+
+	@Override
+	protected void registerCommands() {
+		addCommand(new CommandCreateMaterial());
 	}
 }
