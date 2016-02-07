@@ -27,6 +27,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.compat.vanilla.items.ItemBlockGrassSlab;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
@@ -60,6 +61,10 @@ public class ModBuildingBricksCompatVanilla {
 	}
 
 	private void replaceStoneSlabRecipe() {
+		Material mat = MaterialRegistry.get("buildingbrickscompatvanilla:stone");
+		if (mat == null)
+			return;
+
 		logger.info("Replacing default stone slab recipe");
 		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
 		for (int i = 0; i < recipes.size(); i++) {
@@ -73,9 +78,7 @@ public class ModBuildingBricksCompatVanilla {
 			}
 		}
 
-		ItemStack stoneSlab = MaterialRegistry.get("buildingbrickscompatvanilla:stone")
-				.getBlock(MaterialBlockType.SLAB)
-				.getStack();
+		ItemStack stoneSlab = mat.getBlock(MaterialBlockType.SLAB).getStack();
 		ItemStack stoneSlabSlab =
 				new ItemStack(Blocks.stone_slab, 2, BlockStoneSlab.EnumType.STONE.getMetadata());
 		GameRegistry.addShapedRecipe(stoneSlabSlab, "x", "x", 'x', stoneSlab);

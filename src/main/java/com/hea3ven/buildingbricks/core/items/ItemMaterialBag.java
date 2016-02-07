@@ -20,7 +20,10 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.*;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.SlotItemHandler;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
@@ -29,8 +32,6 @@ import com.hea3ven.buildingbricks.core.materials.MaterialStack.ItemMaterial;
 import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer.SlotType;
-import com.hea3ven.tools.commonutils.inventory.InventoryGeneric;
-import com.hea3ven.tools.commonutils.inventory.SlotInputOutput;
 
 public class ItemMaterialBag extends Item implements ItemMaterial {
 

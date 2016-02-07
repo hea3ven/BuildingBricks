@@ -1,14 +1,22 @@
 package com.hea3ven.buildingbricks.core;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.client.Minecraft;
+
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
@@ -44,6 +52,19 @@ public class ModBuildingBricks {
 	public static ItemTrowel trowel;
 	public static ItemMaterialBag materialBag;
 	public static BlockPortableLadder portableLadder;
+
+	@EventHandler
+	public void construction(FMLConstructionEvent event) {
+		Path resourcesDir = null;
+		if (event.getSide() == Side.CLIENT) {
+			resourcesDir = Minecraft.getMinecraft().mcDataDir.toPath();
+		} else {
+			resourcesDir =
+					Paths.get(FMLCommonHandler.instance().getSavesDirectory().getAbsoluteFile().getParent());
+		}
+		resourcesDir = resourcesDir.resolve("config").resolve("BuildingBricks").resolve("resources");
+		resScanner.addModDirectory(resourcesDir);
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
