@@ -208,7 +208,7 @@ public class ItemTrowel extends Item implements ItemMaterial {
 		if (mat == null)
 			return super.getColorFromItemStack(stack, tintIndex);
 
-		return mat.getBlock(MaterialBlockType.FULL).getItem().getColorFromItemStack(stack, tintIndex);
+		return mat.getFirstBlock().getItem().getColorFromItemStack(stack, tintIndex);
 	}
 
 	private void updateStack(ItemStack stack) {

@@ -19,11 +19,15 @@ public class MaterialParser {
 					.registerTypeAdapter(StructureMaterial.class, new StructureMaterialDeserializer())
 					.create();
 
+	public static boolean generateBlocks = true;
+
 	public static void loadMaterialFromStream(InputStream matStream) {
 		Material mat = GSON.fromJson(new InputStreamReader(matStream, Charsets.UTF_8), Material.class);
-		for (MaterialBlockType blockType : mat.getStructureMaterial().getBlockTypes()) {
-			if (mat.getBlock(blockType) == null)
-				mat.addBlock(blockType);
+		if (generateBlocks) {
+			for (MaterialBlockType blockType : mat.getStructureMaterial().getBlockTypes()) {
+				if (mat.getBlock(blockType) == null)
+					mat.addBlock(blockType);
+			}
 		}
 		MaterialRegistry.registerMaterial(mat);
 	}

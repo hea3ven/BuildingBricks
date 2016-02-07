@@ -21,7 +21,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.client.model.ModelItemMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.tools.commonutils.client.ModelBakerBase;
 
@@ -52,7 +51,7 @@ public class ModelBakerItemMaterial extends ModelBakerBase {
 
 		for (Material material : MaterialRegistry.getAll()) {
 
-			ItemStack stack = material.getBlock(MaterialBlockType.FULL).getStack();
+			ItemStack stack = material.getFirstBlock().getStack();
 			Item item = stack.getItem();
 			List<String> variantNames;
 			try {

@@ -2,6 +2,7 @@ package com.hea3ven.buildingbricks.core;
 
 import java.nio.file.Path;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.lwjgl.input.Keyboard;
@@ -18,6 +19,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,6 +35,7 @@ import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
 import com.hea3ven.buildingbricks.core.materials.*;
+import com.hea3ven.buildingbricks.core.materials.loader.MaterialParser;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMappingChecker;
@@ -78,6 +81,16 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 		addConfigManager(new DirectoryConfigManagerBuilder().setDirName("BuildingBricks")
 				.addFile(new FileConfigManagerBuilder().setFileName("general.cfg")
 						.setDesc("Building Bricks Configuration")
+						.addCategory("general")
+						.addValue("generateBlocks", "true", Type.BOOLEAN,
+								"Enable to generate the missing blocks for the materials",
+								new Consumer<Property>() {
+									@Override
+									public void accept(Property property) {
+										MaterialParser.generateBlocks = property.getBoolean();
+									}
+								}, true, true)
+						.endCategory()
 						.addCategory("world")
 						.addValue("generateGrassSlabs", "true", Type.BOOLEAN,
 								"Enable to generate grass slabs in the world to smooth out the surface",

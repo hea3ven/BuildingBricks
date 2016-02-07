@@ -24,7 +24,7 @@ public class SlotTrowelMaterial extends Slot implements SlotCustom {
 	@Override
 	public ItemStack getStack() {
 		Material mat = MaterialStack.get(trowel);
-		return mat != null ? mat.getBlock(MaterialBlockType.FULL).getStack().copy() : null;
+		return mat != null ? mat.getFirstBlock().getStack().copy() : null;
 	}
 
 	@Override

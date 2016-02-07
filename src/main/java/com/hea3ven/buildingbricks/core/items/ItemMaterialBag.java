@@ -32,6 +32,7 @@ import com.hea3ven.buildingbricks.core.materials.MaterialStack.ItemMaterial;
 import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer.SlotType;
+import com.hea3ven.tools.commonutils.inventory.SlotItemHandlerBase;
 
 public class ItemMaterialBag extends Item implements ItemMaterial {
 
@@ -149,7 +150,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		if (mat == null)
 			return super.getColorFromItemStack(stack, tintIndex);
 
-		return mat.getBlock(MaterialBlockType.FULL).getItem().getColorFromItemStack(stack, tintIndex);
+		return mat.getFirstBlock().getItem().getColorFromItemStack(stack, tintIndex);
 	}
 
 	private void updateStack(ItemStack stack) {
@@ -160,8 +161,8 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	public Container getContainer(EntityPlayer player) {
 		ItemHandlerMaterialBag inv = new ItemHandlerMaterialBag(player);
-		return new ContainerMaterialBag().addSlots(SlotType.DISPLAY, 0, 80, 44, 1, 1, SlotItemHandler.class,
-				inv)
+		return new ContainerMaterialBag().addSlots(SlotType.DISPLAY, 0, 80, 44, 1, 1,
+				SlotItemHandlerBase.class, inv)
 				.addInputOutputSlots(inv, 1, 10000, 62, MaterialBlockType.values().length, 1)
 				.addPlayerSlots(player.inventory, ImmutableSet.of(player.inventory.currentItem));
 	}
@@ -269,7 +270,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 				if (mat == null)
 					return null;
 				else
-					return mat.getBlock(mat.getBlockRotation().getFirst()).getStack();
+					return mat.getFirstBlock().getStack();
 			} else {
 				slot--;
 
@@ -345,7 +346,9 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 				ItemStack bagStack = getBagStack();
 				int volume = ModBuildingBricks.materialBag.getVolume(bagStack);
-				MaterialBlockType type = MaterialBlockType.getBestForVolume(volume);
+				MaterialBlockType type = MaterialBlockType.getBestForVolume(mat, volume);
+				if (type == null)
+					return null;
 				ItemStack stack = ItemHandlerHelper.copyStackWithSize(mat.getBlock(type).getStack(),
 						volume / type.getVolume());
 				if (stack.stackSize > stack.getMaxStackSize())

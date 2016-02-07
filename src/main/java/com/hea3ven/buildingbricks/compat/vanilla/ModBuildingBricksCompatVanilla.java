@@ -62,7 +62,7 @@ public class ModBuildingBricksCompatVanilla {
 
 	private void replaceStoneSlabRecipe() {
 		Material mat = MaterialRegistry.get("buildingbrickscompatvanilla:stone");
-		if (mat == null)
+		if (mat == null || mat.getBlock(MaterialBlockType.SLAB) == null)
 			return;
 
 		logger.info("Replacing default stone slab recipe");

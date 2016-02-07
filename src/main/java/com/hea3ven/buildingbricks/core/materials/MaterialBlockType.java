@@ -94,6 +94,14 @@ public enum MaterialBlockType {
 		return null;
 	}
 
+	public static MaterialBlockType getBestForVolume(Material mat, int volume) {
+		for (MaterialBlockType blockType : values()) {
+			if (mat.getBlock(blockType) != null && blockType.getVolume() <= volume)
+				return blockType;
+		}
+		return null;
+	}
+
 	private String name;
 	private List<MaterialRecipeBuilder> allwaysRecipes;
 	private List<MaterialRecipeBuilder> materialRecipes;

@@ -112,6 +112,10 @@ public class Material {
 		return null;
 	}
 
+	public BlockDescription getFirstBlock() {
+		return getBlock(blockRotation.getFirst());
+	}
+
 	@Override
 	public String toString() {
 		return "<Material " + getMaterialId() + ">";
@@ -125,7 +129,7 @@ public class Material {
 		if (StatCollector.canTranslate(getTranslationKey()))
 			return StatCollector.translateToLocal(getTranslationKey());
 
-		BlockDescription block = getBlock(MaterialBlockType.FULL);
+		BlockDescription block = getFirstBlock();
 		if (block.getBlock() instanceof BlockMaterial)
 			return materialId;
 

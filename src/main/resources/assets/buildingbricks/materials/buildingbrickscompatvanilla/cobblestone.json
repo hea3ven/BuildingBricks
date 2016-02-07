@@ -7,6 +7,7 @@
     "textures": "minecraft:blocks/cobblestone",
     "blocks": {
         "full": "minecraft:cobblestone",
+        "stairs": "minecraft:stone_stairs",
         "slab": { "id": "minecraft:stone_slab", "meta": 3 },
         "wall": { "id": "minecraft:cobblestone_wall", "meta": 0 }
     }
