@@ -1,4 +1,6 @@
 // Hea3veN's build script for minecraft mods
+// v1.0.2 (2016-02-07):
+//     * Define the run directory
 // v1.0.1 (2016-02-02):
 //     * Forge doesn't like @ in the dependencies versions
 // v1.0.0 (2016-01-31):
@@ -34,6 +36,7 @@ targetCompatibility = 1.7
 minecraft {
 	version = "${version_mc}-${version_forge}"
 	mappings = version_mappings
+	runDir = 'run'
 	def project_class_path = project_class.replace('.', '/')
 	replaceIn "src/main/java/${project_class_path}.java"
 	replace 'PROJECTVERSION', project.version
