@@ -70,6 +70,7 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 
 		super.onInitEvent(event);
 
+		MinecraftForge.EVENT_BUS.register(ModBuildingBricks.materialBag);
 		MinecraftForge.EVENT_BUS.register(new MaterialIdMappingChecker());
 	}
 

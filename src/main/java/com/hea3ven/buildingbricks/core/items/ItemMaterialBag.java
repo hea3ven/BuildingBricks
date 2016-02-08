@@ -18,12 +18,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.SlotItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
@@ -206,6 +209,52 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		}
 	}
 
+	@SubscribeEvent
+	public void onItemPickup(EntityItemPickupEvent event) {
+		if (event.isCanceled())
+			return;
+
+		ItemStack stack = event.item.getEntityItem();
+		if (stack == null || stack.stackSize <= 0)
+			return;
+		Material mat = MaterialRegistry.getMaterialForStack(stack);
+		if (mat == null)
+			return;
+
+		ItemStack bagStack = findBag(new InvWrapper(event.entityPlayer.inventory), mat);
+		if (bagStack == null)
+			return;
+
+		int volume = getVolume(bagStack);
+		BlockDescription desc = mat.getBlock(stack);
+
+		if (volume + desc.getType().getVolume() * stack.stackSize <= BAG_VOLUME) {
+			setVolume(bagStack, volume + desc.getType().getVolume() * stack.stackSize);
+			stack.stackSize = 0;
+		} else {
+			int countAdd = ((BAG_VOLUME - volume) / desc.getType().getVolume());
+			setVolume(bagStack, volume + countAdd * desc.getType().getVolume());
+			stack.stackSize -= countAdd;
+		}
+
+		if (stack.stackSize <= 0)
+			event.setResult(Result.ALLOW);
+	}
+
+	private ItemStack findBag(InvWrapper itemHandler, Material mat) {
+		for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
+			ItemStack bagStack = itemHandler.getStackInSlot(slot);
+			if (bagStack == null)
+				continue;
+			if (bagStack.getItem() != this)
+				continue;
+
+			if (getMaterial(bagStack) == mat)
+				return bagStack;
+		}
+		return null;
+	}
+
 	private class CapabilityProviderMaterialBag implements ICapabilityProvider {
 		private final ItemStack stack;
 
@@ -328,7 +377,6 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 					} else {
 						stack.stackSize -= capacity;
 						if (!simulate) {
-							stack.splitStack(capacity);
 							volume += capacity * slots[slot].getVolume();
 							ModBuildingBricks.materialBag.setVolume(bagStack, volume);
 						}
