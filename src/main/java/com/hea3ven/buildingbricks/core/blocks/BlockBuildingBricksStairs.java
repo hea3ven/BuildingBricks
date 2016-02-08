@@ -3,6 +3,7 @@ package com.hea3ven.buildingbricks.core.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
@@ -36,6 +37,11 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 
 	public static EnumShape getShape(IBlockState state) {
 		return state.getValue(SHAPE);
+	}
+
+	@Override
+	public boolean doesSideBlockRendering(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return getMaterial().isOpaque() && super.doesSideBlockRendering(world, pos, face);
 	}
 
 	@Override

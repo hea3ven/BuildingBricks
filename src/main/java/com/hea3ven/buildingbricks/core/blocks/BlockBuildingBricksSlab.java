@@ -83,6 +83,11 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 	}
 
 	@Override
+	public boolean doesSideBlockRendering(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return getMaterial().isOpaque() && super.doesSideBlockRendering(world, pos, face);
+	}
+
+	@Override
 	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
 		IBlockState state = world.getBlockState(pos);
 		BlockPos ownPos = pos.offset(side.getOpposite());
