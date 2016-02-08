@@ -26,6 +26,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.compat.vanilla.GrassSlabWorldGen;
+import com.hea3ven.buildingbricks.compat.vanilla.client.LongGrassTextureGenerator;
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
@@ -90,6 +91,14 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 										MaterialParser.generateBlocks = property.getBoolean();
 									}
 								}, true, true)
+						.addValue("replaceGrassTexture", "true", Type.BOOLEAN,
+								"Enable to replace the grass texture with a long grass texture",
+								new Consumer<Property>() {
+									@Override
+									public void accept(Property property) {
+										LongGrassTextureGenerator.enabled = property.getBoolean();
+									}
+								})
 						.endCategory()
 						.addCategory("world")
 						.addValue("generateGrassSlabs", "true", Type.BOOLEAN,

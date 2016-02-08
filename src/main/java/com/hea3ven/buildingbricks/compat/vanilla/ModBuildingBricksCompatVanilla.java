@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -25,6 +26,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
+import com.hea3ven.buildingbricks.compat.vanilla.client.LongGrassTextureGenerator;
 import com.hea3ven.buildingbricks.compat.vanilla.items.ItemBlockGrassSlab;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
@@ -45,6 +47,8 @@ public class ModBuildingBricksCompatVanilla {
 		logger.info("Registering the grass slab block");
 		grassSlab = new BlockGrassSlab().setUnlocalizedName("grass_slab");
 		GameRegistry.registerBlock(grassSlab, ItemBlockGrassSlab.class, "grass_slab");
+
+		MinecraftForge.EVENT_BUS.register(new LongGrassTextureGenerator());
 	}
 
 	@EventHandler

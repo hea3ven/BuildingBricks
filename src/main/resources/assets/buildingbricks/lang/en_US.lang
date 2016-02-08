@@ -1,6 +1,7 @@
 buildingbricks.config.general.cat=General
 buildingbricks.config.general.cat.tooltip=General configuration options.
-buildingbricks.config.world.generateBlocks=Generate missing blocks
+buildingbricks.config.general.generateBlocks=Generate missing blocks
+buildingbricks.config.general.replaceGrassTexture=Replace grass texture
 buildingbricks.config.world.cat=World
 buildingbricks.config.world.cat.tooltip=Configuration options that affect worlds.
 buildingbricks.config.world.generateGrassSlabs=Generate grass slabs
