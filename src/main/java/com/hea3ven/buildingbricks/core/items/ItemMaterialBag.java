@@ -197,9 +197,9 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 				ItemStack stack = slot.decrStackSize(1);
 				ItemStack originalStack = stack.copy();
 
-				if (!this.mergeItemStack(stack, 2, 2 + 9 * 4, true)) {
+				if (!this.mergeItemStack(stack, getPlayerSlotsStart(), getPlayerSlotsStart() + 9 * 4, true))
 					return null;
-				}
+
 				slot.onSlotChange(stack, originalStack);
 				slot.onSlotChanged();
 				return originalStack;
