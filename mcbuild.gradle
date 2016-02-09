@@ -221,6 +221,8 @@ class Changelog {
 	def addLine(String line) {
 		if (line.startsWith('    * '))
 			line = line.substring(6)
+		if (line.endsWith('.'))
+			line = line.substring(0, line.length() - 1)
 		if (line.startsWith('Add'))
 			additions.add(line)
 		else if (line.startsWith('Remove'))
@@ -232,7 +234,7 @@ class Changelog {
 	}
 
 	String save() {
-		(additions + removes + extra + fixes).collect { '    * ' + it }.join('\n')
+		(additions + removes + extra + fixes).collect { '    * ' + it + '.' }.join('\n')
 	}
 }
 

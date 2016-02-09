@@ -28,8 +28,8 @@ apply from: 'mcbuild.gradle'
 import groovy.io.FileType
 
 dependencies {
-	compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:1.0.2:deobf'
-	release 'com.hea3ven.tools.commonutils:h3nt-commonutils:1.0.2'
+	compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:1.0.3:deobf'
+	release 'com.hea3ven.tools.commonutils:h3nt-commonutils:1.0.3'
 
 	testCompile "junit:junit:4.12"
 }
