@@ -1,5 +1,7 @@
 package com.hea3ven.buildingbricks.core;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -55,14 +57,21 @@ public class ModBuildingBricks {
 
 	@EventHandler
 	public void construction(FMLConstructionEvent event) {
-		Path resourcesDir = null;
-		if (event.getSide() == Side.CLIENT) {
+		Path resourcesDir;
+		if (event.getSide() == Side.CLIENT)
 			resourcesDir = Minecraft.getMinecraft().mcDataDir.toPath();
-		} else {
+		else
 			resourcesDir =
 					Paths.get(FMLCommonHandler.instance().getSavesDirectory().getAbsoluteFile().getParent());
-		}
 		resourcesDir = resourcesDir.resolve("config").resolve("BuildingBricks").resolve("resources");
+		if (!Files.exists(resourcesDir)) {
+			try {
+				Files.createDirectories(resourcesDir);
+			} catch (IOException e) {
+				logger.error("Could not create resources directory", e);
+				return;
+			}
+		}
 		resScanner.addModDirectory(resourcesDir);
 	}
 
