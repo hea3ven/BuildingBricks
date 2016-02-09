@@ -76,7 +76,10 @@ public class TileMaterial extends TileEntity {
 		super.readFromNBT(nbt);
 
 		if (nbt.hasKey("material")) {
-			setMaterial(MaterialRegistry.get("buildingbrickscompatvanilla:" + nbt.getString("material")));
+			String matId = nbt.getString("material");
+			if (!matId.contains(":"))
+				matId = "buildingbrickscompatvanilla:" + matId;
+			setMaterial(MaterialRegistry.get(matId));
 			materialId = MaterialIdMapping.get().getIdForMaterial(getMaterial());
 		} else {
 			materialId = nbt.getShort("m");
