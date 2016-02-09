@@ -1,0 +1,11 @@
+{
+	"name": "Adobe Glass",
+	"id": "adobeblocks:adobe_glass",
+	"type": "glass",
+	"hardness": 0.3,
+	"resistance": 0.5,
+	"textures": "adobeblocks:blocks/adobe_glass",
+	"blocks": {
+		"full": "adobeblocks:adobe_glass"
+	}
+}
