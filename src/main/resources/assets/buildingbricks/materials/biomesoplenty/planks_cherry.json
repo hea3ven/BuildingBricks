@@ -1,0 +1,30 @@
+{
+	"name": "Cherry Wood Planks",
+	"id": "biomesoplenty:planks_cherry",
+	"type": "wood",
+	"hardness": 2.0,
+	"resistance": 5.0,
+	"textures": "biomesoplenty:blocks/cherry_planks",
+	"blocks": {
+		"full": {
+			"id": "biomesoplenty:planks_0",
+			"meta": 1
+		},
+		"stairs": {
+			"id": "biomesoplenty:cherry_stairs",
+			"meta": 0
+		},
+		"slab": {
+			"id": "biomesoplenty:wood_slab_0",
+			"meta": 1
+		},
+		"fence": {
+			"id": "biomesoplenty:cherry_fence",
+			"meta": 0
+		},
+		"fence_gate": {
+			"id": "biomesoplenty:cherry_fence_gate",
+			"meta": 0
+		}
+	}
+}

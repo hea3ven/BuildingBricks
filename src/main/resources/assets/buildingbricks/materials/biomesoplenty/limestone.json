@@ -1,0 +1,12 @@
+{
+	"name": "Limestone",
+	"id": "biomesoplenty:limestone",
+	"type": "rock",
+	"textures": "biomesoplenty:blocks/limestone",
+	"blocks": {
+		"full": {
+			"id": "biomesoplenty:stone",
+			"meta": 0
+		}
+	}
+}

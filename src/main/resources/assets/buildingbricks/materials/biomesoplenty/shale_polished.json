@@ -1,0 +1,12 @@
+{
+	"name": "Polished Shale",
+	"id": "biomesoplenty:shale_polished",
+	"type": "rock",
+	"textures": "biomesoplenty:blocks/polished_shale",
+	"blocks": {
+		"full": {
+			"id": "biomesoplenty:stone",
+			"meta": 10
+		}
+	}
+}

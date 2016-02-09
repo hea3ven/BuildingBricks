@@ -1,0 +1,14 @@
+{
+	"name": "Block of Sapphire",
+	"id": "biomesoplenty:sapphire_block",
+	"type": "metal",
+	"hardness": 5.0,
+	"resistance": 10.0,
+	"textures": "biomesoplenty:blocks/sapphire_block",
+	"blocks": {
+		"full": {
+			"id": "biomesoplenty:gem_block",
+			"meta": 6
+		}
+	}
+}

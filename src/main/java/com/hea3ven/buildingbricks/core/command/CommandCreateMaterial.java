@@ -62,9 +62,13 @@ public class CommandCreateMaterial extends CommandBase {
 
 			Block block = ((ItemBlock) blockStack.getItem()).block;
 
+			String id = Block.blockRegistry.getNameForObject(block).toString();
+			if (args.length > 2)
+				id = id.split(":")[0] + ":" + args[2];
+
 			JsonObject mat = new JsonObject();
 			mat.addProperty("name", blockStack.getDisplayName());
-			mat.addProperty("id", Block.blockRegistry.getNameForObject(block).toString());
+			mat.addProperty("id", id);
 			mat.addProperty("type", structMat.getName());
 			try {
 				mat.addProperty("hardness", block.getBlockHardness(null, null));
@@ -104,14 +108,15 @@ public class CommandCreateMaterial extends CommandBase {
 					.toJson(mat)
 					.replace("  ", "\t");
 			Path outputPath = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), "config",
-					"BuildingBricks", "resources", mat.get("id").getAsString().split(":")[0]);
+					"BuildingBricks", "resources", "assets", "buildingbricks", "materials",
+					id.split(":")[0]);
 			if (!Files.exists(outputPath))
 				try {
 					Files.createDirectories(outputPath);
 				} catch (IOException e) {
 					Throwables.propagate(e);
 				}
-			outputPath = outputPath.resolve(mat.get("id").getAsString().split(":")[1] + ".json");
+			outputPath = outputPath.resolve(id.split(":")[1] + ".json");
 			try (BufferedWriter stream = Files.newBufferedWriter(outputPath, StandardOpenOption.CREATE_NEW)) {
 				stream.write(matString);
 			} catch (FileAlreadyExistsException e) {

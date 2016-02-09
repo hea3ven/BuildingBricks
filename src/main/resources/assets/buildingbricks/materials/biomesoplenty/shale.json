@@ -1,0 +1,12 @@
+{
+	"name": "Shale",
+	"id": "biomesoplenty:shale",
+	"type": "rock",
+	"textures": "biomesoplenty:blocks/shale",
+	"blocks": {
+		"full": {
+			"id": "biomesoplenty:stone",
+			"meta": 2
+		}
+	}
+}

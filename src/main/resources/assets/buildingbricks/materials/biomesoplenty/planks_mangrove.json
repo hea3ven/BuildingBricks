@@ -1,0 +1,30 @@
+{
+	"name": "Mangrove Wood Planks",
+	"id": "biomesoplenty:planks_mangrove",
+	"type": "wood",
+	"hardness": 2.0,
+	"resistance": 5.0,
+	"textures": "biomesoplenty:blocks/mangrove_planks",
+	"blocks": {
+		"full": {
+			"id": "biomesoplenty:planks_0",
+			"meta": 6
+		},
+		"stairs": {
+			"id": "biomesoplenty:mangrove_stairs",
+			"meta": 0
+		},
+		"slab": {
+			"id": "biomesoplenty:wood_slab_0",
+			"meta": 6
+		},
+		"fence": {
+			"id": "biomesoplenty:mangrove_fence",
+			"meta": 0
+		},
+		"fence_gate": {
+			"id": "biomesoplenty:mangrove_fence_gate",
+			"meta": 0
+		}
+	}
+}

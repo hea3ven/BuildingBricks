@@ -1,0 +1,14 @@
+{
+	"name": "Bamboo Thatching",
+	"id": "biomesoplenty:bamboo_thatching",
+	"type": "wood",
+	"hardness": 2.0,
+	"resistance": 3.3333333,
+	"textures": "biomesoplenty:blocks/bamboo_thatching",
+	"blocks": {
+		"full": {
+			"id": "biomesoplenty:bamboo_thatching",
+			"meta": 0
+		}
+	}
+}

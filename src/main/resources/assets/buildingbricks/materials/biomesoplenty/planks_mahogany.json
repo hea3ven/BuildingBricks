@@ -1,0 +1,30 @@
+{
+	"name": "Mahogany Wood Planks",
+	"id": "biomesoplenty:planks_mahogany",
+	"type": "wood",
+	"hardness": 2.0,
+	"resistance": 5.0,
+	"textures": "biomesoplenty:blocks/mahogany_planks",
+	"blocks": {
+		"full": {
+			"id": "biomesoplenty:planks_0",
+			"meta": 13
+		},
+		"stairs": {
+			"id": "biomesoplenty:mahogany_stairs",
+			"meta": 0
+		},
+		"slab": {
+			"id": "biomesoplenty:wood_slab_1",
+			"meta": 5
+		},
+		"fence": {
+			"id": "biomesoplenty:mahogany_fence",
+			"meta": 0
+		},
+		"fence_gate": {
+			"id": "biomesoplenty:mahogany_fence_gate",
+			"meta": 0
+		}
+	}
+}

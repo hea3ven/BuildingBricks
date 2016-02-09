@@ -1,0 +1,30 @@
+{
+	"name": "Pine Wood Planks",
+	"id": "biomesoplenty:planks_pine",
+	"type": "wood",
+	"hardness": 2.0,
+	"resistance": 5.0,
+	"textures": "biomesoplenty:blocks/pine_planks",
+	"blocks": {
+		"full": {
+			"id": "biomesoplenty:planks_0",
+			"meta": 10
+		},
+		"stairs": {
+			"id": "biomesoplenty:pine_stairs",
+			"meta": 0
+		},
+		"slab": {
+			"id": "biomesoplenty:wood_slab_1",
+			"meta": 2
+		},
+		"fence": {
+			"id": "biomesoplenty:pine_fence",
+			"meta": 0
+		},
+		"fence_gate": {
+			"id": "biomesoplenty:pine_fence_gate",
+			"meta": 0
+		}
+	}
+}

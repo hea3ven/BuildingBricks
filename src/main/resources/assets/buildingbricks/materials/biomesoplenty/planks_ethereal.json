@@ -1,0 +1,30 @@
+{
+	"name": "Ethereal Wood Planks",
+	"id": "biomesoplenty:planks_ethereal",
+	"type": "wood",
+	"hardness": 2.0,
+	"resistance": 5.0,
+	"textures": "biomesoplenty:blocks/ethereal_planks",
+	"blocks": {
+		"full": {
+			"id": "biomesoplenty:planks_0",
+			"meta": 4
+		},
+		"stairs": {
+			"id": "biomesoplenty:ethereal_stairs",
+			"meta": 0
+		},
+		"slab": {
+			"id": "biomesoplenty:wood_slab_0",
+			"meta": 4
+		},
+		"fence": {
+			"id": "biomesoplenty:ethereal_fence",
+			"meta": 0
+		},
+		"fence_gate": {
+			"id": "biomesoplenty:ethereal_fence_gate",
+			"meta": 0
+		}
+	}
+}
