@@ -1,5 +1,8 @@
 package com.hea3ven.buildingbricks.core.items;
 
+import java.util.List;
+
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
@@ -31,7 +34,10 @@ import com.hea3ven.tools.commonutils.inventory.GenericContainer.SlotType;
 
 public class ItemTrowel extends Item implements ItemMaterial {
 
+	public static boolean trowelsInCreative = true;
+
 	public ItemTrowel() {
+		setHasSubtypes(true);
 	}
 
 	@Override
@@ -136,8 +142,9 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		if (playerIn.isSneaking()) {
-			playerIn.openGui(ModBuildingBricks.MODID, GuiTrowel.ID, worldIn, MathHelper.floor_double(playerIn.posX),
-					MathHelper.floor_double(playerIn.posY), MathHelper.floor_double(playerIn.posZ));
+			playerIn.openGui(ModBuildingBricks.MODID, GuiTrowel.ID, worldIn,
+					MathHelper.floor_double(playerIn.posX), MathHelper.floor_double(playerIn.posY),
+					MathHelper.floor_double(playerIn.posZ));
 		}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
 	}
@@ -235,5 +242,15 @@ public class ItemTrowel extends Item implements ItemMaterial {
 		ItemStack stack = new ItemStack(this);
 		setMaterial(stack, mat);
 		return stack;
+	}
+
+	@Override
+	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+		subItems.add(createStack());
+		if (trowelsInCreative) {
+			for (Material mat : MaterialRegistry.getAll()) {
+				subItems.add(createStack(mat));
+			}
+		}
 	}
 }

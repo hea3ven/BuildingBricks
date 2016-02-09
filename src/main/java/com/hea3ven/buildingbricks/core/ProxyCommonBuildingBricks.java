@@ -100,6 +100,14 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 										LongGrassTextureGenerator.enabled = property.getBoolean();
 									}
 								})
+						.addValue("trowelsInCreative", "true", Type.BOOLEAN,
+								"Enable to add binded trowels for each material to the creative menu",
+								new Consumer<Property>() {
+									@Override
+									public void accept(Property property) {
+										ItemTrowel.trowelsInCreative = property.getBoolean();
+									}
+								},false, false)
 						.endCategory()
 						.addCategory("world")
 						.addValue("generateGrassSlabs", "true", Type.BOOLEAN,
