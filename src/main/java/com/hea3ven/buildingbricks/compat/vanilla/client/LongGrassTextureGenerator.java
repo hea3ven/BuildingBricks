@@ -8,6 +8,8 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.compat.vanilla.client.renderer.texture.TextureAtlasSpriteLongGrass;
 
@@ -15,6 +17,7 @@ public class LongGrassTextureGenerator {
 	public static boolean enabled = true;
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onTextureStichPreEvent(final TextureStitchEvent.Pre event) {
 		if (enabled) {
 			Map<String, TextureAtlasSprite> map =
