@@ -25,7 +25,7 @@ public enum MaterialBlockType {
 		FULL.addRecipe(true,
 				MaterialRecipeBuilder.create().outputAmount(2).pattern("xx", "xx").map('x', SLAB).validate());
 		STAIRS.addRecipe(false, MaterialRecipeBuilder.create()
-				.outputAmount(2)
+				.outputAmount(4)
 				.pattern("x  ", "xx ", "xxx")
 				.map('x', FULL)
 				.validate());
