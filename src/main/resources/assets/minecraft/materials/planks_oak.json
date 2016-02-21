@@ -1,0 +1,15 @@
+{
+    "name": "Oak Planks",
+    "id": "minecraft:planks_oak",
+    "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
+    "textures": "minecraft:blocks/planks_oak",
+    "blocks": {
+        "full": { "id": "minecraft:planks", "meta": 0 },
+        "stairs": "minecraft:oak_stairs",
+        "slab": { "id": "minecraft:wooden_slab", "meta": 0 },
+        "fence": "minecraft:fence",
+        "fence_gate": "minecraft:fence_gate"
+    }
+}

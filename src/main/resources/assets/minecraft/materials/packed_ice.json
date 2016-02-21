@@ -1,0 +1,12 @@
+{
+    "name": "Packed Ice",
+    "id": "minecraft:packed_ice",
+    "type": "packed_ice",
+    "hardness": 0.5,
+    "normalHarvest": "",
+    "silkHarvest": "packed_ice",
+    "textures": "minecraft:blocks/ice_packed",
+    "blocks": {
+        "full": "minecraft:packed_ice"
+    }
+}

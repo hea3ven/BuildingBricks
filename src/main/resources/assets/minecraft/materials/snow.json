@@ -1,0 +1,10 @@
+{
+    "name": "Snow",
+    "id": "minecraft:snow",
+    "type": "snow",
+    "hardness": 0.2,
+    "textures": "minecraft:blocks/snow",
+    "blocks": {
+        "full": "minecraft:snow"
+    }
+}

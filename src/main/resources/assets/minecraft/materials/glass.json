@@ -1,0 +1,12 @@
+{
+    "name": "Glass",
+    "id": "minecraft:glass",
+    "type": "glass",
+    "hardness": 0.3,
+    "normalHarvest": "",
+    "silkHarvest": "glass",
+    "textures": "minecraft:blocks/glass",
+    "blocks": {
+        "full": "minecraft:glass"
+    }
+}

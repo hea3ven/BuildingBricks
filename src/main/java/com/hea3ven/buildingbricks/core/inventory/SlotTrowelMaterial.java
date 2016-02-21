@@ -5,7 +5,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack;
 import com.hea3ven.tools.commonutils.inventory.SlotCustom;

@@ -1,0 +1,10 @@
+{
+    "name": "Coarse",
+    "id": "minecraft:dirt_coarse",
+    "type": "dirt",
+    "hardness": 0.5,
+    "textures": "minecraft:blocks/coarse_dirt",
+    "blocks": {
+        "full": { "id": "minecraft:dirt", "meta": 1 }
+    }
+}

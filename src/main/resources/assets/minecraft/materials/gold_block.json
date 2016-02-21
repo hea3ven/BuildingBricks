@@ -1,0 +1,11 @@
+{
+    "name": "Gold Block",
+    "id": "minecraft:gold_block",
+    "type": "metal",
+    "hardness": 3.0,
+    "resistance": 10.0,
+    "textures": "minecraft:blocks/gold_block",
+    "blocks": {
+        "full": "minecraft:gold_block"
+    }
+}

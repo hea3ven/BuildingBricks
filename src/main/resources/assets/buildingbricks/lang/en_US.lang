@@ -32,12 +32,13 @@ blockType.wall=%s Wall
 blockType.fence=%s Fence
 blockType.fenceGate=%s Fence Gate
 
-material.buildingbrickscompatvanilla.stone_slab=Double Stone
-material.buildingbrickscompatvanilla.coal_block=Coal
-material.buildingbrickscompatvanilla.iron_block=Iron
-material.buildingbrickscompatvanilla.gold_block=Gold
-material.buildingbrickscompatvanilla.diamond_block=Diamond
-material.buildingbrickscompatvanilla.emerald_block=Emerald
-material.buildingbrickscompatvanilla.lapis_block=Lapis Lazuli
+material.minecraft.grass=Grass
+material.minecraft.stone_slab=Double Stone
+material.minecraft.coal_block=Coal
+material.minecraft.iron_block=Iron
+material.minecraft.gold_block=Gold
+material.minecraft.diamond_block=Diamond
+material.minecraft.emerald_block=Emerald
+material.minecraft.lapis_block=Lapis Lazuli
 
 tile.stoneSlab.stone.name=Double Stone Slab

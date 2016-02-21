@@ -1,0 +1,11 @@
+{
+    "name": "Prismarine",
+    "id": "minecraft:prismarine_rough",
+    "type": "rock",
+    "hardness": 1.5,
+    "resistance": 10.0,
+    "textures": "minecraft:blocks/prismarine_rough",
+    "blocks": {
+        "full": { "id": "minecraft:prismarine", "meta": 0 }
+    }
+}

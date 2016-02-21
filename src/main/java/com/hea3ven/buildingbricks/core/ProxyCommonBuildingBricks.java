@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core;
 
+import javax.vecmath.Vector3f;
 import java.nio.file.Path;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
@@ -26,12 +27,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.compat.vanilla.GrassSlabWorldGen;
+import com.hea3ven.buildingbricks.compat.vanilla.ProxyModBuildingBricksCompatVanilla;
 import com.hea3ven.buildingbricks.compat.vanilla.client.LongGrassTextureGenerator;
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
+import com.hea3ven.buildingbricks.core.client.ModelBakerBlockMaterial;
+import com.hea3ven.buildingbricks.core.client.ModelBakerItemMaterial;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
 import com.hea3ven.buildingbricks.core.client.settings.TrowelKeyBindings;
 import com.hea3ven.buildingbricks.core.command.CommandCreateMaterial;
+import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
@@ -44,16 +49,19 @@ import com.hea3ven.buildingbricks.core.network.MaterialIdMappingCheckMessage;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.tools.commonutils.inventory.ISimpleGuiHandler;
-import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.ProxyModComposite;
 import com.hea3ven.tools.commonutils.mod.config.ConfigManager;
 import com.hea3ven.tools.commonutils.mod.config.ConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.mod.config.DirectoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder;
+import com.hea3ven.tools.commonutils.util.SidedCall;
 
-public class ProxyCommonBuildingBricks extends ProxyModBase {
+public class ProxyCommonBuildingBricks extends ProxyModComposite {
 
 	public ProxyCommonBuildingBricks() {
 		super(ModBuildingBricks.MODID);
+
+		add(new ProxyModBuildingBricksCompatVanilla(ModBuildingBricks.MODID));
 
 		ModBuildingBricks.trowel = (ItemTrowel) new ItemTrowel().
 				setUnlocalizedName("trowel");
@@ -72,6 +80,12 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 
 		MinecraftForge.EVENT_BUS.register(ModBuildingBricks.materialBag);
 		MinecraftForge.EVENT_BUS.register(new MaterialIdMappingChecker());
+		SidedCall.run(Side.CLIENT, new Runnable() {
+			@Override
+			public void run() {
+				MinecraftForge.EVENT_BUS.register(new EventHandlerTrowelOverlay());
+			}
+		});
 	}
 
 	public <T extends Block> void addMaterialBlock(T block, Class<? extends ItemBlock> itemCls, String name) {
@@ -107,7 +121,7 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 									public void accept(Property property) {
 										ItemTrowel.trowelsInCreative = property.getBoolean();
 									}
-								},false, false)
+								}, false, false)
 						.endCategory()
 						.addCategory("world")
 						.addValue("generateGrassSlabs", "true", Type.BOOLEAN,
@@ -125,7 +139,7 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 
 	@Override
 	protected void registerBlocks() {
-		MaterialResourceLoader.loadResources(ModBuildingBricks.resScanner, ModBuildingBricks.MODID);
+		MaterialResourceLoader.loadResources(ModBuildingBricks.resScanner);
 
 		addBlock(ModBuildingBricks.portableLadder, "portable_ladder",
 				BlockPortableLadder.ItemPortableLadder.class);
@@ -157,6 +171,17 @@ public class ProxyCommonBuildingBricks extends ProxyModBase {
 		for (Block block : MaterialBlockRegistry.instance.getAllBlocks()) {
 			block.setCreativeTab(tab);
 		}
+	}
+
+	@Override
+	protected void registerModelBakers() {
+		addModelBaker(new ModelBakerBlockMaterial());
+		addModelBaker(
+				new ModelBakerItemMaterial("buildingbricks:item/trowel", "buildingbricks:trowel#inventory",
+						new Vector3f(0.3f, 0.0625f, 0.125f), new Vector3f(0.4f, 0.4f, 0.4f)));
+		addModelBaker(new ModelBakerItemMaterial("buildingbricks:item/material_bag",
+				"buildingbricks:material_bag#inventory", new Vector3f(0.25f, 0.3f, 0.4375f /* 0.125f*/),
+				new Vector3f(0.5f, 0.5f, 0.125001f)));
 	}
 
 	@Override

@@ -1,0 +1,15 @@
+{
+    "name": "Birch Planks",
+    "id": "minecraft:planks_birch",
+    "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
+    "textures": "minecraft:blocks/planks_birch",
+    "blocks": {
+        "full": { "id": "minecraft:planks", "meta": 2 },
+        "stairs": "minecraft:birch_stairs",
+        "slab": { "id": "minecraft:wooden_slab", "meta": 2 },
+        "fence": "minecraft:birch_fence",
+        "fence_gate": "minecraft:birch_fence_gate"
+    }
+}

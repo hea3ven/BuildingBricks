@@ -1,0 +1,15 @@
+{
+    "name": "Spruce Planks",
+    "id": "minecraft:planks_spruce",
+    "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
+    "textures": "minecraft:blocks/planks_spruce",
+    "blocks": {
+        "full": { "id": "minecraft:planks", "meta": 1 },
+        "stairs": "minecraft:spruce_stairs",
+        "slab": { "id": "minecraft:wooden_slab", "meta": 1 },
+        "fence": "minecraft:spruce_fence",
+        "fence_gate": "minecraft:spruce_fence_gate"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "name": "White Wool",
+    "id": "minecraft:wool_white",
+    "type": "cloth",
+    "hardness": 0.8,
+    "textures": "minecraft:blocks/wool_colored_white",
+    "blocks": {
+        "full": { "id": "minecraft:wool", "meta": 0 }
+    }
+}

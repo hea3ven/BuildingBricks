@@ -1,0 +1,10 @@
+{
+    "name": "Orange Wool",
+    "id": "minecraft:wool_orange",
+    "type": "cloth",
+    "hardness": 0.8,
+    "textures": "minecraft:blocks/wool_colored_orange",
+    "blocks": {
+        "full": { "id": "minecraft:wool", "meta": 1 }
+    }
+}

@@ -13,11 +13,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.compat.vanilla.client.renderer.texture.TextureAtlasSpriteLongGrass;
 
+@SideOnly(Side.CLIENT)
 public class LongGrassTextureGenerator {
 	public static boolean enabled = true;
 
 	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
 	public void onTextureStichPreEvent(final TextureStitchEvent.Pre event) {
 		if (enabled) {
 			Map<String, TextureAtlasSprite> map =

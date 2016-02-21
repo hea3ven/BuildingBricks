@@ -59,7 +59,7 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		List<ItemStack> stacks = new ArrayList<>();
-		stacks.add(MaterialRegistry.get("buildingbrickscompatvanilla:dirt")
+		stacks.add(MaterialRegistry.get("minecraft:dirt")
 				.getBlock(MaterialBlockType.SLAB)
 				.getStack()
 				.copy());
@@ -112,7 +112,7 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 
 	private Material getGrassMaterial() {
 		if (mat == null)
-			mat = MaterialRegistry.get("buildingbrickscompatvanilla:grass");
+			mat = MaterialRegistry.get("minecraft:grass");
 		return mat;
 	}
 }

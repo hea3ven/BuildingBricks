@@ -1,0 +1,14 @@
+{
+    "name": "Mycelium",
+    "id": "minecraft:dirt_mycelium",
+    "type": "dirt",
+    "hardness": 0.6,
+    "textures": {
+        "top": "minecraft:blocks/mycelium_top",
+        "side": "minecraft:blocks/mycelium_side",
+        "bottom": "minecraft:blocks/dirt"
+    },
+    "blocks": {
+        "full": "minecraft:mycelium"
+    }
+}

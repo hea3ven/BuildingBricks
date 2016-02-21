@@ -59,17 +59,28 @@ public class MaterialIdMapping {
 		nextId = nbt.getShort("nextId");
 
 		NBTTagCompound mappingNbt = nbt.getCompoundTag("mapping");
-		for (String name : mappingNbt.getKeySet()) {
-			Material mat = MaterialRegistry.get(name);
+		for (String keyName : mappingNbt.getKeySet()) {
+			// Fix derp
+			if (keyName.equals("sbuildingbrickscompatvanilla:tained_hardened_clay_cyan"))
+				keyName = "buildingbrickscompatvanilla:stained_hardened_clay_cyan";
+
+			String matName = keyName;
+			if(matName.startsWith("buildingbrickscompatvanilla:"))
+				matName = "minecraft:" + matName.substring(28);
+
+			Material mat = MaterialRegistry.get(matName);
 			if (mat == null)
-				notFoundMaterials.put(name, mappingNbt.getShort(name));
+				notFoundMaterials.put(matName, mappingNbt.getShort(keyName));
 			else
-				registry.register(mappingNbt.getShort(name), name, mat);
+				registry.register(mappingNbt.getShort(keyName), matName, mat);
 		}
 
 		NBTTagCompound missingNbt = nbt.getCompoundTag("missing");
-		for (String name : missingNbt.getKeySet()) {
-			missingRegistry.put(missingNbt.getShort(name), name);
+		for (String keyName : missingNbt.getKeySet()) {
+			String matName = keyName;
+			if(matName.startsWith("buildingbrickscompatvanilla:"))
+				matName = "minecraft:" + matName.substring(28);
+			missingRegistry.put(missingNbt.getShort(keyName), matName);
 		}
 	}
 

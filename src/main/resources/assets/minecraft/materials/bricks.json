@@ -1,0 +1,13 @@
+{
+    "name": "Bricks",
+    "id": "minecraft:bricks",
+    "type": "rock",
+    "hardness": 2.0,
+    "resistance": 10.0,
+    "textures": "minecraft:blocks/brick",
+    "blocks": {
+        "full": "minecraft:brick_block",
+        "stairs": "minecraft:brick_stairs",
+        "slab": { "id": "minecraft:stone_slab", "meta": 4 }
+    }
+}

@@ -77,7 +77,7 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 				pos.offset(face, 1);
 				Block block = event.world.getBlockState(pos).getBlock();
 				if (block.isReplaceable(event.world, pos) ||
-						block == ModBuildingBricksCompatVanilla.grassSlab)
+						block == ProxyModBuildingBricksCompatVanilla.grassSlab)
 					continue posLoop;
 				pos.offset(face, -1);
 			}
@@ -88,7 +88,7 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 				pos.offset(face, 1);
 				if (event.world.getBlockState(pos).getBlock() == Blocks.grass) {
 					pos.offset(face, -1);
-					event.world.setBlockState(pos, ModBuildingBricksCompatVanilla.grassSlab.getDefaultState(),
+					event.world.setBlockState(pos, ProxyModBuildingBricksCompatVanilla.grassSlab.getDefaultState(),
 							2);
 					continue posLoop;
 				}

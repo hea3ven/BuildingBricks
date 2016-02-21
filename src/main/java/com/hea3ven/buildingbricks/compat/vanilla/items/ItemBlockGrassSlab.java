@@ -16,7 +16,7 @@ public class ItemBlockGrassSlab extends ItemMaterialBlock {
 
 	@Override
 	public Material getMaterial(ItemStack stack) {
-		return MaterialRegistry.get("buildingbrickscompatvanilla:grass");
+		return MaterialRegistry.get("minecraft:grass");
 	}
 
 	@Override

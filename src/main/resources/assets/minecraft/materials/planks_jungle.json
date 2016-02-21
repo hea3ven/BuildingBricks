@@ -1,0 +1,15 @@
+{
+    "name": "Jungle Planks",
+    "id": "minecraft:planks_jungle",
+    "type": "wood",
+    "hardness": 2.0,
+    "resistance": 5.0,
+    "textures": "minecraft:blocks/planks_jungle",
+    "blocks": {
+        "full": { "id": "minecraft:planks", "meta": 3 },
+        "stairs": "minecraft:jungle_stairs",
+        "slab": { "id": "minecraft:wooden_slab", "meta": 3 },
+        "fence": "minecraft:jungle_fence",
+        "fence_gate": "minecraft:jungle_fence_gate"
+    }
+}

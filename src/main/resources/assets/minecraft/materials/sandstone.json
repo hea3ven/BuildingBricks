@@ -1,0 +1,16 @@
+{
+    "name": "Sandstone",
+    "id": "minecraft:sandstone",
+    "type": "rock",
+    "hardness": 0.8,
+    "textures": {
+        "top": "minecraft:blocks/sandstone_top",
+        "side": "minecraft:blocks/sandstone_normal",
+        "bottom": "minecraft:blocks/sandstone_bottom"
+    },
+    "blocks": {
+        "full": { "id": "minecraft:sandstone", "meta": 0 },
+        "stairs": "minecraft:sandstone_stairs",
+        "slab": { "id": "minecraft:stone_slab", "meta": 1 }
+    }
+}
