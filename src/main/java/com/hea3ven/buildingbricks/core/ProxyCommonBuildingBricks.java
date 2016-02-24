@@ -20,6 +20,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.ConfigCategory;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -61,7 +63,8 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 	public ProxyCommonBuildingBricks() {
 		super(ModBuildingBricks.MODID);
 
-		add(new ProxyModBuildingBricksCompatVanilla(ModBuildingBricks.MODID));
+		addModule("compatvanilla",
+				"com.hea3ven.buildingbricks.compat.vanilla.ProxyModBuildingBricksCompatVanilla");
 
 		ModBuildingBricks.trowel = (ItemTrowel) new ItemTrowel().
 				setUnlocalizedName("trowel");
@@ -123,11 +126,23 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 									}
 								}, false, false)
 						.endCategory()
-						.addCategory("world")
-						.addValue("generateGrassSlabs", "true", Type.BOOLEAN,
-								"Enable to generate grass slabs in the world to smooth out the surface",
-								GrassSlabWorldGen.get())
-						.endCategory())
+						.addCategory("compat")
+						.add(this.<ProxyModBuildingBricksCompatVanilla>getModule("compatvanilla").getConfig())
+						.endCategory()
+						.Update(new Consumer<Configuration>() {
+							@Override
+							public void accept(Configuration cfg) {
+								ConfigCategory worldCat = cfg.getCategory("world");
+								for (ConfigCategory subCat : cfg.getCategory("compat").getChildren()) {
+									if (subCat.getName().equals("vanilla")) {
+										subCat.get("generateGrassSlabs")
+												.set(worldCat.get("generateGrassSlabs").getBoolean());
+										break;
+									}
+								}
+								cfg.removeCategory(worldCat);
+							}
+						}))
 				.addFile(new ConfigManagerBuilder() {
 					@Override
 					public ConfigManager build(String modId, Path path) {

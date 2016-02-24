@@ -14,6 +14,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -26,6 +27,7 @@ import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.util.SidedCall;
 
 public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
@@ -51,6 +53,12 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
 				MinecraftForge.EVENT_BUS.register(new LongGrassTextureGenerator());
 			}
 		});
+	}
+
+	public CategoryConfigManagerBuilder getConfig() {
+		return new CategoryConfigManagerBuilder("vanilla").addValue("generateGrassSlabs", "true",
+				Type.BOOLEAN, "Enable to generate grass slabs in the world to smooth out the surface",
+				GrassSlabWorldGen.get());
 	}
 
 	@Override
