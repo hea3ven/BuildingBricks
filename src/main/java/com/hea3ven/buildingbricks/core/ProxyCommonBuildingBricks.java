@@ -108,6 +108,14 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 										MaterialParser.generateBlocks = property.getBoolean();
 									}
 								}, true, true)
+						.addValue("blocksInCreative", "true", Type.BOOLEAN,
+								"Enable to add all the generated blocks to the creative menu",
+								new Consumer<Property>() {
+									@Override
+									public void accept(Property property) {
+										TileMaterial.blocksInCreative = property.getBoolean();
+									}
+								}, false, false)
 						.addValue("trowelsInCreative", "true", Type.BOOLEAN,
 								"Enable to add binded trowels for each material to the creative menu",
 								new Consumer<Property>() {

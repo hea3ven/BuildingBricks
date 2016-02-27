@@ -60,13 +60,13 @@ public class MaterialIdMapping {
 
 		NBTTagCompound mappingNbt = nbt.getCompoundTag("mapping");
 		for (String keyName : mappingNbt.getKeySet()) {
-			// Fix derp
-			if (keyName.equals("sbuildingbrickscompatvanilla:tained_hardened_clay_cyan"))
-				keyName = "buildingbrickscompatvanilla:stained_hardened_clay_cyan";
-
 			String matName = keyName;
 			if(matName.startsWith("buildingbrickscompatvanilla:"))
 				matName = "minecraft:" + matName.substring(28);
+
+			// Fix derp
+			if (keyName.equals("sbuildingbrickscompatvanilla:tained_hardened_clay_cyan"))
+				matName= "minecraft:stained_hardened_clay_cyan";
 
 			Material mat = MaterialRegistry.get(matName);
 			if (mat == null)

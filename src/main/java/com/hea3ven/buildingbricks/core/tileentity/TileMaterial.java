@@ -36,6 +36,8 @@ public class TileMaterial extends TileEntity {
 
 	public static final PropertyMaterial MATERIAL = new PropertyMaterial();
 
+	public static boolean blocksInCreative = true;
+
 	private short materialId = 0;
 	private Material material;
 
@@ -131,10 +133,12 @@ public class TileMaterial extends TileEntity {
 	}
 
 	public static void getSubBlocks(Block block, Item item, CreativeTabs tab, List<ItemStack> list) {
-		for (Material mat : MaterialBlockRegistry.instance.getBlockMaterials(block)) {
-			ItemStack stack = new ItemStack(item);
-			MaterialStack.set(stack, mat);
-			list.add(stack);
+		if (blocksInCreative) {
+			for (Material mat : MaterialBlockRegistry.instance.getBlockMaterials(block)) {
+				ItemStack stack = new ItemStack(item);
+				MaterialStack.set(stack, mat);
+				list.add(stack);
+			}
 		}
 	}
 

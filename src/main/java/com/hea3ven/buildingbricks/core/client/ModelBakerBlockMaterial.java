@@ -18,7 +18,6 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.relauncher.Side;
@@ -104,7 +103,6 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState);
 
 			materialItemModel.put(mat.getMaterialId(), bakedItemModel);
-			materialItemModel.setDelegate(bakedItemModel);
 
 			for (Object stateObj : block.getBlockState().getValidStates()) {
 
@@ -120,8 +118,9 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 			}
 		}
 
-		IModel defaultBlockModel = ModelLoaderRegistry.getMissingModel();
-		cacheModel.setDelegate(bake(defaultBlockModel, defaultBlockModel.getDefaultState()));
-
+		cacheModel.setDelegate((IFlexibleBakedModel) modelRegistry.getObject(
+				new ModelResourceLocation("builtin/missing", "missing")));
+		materialItemModel.setDelegate((IFlexibleBakedModel) modelRegistry.getObject(
+				new ModelResourceLocation("builtin/missing", "missing")));
 	}
 }

@@ -9,7 +9,9 @@ import net.minecraft.block.BlockGrass;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -27,6 +29,7 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
+import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMaterial {
 
@@ -114,5 +117,12 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 		if (mat == null)
 			mat = MaterialRegistry.get("minecraft:grass");
 		return mat;
+	}
+
+	@Override
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+		if (TileMaterial.blocksInCreative) {
+			super.getSubBlocks(itemIn, tab, list);
+		}
 	}
 }
