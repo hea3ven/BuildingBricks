@@ -1,11 +1,15 @@
-buildingbricks.config.general.cat=General
-buildingbricks.config.general.cat.tooltip=General configuration options.
+buildingbricks.config.general=General
+buildingbricks.config.general.tooltip=General configuration options.
 buildingbricks.config.general.generateBlocks=Generate missing blocks
 buildingbricks.config.general.replaceGrassTexture=Replace grass texture
 buildingbricks.config.general.trowelsInCreative=Show trowels in creative tab
-buildingbricks.config.world.cat=World
-buildingbricks.config.world.cat.tooltip=Configuration options that affect worlds.
-buildingbricks.config.world.generateGrassSlabs=Generate grass slabs
+buildingbricks.config.compat=Compatibility
+buildingbricks.config.compat.tooltip=Configuration options for the compatibility modules.
+buildingbricks.config.compat.vanilla=Vanilla
+buildingbricks.config.compat.vanilla.tooltip=Configuration options for the vanilla compatibility module.
+buildingbricks.config.compat.vanilla.replaceGrassTexture=Replace grass texture
+buildingbricks.config.compat.vanilla.replaceGrassTextureForce=Force replace grass texture
+buildingbricks.config.compat.vanilla.generateGrassSlabs=Generate grass slabs
 
 buildingbricks.chat.idMappingsInvalid=The BuildingBricks configuration on this client differs from the one on the server, this might cause issues.
 

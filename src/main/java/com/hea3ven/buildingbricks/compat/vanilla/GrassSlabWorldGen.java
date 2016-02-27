@@ -19,6 +19,7 @@ import com.hea3ven.tools.commonutils.util.ModifiableBlockPos;
 public class GrassSlabWorldGen implements Consumer<Property> {
 
 	private static GrassSlabWorldGen instance;
+	public static boolean enabled = true;
 
 	public static GrassSlabWorldGen get() {
 		if (instance == null)
@@ -28,7 +29,8 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 
 	@Override
 	public void accept(Property property) {
-		if (property.getBoolean())
+		enabled = property.getBoolean();
+		if (enabled)
 			MinecraftForge.EVENT_BUS.register(this);
 		else
 			MinecraftForge.EVENT_BUS.unregister(this);

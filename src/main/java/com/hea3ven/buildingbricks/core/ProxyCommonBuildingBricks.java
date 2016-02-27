@@ -28,9 +28,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.compat.vanilla.GrassSlabWorldGen;
 import com.hea3ven.buildingbricks.compat.vanilla.ProxyModBuildingBricksCompatVanilla;
-import com.hea3ven.buildingbricks.compat.vanilla.client.LongGrassTextureGenerator;
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.client.ModelBakerBlockMaterial;
 import com.hea3ven.buildingbricks.core.client.ModelBakerItemMaterial;
@@ -56,6 +54,7 @@ import com.hea3ven.tools.commonutils.mod.config.ConfigManager;
 import com.hea3ven.tools.commonutils.mod.config.ConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.mod.config.DirectoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder;
+import com.hea3ven.tools.commonutils.util.ConfigurationUtil;
 import com.hea3ven.tools.commonutils.util.SidedCall;
 
 public class ProxyCommonBuildingBricks extends ProxyModComposite {
@@ -109,14 +108,6 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 										MaterialParser.generateBlocks = property.getBoolean();
 									}
 								}, true, true)
-						.addValue("replaceGrassTexture", "true", Type.BOOLEAN,
-								"Enable to replace the grass texture with a long grass texture",
-								new Consumer<Property>() {
-									@Override
-									public void accept(Property property) {
-										LongGrassTextureGenerator.enabled = property.getBoolean();
-									}
-								})
 						.addValue("trowelsInCreative", "true", Type.BOOLEAN,
 								"Enable to add binded trowels for each material to the creative menu",
 								new Consumer<Property>() {
@@ -133,14 +124,23 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 							@Override
 							public void accept(Configuration cfg) {
 								ConfigCategory worldCat = cfg.getCategory("world");
-								for (ConfigCategory subCat : cfg.getCategory("compat").getChildren()) {
-									if (subCat.getName().equals("vanilla")) {
-										subCat.get("generateGrassSlabs")
-												.set(worldCat.get("generateGrassSlabs").getBoolean());
-										break;
-									}
+								ConfigCategory generalCat = cfg.getCategory("general");
+
+								ConfigCategory vanillaCompatCat =
+										ConfigurationUtil.getSubCategory(cfg.getCategory("compat"),
+												"vanilla");
+								if (worldCat.containsKey("generateGrassSlabs"))
+									vanillaCompatCat.get("generateGrassSlabs")
+											.set(worldCat.get("generateGrassSlabs").getBoolean());
+								if (generalCat.containsKey("replaceGrassTexture")) {
+									vanillaCompatCat.get("replaceGrassTexture")
+											.set(generalCat.get("replaceGrassTexture").getBoolean());
+									vanillaCompatCat.get("replaceGrassTextureForce")
+											.set(generalCat.get("replaceGrassTexture").getBoolean());
 								}
+
 								cfg.removeCategory(worldCat);
+								generalCat.remove("replaceGrassTexture");
 							}
 						}))
 				.addFile(new ConfigManagerBuilder() {

@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.compat.vanilla;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -56,9 +58,27 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
 	}
 
 	public CategoryConfigManagerBuilder getConfig() {
-		return new CategoryConfigManagerBuilder("vanilla").addValue("generateGrassSlabs", "true",
-				Type.BOOLEAN, "Enable to generate grass slabs in the world to smooth out the surface",
-				GrassSlabWorldGen.get());
+		return new CategoryConfigManagerBuilder("vanilla")
+				.addValue("replaceGrassTexture", "true", Type.BOOLEAN,
+						"Enable to replace the grass texture with a long grass texture if the " +
+								"generateGrassSlabs is enabled",
+						new Consumer<Property>() {
+							@Override
+							public void accept(Property property) {
+								LongGrassTextureGenerator.enabled = property.getBoolean();
+							}
+						})
+				.addValue("replaceGrassTextureForce", "false", Type.BOOLEAN,
+						"Enable to replace the grass texture with a long grass texture always",
+						new Consumer<Property>() {
+							@Override
+							public void accept(Property property) {
+								LongGrassTextureGenerator.forceEnabled = property.getBoolean();
+							}
+						})
+				.addValue("generateGrassSlabs", "true", Type.BOOLEAN,
+						"Enable to generate grass slabs in the world to smooth out the surface",
+						GrassSlabWorldGen.get());
 	}
 
 	@Override
