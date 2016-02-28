@@ -60,8 +60,4 @@ public class IdMappingLoader {
 			Throwables.propagate(e);
 		}
 	}
-
-	public static boolean isInvalid(byte[] checksum) {
-		return !Arrays.equals(IdMappingLoader.checksum, checksum);
-	}
 }

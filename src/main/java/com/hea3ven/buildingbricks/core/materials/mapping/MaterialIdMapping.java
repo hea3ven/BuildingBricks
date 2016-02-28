@@ -17,7 +17,7 @@ import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
 public class MaterialIdMapping {
 
-	static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialIdMapping");
+	public static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialIdMapping");
 
 	static MaterialIdMapping instance;
 
@@ -61,12 +61,12 @@ public class MaterialIdMapping {
 		NBTTagCompound mappingNbt = nbt.getCompoundTag("mapping");
 		for (String keyName : mappingNbt.getKeySet()) {
 			String matName = keyName;
-			if(matName.startsWith("buildingbrickscompatvanilla:"))
+			if (matName.startsWith("buildingbrickscompatvanilla:"))
 				matName = "minecraft:" + matName.substring(28);
 
 			// Fix derp
 			if (keyName.equals("sbuildingbrickscompatvanilla:tained_hardened_clay_cyan"))
-				matName= "minecraft:stained_hardened_clay_cyan";
+				matName = "minecraft:stained_hardened_clay_cyan";
 
 			Material mat = MaterialRegistry.get(matName);
 			if (mat == null)
@@ -78,7 +78,7 @@ public class MaterialIdMapping {
 		NBTTagCompound missingNbt = nbt.getCompoundTag("missing");
 		for (String keyName : missingNbt.getKeySet()) {
 			String matName = keyName;
-			if(matName.startsWith("buildingbrickscompatvanilla:"))
+			if (matName.startsWith("buildingbrickscompatvanilla:"))
 				matName = "minecraft:" + matName.substring(28);
 			missingRegistry.put(missingNbt.getShort(keyName), matName);
 		}
@@ -138,5 +138,22 @@ public class MaterialIdMapping {
 		short newId = nextId++;
 		logger.info("Registering material {} with id {}", mat.getMaterialId(), newId);
 		registry.register(newId, mat.getMaterialId(), mat);
+	}
+
+	public static boolean isInvalid(NBTTagCompound data) {
+		logger.info("Checking if the client material id registry matches the server one");
+		for (String key : data.getKeySet()) {
+			Material mat = instance.registry.getObject(key);
+			if (mat == null) {
+				logger.error("Client does not have the material {}", key);
+				return false;
+			}
+			if (instance.registry.getIDForObject(mat) != data.getShort(key)) {
+				logger.error("The client id {} does not match the server id {} for the material {}",
+						instance.registry.getIDForObject(mat), data.getShort(key), key);
+				return false;
+			}
+		}
+		return true;
 	}
 }

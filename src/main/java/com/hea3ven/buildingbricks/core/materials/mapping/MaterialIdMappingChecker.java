@@ -10,6 +10,6 @@ import com.hea3ven.buildingbricks.core.network.MaterialIdMappingCheckMessage;
 public class MaterialIdMappingChecker {
 	@SubscribeEvent
 	public void onClientLogin(PlayerLoggedInEvent event) {
-		MaterialIdMappingCheckMessage.send(IdMappingLoader.checksum, (EntityPlayerMP) event.player);
+		MaterialIdMappingCheckMessage.send(MaterialIdMapping.instance, (EntityPlayerMP) event.player);
 	}
 }

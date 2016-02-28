@@ -64,16 +64,26 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
 								"generateGrassSlabs is enabled",
 						new Consumer<Property>() {
 							@Override
-							public void accept(Property property) {
-								LongGrassTextureGenerator.enabled = property.getBoolean();
+							public void accept(final Property property) {
+								SidedCall.run(Side.CLIENT, new Runnable() {
+									@Override
+									public void run() {
+										LongGrassTextureGenerator.enabled = property.getBoolean();
+									}
+								});
 							}
 						})
 				.addValue("replaceGrassTextureForce", "false", Type.BOOLEAN,
 						"Enable to replace the grass texture with a long grass texture always",
 						new Consumer<Property>() {
 							@Override
-							public void accept(Property property) {
-								LongGrassTextureGenerator.forceEnabled = property.getBoolean();
+							public void accept(final Property property) {
+								SidedCall.run(Side.CLIENT, new Runnable() {
+									@Override
+									public void run() {
+										LongGrassTextureGenerator.forceEnabled = property.getBoolean();
+									}
+								});
 							}
 						})
 				.addValue("generateGrassSlabs", "true", Type.BOOLEAN,

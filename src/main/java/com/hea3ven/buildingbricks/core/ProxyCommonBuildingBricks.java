@@ -197,6 +197,7 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	protected void registerModelBakers() {
 		addModelBaker(new ModelBakerBlockMaterial());
 		addModelBaker(
