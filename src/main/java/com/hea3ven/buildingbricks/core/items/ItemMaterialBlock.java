@@ -26,6 +26,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 
 	public ItemMaterialBlock(Block block) {
 		super(block);
+		setHasSubtypes(true);
 	}
 
 	@Override
