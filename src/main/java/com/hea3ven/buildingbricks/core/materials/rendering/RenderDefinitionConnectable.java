@@ -39,7 +39,7 @@ public class RenderDefinitionConnectable extends RenderDefinition {
 	}
 
 	public IModel getModel(IBlockState state, Material mat) {
-		IModel base = getModelOrDefault(postModelLocation, mat);
+		IModel base = (postModelLocation != null) ? getModelOrDefault(postModelLocation, mat) : null;
 		Map<String, Pair<IModel, IModelState>> parts = Maps.newHashMap();
 		if (BlockProperties.getConnectionNorth(state)) {
 			parts.put("north", Pair.of(getModelOrDefault(connModelLocation, mat),

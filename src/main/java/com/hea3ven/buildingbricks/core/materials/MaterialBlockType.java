@@ -19,7 +19,8 @@ public enum MaterialBlockType {
 	CORNER("corner", 125),
 	WALL("wall", 1000),
 	FENCE("fence", 1500),
-	FENCE_GATE("fence_gate", 3000);
+	FENCE_GATE("fence_gate", 3000),
+	PANE("pane",100);
 
 	static {
 		FULL.addRecipe(true,

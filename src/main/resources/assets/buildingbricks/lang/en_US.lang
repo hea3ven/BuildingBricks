@@ -35,6 +35,7 @@ blockType.corner=%s Corner
 blockType.wall=%s Wall
 blockType.fence=%s Fence
 blockType.fenceGate=%s Fence Gate
+blockType.pane=%s Pane
 
 material.minecraft.grass=Grass
 material.minecraft.stone_slab=Double Stone

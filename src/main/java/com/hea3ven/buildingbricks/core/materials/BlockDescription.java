@@ -5,6 +5,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 
+import com.hea3ven.tools.commonutils.item.crafting.RecipeBuilder;
+
 public class BlockDescription {
 
 	private String blockName;
@@ -15,7 +17,7 @@ public class BlockDescription {
 	private String tagName;
 	private NBTBase tagValue;
 
-	public BlockDescription(MaterialBlockType type, int metadata, String tagName, NBTBase tagValue) {
+	private BlockDescription(MaterialBlockType type, int metadata, String tagName, NBTBase tagValue) {
 		this.type = type;
 		this.meta = metadata;
 		this.tagName = tagName;

@@ -70,6 +70,9 @@ public class MaterialBlockRegistry {
 			case STAIRS:
 				cls = BlockMaterialStairs.class;
 				break;
+			case PANE:
+				cls = BlockMaterialPane.class;
+				break;
 		}
 
 		createBlock(cls, mat.getStructureMaterial(), blockType);

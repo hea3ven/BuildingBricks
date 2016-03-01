@@ -30,12 +30,17 @@ public abstract class RenderDefinition {
 	public abstract IModelState getModelState(IModelState modelState, IBlockState state);
 
 	protected IModel getModelOrDefault(String modelLoc, Material mat) {
+		return getModelOrDefault(modelLoc, mat, "block");
+	}
+
+	protected IModel getModelOrDefault(String modelLoc, Material mat, String type) {
 		try {
 			ResourceLocation matLoc = new ResourceLocation(mat.getMaterialId());
 			return ModelLoaderRegistry.getModel(new ResourceLocation(
 					modelLoc.replace("minecraft:", "buildingbricks:")
-							.replace(":block/",
-									":block/" + matLoc.getResourceDomain() + "/" + matLoc.getResourcePath() +
+							.replace(":" + type + "/",
+									":" + type + "/" + matLoc.getResourceDomain() + "/" +
+											matLoc.getResourcePath() +
 											"/")));
 		} catch (IOException e) {
 			try {

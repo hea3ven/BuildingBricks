@@ -7,6 +7,7 @@
     "silkHarvest": "glass",
     "textures": "minecraft:blocks/glass",
     "blocks": {
-        "full": "minecraft:glass"
+        "full": "minecraft:glass",
+        "pane": "minecraft:glass_pane"
     }
 }

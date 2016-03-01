@@ -54,6 +54,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 				new RenderDefinitionConnectable("minecraft:block/fence_post",
 						"buildingbricks:block/fence_connection", "minecraft:block/fence_inventory"));
 		renderDefinitions.put(MaterialBlockType.FENCE_GATE, new RenderDefinitionFenceGate());
+		renderDefinitions.put(MaterialBlockType.PANE, new RenderDefinitionPane());
 	}
 
 	@Override

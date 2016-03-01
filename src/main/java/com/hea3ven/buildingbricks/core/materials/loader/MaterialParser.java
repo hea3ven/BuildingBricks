@@ -82,6 +82,12 @@ public class MaterialParser {
 					mat.setTexture("wall", mat.getTextures().get("side"));
 				if (!mat.getTextures().containsKey("texture"))
 					mat.setTexture("texture", mat.getTextures().get("side"));
+				if (!mat.getTextures().containsKey("pane"))
+					mat.setTexture("pane", mat.getTextures().get("side"));
+				if (!mat.getTextures().containsKey("edge"))
+					mat.setTexture("edge", mat.getTextures().get("side"));
+				if (!mat.getTextures().containsKey("layer0"))
+					mat.setTexture("layer0", mat.getTextures().get("side"));
 			}
 
 			for (Map.Entry<String, JsonElement> blockEntry : json.get("blocks")
