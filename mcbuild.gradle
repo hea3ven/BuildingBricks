@@ -1,4 +1,6 @@
 // Hea3veN's build script for minecraft mods
+// v1.0.3 (2016-03-01):
+//     * Actually use the project_bootstrap_file value
 // v1.0.2 (2016-02-07):
 //     * Define the run directory
 // v1.0.1 (2016-02-02):
@@ -105,7 +107,7 @@ if (project.hasProperty('project_bootstrap_file')) {
 
 	jar {
 		manifest {
-			attributes("H3NTBootstrap": "/assets/buildingbricks/bootstrap.json")
+			attributes("H3NTBootstrap": project_bootstrap_file)
 		}
 		into('libs') {
 			from configurations.release
