@@ -14,8 +14,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
@@ -25,6 +23,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -41,7 +40,7 @@ import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
 import com.hea3ven.buildingbricks.core.materials.*;
-import com.hea3ven.buildingbricks.core.materials.loader.MaterialParser;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMappingChecker;
@@ -74,6 +73,13 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 	}
 
 	@Override
+	public void onPreInitEvent(FMLPreInitializationEvent event) {
+		super.onPreInitEvent(event);
+
+		MaterialBlockRegistry.instance.generateBlocks(this);
+	}
+
+	@Override
 	public void onInitEvent(FMLInitializationEvent event) {
 		MaterialBlockRegistry.instance.logStats();
 		MaterialRegistry.logStats();
@@ -90,10 +96,6 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 		});
 	}
 
-	public <T extends Block> void addMaterialBlock(T block, Class<? extends ItemBlock> itemCls, String name) {
-		addBlock(block, name, itemCls);
-	}
-
 	@Override
 	public void registerConfig() {
 		addConfigManager(new DirectoryConfigManagerBuilder().setDirName("BuildingBricks")
@@ -105,7 +107,8 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 								new Consumer<Property>() {
 									@Override
 									public void accept(Property property) {
-										MaterialParser.generateBlocks = property.getBoolean();
+										MaterialBlockRegistry.instance.enableGenerateBlocks =
+												property.getBoolean();
 									}
 								}, true, true)
 						.addValue("blocksInCreative", "true", Type.BOOLEAN,
@@ -220,13 +223,13 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 			}
 		}
 
-		ModBuildingBricks.logger.info("Registering materials recipes");
+		ModBuildingBricks.logger.info("Registering material blocks recipes");
 		for (Material mat : MaterialRegistry.getAll()) {
 			for (Entry<MaterialBlockType, BlockDescription> entry : mat.getBlockRotation()
 					.getAll()
 					.entrySet()) {
-				for (IRecipe recipe : entry.getKey().registerRecipes(mat)) {
-					addRecipe(recipe);
+				for (MaterialBlockRecipeBuilder builder : entry.getValue().getRecipes()) {
+					addRecipe(builder.output(entry.getKey()).bind(mat).build());
 				}
 			}
 		}

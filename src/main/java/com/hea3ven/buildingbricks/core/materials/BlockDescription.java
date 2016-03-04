@@ -1,11 +1,18 @@
 package com.hea3ven.buildingbricks.core.materials;
 
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 
-import com.hea3ven.tools.commonutils.item.crafting.RecipeBuilder;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
 
 public class BlockDescription {
 
@@ -14,42 +21,31 @@ public class BlockDescription {
 	private ItemStack stack;
 	private MaterialBlockType type;
 	private int meta;
-	private String tagName;
-	private NBTBase tagValue;
+	@Nonnull
+	private Map<String, NBTBase> tags = new HashMap<>();
+	@Nonnull
+	private List<MaterialBlockRecipeBuilder> recipes = new ArrayList<>();
 
-	private BlockDescription(MaterialBlockType type, int metadata, String tagName, NBTBase tagValue) {
+	public BlockDescription(MaterialBlockType type, Block block, int metadata, Map<String, NBTBase> tags,
+			List<MaterialBlockRecipeBuilder> recipes) {
 		this.type = type;
-		this.meta = metadata;
-		this.tagName = tagName;
-		this.tagValue = tagValue;
-	}
-
-	public BlockDescription(MaterialBlockType type, Block block, int metadata, String tagName,
-			NBTBase tagValue) {
-		this(type, metadata, tagName, tagValue);
 		this.block = block;
+		this.meta = metadata;
+		if (tags != null)
+			this.tags = tags;
+		if (recipes != null)
+			this.recipes = recipes;
 	}
 
-	public BlockDescription(MaterialBlockType type, Block block, int metadata) {
-		this(type, block, metadata, null, null);
-	}
-
-	public BlockDescription(MaterialBlockType type, Block block) {
-		this(type, block, 0);
-	}
-
-	public BlockDescription(MaterialBlockType type, String blockName, int metadata, String tagName,
-			NBTBase tagValue) {
-		this(type, metadata, tagName, tagValue);
+	public BlockDescription(MaterialBlockType type, String blockName, int metadata,
+			Map<String, NBTBase> tags,
+			List<MaterialBlockRecipeBuilder> recipes) {
+		this(type, (Block) null, metadata, tags, recipes);
 		this.blockName = blockName;
 	}
 
-	public BlockDescription(MaterialBlockType type, String blockName, int metadata) {
-		this(type, blockName, metadata, null, null);
-	}
-
-	public BlockDescription(MaterialBlockType type, String blockName) {
-		this(type, blockName, 0);
+	public BlockDescription(MaterialBlockType type, List<MaterialBlockRecipeBuilder> recipes) {
+		this(type, (String) null, 0, null, recipes);
 	}
 
 	public ItemBlock getItem() {
@@ -59,10 +55,22 @@ public class BlockDescription {
 	public ItemStack getStack() {
 		if (stack == null) {
 			stack = new ItemStack(getBlock(), 1, meta);
-			if (tagName != null)
-				stack.setTagInfo(tagName, tagValue);
+			for (Entry<String, NBTBase> entry : tags.entrySet()) {
+				stack.setTagInfo(entry.getKey(), entry.getValue());
+			}
 		}
 		return stack;
+	}
+
+	boolean isBlockTemplate() {
+		return block == null && blockName == null;
+	}
+
+	void setBlock(Block block, int meta, Map<String, NBTBase> tags) {
+		this.block = block;
+		this.meta = meta;
+		if (tags != null)
+			this.tags = tags;
 	}
 
 	public Block getBlock() {
@@ -74,5 +82,9 @@ public class BlockDescription {
 
 	public MaterialBlockType getType() {
 		return type;
+	}
+
+	public List<MaterialBlockRecipeBuilder> getRecipes() {
+		return recipes;
 	}
 }

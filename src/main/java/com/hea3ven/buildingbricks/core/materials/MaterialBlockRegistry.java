@@ -11,12 +11,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 
-import com.hea3ven.buildingbricks.core.ModBuildingBricks;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+
+import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.*;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
+import com.hea3ven.tools.commonutils.client.renderer.SimpleItemMeshDefinition;
+import com.hea3ven.tools.commonutils.util.SidedCall;
 
 public class MaterialBlockRegistry {
 
@@ -24,22 +31,37 @@ public class MaterialBlockRegistry {
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialBlockRegistry");
 
+	public boolean enableGenerateBlocks = true;
+
 	private Table<MaterialBlockType, StructureMaterial, Block> blocks = HashBasedTable.create();
 	private HashMap<Block, Set<Material>> blocksMaterials = new HashMap<>();
 
 	private MaterialBlockRegistry() {
 	}
 
-	public BlockDescription addBlock(MaterialBlockType blockType, Material mat) {
-		if (!blocks.contains(blockType, mat.getStructureMaterial()))
-			initBlock(blockType, mat);
-
-		Block block = blocks.get(blockType, mat.getStructureMaterial());
-		blocksMaterials.get(block).add(mat);
-		return new BlockDescription(blockType, block, MaterialIdMapping.get().getIdForMaterial(mat));
+	public void generateBlocks(ProxyCommonBuildingBricks proxy) {
+		for (Material mat : MaterialRegistry.getAll()) {
+			for (BlockDescription blockDesc : mat.getBlockRotation().getAll().values()) {
+				if (blockDesc.isBlockTemplate()) {
+					if (enableGenerateBlocks)
+						initBlockDesc(proxy, mat, blockDesc);
+					else
+						mat.removeBlock(blockDesc);
+				}
+			}
+		}
 	}
 
-	private void initBlock(MaterialBlockType blockType, Material mat) {
+	private void initBlockDesc(ProxyCommonBuildingBricks proxy, Material mat, BlockDescription blockDesc) {
+		if (!blocks.contains(blockDesc.getType(), mat.getStructureMaterial()))
+			initBlock(proxy, blockDesc.getType(), mat);
+
+		Block block = blocks.get(blockDesc.getType(), mat.getStructureMaterial());
+		blocksMaterials.get(block).add(mat);
+		blockDesc.setBlock(block, MaterialIdMapping.get().getIdForMaterial(mat), null);
+	}
+
+	private void initBlock(ProxyCommonBuildingBricks proxy, MaterialBlockType blockType, Material mat) {
 		Class<? extends Block> cls;
 		switch (blockType) {
 			default:
@@ -75,19 +97,20 @@ public class MaterialBlockRegistry {
 				break;
 		}
 
-		createBlock(cls, mat.getStructureMaterial(), blockType);
+		createBlock(proxy, cls, mat.getStructureMaterial(), blockType);
 	}
 
-	private <T extends Block> T createBlock(Class<T> cls, StructureMaterial structMat,
-			MaterialBlockType blockType) {
-		T block;
+	private void createBlock(ProxyCommonBuildingBricks proxy, Class<? extends Block> cls,
+			StructureMaterial structMat, MaterialBlockType blockType) {
+		final Block block;
 		try {
 			block = cls.getConstructor(StructureMaterial.class).newInstance(structMat);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
-		block.setUnlocalizedName(structMat.getName() + "_" + blockType.getName());
+		block.setUnlocalizedName(structMat.getName() + "_" + blockType.getName())
+				.setCreativeTab(proxy.getCreativeTab("buildingBricks"));
 
 		blocks.put(blockType, structMat, block);
 		if (!blocksMaterials.containsKey(block))
@@ -95,11 +118,15 @@ public class MaterialBlockRegistry {
 
 		Class<? extends ItemBlock> itemCls = ItemMaterialBlock.class;
 
-		// TODO: make block initialization better
-		ModBuildingBricks.proxy.addMaterialBlock(block, itemCls,
-				structMat.getName() + "_" + blockType.getName());
-
-		return block;
+		final String blockName = structMat.getName() + "_" + blockType.getName();
+		GameRegistry.registerBlock(block, itemCls, blockName);
+		SidedCall.run(Side.CLIENT, new Runnable() {
+			@Override
+			public void run() {
+				ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(block),
+						new SimpleItemMeshDefinition("buildingbricks:" + blockName + "#inventory"));
+			}
+		});
 	}
 
 	public Collection<Block> getAllBlocks() {

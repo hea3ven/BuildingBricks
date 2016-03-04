@@ -8,10 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import com.google.common.base.Throwables;
-
 import org.apache.commons.io.IOUtils;
 
 import net.minecraft.nbt.CompressedStreamTools;

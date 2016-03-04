@@ -17,6 +17,10 @@ public class BlockRotation {
 		items.put(blockType, blockDesc);
 	}
 
+	public void remove(BlockDescription blockDesc) {
+		items.remove(blockDesc.getType());
+	}
+
 	public MaterialBlockType getFirst() {
 		// TODO: Rewrite this
 		for (MaterialBlockType blockType : MaterialBlockType.values()) {

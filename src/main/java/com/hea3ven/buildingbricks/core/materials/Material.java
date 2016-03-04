@@ -97,8 +97,8 @@ public class Material {
 		getBlockRotation().add(blockDesc.getType(), blockDesc);
 	}
 
-	public void addBlock(MaterialBlockType blockType) {
-		addBlock(MaterialBlockRegistry.instance.addBlock(blockType, this));
+	public void removeBlock(BlockDescription blockDesc) {
+		getBlockRotation().remove(blockDesc);
 	}
 
 	public BlockDescription getBlock(MaterialBlockType blockType) {

@@ -3,6 +3,8 @@ package com.hea3ven.buildingbricks.core.materials.loader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Charsets;
@@ -11,6 +13,7 @@ import com.google.gson.*;
 import net.minecraft.util.JsonUtils;
 
 import com.hea3ven.buildingbricks.core.materials.*;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
 
 public class MaterialParser {
 
@@ -19,14 +22,12 @@ public class MaterialParser {
 					.registerTypeAdapter(StructureMaterial.class, new StructureMaterialDeserializer())
 					.create();
 
-	public static boolean generateBlocks = true;
-
 	public static void loadMaterialFromStream(InputStream matStream) {
 		Material mat = GSON.fromJson(new InputStreamReader(matStream, Charsets.UTF_8), Material.class);
-		if (generateBlocks) {
-			for (MaterialBlockType blockType : mat.getStructureMaterial().getBlockTypes()) {
-				if (mat.getBlock(blockType) == null)
-					mat.addBlock(blockType);
+		for (MaterialBlockType blockType : mat.getStructureMaterial().getBlockTypes()) {
+			if (mat.getBlock(blockType) == null) {
+				mat.addBlock(new BlockDescription(blockType,
+						MaterialBlockRecipes.getForType(mat.getStructureMaterial(), blockType)));
 			}
 		}
 		MaterialRegistry.registerMaterial(mat);
@@ -96,16 +97,46 @@ public class MaterialParser {
 				MaterialBlockType type = MaterialBlockType.valueOf(blockEntry.getKey().toUpperCase());
 				if (blockEntry.getValue().isJsonPrimitive()) {
 					String blockName = blockEntry.getValue().getAsString();
-					mat.addBlock(new BlockDescription(type, blockName));
+					mat.addBlock(new BlockDescription(type, blockName, 0, null, null));
 				} else {
 					JsonObject blockJson = blockEntry.getValue().getAsJsonObject();
-					String blockName = blockJson.get("id").getAsString();
-					int meta = blockJson.get("meta").getAsInt();
-					mat.addBlock(new BlockDescription(type, blockName, meta));
+
+					List<MaterialBlockRecipeBuilder> recipes = null;
+					if (blockJson.has("recipes")) {
+						recipes = parseRecipes(blockJson.getAsJsonArray("recipes"));
+					}
+
+					if (blockJson.has("id")) {
+						String blockName = blockJson.get("id").getAsString();
+						int meta = blockJson.get("meta").getAsInt();
+						mat.addBlock(new BlockDescription(type, blockName, meta, null, recipes));
+					} else {
+						if (recipes == null)
+							recipes = MaterialBlockRecipes.getForType(mat.getStructureMaterial(), type);
+						mat.addBlock(new BlockDescription(type, recipes));
+					}
 				}
 			}
 
 			return mat;
+		}
+
+		private List<MaterialBlockRecipeBuilder> parseRecipes(JsonArray recipesData) {
+			List<MaterialBlockRecipeBuilder> recipes = new ArrayList<>();
+			for (JsonElement recipeData : recipesData) {
+				JsonObject recipe = recipeData.getAsJsonObject();
+				MaterialBlockRecipeBuilder builder = new MaterialBlockRecipeBuilder();
+
+				if (recipe.has("output"))
+					builder.outputAmount(recipe.get("output").getAsInt());
+
+				String[] ingredients = new String[recipe.getAsJsonArray("ingredients").size()];
+				int i = 0;
+				for (JsonElement ingredient : recipe.getAsJsonArray("ingredients"))
+					ingredients[i++] = ingredient.getAsString();
+				recipes.add(builder.ingredients(ingredients));
+			}
+			return recipes;
 		}
 	}
 
