@@ -8,14 +8,14 @@ import com.google.common.collect.Table.Cell;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.util.IRegistry;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.util.registry.IRegistry;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.IFlexibleBakedModel;
+
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.common.property.IExtendedBlockState;
@@ -101,7 +101,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 			IModel itemModel = renderDefinition.getItemModel(mat);
 			itemModel = retexture(mat.getTextures(), itemModel);
 			IModelState modelState = renderDefinition.getItemModelState(itemModel.getDefaultState());
-			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState);
+			IBakedModel bakedItemModel = bake(itemModel, modelState);
 
 			materialItemModel.put(mat.getMaterialId(), bakedItemModel);
 
@@ -112,16 +112,16 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 				IModel blockModel = renderDefinition.getModel(state, mat);
 				blockModel = retexture(mat.getTextures(), blockModel);
 				modelState = renderDefinition.getModelState(blockModel.getDefaultState(), state);
-				IFlexibleBakedModel bakedModel = bake(blockModel, modelState);
+				IBakedModel bakedModel = bake(blockModel, modelState);
 
 				state = TileMaterial.setStateMaterial((IExtendedBlockState) state, mat);
 				cacheModel.put(state, bakedModel);
 			}
 		}
 
-		cacheModel.setDelegate((IFlexibleBakedModel) modelRegistry.getObject(
+		cacheModel.setDelegate((IBakedModel) modelRegistry.getObject(
 				new ModelResourceLocation("builtin/missing", "missing")));
-		materialItemModel.setDelegate((IFlexibleBakedModel) modelRegistry.getObject(
+		materialItemModel.setDelegate((IBakedModel) modelRegistry.getObject(
 				new ModelResourceLocation("builtin/missing", "missing")));
 	}
 }

@@ -2,8 +2,8 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -57,7 +57,7 @@ public class BlockBuildingBricksFence extends BlockFence implements BlockBuildin
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public EnumWorldBlockLayer getBlockLayer() {
+	public BlockRenderLayer getBlockLayer() {
 		return blockLogic.getBlockLayer();
 	}
 

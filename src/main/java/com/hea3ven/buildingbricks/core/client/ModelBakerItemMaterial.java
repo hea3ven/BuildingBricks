@@ -4,14 +4,14 @@ import javax.vecmath.Vector3f;
 import java.util.List;
 
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.client.model.IFlexibleBakedModel;
+
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.TRSRTransformation;
@@ -45,7 +45,7 @@ public class ModelBakerItemMaterial extends ModelBakerBase {
 	public void onModelBakeEvent(ModelBakeEvent event) {
 
 		IModel baseItemModel = getModel(modelLoc);
-		IFlexibleBakedModel baseBakedItemModel = bake(baseItemModel, DefaultVertexFormats.ITEM);
+		IBakedModel baseBakedItemModel = bake(baseItemModel, DefaultVertexFormats.ITEM);
 		ModelItemMaterial dynModel = new ModelItemMaterial(baseBakedItemModel);
 		event.modelRegistry.putObject(targetModelLoc, dynModel);
 
@@ -70,7 +70,7 @@ public class ModelBakerItemMaterial extends ModelBakerBase {
 			IModel itemModel = getModel(model, new ResourceLocation("minecraft", "block/cube_bottom_top"));
 			itemModel = retexture(material.getTextures(), itemModel);
 			IModelState modelState = new TRSRTransformation(translation, null, scale, null);
-			IFlexibleBakedModel bakedItemModel = bake(itemModel, modelState, DefaultVertexFormats.ITEM);
+			IBakedModel bakedItemModel = bake(itemModel, modelState, DefaultVertexFormats.ITEM);
 
 			itemModel = getModel(modelLoc);
 			baseBakedItemModel = bake(itemModel, DefaultVertexFormats.ITEM);

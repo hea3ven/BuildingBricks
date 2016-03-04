@@ -2,9 +2,9 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -67,7 +67,7 @@ public class BlockBuildingBricksPane extends BlockPane implements BlockBuildingB
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public EnumWorldBlockLayer getBlockLayer() {
+	public BlockRenderLayer getBlockLayer() {
 		return blockLogic.getBlockLayer();
 	}
 

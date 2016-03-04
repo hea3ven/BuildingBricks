@@ -6,10 +6,10 @@ import org.lwjgl.util.vector.Vector3f;
 
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
-import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.item.ItemStack;
 
-import net.minecraftforge.client.model.IFlexibleBakedModel;
+
 import net.minecraftforge.client.model.ISmartItemModel;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
@@ -36,11 +36,11 @@ public class ModelItemMaterialBlock extends DelegatedSmartModel implements ISmar
 		models = new HashMap<>();
 	}
 
-	public ModelItemMaterialBlock(IFlexibleBakedModel delegate) {
+	public ModelItemMaterialBlock(IBakedModel delegate) {
 		super(delegate);
 	}
 
-	public void put(String materialId, IFlexibleBakedModel model) {
+	public void put(String materialId, IBakedModel model) {
 		models.put(materialId, new ModelItemMaterialBlock(model));
 	}
 

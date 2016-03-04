@@ -2,7 +2,7 @@ package com.hea3ven.buildingbricks.compat.vanilla.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
 import com.hea3ven.buildingbricks.core.materials.Material;
@@ -21,7 +21,7 @@ public class ItemBlockGrassSlab extends ItemMaterialBlock {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return StatCollector.translateToLocalFormatted("blockType.slab",
+		return I18n.translateToLocalFormatted("blockType.slab",
 				getMaterial(stack).getLocalizedName());
 	}
 }

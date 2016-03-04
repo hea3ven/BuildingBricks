@@ -3,7 +3,7 @@ package com.hea3ven.buildingbricks.core.materials;
 import java.util.HashMap;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 
@@ -129,8 +129,8 @@ public class Material {
 	}
 
 	public String getLocalizedName() {
-		if (StatCollector.canTranslate(getTranslationKey()))
-			return StatCollector.translateToLocal(getTranslationKey());
+		if (I18n.canTranslate(getTranslationKey()))
+			return I18n.translateToLocal(getTranslationKey());
 
 		BlockDescription block = getFirstBlock();
 		if (block.getBlock() instanceof BlockMaterial)

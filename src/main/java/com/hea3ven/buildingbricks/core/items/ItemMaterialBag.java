@@ -11,8 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.capabilities.Capability;
@@ -131,7 +131,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		if (mat == null)
 			return super.getItemStackDisplayName(stack);
 		else
-			return StatCollector.translateToLocalFormatted("item.materialBagBinded.name",
+			return I18n.translateToLocalFormatted("item.materialBagBinded.name",
 					mat.getLocalizedName());
 	}
 

@@ -12,7 +12,7 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -21,7 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
@@ -121,7 +121,7 @@ public class CommandCreateMaterial extends CommandBase {
 				stream.write(matString);
 			} catch (FileAlreadyExistsException e) {
 				player.addChatMessage(
-						new ChatComponentTranslation("buildingbricks.commands.material.errorFileExists"));
+						new TextComponentTranslation("buildingbricks.commands.material.errorFileExists"));
 			} catch (IOException e) {
 				Throwables.propagate(e);
 			}

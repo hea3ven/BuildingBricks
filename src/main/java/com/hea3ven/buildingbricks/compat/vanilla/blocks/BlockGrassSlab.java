@@ -7,15 +7,15 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeColorHelper;
@@ -55,8 +55,8 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 	}
 
 	@SideOnly(Side.CLIENT)
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT_MIPPED;
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 
 	@Override
@@ -75,10 +75,10 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		Collection<IProperty> props = new ArrayList<>(super.createBlockState().getProperties());
 		props.add(BlockGrass.SNOWY);
-		return new BlockState(this, props.toArray(new IProperty[props.size()]));
+		return new BlockStateContainer(this, props.toArray(new IProperty[props.size()]));
 	}
 
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
@@ -102,7 +102,7 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 
 	@Override
 	public String getLocalizedName(Material mat) {
-		if (StatCollector.canTranslate(getUnlocalizedName() + ".name"))
+		if (I18n.canTranslate(getUnlocalizedName() + ".name"))
 			return super.getLocalizedName();
 		else
 			return blockLogic.getLocalizedName(mat);

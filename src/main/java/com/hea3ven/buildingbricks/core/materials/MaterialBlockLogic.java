@@ -7,13 +7,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -77,12 +77,12 @@ public class MaterialBlockLogic {
 			return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
 	}
 
-	public EnumWorldBlockLayer getBlockLayer() {
+	public BlockRenderLayer getBlockLayer() {
 		return structMat.getBlockLayer();
 	}
 
 	public String getLocalizedName(Material mat) {
-		return StatCollector.translateToLocalFormatted(blockType.getTranslationKey(), mat.getLocalizedName());
+		return I18n.translateToLocalFormatted(blockType.getTranslationKey(), mat.getLocalizedName());
 	}
 
 	public String getHarvestTool(IBlockState state) {
@@ -90,7 +90,7 @@ public class MaterialBlockLogic {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(World world, MovingObjectPosition target, EffectRenderer effectRenderer) {
+	public boolean addHitEffects(World world, RayTraceResult target, EffectRenderer effectRenderer) {
 		BlockPos pos = target.getBlockPos();
 		IBlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();

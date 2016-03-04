@@ -6,16 +6,16 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,8 +34,8 @@ public class BlockPortableLadder extends Block {
 	}
 
 	@Override
-	protected BlockState createBlockState() {
-		return new BlockState(this, BlockProperties.SIDE, BlockProperties.HALF);
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, BlockProperties.SIDE, BlockProperties.HALF);
 	}
 
 	@Override

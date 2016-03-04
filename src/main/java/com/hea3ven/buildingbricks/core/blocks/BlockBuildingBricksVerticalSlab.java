@@ -1,10 +1,10 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumFacing.AxisDirection;
@@ -29,8 +29,8 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 	}
 
 	@Override
-	protected BlockState createBlockState() {
-		return new BlockState(this, BlockProperties.SIDE);
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, BlockProperties.SIDE);
 	}
 
 	@Override

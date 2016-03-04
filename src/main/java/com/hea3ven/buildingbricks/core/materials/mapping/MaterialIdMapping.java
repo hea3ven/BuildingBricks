@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.RegistryNamespaced;
+import net.minecraft.util.registry.RegistryNamespaced;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;

@@ -1,53 +1,53 @@
 package com.hea3ven.buildingbricks.core.materials;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Block.SoundType;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.BlockRenderLayer;
 
 public enum StructureMaterial {
-	ROCK(Material.rock, EnumWorldBlockLayer.SOLID, false, Block.soundTypePiston, 1.5f, 10.0f, 0.6f, "pickaxe",
+	ROCK(Material.rock, BlockRenderLayer.SOLID, false, SoundType.STONE, 1.5f, 10.0f, 0.6f, "pickaxe",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER,
 					MaterialBlockType.WALL}),
-	METAL(Material.iron, EnumWorldBlockLayer.SOLID, false, Block.soundTypeMetal, 5.0f, 10.0f, 0.6f, "pickaxe",
+	METAL(Material.iron, BlockRenderLayer.SOLID, false, SoundType.METAL, 5.0f, 10.0f, 0.6f, "pickaxe",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER,
 					MaterialBlockType.WALL}),
-	WOOD(Material.wood, EnumWorldBlockLayer.SOLID, false, Block.soundTypeWood, 2.0f, 5.0f, 0.6f, "axe",
+	WOOD(Material.wood, BlockRenderLayer.SOLID, false, SoundType.WOOD, 2.0f, 5.0f, 0.6f, "axe",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER,
 					MaterialBlockType.FENCE, MaterialBlockType.FENCE_GATE}),
-	DIRT(Material.ground, EnumWorldBlockLayer.SOLID, false, Block.soundTypeGravel, 0.5f, -1, 0.6f, "shovel",
+	DIRT(Material.ground, BlockRenderLayer.SOLID, false, SoundType.GROUND, 0.5f, -1, 0.6f, "shovel",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER}),
-	CLOTH(Material.cloth, EnumWorldBlockLayer.SOLID, false, Block.soundTypeCloth, 0.8f, -1, 0.6f, null,
+	CLOTH(Material.cloth, BlockRenderLayer.SOLID, false, SoundType.CLOTH, 0.8f, -1, 0.6f, null,
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER}),
-	GRASS(Material.grass, EnumWorldBlockLayer.CUTOUT_MIPPED, true, Block.soundTypeGrass, 0.6f, -1, 0.6f,
+	GRASS(Material.grass, BlockRenderLayer.CUTOUT_MIPPED, true, SoundType.PLANT, 0.6f, -1, 0.6f,
 			"shovel",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER}),
-	GLASS(Material.glass, EnumWorldBlockLayer.CUTOUT, false, Block.soundTypeGlass, 0.3f, -1, 0.6f, null,
+	GLASS(Material.glass, BlockRenderLayer.CUTOUT, false, SoundType.GLASS, 0.3f, -1, 0.6f, null,
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER,
 					MaterialBlockType.WALL, MaterialBlockType.PANE}),
-	ICE(Material.ice, EnumWorldBlockLayer.TRANSLUCENT, false, Block.soundTypeGlass, 0.5f, -1, 0.98f, null,
+	ICE(Material.ice, BlockRenderLayer.TRANSLUCENT, false, SoundType.GLASS, 0.5f, -1, 0.98f, null,
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER,
 					MaterialBlockType.WALL, MaterialBlockType.PANE}),
-	PACKED_ICE(Material.packedIce, EnumWorldBlockLayer.SOLID, false, Block.soundTypeGlass, 0.5f, -1, 0.98f,
+	PACKED_ICE(Material.packedIce, BlockRenderLayer.SOLID, false, SoundType.GLASS, 0.5f, -1, 0.98f,
 			null,
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER,
 					MaterialBlockType.WALL, MaterialBlockType.PANE}),
-	SNOW(Material.craftedSnow, EnumWorldBlockLayer.SOLID, false, Block.soundTypeSnow, 0.2f, -1, 0.6f,
+	SNOW(Material.craftedSnow, BlockRenderLayer.SOLID, false, SoundType.SNOW, 0.2f, -1, 0.6f,
 			"shovel",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER});
 
 	private Material mcMaterial;
-	private EnumWorldBlockLayer blockLayer;
+	private BlockRenderLayer blockLayer;
 	private boolean color;
 	private SoundType sound;
 	private float hardness;
@@ -56,8 +56,8 @@ public enum StructureMaterial {
 	private String tool;
 	private MaterialBlockType[] blockTypes;
 
-	StructureMaterial(Material mcMaterial, EnumWorldBlockLayer blockLayer, boolean color,
-			Block.SoundType sound, float hardness, float resistance, float slipperiness, String tool,
+	StructureMaterial(Material mcMaterial, BlockRenderLayer blockLayer, boolean color,
+			SoundType sound, float hardness, float resistance, float slipperiness, String tool,
 			MaterialBlockType[] blockTypes) {
 		this.mcMaterial = mcMaterial;
 		this.blockLayer = blockLayer;
@@ -78,7 +78,7 @@ public enum StructureMaterial {
 		return name().toLowerCase();
 	}
 
-	public EnumWorldBlockLayer getBlockLayer() {
+	public BlockRenderLayer getBlockLayer() {
 		return blockLayer;
 	}
 

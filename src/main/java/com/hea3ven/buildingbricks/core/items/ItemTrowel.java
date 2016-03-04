@@ -8,10 +8,10 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.util.Constants.NBT;
@@ -194,7 +194,7 @@ public class ItemTrowel extends Item implements ItemMaterial {
 		if (mat == null)
 			return super.getItemStackDisplayName(stack);
 		else
-			return StatCollector.translateToLocalFormatted("item.trowelBinded.name", mat.getLocalizedName());
+			return I18n.translateToLocalFormatted("item.trowelBinded.name", mat.getLocalizedName());
 	}
 
 	@Override

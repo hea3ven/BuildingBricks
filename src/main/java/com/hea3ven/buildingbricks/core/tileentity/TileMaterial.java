@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -16,10 +16,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -98,15 +98,15 @@ public class TileMaterial extends TileEntity {
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(pos, 1, nbt);
+		return new SPacketUpdateTileEntity(pos, 1, nbt);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		readFromNBT(pkt.getNbtCompound());
 	}
 
-	public static BlockState createBlockState(BlockState superState) {
+	public static BlockStateContainer createBlockState(BlockStateContainer superState) {
 		Collection props = superState.getProperties();
 		return new ExtendedBlockState(superState.getBlock(),
 				(IProperty[]) props.toArray(new IProperty[props.size()]),
@@ -125,7 +125,7 @@ public class TileMaterial extends TileEntity {
 		TileMaterial.getTile(world, pos).setMaterial(MaterialStack.get(stack));
 	}
 
-	public static ItemStack getPickBlock(Block block, MovingObjectPosition target, World world,
+	public static ItemStack getPickBlock(Block block, RayTraceResult target, World world,
 			BlockPos pos) {
 		ItemStack stack = new ItemStack(block, 1);
 		MaterialStack.set(stack, TileMaterial.getTile(world, pos).getMaterial());

@@ -3,7 +3,7 @@ package com.hea3ven.buildingbricks.core.materials.rendering;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockStairs.EnumShape;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.model.ModelRotation;
+import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.client.model.IModel;

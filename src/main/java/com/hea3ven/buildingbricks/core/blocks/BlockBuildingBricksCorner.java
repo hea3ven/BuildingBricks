@@ -1,11 +1,11 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.world.World;
@@ -31,7 +31,7 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return BlockStateUtil.addProperties(this, super.createBlockState(),
 				new IProperty[] {BlockProperties.HALF, BlockProperties.ROTATION});
 	}

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,9 +14,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -41,7 +41,7 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 	//region COMMON TILE CODE
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return TileMaterial.createBlockState(super.createBlockState());
 	}
 
@@ -73,7 +73,7 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos,
+	public ItemStack getPickBlock(RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player) {
 		return TileMaterial.getPickBlock(this, target, world, pos);
 	}
@@ -99,7 +99,7 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 
 	@Override
 	public String getLocalizedName(Material mat) {
-		if (StatCollector.canTranslate(getUnlocalizedName() + ".name"))
+		if (I18n.canTranslate(getUnlocalizedName() + ".name"))
 			return super.getLocalizedName();
 		else
 			return blockLogic.getLocalizedName(mat);
@@ -107,7 +107,7 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(World world, MovingObjectPosition target, EffectRenderer effectRenderer) {
+	public boolean addHitEffects(World world, RayTraceResult target, EffectRenderer effectRenderer) {
 		return blockLogic.addHitEffects(world, target, effectRenderer);
 	}
 

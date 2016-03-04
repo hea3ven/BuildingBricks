@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.chunk.IChunkProvider;
 
@@ -43,25 +43,25 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 		int z = event.chunkZ << 4;
 		int offX = 16;
 		int offZ = 16;
-		if (chunkProvider.chunkExists(event.chunkX - 1, event.chunkZ)) {
+		if (chunkProvider.getLoadedChunk(event.chunkX - 1, event.chunkZ) != null) {
 			x--;
 			offX++;
 		} else {
 			x++;
 			offX--;
 		}
-		if (chunkProvider.chunkExists(event.chunkX, event.chunkZ - 1)) {
+		if (chunkProvider.getLoadedChunk(event.chunkX, event.chunkZ - 1) != null) {
 			z--;
 			offZ++;
 		} else {
 			z++;
 			offZ--;
 		}
-		if (chunkProvider.chunkExists(event.chunkX + 1, event.chunkZ))
+		if (chunkProvider.getLoadedChunk(event.chunkX + 1, event.chunkZ) != null)
 			offX++;
 		else
 			offX--;
-		if (chunkProvider.chunkExists(event.chunkX, event.chunkZ + 1))
+		if (chunkProvider.getLoadedChunk(event.chunkX, event.chunkZ + 1) != null)
 			offZ++;
 		else
 			offZ--;

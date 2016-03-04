@@ -9,7 +9,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -40,7 +40,7 @@ public class MaterialIdMappingCheckMessage implements IMessage {
 					player = Minecraft.getMinecraft().thePlayer;
 				}
 				player.addChatMessage(
-						new ChatComponentTranslation("buildingbricks.chat.idMappingsInvalid"));
+						new TextComponentTranslation("buildingbricks.chat.idMappingsInvalid"));
 			}
 			return null;
 		}
