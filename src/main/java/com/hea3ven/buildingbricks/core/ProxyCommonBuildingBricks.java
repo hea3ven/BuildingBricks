@@ -184,12 +184,7 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 
 	@Override
 	protected void registerCreativeTabs() {
-		addCreativeTab("buildingBricks", new Supplier<Item>() {
-			@Override
-			public Item get() {
-				return ModBuildingBricks.trowel;
-			}
-		});
+		addCreativeTab("buildingBricks", ModBuildingBricks.trowel);
 		CreativeTabs tab = getCreativeTab("buildingBricks");
 		ModBuildingBricks.trowel.setCreativeTab(tab);
 		ModBuildingBricks.materialBag.setCreativeTab(tab);
