@@ -4,7 +4,6 @@ import javax.vecmath.Vector3f;
 import java.nio.file.Path;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import org.lwjgl.input.Keyboard;
 
@@ -13,7 +12,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
@@ -43,8 +41,6 @@ import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
-import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMappingChecker;
-import com.hea3ven.buildingbricks.core.network.MaterialIdMappingCheckMessage;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.tools.commonutils.inventory.ISimpleGuiHandler;
@@ -87,7 +83,6 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 		super.onInitEvent(event);
 
 		MinecraftForge.EVENT_BUS.register(ModBuildingBricks.materialBag);
-		MinecraftForge.EVENT_BUS.register(new MaterialIdMappingChecker());
 		SidedCall.run(Side.CLIENT, new Runnable() {
 			@Override
 			public void run() {
@@ -262,8 +257,6 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 	protected void registerNetworkPackets() {
 		addNetworkPacket(TrowelRotateBlockTypeMessage.Handler.class, TrowelRotateBlockTypeMessage.class, 0,
 				Side.SERVER);
-		addNetworkPacket(MaterialIdMappingCheckMessage.Handler.class, MaterialIdMappingCheckMessage.class, 1,
-				Side.CLIENT);
 	}
 
 	@Override

@@ -38,7 +38,6 @@ public class TileMaterial extends TileEntity {
 
 	public static boolean blocksInCreative = true;
 
-	private short materialId = 0;
 	private Material material;
 
 	public Material getMaterial() {
@@ -50,7 +49,6 @@ public class TileMaterial extends TileEntity {
 
 	public void setMaterial(Material material) {
 		this.material = material;
-		this.materialId = MaterialIdMapping.get().getIdForMaterial(material);
 	}
 
 	public static IExtendedBlockState setStateMaterial(IExtendedBlockState state, Material mat) {
@@ -70,7 +68,7 @@ public class TileMaterial extends TileEntity {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setShort("m", materialId);
+		nbt.setString("material", material.getMaterialId());
 	}
 
 	@Override
@@ -82,9 +80,8 @@ public class TileMaterial extends TileEntity {
 			if (!matId.contains(":"))
 				matId = "buildingbrickscompatvanilla:" + matId;
 			setMaterial(MaterialRegistry.get(matId));
-			materialId = MaterialIdMapping.get().getIdForMaterial(getMaterial());
 		} else {
-			materialId = nbt.getShort("m");
+			short materialId = nbt.getShort("m");
 			setMaterial(MaterialIdMapping.get().getMaterialById(materialId));
 		}
 	}

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Table;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +14,8 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagString;
 
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -21,7 +24,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.*;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
-import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 import com.hea3ven.tools.commonutils.client.renderer.SimpleItemMeshDefinition;
 import com.hea3ven.tools.commonutils.util.SidedCall;
 
@@ -58,7 +60,10 @@ public class MaterialBlockRegistry {
 
 		Block block = blocks.get(blockDesc.getType(), mat.getStructureMaterial());
 		blocksMaterials.get(block).add(mat);
-		blockDesc.setBlock(block, MaterialIdMapping.get().getIdForMaterial(mat), null);
+		blockDesc.setBlock(block, 0,
+				ImmutableMap.<String, NBTBase>builder()
+						.put("material", new NBTTagString(mat.getMaterialId()))
+						.build());
 	}
 
 	private void initBlock(ProxyCommonBuildingBricks proxy, MaterialBlockType blockType, Material mat) {
