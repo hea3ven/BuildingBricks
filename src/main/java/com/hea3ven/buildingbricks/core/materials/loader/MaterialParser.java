@@ -116,6 +116,9 @@ public class MaterialParser {
 					} else {
 						if (recipes == null)
 							recipes = MaterialBlockRecipes.getForType(structMat, type);
+						if (blockJson.has("recipes_add")) {
+							recipes.addAll(parseRecipes(blockJson.getAsJsonArray("recipes_add")));
+						}
 						matBuilder.addBlock(type, recipes);
 					}
 				}
