@@ -63,6 +63,8 @@ public class MaterialBuilderSimple extends MaterialBuilder {
 			mat.setTexture("side", baseTexture);
 		if (!textures.containsKey("top"))
 			mat.setTexture("top", baseTexture);
+		if (!textures.containsKey("bottom"))
+			mat.setTexture("bottom", baseTexture);
 		if (!textures.containsKey("particle"))
 			mat.setTexture("particle", baseTexture);
 		if (!textures.containsKey("wall"))
