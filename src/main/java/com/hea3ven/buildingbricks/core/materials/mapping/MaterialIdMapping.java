@@ -33,27 +33,28 @@ public class MaterialIdMapping {
 		return instance;
 	}
 
+	@Deprecated
 	public Material getMaterialById(short matId) {
 		return registry.getObjectById(matId);
 	}
 
-	public short getIdForMaterial(Material mat) {
-		if (mat == null)
-			return 0;
+//	public short getIdForMaterial(Material mat) {
+//		if (mat == null)
+//			return 0;
 
-		short id = (short) registry.getIDForObject(mat);
-		if (id != -1)
-			return id;
+//		short id = (short) registry.getIDForObject(mat);
+//		if (id != -1)
+//			return id;
 
-		if (notFoundMaterials.containsKey(mat.getMaterialId())) {
-			id = notFoundMaterials.get(mat.getMaterialId());
-			registry.register(id, mat.getMaterialId(), mat);
-			notFoundMaterials.remove(mat.getMaterialId());
-			return id;
-		}
-
-		return 0;
-	}
+//		if (notFoundMaterials.containsKey(mat.getMaterialId())) {
+//			id = notFoundMaterials.get(mat.getMaterialId());
+//			registry.register(id, mat.getMaterialId(), mat);
+//			notFoundMaterials.remove(mat.getMaterialId());
+//			return id;
+//		}
+//
+//		return 0;
+//	}
 
 	public void readFromNBT(NBTTagCompound nbt) {
 		nextId = nbt.getShort("nextId");

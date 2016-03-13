@@ -43,25 +43,29 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	@Override
 	public void setMaterial(ItemStack stack, Material mat) {
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
-
-		if (mat == null)
+		if (stack.getItemDamage() != 0) {
 			stack.setItemDamage(0);
-		else
-			stack.setItemDamage(MaterialIdMapping.get().getIdForMaterial(mat));
+		}
+		if (mat == null) {
+			if (stack.hasTagCompound())
+				stack.getTagCompound().removeTag("material");
+		} else {
+			if (!stack.hasTagCompound())
+				stack.setTagCompound(new NBTTagCompound());
+			stack.getTagCompound().setString("material", mat.getMaterialId());
+		}
 	}
 
 	@Override
 	public Material getMaterial(ItemStack stack) {
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
+		if (stack.getItemDamage() != 0) {
+			setMaterial(stack, MaterialIdMapping.get().getMaterialById((short) stack.getItemDamage()));
+		}
 
-		short matId = (short) getMetadata(stack);
-		if (matId == 0)
-			return null;
+		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
+			return MaterialRegistry.get(stack.getTagCompound().getString("material"));
 		else
-			return MaterialIdMapping.get().getMaterialById(matId);
+			return null;
 	}
 
 	public void setVolume(ItemStack stack, int volume) {
@@ -118,16 +122,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		Material result;
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
-
-		short matId = (short) getMetadata(stack);
-		if (matId == 0)
-			result = null;
-		else
-			result = MaterialIdMapping.get().getMaterialById(matId);
-		Material mat = result;
+		Material mat = getMaterial(stack);
 		if (mat == null)
 			return super.getItemStackDisplayName(stack);
 		else
@@ -140,16 +135,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
 		if (tintIndex == 1)
 			return super.getColorFromItemStack(stack, tintIndex);
-		Material result;
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
-
-		short matId = (short) getMetadata(stack);
-		if (matId == 0)
-			result = null;
-		else
-			result = MaterialIdMapping.get().getMaterialById(matId);
-		Material mat = result;
+		Material mat = getMaterial(stack);
 		if (mat == null)
 			return super.getColorFromItemStack(stack, tintIndex);
 

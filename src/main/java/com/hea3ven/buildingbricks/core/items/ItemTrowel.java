@@ -42,54 +42,36 @@ public class ItemTrowel extends Item implements ItemMaterial {
 
 	@Override
 	public void setMaterial(ItemStack stack, Material mat) {
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
-
-		if (mat == null)
+		if (stack.getItemDamage() != 0) {
 			stack.setItemDamage(0);
-		else
-			stack.setItemDamage(MaterialIdMapping.get().getIdForMaterial(mat));
+		}
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setString("material", mat.getMaterialId());
 	}
 
 	@Override
 	public Material getMaterial(ItemStack stack) {
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
+		if (stack.getItemDamage() != 0) {
+			setMaterial(stack, MaterialIdMapping.get().getMaterialById((short) stack.getItemDamage()));
+		}
 
-		short matId = (short) getMetadata(stack);
-		if (matId == 0)
-			return null;
+		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
+			return MaterialRegistry.get(stack.getTagCompound().getString("material"));
 		else
-			return MaterialIdMapping.get().getMaterialById(matId);
+			return null;
 	}
 
 	public MaterialBlockType getCurrentBlockType(ItemStack stack) {
 		if (stack.getTagCompound() == null) {
-			NBTTagCompound nbt = new NBTTagCompound();
-			Material result;
-			if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-				updateStack(stack); // convert from 1.0.x format
-
-			short matId = (short) getMetadata(stack);
-			if (matId == 0)
-				result = null;
-			else
-				result = MaterialIdMapping.get().getMaterialById(matId);
-			nbt.setInteger("blockType", result.getBlockRotation().getFirst().ordinal());
-			stack.setTagCompound(nbt);
+			Material result = getMaterial(stack);
+			if (result == null)
+				return null;
+			setCurrentBlockType(stack, result.getBlockRotation().getFirst());
 		}
 		MaterialBlockType blockType =
 				MaterialBlockType.getBlockType(stack.getTagCompound().getInteger("blockType"));
-		Material result;
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
-
-		short matId = (short) getMetadata(stack);
-		if (matId == 0)
-			result = null;
-		else
-			result = MaterialIdMapping.get().getMaterialById(matId);
-		Material mat = result;
+		Material mat = getMaterial(stack);
 		if (mat != null && mat.getBlock(blockType) == null) {
 			blockType = mat.getBlockRotation().getNext(blockType);
 			setCurrentBlockType(stack, blockType);
@@ -104,16 +86,7 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	}
 
 	public void setNextBlockRotation(ItemStack stack) {
-		Material result;
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
-
-		short matId = (short) getMetadata(stack);
-		if (matId == 0)
-			result = null;
-		else
-			result = MaterialIdMapping.get().getMaterialById(matId);
-		Material mat = result;
+		Material mat = getMaterial(stack);
 		if (mat != null) {
 			MaterialBlockType blockType = getCurrentBlockType(stack);
 			blockType = mat.getBlockRotation().getNext(blockType);
@@ -122,16 +95,7 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	}
 
 	public void setPrevBlockRotation(ItemStack stack) {
-		Material result;
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
-
-		short matId = (short) getMetadata(stack);
-		if (matId == 0)
-			result = null;
-		else
-			result = MaterialIdMapping.get().getMaterialById(matId);
-		Material mat = result;
+		Material mat = getMaterial(stack);
 		if (mat != null) {
 			MaterialBlockType blockType = getCurrentBlockType(stack);
 			blockType = mat.getBlockRotation().getPrev(blockType);
@@ -152,16 +116,7 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
 			float hitX, float hitY, float hitZ) {
-		Material result;
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
-
-		short matId = (short) getMetadata(stack);
-		if (matId == 0)
-			result = null;
-		else
-			result = MaterialIdMapping.get().getMaterialById(matId);
-		Material mat = result;
+		Material mat = getMaterial(stack);
 		if (mat == null)
 			return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
 		else {
@@ -181,16 +136,7 @@ public class ItemTrowel extends Item implements ItemMaterial {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		Material result;
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
-
-		short matId = (short) getMetadata(stack);
-		if (matId == 0)
-			result = null;
-		else
-			result = MaterialIdMapping.get().getMaterialById(matId);
-		Material mat = result;
+		Material mat = getMaterial(stack);
 		if (mat == null)
 			return super.getItemStackDisplayName(stack);
 		else
@@ -202,26 +148,11 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
 		if (tintIndex == 1)
 			return super.getColorFromItemStack(stack, tintIndex);
-		Material result;
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			updateStack(stack); // convert from 1.0.x format
-
-		short matId = (short) getMetadata(stack);
-		if (matId == 0)
-			result = null;
-		else
-			result = MaterialIdMapping.get().getMaterialById(matId);
-		Material mat = result;
+		Material mat = getMaterial(stack);
 		if (mat == null)
 			return super.getColorFromItemStack(stack, tintIndex);
 
 		return mat.getFirstBlock().getItem().getColorFromItemStack(stack, tintIndex);
-	}
-
-	private void updateStack(ItemStack stack) {
-		String matId = stack.getTagCompound().getString("material");
-		stack.getTagCompound().removeTag("material");
-		setMaterial(stack, MaterialRegistry.get(matId));
 	}
 
 	public Container getContainer(EntityPlayer player) {

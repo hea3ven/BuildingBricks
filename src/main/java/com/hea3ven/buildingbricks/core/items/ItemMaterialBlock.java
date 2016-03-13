@@ -8,9 +8,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -39,24 +41,24 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 
 	@Override
 	public void setMaterial(ItemStack stack, Material mat) {
-		if (stack.hasTagCompound()) // update from 1.0.x
-			stack.setTagCompound(null);
-
-		stack.setItemDamage(MaterialIdMapping.get().getIdForMaterial(mat));
+		if (stack.getItemDamage() != 0) {
+			stack.setItemDamage(0);
+		}
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setString("material", mat.getMaterialId());
 	}
 
 	@Override
 	public Material getMaterial(ItemStack stack) {
-		if (stack.hasTagCompound()) { // update from 1.0.x
-			String matId = stack.getTagCompound().getString("material");
-			stack.setTagCompound(null);
-			setMaterial(stack, MaterialRegistry.get(matId));
+		if (stack.getItemDamage() != 0) {
+			setMaterial(stack, MaterialIdMapping.get().getMaterialById((short) stack.getItemDamage()));
 		}
 
-		short matId = (short) stack.getItemDamage();
-		if (matId == 0)
+		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
+			return MaterialRegistry.get(stack.getTagCompound().getString("material"));
+		else
 			return null;
-		return MaterialIdMapping.get().getMaterialById(matId);
 	}
 
 	@SideOnly(Side.CLIENT)
