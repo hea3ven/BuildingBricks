@@ -12,6 +12,6 @@
     },
     "blocks": {
         "full": "minecraft:grass",
-        "slab": "buildingbricks:grass_slab"
+        "slab": "buildingbrickscompatvanilla:grass_slab"
     }
 }

@@ -91,16 +91,16 @@ public class ModBuildingBricks {
 		proxy.onPostInitEvent(event);
 	}
 
-	@Mod.EventHandler
-	public void onRemap(FMLMissingMappingsEvent event) {
-		for (MissingMapping missingMapping : event.getAll()) {
-			if (missingMapping.name.toString().equals("buildingbrickscompatvanilla:grass_slab")) {
-				if (missingMapping.type == Type.BLOCK)
-					missingMapping.remap(ProxyModBuildingBricksCompatVanilla.grassSlab);
-				else
-					missingMapping.remap(
-							Item.getItemFromBlock(ProxyModBuildingBricksCompatVanilla.grassSlab));
-			}
-		}
-	}
+//	@Mod.EventHandler
+//	public void onRemap(FMLMissingMappingsEvent event) {
+//		for (MissingMapping missingMapping : event.getAll()) {
+//			if (missingMapping.name.toString().equals("buildingbrickscompatvanilla:grass_slab")) {
+//				if (missingMapping.type == Type.BLOCK)
+//					missingMapping.remap(ProxyModBuildingBricksCompatVanilla.grassSlab);
+//				else
+//					missingMapping.remap(
+//							Item.getItemFromBlock(ProxyModBuildingBricksCompatVanilla.grassSlab));
+//			}
+//		}
+//	}
 }
