@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.util.StringUtils;
 
 import com.hea3ven.buildingbricks.core.materials.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
@@ -55,7 +56,8 @@ public class MaterialBuilderDyeMeta extends MaterialBuilder {
 		int i = 0;
 		for (Material mat : mats) {
 			String postfix = "_" + EnumDyeColor.byMetadata(i++).getName();
-			mat.setNormalHarvestMaterial(normalHarvest + postfix);
+			mat.setNormalHarvestMaterial(
+					!StringUtils.isNullOrEmpty(normalHarvest) ? normalHarvest + postfix : null);
 		}
 		return this;
 	}
@@ -65,7 +67,8 @@ public class MaterialBuilderDyeMeta extends MaterialBuilder {
 		int i = 0;
 		for (Material mat : mats) {
 			String postfix = "_" + EnumDyeColor.byMetadata(i++).getName();
-			mat.setSilkHarvestMaterial(silkHarvest + postfix);
+			mat.setSilkHarvestMaterial(
+					!StringUtils.isNullOrEmpty(silkHarvest) ? silkHarvest + postfix : null);
 		}
 		return this;
 	}

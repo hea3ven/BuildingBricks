@@ -85,7 +85,7 @@ public class BlockMaterialFence extends BlockBuildingBricksFence implements Bloc
 	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		ItemStack stack = TileMaterial.getHarvestBlock(world, pos, player);
 		boolean removed = super.removedByPlayer(world, pos, player, willHarvest);
-		if (removed && !world.isRemote && !player.capabilities.isCreativeMode)
+		if (removed && !world.isRemote && !player.capabilities.isCreativeMode && stack != null)
 			ItemStackUtil.dropFromBlock(world, pos, stack);
 		return removed;
 	}

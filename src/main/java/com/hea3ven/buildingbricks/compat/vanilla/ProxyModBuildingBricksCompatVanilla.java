@@ -22,7 +22,6 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.compat.vanilla.client.LongGrassTextureGenerator;
-import com.hea3ven.buildingbricks.compat.vanilla.items.ItemBlockGrassSlab;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
