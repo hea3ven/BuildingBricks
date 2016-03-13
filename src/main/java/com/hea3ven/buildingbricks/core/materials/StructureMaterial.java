@@ -28,7 +28,7 @@ public enum StructureMaterial {
 			"shovel",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER}),
-	GLASS(Material.glass, EnumWorldBlockLayer.CUTOUT, false, Block.soundTypeGlass, 0.3f, -1, 0.6f, null,
+	GLASS(Material.glass, EnumWorldBlockLayer.TRANSLUCENT, false, Block.soundTypeGlass, 0.3f, -1, 0.6f, null,
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER,
 					MaterialBlockType.WALL, MaterialBlockType.PANE}),
