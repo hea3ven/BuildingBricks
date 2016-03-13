@@ -1,3 +1,14 @@
+1.8.9-1.4.0:
+    * Add a way to generate materials for dyed blocks and add stained glass materials.
+    * Add the ability to override/add recipes in the material json, and change the recipe for glass walls, fixes #35.
+    * Add pane block type.
+    * Add config option to show/hide the generated blocks in the creative tab.
+    * Deprecated the material id mapping, it was an overengineered solution to a non-problem. DO NOT remove the config file "config/BuildingBricks/material_ids.nbt", it is needed to convert the worlds.
+    * Fix crash when breaking blocks, fixes #36.
+    * Fix some blocks having a missing textrure in the bottom side.
+    * Fix glass blocks not dropping when harvested with silk touch.
+    * Fix compatibility issue in the trowel binding recipe.
+
 1.8.9-1.3.3:
     * Fix items converting when shift-clicking between containers.
 
