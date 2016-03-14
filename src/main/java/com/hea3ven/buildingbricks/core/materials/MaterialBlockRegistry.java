@@ -20,12 +20,14 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.*;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
 import com.hea3ven.tools.commonutils.client.renderer.SimpleItemMeshDefinition;
 import com.hea3ven.tools.commonutils.util.SidedCall;
+import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;
 
 public class MaterialBlockRegistry {
 
@@ -125,8 +127,9 @@ public class MaterialBlockRegistry {
 
 		final String blockName = structMat.getName() + "_" + blockType.getName();
 		GameRegistry.registerBlock(block, itemCls, blockName);
-		SidedCall.run(Side.CLIENT, new Runnable() {
+		SidedCall.run(Side.CLIENT, new SidedRunnable() {
 			@Override
+			@SideOnly(Side.CLIENT)
 			public void run() {
 				ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(block),
 						new SimpleItemMeshDefinition("buildingbricks:" + blockName + "#inventory"));
