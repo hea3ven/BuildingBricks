@@ -1,3 +1,6 @@
+1.8.9-1.4.1:
+    * Fix crash on servers, fixes #38.
+
 1.8.9-1.4.0:
     * Add a way to generate materials for dyed blocks and add stained glass materials.
     * Add the ability to override/add recipes in the material json, and change the recipe for glass walls, fixes #35.
