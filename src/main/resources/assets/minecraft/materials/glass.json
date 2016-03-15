@@ -4,7 +4,7 @@
     "type": "glass",
     "hardness": 0.3,
     "normalHarvest": "",
-    "silkHarvest": "glass",
+    "silkHarvest": "minecraft:glass",
     "textures": "minecraft:blocks/glass",
     "blocks": {
         "full": "minecraft:glass",

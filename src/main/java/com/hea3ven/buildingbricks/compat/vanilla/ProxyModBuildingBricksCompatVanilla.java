@@ -19,10 +19,10 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.compat.vanilla.client.LongGrassTextureGenerator;
-import com.hea3ven.buildingbricks.compat.vanilla.items.ItemBlockGrassSlab;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
@@ -31,6 +31,7 @@ import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.tools.commonutils.mod.ProxyModBase;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.util.SidedCall;
+import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;
 
 public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
 
@@ -49,8 +50,9 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
 	@Override
 	public void onPreInitEvent(FMLPreInitializationEvent event) {
 		super.onPreInitEvent(event);
-//		SidedCall.run(Side.CLIENT, new Runnable() {
+//		SidedCall.run(Side.CLIENT, new SidedRunnable() {
 //			@Override
+//			@SideOnly(Side.CLIENT)
 //			public void run() {
 //				MinecraftForge.EVENT_BUS.register(new LongGrassTextureGenerator());
 //			}
@@ -65,8 +67,9 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
 						new Consumer<Property>() {
 							@Override
 							public void accept(final Property property) {
-								SidedCall.run(Side.CLIENT, new Runnable() {
+								SidedCall.run(Side.CLIENT, new SidedRunnable() {
 									@Override
+									@SideOnly(Side.CLIENT)
 									public void run() {
 										LongGrassTextureGenerator.enabled = property.getBoolean();
 									}
@@ -78,8 +81,9 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
 						new Consumer<Property>() {
 							@Override
 							public void accept(final Property property) {
-								SidedCall.run(Side.CLIENT, new Runnable() {
+								SidedCall.run(Side.CLIENT, new SidedRunnable() {
 									@Override
+									@SideOnly(Side.CLIENT)
 									public void run() {
 										LongGrassTextureGenerator.forceEnabled = property.getBoolean();
 									}
@@ -93,7 +97,7 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
 
 	@Override
 	protected void registerBlocks() {
-		addBlock(grassSlab, "grass_slab", ItemBlockGrassSlab.class);
+//		addBlock(grassSlab, "grass_slab", ItemBlockGrassSlab.class);
 	}
 
 	@Override

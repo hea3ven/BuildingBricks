@@ -52,6 +52,7 @@ import com.hea3ven.tools.commonutils.mod.config.DirectoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.util.ConfigurationUtil;
 import com.hea3ven.tools.commonutils.util.SidedCall;
+import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;
 
 public class ProxyCommonBuildingBricks extends ProxyModComposite {
 
@@ -84,8 +85,9 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 		super.onInitEvent(event);
 
 		MinecraftForge.EVENT_BUS.register(ModBuildingBricks.materialBag);
-		SidedCall.run(Side.CLIENT, new Runnable() {
+		SidedCall.run(Side.CLIENT, new SidedRunnable() {
 			@Override
+			@SideOnly(Side.CLIENT)
 			public void run() {
 				MinecraftForge.EVENT_BUS.register(new EventHandlerTrowelOverlay());
 			}

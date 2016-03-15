@@ -87,7 +87,7 @@ public class BlockMaterialStairs extends BlockBuildingBricksStairs implements Bl
 			boolean willHarvest) {
 		ItemStack stack = TileMaterial.getHarvestBlock(world, pos, player);
 		boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest);
-		if (removed && !world.isRemote && !player.capabilities.isCreativeMode)
+		if (removed && !world.isRemote && !player.capabilities.isCreativeMode && stack != null)
 			ItemStackUtil.dropFromBlock(world, pos, stack);
 		return removed;
 	}

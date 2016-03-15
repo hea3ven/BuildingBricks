@@ -1,0 +1,14 @@
+{
+    "name": "Stained Glass",
+    "id": "minecraft:stained_glass",
+    "meta": "dye",
+    "type": "glass",
+    "hardness": 0.3,
+    "normalHarvest": "",
+    "silkHarvest": "minecraft:stained_glass",
+    "textures": "minecraft:blocks/glass",
+    "blocks": {
+        "full": "minecraft:stained_glass",
+        "pane": "minecraft:stained_glass_pane"
+    }
+}

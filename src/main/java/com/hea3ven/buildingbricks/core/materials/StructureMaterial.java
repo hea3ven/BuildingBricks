@@ -1,6 +1,5 @@
 package com.hea3ven.buildingbricks.core.materials;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.BlockRenderLayer;
@@ -28,7 +27,7 @@ public enum StructureMaterial {
 			"shovel",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER}),
-	GLASS(Material.glass, BlockRenderLayer.CUTOUT, false, SoundType.GLASS, 0.3f, -1, 0.6f, null,
+	GLASS(Material.glass, BlockRenderLayer.TRANSLUCENT, false, SoundType.GLASS, 0.3f, -1, 0.6f, null,
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER,
 					MaterialBlockType.WALL, MaterialBlockType.PANE}),
