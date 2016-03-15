@@ -4,10 +4,11 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricksNonSolid;
@@ -72,7 +73,7 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state) {
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		EnumBlockHalf half = BlockProperties.getHalf(state);
 		EnumRotation rot = BlockProperties.getRotation(state);
 		double minX, maxX;

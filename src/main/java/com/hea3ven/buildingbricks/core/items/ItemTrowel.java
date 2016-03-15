@@ -8,6 +8,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
@@ -18,6 +21,7 @@ import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
@@ -104,33 +108,34 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn,
+			EntityPlayer playerIn, EnumHand hand) {
 		if (playerIn.isSneaking()) {
 			playerIn.openGui(ModBuildingBricks.MODID, GuiTrowel.ID, worldIn,
 					MathHelper.floor_double(playerIn.posX), MathHelper.floor_double(playerIn.posY),
 					MathHelper.floor_double(playerIn.posZ));
 		}
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
+		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+			EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		Material mat = getMaterial(stack);
 		if (mat == null)
-			return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
+			return super.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
 		else {
 			MaterialBlockType blockType = getCurrentBlockType(stack);
 			ItemStack useStack = mat.getBlock(blockType).getStack().copy();
 			MaterialItemStackConsumer consumer =
-					new MaterialItemStackConsumer(blockType, mat, new InvWrapper(player.inventory));
+					new MaterialItemStackConsumer(blockType, mat, new PlayerMainInvWrapper(player.inventory));
 			if (!player.capabilities.isCreativeMode && consumer.failed())
-				return false;
-			if (!useStack.onItemUse(player, world, pos, side, hitX, hitY, hitZ))
-				return false;
+				return EnumActionResult.FAIL;
+			if (useStack.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ) == EnumActionResult.FAIL)
+				return EnumActionResult.FAIL;
 			if (!player.capabilities.isCreativeMode)
 				consumer.apply(world, player.getPosition());
-			return true;
+			return EnumActionResult.SUCCESS;
 		}
 	}
 
@@ -143,17 +148,17 @@ public class ItemTrowel extends Item implements ItemMaterial {
 			return I18n.translateToLocalFormatted("item.trowelBinded.name", mat.getLocalizedName());
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
-		if (tintIndex == 1)
-			return super.getColorFromItemStack(stack, tintIndex);
-		Material mat = getMaterial(stack);
-		if (mat == null)
-			return super.getColorFromItemStack(stack, tintIndex);
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
+//		if (tintIndex == 1)
+//			return super.getColorFromItemStack(stack, tintIndex);
+//		Material mat = getMaterial(stack);
+//		if (mat == null)
+//			return super.getColorFromItemStack(stack, tintIndex);
 
-		return mat.getFirstBlock().getItem().getColorFromItemStack(stack, tintIndex);
-	}
+//		return mat.getFirstBlock().getItem().getColorFromItemStack(stack, tintIndex);
+//	}
 
 	public Container getContainer(EntityPlayer player) {
 		return new GenericContainer().addSlots(SlotType.DISPLAY, 0, 44, 36, 1, 1, SlotTrowelMaterial.class,

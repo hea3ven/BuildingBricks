@@ -8,21 +8,23 @@ import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack;
+import com.hea3ven.tools.commonutils.util.PlayerUtil;
+import com.hea3ven.tools.commonutils.util.PlayerUtil.HeldEquipment;
 
 public class SlotTrowelBlockType extends Slot {
 	private EntityPlayer player;
-	private ItemStack trowel;
+	private HeldEquipment equipment;
 
 	public SlotTrowelBlockType(EntityPlayer player, int index, int xPosition, int yPosition) {
 		super(null, index, xPosition, yPosition);
 
 		this.player = player;
-		this.trowel = player.getCurrentEquippedItem();
+		this.equipment = PlayerUtil.getHeldEquipment(player, ModBuildingBricks.trowel);
 	}
 
 	@Override
 	public ItemStack getStack() {
-		Material mat = MaterialStack.get(trowel);
+		Material mat = MaterialStack.get(equipment.stack);
 		if (mat == null)
 			return null;
 		BlockDescription desc = mat.getBlockRotation().get(getSlotIndex());
@@ -49,14 +51,14 @@ public class SlotTrowelBlockType extends Slot {
 
 	@Override
 	public ItemStack decrStackSize(int amount) {
-		Material mat = MaterialStack.get(trowel);
+		Material mat = MaterialStack.get(equipment.stack);
 		if (mat == null)
 			return null;
 		BlockDescription desc = mat.getBlockRotation().get(getSlotIndex());
 		if (desc == null)
 			return null;
-		ModBuildingBricks.trowel.setCurrentBlockType(trowel, desc.getType());
-		player.setCurrentItemOrArmor(0, trowel);
+		ModBuildingBricks.trowel.setCurrentBlockType(equipment.stack, desc.getType());
+		equipment.updatePlayer();
 		return null;
 	}
 

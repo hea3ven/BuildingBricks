@@ -51,7 +51,7 @@ public enum EnumRotation implements IStringSerializable {
 	}
 
 	public String getName() {
-		return name();
+		return name().toLowerCase();
 	}
 
 	public int getAngleDeg() {

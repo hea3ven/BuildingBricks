@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentTranslation;
 
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
@@ -43,7 +44,8 @@ public class CommandCreateMaterial extends CommandBase {
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+			throws CommandException {
 		EntityPlayer player = (EntityPlayer) sender;
 
 		if (args.length < 1)
@@ -71,7 +73,7 @@ public class CommandCreateMaterial extends CommandBase {
 			mat.addProperty("id", id);
 			mat.addProperty("type", structMat.getName());
 			try {
-				mat.addProperty("hardness", block.getBlockHardness(null, null));
+				mat.addProperty("hardness", block.getBlockHardness(block.getDefaultState(), null, null));
 				mat.addProperty("resistance", (block.getExplosionResistance(null) * 5f) / 3f);
 			} catch (NullPointerException e) {
 			}

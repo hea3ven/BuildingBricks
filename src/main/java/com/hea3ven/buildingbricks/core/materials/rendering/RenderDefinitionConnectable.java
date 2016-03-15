@@ -42,20 +42,20 @@ public class RenderDefinitionConnectable extends RenderDefinition {
 		IModel base = (postModelLocation != null) ? getModelOrDefault(postModelLocation, mat) : null;
 		Map<String, Pair<IModel, IModelState>> parts = Maps.newHashMap();
 		if (BlockProperties.getConnectionNorth(state)) {
-			parts.put("north", Pair.of(getModelOrDefault(connModelLocation, mat),
-					(IModelState) new ModelLoader.UVLock(ModelRotation.X0_Y0)));
+			parts.put("north",
+					Pair.of(getModelOrDefault(connModelLocation, mat), (IModelState) ModelRotation.X0_Y0));
 		}
 		if (BlockProperties.getConnectionEast(state)) {
-			parts.put("east", Pair.of(getModelOrDefault(connModelLocation, mat),
-					(IModelState) new ModelLoader.UVLock(ModelRotation.X0_Y90)));
+			parts.put("east",
+					Pair.of(getModelOrDefault(connModelLocation, mat), (IModelState) ModelRotation.X0_Y90));
 		}
 		if (BlockProperties.getConnectionSouth(state)) {
-			parts.put("south", Pair.of(getModelOrDefault(connModelLocation, mat),
-					(IModelState) new ModelLoader.UVLock(ModelRotation.X0_Y180)));
+			parts.put("south",
+					Pair.of(getModelOrDefault(connModelLocation, mat), (IModelState) ModelRotation.X0_Y180));
 		}
 		if (BlockProperties.getConnectionWest(state)) {
-			parts.put("west", Pair.of(getModelOrDefault(connModelLocation, mat),
-					(IModelState) new ModelLoader.UVLock(ModelRotation.X0_Y270)));
+			parts.put("west",
+					Pair.of(getModelOrDefault(connModelLocation, mat), (IModelState) ModelRotation.X0_Y270));
 		}
 		return new MultiModel(base, base != null ? base.getDefaultState() : null, parts);
 	}

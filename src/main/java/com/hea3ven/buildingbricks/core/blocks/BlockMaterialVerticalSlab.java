@@ -73,7 +73,7 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 	}
 
 	@Override
-	public ItemStack getPickBlock(RayTraceResult target, World world, BlockPos pos,
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player) {
 		return TileMaterial.getPickBlock(this, target, world, pos);
 	}
@@ -84,9 +84,10 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 	}
 
 	@Override
-	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player,
+			boolean willHarvest) {
 		ItemStack stack = TileMaterial.getHarvestBlock(world, pos, player);
-		boolean removed = super.removedByPlayer(world, pos, player, willHarvest);
+		boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest);
 		if (removed && !world.isRemote && !player.capabilities.isCreativeMode)
 			ItemStackUtil.dropFromBlock(world, pos, stack);
 		return removed;
@@ -107,7 +108,8 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(World world, RayTraceResult target, EffectRenderer effectRenderer) {
+	public boolean addHitEffects(IBlockState state, World world, RayTraceResult target,
+			EffectRenderer effectRenderer) {
 		return blockLogic.addHitEffects(world, target, effectRenderer);
 	}
 
@@ -118,13 +120,13 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 	}
 
 	@Override
-	public float getBlockHardness(World world, BlockPos pos) {
+	public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
 		TileMaterial tile = TileMaterial.getTile(world, pos);
 		if (tile == null)
-			return super.getBlockHardness(world, pos);
+			return super.getBlockHardness(state, world, pos);
 		Material mat = tile.getMaterial();
 		if (mat == null)
-			return super.getBlockHardness(world, pos);
+			return super.getBlockHardness(state, world, pos);
 		return mat.getHardness();
 	}
 
@@ -138,6 +140,4 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 			return super.getExplosionResistance(world, pos, exploder, explosion);
 		return mat.getResistance() * 3 / 5;
 	}
-
-	//endregion COMMON TILE CODE
 }

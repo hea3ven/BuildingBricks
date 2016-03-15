@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.BlockFence;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.BlockRenderLayer;
@@ -19,7 +20,7 @@ public class BlockBuildingBricksFence extends BlockFence implements BlockBuildin
 	protected MaterialBlockLogic blockLogic;
 
 	public BlockBuildingBricksFence(StructureMaterial structMat) {
-		super(structMat.getMcMaterial());
+		super(structMat.getMcMaterial(), MapColor.woodColor);
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.FENCE);
 		blockLogic.initBlock(this);
@@ -35,24 +36,6 @@ public class BlockBuildingBricksFence extends BlockFence implements BlockBuildin
 	@Override
 	public boolean requiresUpdates() {
 		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getBlockColor() {
-		return blockLogic.getBlockColor();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderColor(IBlockState state) {
-		return blockLogic.getRenderColor(state);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
-		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
 	}
 
 	@Override

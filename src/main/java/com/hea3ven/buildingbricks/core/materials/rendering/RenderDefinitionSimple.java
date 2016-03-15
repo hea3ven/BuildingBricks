@@ -30,7 +30,7 @@ public class RenderDefinitionSimple extends RenderDefinition {
 
 	@Override
 	public IModelState getItemModelState(IModelState modelState) {
-		return new ModelLoader.UVLock(modelState);
+		return modelState;
 	}
 
 	@Override
@@ -40,6 +40,6 @@ public class RenderDefinitionSimple extends RenderDefinition {
 
 	@Override
 	public IModelState getModelState(IModelState modelState, IBlockState state) {
-		return new ModelLoader.UVLock(modelState);
+		return modelState;
 	}
 }

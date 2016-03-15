@@ -1,9 +1,5 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
-import com.hea3ven.buildingbricks.core.ModBuildingBricks;
-import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
-import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -12,14 +8,18 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.hea3ven.buildingbricks.core.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
+import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 
 public class BlockPortableLadder extends Block {
 
@@ -55,54 +55,37 @@ public class BlockPortableLadder extends Block {
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube() {
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isLadder(IBlockAccess world, BlockPos pos, EntityLivingBase entity) {
+	public boolean isLadder(IBlockState state, IBlockAccess world, BlockPos pos, EntityLivingBase entity) {
 		return true;
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
-		IBlockState state = world.getBlockState(pos);
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
 		if (state.getBlock() == this) {
 			boolean bottom = BlockProperties.getHalf(state) == EnumBlockHalf.BOTTOM;
 			switch (BlockProperties.getSide(state)) {
 				default:
 				case NORTH:
-					this.setBlockBounds(0.0f, 0.0f, bottom ? 0.25f : 0.0f, 1.0f, 1.0f, 0.5f);
-					break;
+					return new AxisAlignedBB(0.0f, 0.0f, bottom ? 0.25f : 0.0f, 1.0f, 1.0f, 0.5f);
 				case EAST:
-					this.setBlockBounds(0.5f, 0.0f, 0.0f, bottom ? 0.75f : 1.0f, 1.0f, 1.0f);
-					break;
+					return new AxisAlignedBB(0.5f, 0.0f, 0.0f, bottom ? 0.75f : 1.0f, 1.0f, 1.0f);
 				case SOUTH:
-					this.setBlockBounds(0.0f, 0.0f, 0.5f, 1.0f, 1.0f, bottom ? 0.75f : 1.0f);
-					break;
+					return new AxisAlignedBB(0.0f, 0.0f, 0.5f, 1.0f, 1.0f, bottom ? 0.75f : 1.0f);
 				case WEST:
-					this.setBlockBounds(bottom ? 0.25f : 0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 1.0f);
-					break;
+					return new AxisAlignedBB(bottom ? 0.25f : 0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 1.0f);
 			}
 		}
-	}
-
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state) {
-		this.setBlockBoundsBasedOnState(world, pos);
-		return super.getCollisionBoundingBox(world, pos, state);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos) {
-		this.setBlockBoundsBasedOnState(world, pos);
-		return super.getSelectedBoundingBox(world, pos);
+		return null;
 	}
 
 	@Override
@@ -137,12 +120,12 @@ public class BlockPortableLadder extends Block {
 		}
 
 		@Override
-		public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World world, BlockPos pos,
-				EnumFacing side, float hitX, float hitY, float hitZ) {
+		public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World world, BlockPos pos,
+				EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 			if (world.isRemote) {
-				return true;
+				return EnumActionResult.SUCCESS;
 			} else if (side != EnumFacing.UP) {
-				return false;
+				return EnumActionResult.PASS;
 			} else {
 				if (!world.getBlockState(pos).getBlock().isReplaceable(world, pos)) {
 					pos = pos.up();
@@ -156,12 +139,12 @@ public class BlockPortableLadder extends Block {
 					IBlockState state1 = world.getBlockState(placePos1);
 					if (!playerIn.canPlayerEdit(placePos1, side, stack) || !state1.getBlock()
 							.isReplaceable(world, placePos1))
-						return false;
+						return EnumActionResult.FAIL;
 					BlockPos placePos2 = placePos1.offset(placeFacing);
 					IBlockState state2 = world.getBlockState(placePos2);
 					if (!playerIn.canPlayerEdit(placePos2, side, stack) || !state2.getBlock()
 							.isReplaceable(world, placePos2))
-						return false;
+						return EnumActionResult.FAIL;
 				}
 
 				for (int height = 0; height < 3; height++) {
@@ -177,7 +160,7 @@ public class BlockPortableLadder extends Block {
 					world.setBlockState(placePos.offset(placeFacing), state, 3);
 				}
 				--stack.stackSize;
-				return true;
+				return EnumActionResult.SUCCESS;
 			}
 		}
 	}

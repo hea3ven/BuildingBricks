@@ -3,10 +3,11 @@ package com.hea3ven.buildingbricks.core.blocks;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricksNonSolid;
@@ -31,7 +32,8 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, BlockProperties.VERTICAL, BlockProperties.HALF, BlockProperties.ROTATION);
+		return new BlockStateContainer(this, BlockProperties.VERTICAL, BlockProperties.HALF,
+				BlockProperties.ROTATION);
 	}
 
 	@Override
@@ -97,7 +99,7 @@ public class BlockBuildingBricksStep extends BlockBuildingBricksNonSolid {
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state) {
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		EnumBlockHalf half = BlockProperties.getHalf(state);
 		EnumRotation rot = BlockProperties.getRotation(state);
 		Boolean vertical = BlockProperties.getVertical(state);

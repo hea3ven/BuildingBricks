@@ -7,17 +7,16 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeColorHelper;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -38,11 +37,21 @@ public class MaterialBlockLogic {
 	}
 
 	public void initBlock(Block block) {
-		block.setStepSound(structMat.getSoundType());
+		// TODO:
+//		block.setStepSound(structMat.getSoundType());
 		block.setHardness(structMat.getHardness());
 		if (structMat.getResistance() > 0)
 			block.setResistance(structMat.getResistance());
 		block.slipperiness = structMat.getSlipperiness();
+
+		// TODO: Register color handler
+//		BlockColors.instance.register()
+//		{
+//			if (!structMat.getColor())
+//				return 16777215;
+//			else
+//				return ColorizerGrass.getGrassColor(0.5D, 1.0D);
+//		}
 	}
 
 	public StructureMaterial getStructureMaterial() {
@@ -51,30 +60,6 @@ public class MaterialBlockLogic {
 
 	public MaterialBlockType getBlockType() {
 		return blockType;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int getBlockColor() {
-		if (!structMat.getColor())
-			return 16777215;
-		else
-			return ColorizerGrass.getGrassColor(0.5D, 1.0D);
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int getRenderColor(IBlockState state) {
-		if (!structMat.getColor())
-			return 16777215;
-		else
-			return this.getBlockColor();
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-		if (!structMat.getColor())
-			return 16777215;
-		else
-			return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
 	}
 
 	public BlockRenderLayer getBlockLayer() {
@@ -99,43 +84,44 @@ public class MaterialBlockLogic {
 		float f = 0.1F;
 
 		double x = pos.getX();
+		AxisAlignedBB blockBb = block.getBoundingBox(state, (IBlockAccess) world, pos);
 		if (side.getAxis() != Axis.X) {
-			x += rand.nextDouble() * (block.getBlockBoundsMaxX() - block.getBlockBoundsMinX() - f * 2.0F) +
-					f + block.getBlockBoundsMinX();
+			x += rand.nextDouble() * (blockBb.maxX - blockBb.minX - f * 2.0F) +
+					f + blockBb.minX;
 		} else {
 			if (side == EnumFacing.WEST) {
-				x += block.getBlockBoundsMinX() - f;
+				x += blockBb.minX - f;
 			}
 
 			if (side == EnumFacing.EAST) {
-				x += block.getBlockBoundsMaxX() + f;
+				x += blockBb.maxX + f;
 			}
 		}
 
 		double y = pos.getY();
 		if (side.getAxis() != Axis.Y) {
-			y += rand.nextDouble() * (block.getBlockBoundsMaxY() - block.getBlockBoundsMinY() - f * 2.0F) +
-					f + block.getBlockBoundsMinY();
+			y += rand.nextDouble() * (blockBb.maxY - blockBb.minY - f * 2.0F) +
+					f + blockBb.minY;
 		} else {
 			if (side == EnumFacing.DOWN) {
-				y += block.getBlockBoundsMinY() - f;
+				y += blockBb.minY - f;
 			}
 
 			if (side == EnumFacing.UP) {
-				y += block.getBlockBoundsMaxY() + f;
+				y += blockBb.maxY + f;
 			}
 		}
 		double z = pos.getZ();
 		if (side.getAxis() != Axis.Z) {
-			z += rand.nextDouble() * (block.getBlockBoundsMaxZ() - block.getBlockBoundsMinZ() - f * 2.0F) +
-					f + block.getBlockBoundsMinZ();
+			z += rand.nextDouble() * (blockBb.maxZ - blockBb.minZ - f * 2.0F) +
+					f + blockBb.minZ;
 		} else {
 			if (side == EnumFacing.NORTH) {
-				z += block.getBlockBoundsMinZ() - f;
+				z += blockBb.minZ - f;
 			}
 
 			if (side == EnumFacing.SOUTH) {
-				z += block.getBlockBoundsMaxZ() + f;
+				z += blockBb.maxZ + f;
 			}
 		}
 
@@ -146,7 +132,7 @@ public class MaterialBlockLogic {
 		TileMaterial te = TileMaterial.getTile(world, pos);
 
 		particle.setBlockPos(pos).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F);
-		particle.setParticleIcon(ModelBakerBlockMaterial.particleTextures.get(te.getMaterial()));
+		particle.setParticleTexture(ModelBakerBlockMaterial.particleTextures.get(te.getMaterial()));
 		return true;
 	}
 
@@ -167,7 +153,7 @@ public class MaterialBlockLogic {
 							Block.getStateId(world.getBlockState(pos)));
 
 					particle.setBlockPos(pos);
-					particle.setParticleIcon(texture);
+					particle.setParticleTexture(texture);
 				}
 			}
 		}

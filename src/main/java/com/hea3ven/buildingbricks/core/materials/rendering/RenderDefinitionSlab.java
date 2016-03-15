@@ -41,7 +41,7 @@ public class RenderDefinitionSlab extends RenderDefinitionSimple {
 	@Override
 	public IModelState getItemModelState(IModelState modelState) {
 		if (vertical)
-			return new ModelLoader.UVLock(ModelRotation.X0_Y270);
+			return ModelRotation.X0_Y270;
 		return super.getItemModelState(modelState);
 	}
 

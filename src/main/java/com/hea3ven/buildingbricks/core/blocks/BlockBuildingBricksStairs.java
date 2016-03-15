@@ -39,25 +39,29 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 	}
 
 	@Override
-	public boolean doesSideBlockRendering(IBlockAccess world, BlockPos pos, EnumFacing face) {
-		return getMaterial().isOpaque() && super.doesSideBlockRendering(world, pos, face);
+	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos,
+			EnumFacing face) {
+		return getMaterial(state).isOpaque() && super.doesSideBlockRendering(state, world, pos, face);
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
-		Block block = world.getBlockState(pos).getBlock();
-		if (!isBlockStairs(block)) {
-			return !block.isSideSolid(world, pos, side);
+	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos,
+			EnumFacing side) {
+//		if (!isBlockStairs(state.getBlock())) {
+		if (!func_185709_i(state)) {
+			return !state.getBlock().isSideSolid(state, world, pos, side);
 		}
 
-		if (isSideSolid(world, pos, side.getOpposite()) &&
-				isSideSolid(world, pos.offset(side.getOpposite()), side))
+		if (isSideSolid(state, world, pos, side.getOpposite()) &&
+				isSideSolid(world.getBlockState(pos.offset(side.getOpposite())), world,
+						pos.offset(side.getOpposite()), side))
 			return false;
 
 		BlockPos ownPos = pos.offset(side.getOpposite());
 		IBlockState ownState = world.getBlockState(ownPos);
 		if (side.getAxis() != Axis.Y)
-			return !isSameStair(world, pos, ownState);
+//			return !isSameStair(world, pos, ownState);
+			return !func_185709_i(ownState);
 		else
 			return true;
 	}
@@ -76,24 +80,6 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 	@Override
 	public boolean requiresUpdates() {
 		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getBlockColor() {
-		return blockLogic.getBlockColor();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderColor(IBlockState state) {
-		return blockLogic.getRenderColor(state);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
-		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
 	}
 
 	@Override

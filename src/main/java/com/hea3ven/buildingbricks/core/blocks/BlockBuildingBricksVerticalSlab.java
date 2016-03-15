@@ -3,12 +3,12 @@ package com.hea3ven.buildingbricks.core.blocks;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumFacing.AxisDirection;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -68,7 +68,7 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state) {
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
 		EnumFacing facing = BlockProperties.getSide(state);
 		Vec3i dir = facing.getDirectionVec();
 		return new AxisAlignedBB(
@@ -79,15 +79,15 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 	}
 
 	@Override
-	public boolean isSideSolid(IBlockAccess world, BlockPos pos, EnumFacing side) {
+	public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return side == BlockProperties.getSide(world.getBlockState(pos));
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
-		IBlockState state = world.getBlockState(pos);
+	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos,
+			EnumFacing side) {
 		if (!(state.getBlock() instanceof BlockBuildingBricksVerticalSlab)) {
-			return !state.getBlock().isSideSolid(world, pos, side);
+			return !state.getBlock().isSideSolid(state, world, pos, side);
 		}
 
 		BlockPos ownPos = pos.offset(side.getOpposite());

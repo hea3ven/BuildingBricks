@@ -17,6 +17,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
+import com.hea3ven.tools.commonutils.util.PlayerUtil;
+import com.hea3ven.tools.commonutils.util.PlayerUtil.HeldEquipment;
 
 @SideOnly(Side.CLIENT)
 public class EventHandlerTrowelOverlay {
@@ -27,11 +29,11 @@ public class EventHandlerTrowelOverlay {
 	public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
 		if (event.type == ElementType.HOTBAR) {
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-			ItemStack stack = player.getCurrentEquippedItem();
-			if (stack != null && stack.getItem() == ModBuildingBricks.trowel) {
-				Material mat = ModBuildingBricks.trowel.getMaterial(stack);
+			HeldEquipment equipment = PlayerUtil.getHeldEquipment(player, ModBuildingBricks.trowel);
+			if (equipment != null && equipment.stack.getItem() == ModBuildingBricks.trowel) {
+				Material mat = ModBuildingBricks.trowel.getMaterial(equipment.stack);
 				if (mat != null) {
-					MaterialBlockType type = ModBuildingBricks.trowel.getCurrentBlockType(stack);
+					MaterialBlockType type = ModBuildingBricks.trowel.getCurrentBlockType(equipment.stack);
 					renderTrowelOverlay(event.resolution, event.partialTicks, mat, type);
 				}
 			}

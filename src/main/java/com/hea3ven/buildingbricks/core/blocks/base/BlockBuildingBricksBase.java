@@ -38,24 +38,6 @@ public class BlockBuildingBricksBase extends Block implements BlockBuildingBrick
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getBlockColor() {
-		return blockLogic.getBlockColor();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderColor(IBlockState state) {
-		return blockLogic.getRenderColor(state);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
-		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer() {
 		return blockLogic.getBlockLayer();
 	}

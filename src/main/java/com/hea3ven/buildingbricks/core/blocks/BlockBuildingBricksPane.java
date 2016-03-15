@@ -2,9 +2,9 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,10 +26,10 @@ public class BlockBuildingBricksPane extends BlockPane implements BlockBuildingB
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
-		IBlockState state = world.getBlockState(pos);
+	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos,
+			EnumFacing side) {
 		if (!(state.getBlock() instanceof BlockPane)) {
-			return super.shouldSideBeRendered(world, pos, side);
+			return super.shouldSideBeRendered(state, world, pos, side);
 //			return !state.getBlock().isSideSolid(world, pos, side);
 		}
 		return false;
@@ -45,24 +45,6 @@ public class BlockBuildingBricksPane extends BlockPane implements BlockBuildingB
 	@Override
 	public boolean requiresUpdates() {
 		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getBlockColor() {
-		return blockLogic.getBlockColor();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderColor(IBlockState state) {
-		return blockLogic.getRenderColor(state);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
-		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
 	}
 
 	@Override

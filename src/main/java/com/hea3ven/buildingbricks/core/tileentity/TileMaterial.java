@@ -8,9 +8,11 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -152,7 +154,8 @@ public class TileMaterial extends TileEntity {
 		if (mat == null)
 			return null;
 
-		boolean silk = mat.getSilkHarvestMaterial() != null && EnchantmentHelper.getSilkTouchModifier(player);
+		boolean silk = mat.getSilkHarvestMaterial() != null &&
+				EnchantmentHelper.getEnchantedItem(Enchantments.silkTouch, player) != null;
 		String harvestMatId = silk ? mat.getSilkHarvestMaterial() : mat.getNormalHarvestMaterial();
 		if (harvestMatId == null)
 			return null;

@@ -71,7 +71,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 				.cellSet()) {
 			SmartModelCached model = new SmartModelCached();
 			ModelItemMaterialBlock itemModel = new ModelItemMaterialBlock();
-			bakeBlockModels(event.modelRegistry, cell.getRowKey(), cell.getColumnKey(), cell.getValue(),
+			bakeBlockModels(event.getModelRegistry(), cell.getRowKey(), cell.getColumnKey(), cell.getValue(),
 					itemModel, model);
 		}
 	}

@@ -3,18 +3,20 @@ package com.hea3ven.buildingbricks.core.items;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockSlab.EnumBlockHalf;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.util.Constants.NBT;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
@@ -61,26 +63,27 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 			return null;
 	}
 
-	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
-		return getBlock().getRenderColor(getBlock().getStateFromMeta(stack.getMetadata()));
-	}
+//	@SideOnly(Side.CLIENT)
+//	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
+//		return getBlock().getRenderColor(getBlock().getStateFromMeta(stack.getMetadata()));
+//	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ) {
-		return onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ, true);
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+			EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		return onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ, true);
 	}
 
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ, boolean firstTry) {
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+			EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ, boolean firstTry) {
 		IBlockState state = world.getBlockState(pos);
 		if (getBlock() != state.getBlock()) {
 			if (firstTry)
-				return onItemUse(stack, player, world, pos.offset(side), side, hitX - side.getFrontOffsetX(),
-						hitY - side.getFrontOffsetY(), hitZ - side.getFrontOffsetZ(), false);
+				return onItemUse(stack, player, world, pos.offset(side), hand, side,
+						hitX - side.getFrontOffsetX(), hitY - side.getFrontOffsetY(),
+						hitZ - side.getFrontOffsetZ(), false);
 			else
-				return super.onItemUse(stack, player, world, pos.offset(side.getOpposite()), side,
+				return super.onItemUse(stack, player, world, pos.offset(side.getOpposite()), hand, side,
 						hitX + side.getFrontOffsetX(), hitY + side.getFrontOffsetY(),
 						hitZ + side.getFrontOffsetZ());
 		}
@@ -89,10 +92,11 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 		Material mat = ((BlockMaterial) state.getBlock()).getMaterial(world, pos);
 		if (stackMat != mat) {
 			if (firstTry)
-				return onItemUse(stack, player, world, pos.offset(side), side, hitX - side.getFrontOffsetX(),
-						hitY - side.getFrontOffsetY(), hitZ - side.getFrontOffsetZ(), false);
+				return onItemUse(stack, player, world, pos.offset(side), hand, side,
+						hitX - side.getFrontOffsetX(), hitY - side.getFrontOffsetY(),
+						hitZ - side.getFrontOffsetZ(), false);
 			else
-				return super.onItemUse(stack, player, world, pos.offset(side.getOpposite()), side,
+				return super.onItemUse(stack, player, world, pos.offset(side.getOpposite()), hand, side,
 						hitX + side.getFrontOffsetX(), hitY + side.getFrontOffsetY(),
 						hitZ + side.getFrontOffsetZ());
 		}
@@ -100,25 +104,26 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 		MaterialBlockType thisType = ((BlockBuildingBricks) getBlock()).getBlockLogic().getBlockType();
 		if (thisType == MaterialBlockType.SLAB &&
 				tryCombineSlabs(stack, player, world, pos, state, side, hitX, hitY, hitZ))
-			return true;
+			return EnumActionResult.SUCCESS;
 		else if (thisType == MaterialBlockType.VERTICAL_SLAB &&
 				tryCombineVertSlabs(stack, player, world, pos, state, side, hitX, hitY, hitZ))
-			return true;
+			return EnumActionResult.SUCCESS;
 		else if (thisType == MaterialBlockType.STEP &&
 				tryCombineSteps(stack, player, world, pos, state, side, hitX, hitY, hitZ))
-			return true;
+			return EnumActionResult.SUCCESS;
 		else if (thisType == MaterialBlockType.CORNER &&
 				tryCombineCorner(stack, player, world, pos, state, side, hitX, hitY, hitZ))
-			return true;
+			return EnumActionResult.SUCCESS;
 
 		if (firstTry) {
-			if (onItemUse(stack, player, world, pos.offset(side), side, hitX - side.getFrontOffsetX(),
-					hitY - side.getFrontOffsetY(), hitZ - side.getFrontOffsetZ(), false))
-				return true;
+			if (onItemUse(stack, player, world, pos.offset(side), hand, side, hitX - side.getFrontOffsetX(),
+					hitY - side.getFrontOffsetY(), hitZ - side.getFrontOffsetZ(), false) ==
+					EnumActionResult.SUCCESS)
+				return EnumActionResult.SUCCESS;
 			else
-				return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
+				return super.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
 		} else {
-			return false;
+			return EnumActionResult.FAIL;
 		}
 	}
 
@@ -322,14 +327,12 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 
 	private boolean convertBlock(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
 			ItemStack newStack, IBlockState newState) {
-		if (world.checkNoEntityCollision(newState.getBlock().getCollisionBoundingBox(world, pos, newState))) {
+		if (world.checkNoEntityCollision(newState.getBlock().getSelectedBoundingBox(newState, world, pos))) {
 			if (((ItemBlock) newStack.getItem()).placeBlockAt(stack, player, world, pos, null, 0.0f, 0.0f,
 					0.0f, newState)) {
-				world.playSoundEffect((double) ((float) pos.getX() + 0.5F),
-						(double) ((float) pos.getY() + 0.5F), (double) ((float) pos.getZ() + 0.5F),
-						newState.getBlock().stepSound.getPlaceSound(),
-						(newState.getBlock().stepSound.getVolume() + 1.0F) / 2.0F,
-						newState.getBlock().stepSound.getFrequency() * 0.8F);
+				SoundType soundtype = this.block.getStepSound();
+				world.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS,
+						(soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 				--stack.stackSize;
 				return true;
 			}

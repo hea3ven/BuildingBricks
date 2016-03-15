@@ -40,10 +40,9 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
-		IBlockState state = world.getBlockState(pos);
+	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		if (!(state.getBlock() instanceof BlockWall)) {
-			return !state.getBlock().isSideSolid(world, pos, side);
+			return !state.getBlock().isSideSolid(state,world, pos, side);
 		}
 
 		BlockPos ownPos = pos.offset(side.getOpposite());
@@ -52,7 +51,7 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 	}
 
 	@Override
-	public boolean canPlaceTorchOnTop(IBlockAccess world, BlockPos pos) {
+	public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return true;
 	}
 
@@ -66,24 +65,6 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 	@Override
 	public boolean requiresUpdates() {
 		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getBlockColor() {
-		return blockLogic.getBlockColor();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderColor(IBlockState state) {
-		return blockLogic.getRenderColor(state);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
-		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
 	}
 
 	@Override

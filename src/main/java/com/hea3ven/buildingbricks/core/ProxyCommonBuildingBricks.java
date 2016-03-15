@@ -12,6 +12,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -236,7 +237,11 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 			@Override
 			@SideOnly(Side.CLIENT)
 			public Gui createGui(EntityPlayer player, World world, BlockPos pos) {
-				return new GuiTrowel(player, player.getCurrentEquippedItem());
+				for (ItemStack stack : player.getHeldEquipment()) {
+					if (stack.getItem() == ModBuildingBricks.trowel)
+						return new GuiTrowel(player, stack);
+				}
+				throw new RuntimeException();
 			}
 		});
 		addGui(GuiMaterialBag.ID, new ISimpleGuiHandler() {

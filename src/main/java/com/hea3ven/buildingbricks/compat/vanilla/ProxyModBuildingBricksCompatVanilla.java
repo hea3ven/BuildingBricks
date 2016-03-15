@@ -49,12 +49,12 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
 	@Override
 	public void onPreInitEvent(FMLPreInitializationEvent event) {
 		super.onPreInitEvent(event);
-		SidedCall.run(Side.CLIENT, new Runnable() {
-			@Override
-			public void run() {
-				MinecraftForge.EVENT_BUS.register(new LongGrassTextureGenerator());
-			}
-		});
+//		SidedCall.run(Side.CLIENT, new Runnable() {
+//			@Override
+//			public void run() {
+//				MinecraftForge.EVENT_BUS.register(new LongGrassTextureGenerator());
+//			}
+//		});
 	}
 
 	public CategoryConfigManagerBuilder getConfig() {

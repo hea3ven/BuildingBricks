@@ -11,6 +11,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
+import com.hea3ven.tools.commonutils.util.PlayerUtil;
+import com.hea3ven.tools.commonutils.util.PlayerUtil.HeldEquipment;
 
 public class TrowelRotateBlockTypeMessage implements IMessage {
 
@@ -24,15 +26,15 @@ public class TrowelRotateBlockTypeMessage implements IMessage {
 		@Override
 		public IMessage onMessage(TrowelRotateBlockTypeMessage message, MessageContext ctx) {
 			EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-			ItemStack stack = player.getCurrentEquippedItem();
-			if (stack.getItem() == ModBuildingBricks.trowel) {
-				if(message.blockType != null){
-					ModBuildingBricks.trowel.setCurrentBlockType(stack, message.blockType);
-				}else {
+			HeldEquipment equipment = PlayerUtil.getHeldEquipment(player, ModBuildingBricks.trowel);
+			if (equipment != null && equipment.stack.getItem() != null) {
+				if (message.blockType != null) {
+					ModBuildingBricks.trowel.setCurrentBlockType(equipment.stack, message.blockType);
+				} else {
 					if (message.forward) {
-						ModBuildingBricks.trowel.setNextBlockRotation(stack);
+						ModBuildingBricks.trowel.setNextBlockRotation(equipment.stack);
 					} else {
-						ModBuildingBricks.trowel.setPrevBlockRotation(stack);
+						ModBuildingBricks.trowel.setPrevBlockRotation(equipment.stack);
 					}
 				}
 			}

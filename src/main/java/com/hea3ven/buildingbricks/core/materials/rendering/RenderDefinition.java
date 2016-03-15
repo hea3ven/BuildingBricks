@@ -34,21 +34,21 @@ public abstract class RenderDefinition {
 	}
 
 	protected IModel getModelOrDefault(String modelLoc, Material mat, String type) {
-		try {
-			ResourceLocation matLoc = new ResourceLocation(mat.getMaterialId());
-			return ModelLoaderRegistry.getModel(new ResourceLocation(
-					modelLoc.replace("minecraft:", "buildingbricks:")
-							.replace(":" + type + "/",
-									":" + type + "/" + matLoc.getResourceDomain() + "/" +
-											matLoc.getResourcePath() +
-											"/")));
-		} catch (IOException e) {
-			try {
+//		try {
+//			ResourceLocation matLoc = new ResourceLocation(mat.getMaterialId());
+//			return ModelLoaderRegistry.getModel(new ResourceLocation(
+//					modelLoc.replace("minecraft:", "buildingbricks:")
+//							.replace(":" + type + "/",
+//									":" + type + "/" + matLoc.getResourceDomain() + "/" +
+//											matLoc.getResourcePath() +
+//											"/")));
+//		} catch (IOException e) {
+//			try {
 				return ModelLoaderRegistry.getModel(new ResourceLocation(modelLoc));
-			} catch (IOException e1) {
-				logger.warn("Could not find model {}", modelLoc);
-				return ModelLoaderRegistry.getMissingModel();
-			}
-		}
+//			} catch (IOException e1) {
+//				logger.warn("Could not find model {}", modelLoc);
+//				return ModelLoaderRegistry.getMissingModel();
+//			}
+//		}
 	}
 }

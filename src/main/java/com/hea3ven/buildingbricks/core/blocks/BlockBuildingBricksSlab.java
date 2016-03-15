@@ -51,7 +51,7 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 	}
 
 	@Override
-	public Object getVariant(ItemStack stack) {
+	public Comparable<?> getTypeForItem(ItemStack stack) {
 		return null;
 	}
 
@@ -83,29 +83,33 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 	}
 
 	@Override
-	public boolean doesSideBlockRendering(IBlockAccess world, BlockPos pos, EnumFacing face) {
-		return getMaterial().isOpaque() && super.doesSideBlockRendering(world, pos, face);
+	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos,
+			EnumFacing face) {
+		return getMaterial(state).isOpaque() && super.doesSideBlockRendering(state, world, pos, face);
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
-		IBlockState state = world.getBlockState(pos);
-		BlockPos ownPos = pos.offset(side.getOpposite());
-		IBlockState ownState = world.getBlockState(ownPos);
+	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos,
+			EnumFacing side) {
+		BlockPos otherPos = pos.offset(side.getOpposite());
+		IBlockState otherState = world.getBlockState(pos);
 		if (side.getAxis() != Axis.Y) {
-			if (!(state.getBlock() instanceof BlockSlab) || ((BlockSlab) state.getBlock()).isDouble())
-				return !state.getBlock().isSideSolid(world, pos, side);
+			if (!(otherState.getBlock() instanceof BlockSlab) ||
+					((BlockSlab) otherState.getBlock()).isDouble())
+				return !otherState.getBlock().isSideSolid(otherState, world, otherPos, side);
 			else
-				return getHalf(ownState) != getHalf(state) ||
-						ownState.getBlock().getMaterial() != state.getBlock().getMaterial();
+				return getHalf(state) != getHalf(otherState) ||
+						state.getBlock().getMaterial(state) != otherState.getBlock().getMaterial(otherState);
 		}
 
-		if (getHalf(ownState) == EnumBlockHalf.BOTTOM)
-			return side != EnumFacing.DOWN || getMaterial() != state.getBlock().getMaterial() ||
-					!state.getBlock().isSideSolid(world, pos, side);
+		if (getHalf(state) == EnumBlockHalf.BOTTOM)
+			return side != EnumFacing.DOWN ||
+					getMaterial(state) != otherState.getBlock().getMaterial(otherState) ||
+					!otherState.getBlock().isSideSolid(otherState, world, otherPos, side);
 		else
-			return side != EnumFacing.UP || getMaterial() != state.getBlock().getMaterial() ||
-					!state.getBlock().isSideSolid(world, pos, side);
+			return side != EnumFacing.UP ||
+					getMaterial(state) != otherState.getBlock().getMaterial(otherState) ||
+					!otherState.getBlock().isSideSolid(otherState, world, otherPos, side);
 	}
 
 	//region COMMON BLOCK CODE
@@ -118,24 +122,6 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 	@Override
 	public boolean requiresUpdates() {
 		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getBlockColor() {
-		return blockLogic.getBlockColor();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderColor(IBlockState state) {
-		return blockLogic.getRenderColor(state);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
-		return blockLogic.colorMultiplier(worldIn, pos, renderPass);
 	}
 
 	@Override

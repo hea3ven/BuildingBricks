@@ -3,6 +3,7 @@ package com.hea3ven.buildingbricks.core.client;
 import javax.vecmath.Vector3f;
 import java.util.List;
 
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -47,7 +48,7 @@ public class ModelBakerItemMaterial extends ModelBakerBase {
 		IModel baseItemModel = getModel(modelLoc);
 		IBakedModel baseBakedItemModel = bake(baseItemModel, DefaultVertexFormats.ITEM);
 		ModelItemMaterial dynModel = new ModelItemMaterial(baseBakedItemModel);
-		event.modelRegistry.putObject(targetModelLoc, dynModel);
+		event.getModelRegistry().putObject(targetModelLoc, dynModel);
 
 		for (Material material : MaterialRegistry.getAll()) {
 
@@ -56,9 +57,9 @@ public class ModelBakerItemMaterial extends ModelBakerBase {
 			List<String> variantNames;
 			try {
 				variantNames =
-						(List<String>) ReflectionHelper.findMethod(ModelBakery.class, event.modelLoader,
+						(List<String>) ReflectionHelper.findMethod(ModelBakery.class, event.getModelLoader(),
 								new String[] {"getVariantNames", "func_177596_a"}, Item.class)
-								.invoke(event.modelLoader, item);
+								.invoke(event.getModelLoader(), item);
 			} catch (Exception e) {
 				e.printStackTrace();
 				continue;

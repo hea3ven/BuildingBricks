@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelRotation;
+
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.ModelLoader;
@@ -29,10 +30,10 @@ public class RenderDefinitionWall extends RenderDefinitionConnectable {
 	public IModel getItemModel(Material mat) {
 		IModel base = getModelOrDefault(postModelLocation, mat);
 		Map<String, Pair<IModel, IModelState>> parts = Maps.newHashMap();
-		parts.put("north", Pair.of(getModelOrDefault(connModelLocation, mat),
-				(IModelState) new ModelLoader.UVLock(base.getDefaultState())));
-		parts.put("south", Pair.of(getModelOrDefault(connModelLocation, mat),
-				(IModelState) new ModelLoader.UVLock(ModelRotation.X0_Y180)));
+		parts.put("north",
+				Pair.of(getModelOrDefault(connModelLocation, mat), (IModelState) base.getDefaultState()));
+		parts.put("south",
+				Pair.of(getModelOrDefault(connModelLocation, mat), (IModelState) ModelRotation.X0_Y180));
 		return new MultiModel(base, base.getDefaultState(), parts);
 	}
 

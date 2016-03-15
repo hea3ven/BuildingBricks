@@ -14,6 +14,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
+import com.hea3ven.tools.commonutils.util.PlayerUtil;
+import com.hea3ven.tools.commonutils.util.PlayerUtil.HeldEquipment;
 
 @SideOnly(Side.CLIENT)
 public class TrowelKeyBindings {
@@ -21,8 +23,9 @@ public class TrowelKeyBindings {
 		return new Consumer<KeyInputEvent>() {
 			@Override
 			public void accept(KeyInputEvent event) {
-				ItemStack stack = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
-				if (stack != null && stack.getItem() == ModBuildingBricks.trowel) {
+				HeldEquipment equipment = PlayerUtil.getHeldEquipment(Minecraft.getMinecraft().thePlayer,
+						ModBuildingBricks.trowel);
+				if (equipment != null && equipment.stack.getItem() != null) {
 					TrowelRotateBlockTypeMessage.send(false, null);
 				}
 			}
@@ -33,8 +36,9 @@ public class TrowelKeyBindings {
 		return new Consumer<KeyInputEvent>() {
 			@Override
 			public void accept(KeyInputEvent event) {
-				ItemStack stack = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
-				if (stack != null && stack.getItem() == ModBuildingBricks.trowel) {
+				HeldEquipment equipment = PlayerUtil.getHeldEquipment(Minecraft.getMinecraft().thePlayer,
+						ModBuildingBricks.trowel);
+				if (equipment != null && equipment.stack.getItem() != null) {
 					TrowelRotateBlockTypeMessage.send(true, null);
 				}
 			}

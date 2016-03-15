@@ -76,7 +76,7 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		Collection<IProperty> props = new ArrayList<>(super.createBlockState().getProperties());
+		Collection<IProperty<?>> props = new ArrayList<>(super.createBlockState().getProperties());
 		props.add(BlockGrass.SNOWY);
 		return new BlockStateContainer(this, props.toArray(new IProperty[props.size()]));
 	}

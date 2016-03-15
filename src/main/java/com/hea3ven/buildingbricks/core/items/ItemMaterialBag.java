@@ -10,7 +10,9 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -21,8 +23,6 @@ import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -36,6 +36,8 @@ import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer.SlotType;
 import com.hea3ven.tools.commonutils.inventory.SlotItemHandlerBase;
+import com.hea3ven.tools.commonutils.util.PlayerUtil;
+import com.hea3ven.tools.commonutils.util.PlayerUtil.HeldEquipment;
 
 public class ItemMaterialBag extends Item implements ItemMaterial {
 
@@ -113,11 +115,12 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		playerIn.openGui(ModBuildingBricks.MODID, GuiMaterialBag.ID, worldIn,
-				MathHelper.floor_double(playerIn.posX), MathHelper.floor_double(playerIn.posY),
-				MathHelper.floor_double(playerIn.posZ));
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World worldIn, EntityPlayer player,
+			EnumHand hand) {
+		player.openGui(ModBuildingBricks.MODID, GuiMaterialBag.ID, worldIn,
+				MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY),
+				MathHelper.floor_double(player.posZ));
+		return super.onItemRightClick(stack, worldIn, player, hand);
 	}
 
 	@Override
@@ -130,17 +133,17 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 					mat.getLocalizedName());
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
-		if (tintIndex == 1)
-			return super.getColorFromItemStack(stack, tintIndex);
-		Material mat = getMaterial(stack);
-		if (mat == null)
-			return super.getColorFromItemStack(stack, tintIndex);
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
+//		if (tintIndex == 1)
+//			return super.getColorFromItemStack(stack, tintIndex);
+//		Material mat = getMaterial(stack);
+//		if (mat == null)
+//			return super.getColorFromItemStack(stack, tintIndex);
 
-		return mat.getFirstBlock().getItem().getColorFromItemStack(stack, tintIndex);
-	}
+//		return mat.getFirstBlock().getItem().getColorFromItemStack(stack, tintIndex);
+//	}
 
 	private void updateStack(ItemStack stack) {
 		String matId = stack.getTagCompound().getString("material");
@@ -262,32 +265,40 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 	}
 
 	public class ItemHandlerMaterialBag implements IItemHandler {
-		private EntityPlayer player = null;
+		private final EntityPlayer player;
+		private final HeldEquipment equipment;
 		private final ItemStack origStack;
 		private Material mat;
 		private MaterialBlockType[] slots;
 
 		public ItemHandlerMaterialBag(EntityPlayer player) {
-			this(player.getCurrentEquippedItem());
+			equipment = PlayerUtil.getHeldEquipment(player, ModBuildingBricks.materialBag);
 			this.player = player;
+			origStack = initStack(equipment.stack);
 		}
 
 		public ItemHandlerMaterialBag(ItemStack stack) {
+			equipment = null;
+			player = null;
+			origStack = initStack(stack);
+		}
+
+		private ItemStack initStack(ItemStack stack) {
 			ModBuildingBricks.materialBag.initUuid(stack);
-			origStack = stack;
 			mat = MaterialStack.get(stack);
 			slots = MaterialBlockType.values();
+			return stack;
 		}
 
 		private ItemStack getBagStack() {
 			if (player != null) {
-				ItemStack playerStack = player.getCurrentEquippedItem();
+				ItemStack playerStack = equipment.getCurrent();
 
-				if (ModBuildingBricks.materialBag.areSameItem(origStack, playerStack)) {
+				if (ModBuildingBricks.materialBag.areSameItem(equipment.stack, playerStack)) {
 					return playerStack;
 				}
 			}
-			return origStack;
+			return equipment.stack;
 		}
 
 		public float getCurrentVolume() {

@@ -25,7 +25,7 @@ public class RenderDefinitionFenceGate extends RenderDefinition {
 
 	@Override
 	public IModelState getItemModelState(IModelState modelState) {
-		return new ModelLoader.UVLock(modelState);
+		return modelState;
 	}
 
 	@Override
@@ -38,6 +38,6 @@ public class RenderDefinitionFenceGate extends RenderDefinition {
 
 	@Override
 	public IModelState getModelState(IModelState modelState, IBlockState state) {
-		return new ModelLoader.UVLock(ModelRotation.X0_Y90);
+		return ModelRotation.X0_Y90;
 	}
 }
