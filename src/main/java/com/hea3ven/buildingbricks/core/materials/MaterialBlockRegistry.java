@@ -1,9 +1,6 @@
 package com.hea3ven.buildingbricks.core.materials;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableMap;
@@ -45,7 +42,7 @@ public class MaterialBlockRegistry {
 
 	public void generateBlocks(ProxyCommonBuildingBricks proxy) {
 		for (Material mat : MaterialRegistry.getAll()) {
-			for (BlockDescription blockDesc : mat.getBlockRotation().getAll().values()) {
+			for (BlockDescription blockDesc : new ArrayList<>(mat.getBlockRotation().getAll().values())) {
 				if (blockDesc.isBlockTemplate()) {
 					if (enableGenerateBlocks)
 						initBlockDesc(proxy, mat, blockDesc);
