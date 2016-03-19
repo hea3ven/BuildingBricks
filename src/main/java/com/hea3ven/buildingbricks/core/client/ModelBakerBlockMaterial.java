@@ -48,7 +48,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 		renderDefinitions.put(MaterialBlockType.STEP, new RenderDefinitionStep());
 		renderDefinitions.put(MaterialBlockType.CORNER,
 				new RenderDefinitionRotHalf("buildingbricks:block/corner_bottom"));
-		renderDefinitions.put(MaterialBlockType.WALL, new RenderDefinitionWall("minecraft:block/wall_post",
+		renderDefinitions.put(MaterialBlockType.WALL, new RenderDefinitionWall("buildingbricks:block/wall_post",
 				"buildingbricks:block/wall_connection"));
 		renderDefinitions.put(MaterialBlockType.FENCE,
 				new RenderDefinitionConnectable("minecraft:block/fence_post",
