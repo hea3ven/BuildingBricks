@@ -330,7 +330,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 		if (world.checkNoEntityCollision(newState.getBlock().getSelectedBoundingBox(newState, world, pos))) {
 			if (((ItemBlock) newStack.getItem()).placeBlockAt(stack, player, world, pos, null, 0.0f, 0.0f,
 					0.0f, newState)) {
-				SoundType soundtype = this.block.getStepSound();
+				SoundType soundtype = this.block.getSoundType();
 				world.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS,
 						(soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 				--stack.stackSize;

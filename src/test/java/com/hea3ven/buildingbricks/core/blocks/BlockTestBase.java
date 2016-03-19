@@ -2,7 +2,7 @@ package com.hea3ven.buildingbricks.core.blocks;
 
 import static org.junit.Assert.assertEquals;
 
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 
 public class BlockTestBase {
 

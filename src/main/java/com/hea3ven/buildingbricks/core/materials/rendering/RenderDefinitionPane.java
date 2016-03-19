@@ -1,94 +1,111 @@
 package com.hea3ven.buildingbricks.core.materials.rendering;
 
+import com.google.common.base.Predicate;
+
+import net.minecraft.block.BlockPane;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelManager;
 import net.minecraft.client.renderer.block.model.ModelRotation;
+import net.minecraft.client.renderer.block.model.MultipartBakedModel;
 
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IModelState;
 
-import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.tools.commonutils.client.BakerUtil;
 
 public class RenderDefinitionPane extends RenderDefinition {
-	@Override
-	public IModel getItemModel(Material mat) {
-		return getModelOrDefault("minecraft:item/glass_pane", mat, "item");
+	public RenderDefinitionPane() {
 	}
 
 	@Override
-	public IModelState getItemModelState(IModelState modelState) {
-		return modelState;
+	public IBakedModel bakeItem(ModelManager modelManager, Material mat) {
+		IModel model = loadModel(modelManager, "item", mat, "pane");
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		return BakerUtil.bake(model);
 	}
 
 	@Override
-	public IModel getModel(IBlockState state, Material mat) {
-		int connections = 0;
-		if (BlockProperties.getConnectionNorth(state))
-			connections++;
-		if (BlockProperties.getConnectionSouth(state))
-			connections++;
-		int ns = connections;
-		if (BlockProperties.getConnectionEast(state))
-			connections++;
-		if (BlockProperties.getConnectionWest(state))
-			connections++;
+	public IBakedModel bake(ModelManager modelManager, Material mat, IBlockState state) {
+		MultipartBakedModel.Builder builder = new MultipartBakedModel.Builder();
+		IModel model;
+		model = loadModel(modelManager, "block", mat, "pane_post");
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new Predicate<IBlockState>() {
+			@Override
+			public boolean apply(IBlockState input) {
+				return true;
+			}
+		}, BakerUtil.bake(model));
 
-		if (connections == 0)
-			return getModelOrDefault("buildingbricks:block/pane", mat);
+		model = loadModel(modelManager, "block", mat, "pane_side");
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new BoolPropertyPredicate(BlockPane.NORTH), BakerUtil.bake(model));
 
-		if (connections == 1)
-			return getModelOrDefault("buildingbricks:block/pane_n", mat);
+		model = loadModel(modelManager, "block", mat, "pane_side");
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new BoolPropertyPredicate(BlockPane.EAST),
+				BakerUtil.bake(model, ModelRotation.X0_Y90));
 
-		if (connections == 2) {
-			if (ns == 2 || ns == 0)
-				return getModelOrDefault("buildingbricks:block/pane_ns", mat);
-			else
-				return getModelOrDefault("buildingbricks:block/pane_ne", mat);
-		}
+		model = loadModel(modelManager, "block", mat, "pane_side");
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new BoolPropertyPredicate(BlockPane.SOUTH),
+				BakerUtil.bake(model, ModelRotation.X0_Y180));
 
-		if (connections == 3)
-			return getModelOrDefault("minecraft:block/pane_nse", mat);
-		if (connections == 4)
-			return getModelOrDefault("minecraft:block/pane_nsew", mat);
+		model = loadModel(modelManager, "block", mat, "pane_side");
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new BoolPropertyPredicate(BlockPane.WEST),
+				BakerUtil.bake(model, ModelRotation.X0_Y270));
 
-		throw new IllegalStateException();
+		model = loadModel(modelManager, "block", mat, "pane_noside");
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new NegBoolPropertyPredicate(BlockPane.NORTH), BakerUtil.bake(model));
+
+		model = loadModel(modelManager, "block", mat, "pane_noside");
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new NegBoolPropertyPredicate(BlockPane.EAST),
+				BakerUtil.bake(model, ModelRotation.X0_Y90));
+
+		model = loadModel(modelManager, "block", mat, "pane_noside");
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new NegBoolPropertyPredicate(BlockPane.SOUTH),
+				BakerUtil.bake(model, ModelRotation.X0_Y180));
+
+		model = loadModel(modelManager, "block", mat, "pane_noside");
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new NegBoolPropertyPredicate(BlockPane.WEST),
+				BakerUtil.bake(model, ModelRotation.X0_Y270));
+		return builder.makeMultipartModel();
 	}
 
-	@Override
-	public IModelState getModelState(IModelState modelState, IBlockState state) {
-		int connections = 0;
-		if (BlockProperties.getConnectionNorth(state))
-			connections++;
-		if (BlockProperties.getConnectionSouth(state))
-			connections++;
-		int ns = connections;
-		if (BlockProperties.getConnectionEast(state))
-			connections++;
-		if (BlockProperties.getConnectionWest(state))
-			connections++;
+	class BoolPropertyPredicate implements Predicate<IBlockState> {
 
-		if (connections == 0)
-			return ModelRotation.X0_Y0;
+		private final IProperty<Boolean> prop;
 
-		if (connections == 2) {
-			if (ns == 2)
-				return ModelRotation.X0_Y0;
-			else if (ns == 0)
-				return ModelRotation.X0_Y270;
+		public BoolPropertyPredicate(IProperty<Boolean> prop) {
+
+			this.prop = prop;
 		}
 
-		if (BlockProperties.getConnectionNorth(state) && !BlockProperties.getConnectionWest(state)) {
-			return ModelRotation.X0_Y0;
+		@Override
+		public boolean apply(IBlockState input) {
+			return input.getValue(prop);
 		}
-		if (BlockProperties.getConnectionEast(state) && !BlockProperties.getConnectionNorth(state)) {
-			return ModelRotation.X0_Y90;
+	}
+
+	class NegBoolPropertyPredicate implements Predicate<IBlockState> {
+
+		private final IProperty<Boolean> prop;
+
+		public NegBoolPropertyPredicate(IProperty<Boolean> prop) {
+
+			this.prop = prop;
 		}
-		if (BlockProperties.getConnectionSouth(state) && !BlockProperties.getConnectionEast(state)) {
-			return ModelRotation.X0_Y180;
+
+		@Override
+		public boolean apply(IBlockState input) {
+			return !input.getValue(prop);
 		}
-		if (BlockProperties.getConnectionWest(state) && !BlockProperties.getConnectionSouth(state)) {
-			return ModelRotation.X0_Y270;
-		}
-		return ModelRotation.X0_Y0;
 	}
 }

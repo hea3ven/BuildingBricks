@@ -32,19 +32,6 @@ public class Material {
 		this.textures.put(name, textureLocation);
 	}
 
-	public void setTexture(String textureLocation) {
-		textures.put("all", textureLocation);
-		textures.put("wall", textureLocation);
-		textures.put("top", textureLocation);
-		textures.put("bottom", textureLocation);
-		textures.put("side", textureLocation);
-		textures.put("pane", textureLocation);
-		textures.put("edge", textureLocation);
-		textures.put("texture", textureLocation);
-		textures.put("particle", textureLocation);
-		textures.put("layer0", textureLocation);
-	}
-
 	public HashMap<String, String> getTextures() {
 		return textures;
 	}

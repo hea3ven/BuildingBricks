@@ -4,7 +4,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;

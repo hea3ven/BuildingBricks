@@ -4,15 +4,14 @@ import javax.vecmath.Vector3f;
 import java.util.List;
 
 import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
-
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.TRSRTransformation;
@@ -23,6 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.hea3ven.buildingbricks.core.client.model.ModelItemMaterial;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.tools.commonutils.client.BakerUtil;
 import com.hea3ven.tools.commonutils.client.ModelBakerBase;
 
 @SideOnly(Side.CLIENT)
@@ -46,7 +46,7 @@ public class ModelBakerItemMaterial extends ModelBakerBase {
 	public void onModelBakeEvent(ModelBakeEvent event) {
 
 		IModel baseItemModel = getModel(modelLoc);
-		IBakedModel baseBakedItemModel = bake(baseItemModel, DefaultVertexFormats.ITEM);
+		IBakedModel baseBakedItemModel = BakerUtil.bake(baseItemModel, DefaultVertexFormats.ITEM);
 		ModelItemMaterial dynModel = new ModelItemMaterial(baseBakedItemModel);
 		event.getModelRegistry().putObject(targetModelLoc, dynModel);
 
@@ -69,14 +69,14 @@ public class ModelBakerItemMaterial extends ModelBakerBase {
 			ResourceLocation model =
 					new ResourceLocation(itemName.getResourceDomain(), "item/" + itemName.getResourcePath());
 			IModel itemModel = getModel(model, new ResourceLocation("minecraft", "block/cube_bottom_top"));
-			itemModel = retexture(material.getTextures(), itemModel);
+			itemModel = BakerUtil.retexture(material.getTextures(), itemModel);
 			IModelState modelState = new TRSRTransformation(translation, null, scale, null);
-			IBakedModel bakedItemModel = bake(itemModel, modelState, DefaultVertexFormats.ITEM);
+			IBakedModel bakedItemModel = BakerUtil.bake(itemModel, modelState, DefaultVertexFormats.ITEM);
 
 			itemModel = getModel(modelLoc);
-			baseBakedItemModel = bake(itemModel, DefaultVertexFormats.ITEM);
+			baseBakedItemModel = BakerUtil.bake(itemModel, DefaultVertexFormats.ITEM);
 
-			dynModel.models.put(material, new ModelItemMaterial(baseBakedItemModel, bakedItemModel));
+			dynModel.put(material, new ModelItemMaterial(baseBakedItemModel, bakedItemModel));
 		}
 	}
 }

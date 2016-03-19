@@ -91,6 +91,14 @@ public class MaterialBuilderDyeMeta extends MaterialBuilder {
 				mat.setTexture("top", baseTexture);
 			if (!textures.containsKey("bottom"))
 				mat.setTexture("bottom", baseTexture);
+			if (!textures.containsKey("north"))
+				mat.setTexture("north", baseTexture);
+			if (!textures.containsKey("south"))
+				mat.setTexture("south", baseTexture);
+			if (!textures.containsKey("east"))
+				mat.setTexture("east", baseTexture);
+			if (!textures.containsKey("west"))
+				mat.setTexture("west", baseTexture);
 			if (!textures.containsKey("particle"))
 				mat.setTexture("particle", baseTexture);
 			if (!textures.containsKey("wall"))

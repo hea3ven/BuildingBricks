@@ -91,25 +91,23 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 	@Override
 	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos,
 			EnumFacing side) {
-		BlockPos otherPos = pos.offset(side.getOpposite());
-		IBlockState otherState = world.getBlockState(pos);
+		BlockPos otherPos = pos.offset(side);
+		IBlockState otherState = world.getBlockState(otherPos);
 		if (side.getAxis() != Axis.Y) {
 			if (!(otherState.getBlock() instanceof BlockSlab) ||
 					((BlockSlab) otherState.getBlock()).isDouble())
-				return !otherState.getBlock().isSideSolid(otherState, world, otherPos, side);
+				return !otherState.isSideSolid(world, otherPos, side.getOpposite());
 			else
-				return getHalf(state) != getHalf(otherState) ||
-						state.getBlock().getMaterial(state) != otherState.getBlock().getMaterial(otherState);
+				return getHalf(otherState) != getHalf(state) ||
+						otherState.getMaterial() != state.getMaterial();
 		}
 
 		if (getHalf(state) == EnumBlockHalf.BOTTOM)
-			return side != EnumFacing.DOWN ||
-					getMaterial(state) != otherState.getBlock().getMaterial(otherState) ||
-					!otherState.getBlock().isSideSolid(otherState, world, otherPos, side);
+			return side != EnumFacing.DOWN || otherState.getMaterial() != state.getMaterial() ||
+					!otherState.isSideSolid(world, pos, side.getOpposite());
 		else
-			return side != EnumFacing.UP ||
-					getMaterial(state) != otherState.getBlock().getMaterial(otherState) ||
-					!otherState.getBlock().isSideSolid(otherState, world, otherPos, side);
+			return side != EnumFacing.UP || otherState.getMaterial() != state.getMaterial() ||
+					!otherState.isSideSolid(world, pos, side.getOpposite());
 	}
 
 	//region COMMON BLOCK CODE

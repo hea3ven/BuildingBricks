@@ -3,6 +3,7 @@ package com.hea3ven.buildingbricks.core.materials.rendering;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockStairs.EnumShape;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelManager;
 import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.util.EnumFacing;
 
@@ -11,53 +12,52 @@ import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 
 @SideOnly(Side.CLIENT)
 public class RenderDefinitionStairs extends RenderDefinitionSimple {
 
 	public RenderDefinitionStairs() {
-		super("minecraft:block/stairs");
+		super(MaterialBlockType.STAIRS);
 	}
 
 	@Override
-	public IModel getItemModel(Material mat) {
-		return getModelOrDefault("buildingbricks:block/stairs", mat);
+	public IModelState getItemModelState() {
+		return ModelRotation.X0_Y180;
 	}
 
 	@Override
-	public IModelState getItemModelState(IModelState modelState) {
-		return super.getItemModelState(ModelRotation.X0_Y180);
-	}
-
-	@Override
-	public IModel getModel(IBlockState state, Material mat) {
-		switch (BlockProperties.<BlockStairs.EnumShape>getProp(state, BlockStairs.SHAPE)) {
+	protected IModel getModel(ModelManager modelManager, Material mat, IBlockState state) {
+		String modelName;
+		switch (state.getValue(BlockStairs.SHAPE)) {
 			default:
 			case STRAIGHT:
-				return getModelOrDefault("buildingbricks:block/stairs", mat);
+				modelName = "stairs";
+				break;
 			case INNER_LEFT:
 			case INNER_RIGHT:
-				return getModelOrDefault("buildingbricks:block/stairs_inner", mat);
+				modelName = "stairs_inner";
+				break;
 			case OUTER_LEFT:
 			case OUTER_RIGHT:
-				return getModelOrDefault("buildingbricks:block/stairs_outer", mat);
+				modelName = "stairs_outer";
+				break;
 		}
+		return loadModel(modelManager, "block", mat, modelName);
 	}
 
 	@Override
-	public IModelState getModelState(IModelState modelState, IBlockState state) {
-		EnumShape shape = BlockProperties.getProp(state, BlockStairs.SHAPE);
+	protected IModelState getModelState(IBlockState state) {
+		EnumShape shape = state.getValue(BlockStairs.SHAPE);
 		int offset = (shape != EnumShape.INNER_LEFT && shape != EnumShape.OUTER_LEFT) ? 0 : -90;
-		if (BlockProperties.getProp(state, BlockStairs.HALF) == BlockStairs.EnumHalf.BOTTOM) {
-			int angle = getAngle(BlockProperties.<EnumFacing>getProp(state, BlockStairs.FACING));
-			modelState = ModelRotation.getModelRotation(0, angle + offset);
+		if (state.getValue(BlockStairs.HALF) == BlockStairs.EnumHalf.BOTTOM) {
+			int angle = getAngle(state.getValue(BlockStairs.FACING));
+			return ModelRotation.getModelRotation(0, angle + offset);
 		} else {
-			int angle = getAngle(BlockProperties.<EnumFacing>getProp(state, BlockStairs.FACING));
-			modelState = ModelRotation.getModelRotation(180, angle - offset);
+			int angle = getAngle(state.getValue(BlockStairs.FACING));
+			return ModelRotation.getModelRotation(180, angle - offset);
 		}
-		return super.getModelState(modelState, state);
 	}
 
 	private int getAngle(EnumFacing prop) {

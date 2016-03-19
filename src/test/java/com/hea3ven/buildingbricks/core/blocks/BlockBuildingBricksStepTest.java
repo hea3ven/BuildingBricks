@@ -21,7 +21,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setRotation(state, EnumRotation.ROT0);
 
 		assertAABBEquals(0, 0, 0, 1.0d, 0.5d, 0.5d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -32,7 +32,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setRotation(state, EnumRotation.ROT90);
 
 		assertAABBEquals(0.5d, 0, 0, 1.0d, 0.5d, 1.0d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setRotation(state, EnumRotation.ROT180);
 
 		assertAABBEquals(0.0d, 0, 0.5d, 1.0d, 0.5d, 1.0d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setRotation(state, EnumRotation.ROT270);
 
 		assertAABBEquals(0.0d, 0, 0.0d, 0.5d, 0.5d, 1.0d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setHalf(state, EnumBlockHalf.TOP);
 
 		assertAABBEquals(0, 0.5d, 0, 1.0d, 1.0d, 0.5d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -78,7 +78,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setHalf(state, EnumBlockHalf.TOP);
 
 		assertAABBEquals(0.5d, 0.5d, 0, 1.0d, 1.0d, 1.0d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -90,7 +90,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setHalf(state, EnumBlockHalf.TOP);
 
 		assertAABBEquals(0.0d, 0.5d, 0.5d, 1.0d, 1.0d, 1.0d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -102,7 +102,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setHalf(state, EnumBlockHalf.TOP);
 
 		assertAABBEquals(0.0d, 0.5d, 0.0d, 0.5d, 1.0d, 1.0d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setVertical(state, true);
 
 		assertAABBEquals(0, 0, 0, 0.5d, 1.0d, 0.5d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -126,7 +126,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setVertical(state, true);
 
 		assertAABBEquals(0.5d, 0, 0, 1.0d, 1.0d, 0.5d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -138,7 +138,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setVertical(state, true);
 
 		assertAABBEquals(0.5d, 0, 0.5d, 1.0d, 1.0d, 1.0d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 	@Test
@@ -150,7 +150,7 @@ public class BlockBuildingBricksStepTest extends BlockTestBase {
 		state = BlockProperties.setVertical(state, true);
 
 		assertAABBEquals(0.0d, 0, 0.5d, 0.5d, 1.0d, 1.0d,
-				corner.getCollisionBoundingBox(null, new BlockPos(0, 0, 0), state));
+				corner.getBoundingBox(state, null, new BlockPos(0, 0, 0)));
 	}
 
 }

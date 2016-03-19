@@ -1,4 +1,9 @@
 // Hea3veN's build script for minecraft mods
+// v1.0.5 (2016-03-08):
+//     * Add the FMLCorePluginContainsFMLMod attribute to the manifest if there is a coremod
+//     * Add version replacement for kotlin projects
+// v1.0.4 (2016-03-08):
+//     * Fix issue when the changelog doesn't have the current version
 // v1.0.3 (2016-03-01):
 //     * Actually use the project_bootstrap_file value
 // v1.0.2 (2016-02-07):
@@ -46,16 +51,22 @@ minecraft {
 	replace 'FORGEVERSION', project.minecraft.forgeVersion
 }
 
-curseforge {
-	apiKey = project.hasProperty('curseForgeApiKey') ? project.curseForgeApiKey : ''
+if (project.hasProperty('project_coremod')) {
+	jar.manifest.attributes.put('FMLCorePluginContainsFMLMod', 'true')
+}
 
-	project {
-		id = project_curseforge_id
-		releaseType = 'release'
-		changelog = UpdateFile.
-				getChangelog(new File(projectDir, project_update_file), version_mc, project.version).
-				replace('\n', '\r\n')
-		addGameVersion version_mc
+if (project.hasProperty('project_curseforge_id')) {
+	curseforge {
+		apiKey = project.hasProperty('curseForgeApiKey') ? project.curseForgeApiKey : ''
+
+		project {
+			id = project_curseforge_id
+			releaseType = 'release'
+			changelog = UpdateFile.
+					getChangelog(new File(projectDir, project_update_file), version_mc, project.version).
+					replace('\n', '\r\n')
+			addGameVersion version_mc
+		}
 	}
 }
 
@@ -121,6 +132,19 @@ task copyRunMods(type: Copy) {
 }
 setupDecompWorkspace.dependsOn copyRunMods
 
+if (tasks.findByPath('compileKotlin') != null) {
+	task updateMainKotlinFile << {
+		def mainFile = new File('src/main/java/' + project_class.replace('.', '/') + '.kt')
+		if (mainFile.exists()) {
+			def content = mainFile.text.
+					replaceAll(/val VERSION = "[^"]*"/, 'val VERSION = "' + project.version + '"').
+					replaceAll(/Forge@\[[^,]*,\)/, 'Forge@[' + project.minecraft.forgeVersion + ',)')
+			mainFile.withWriter { w -> w << content }
+		}
+	}
+	compileKotlin.dependsOn updateMainKotlinFile
+}
+
 task updateChangelog << {
 	UpdateFile updateFile = UpdateFile.load(new File(projectDir, project_update_file))
 	def repo = Grgit.open(file("."))
@@ -170,7 +194,12 @@ class UpdateFile {
 	}
 
 	static def getChangelog(File file, String mcVersion, String version) {
-		def changelog = load(file).versions[mcVersion][version]
+        def changelogFile = load(file)
+        if (!changelogFile.versions.containsKey(mcVersion))
+            return ''
+        if (!changelogFile.versions[mcVersion].containsKey(version))
+            return ''
+		def changelog = changelogFile.versions[mcVersion][version]
 		(changelog != null) ? changelog.save() : ''
 	}
 

@@ -41,27 +41,25 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 	@Override
 	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos,
 			EnumFacing face) {
-		return getMaterial(state).isOpaque() && super.doesSideBlockRendering(state, world, pos, face);
+		return state.getMaterial().isOpaque() && super.doesSideBlockRendering(state, world, pos, face);
 	}
 
 	@Override
 	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos,
 			EnumFacing side) {
-//		if (!isBlockStairs(state.getBlock())) {
-		if (!func_185709_i(state)) {
-			return !state.getBlock().isSideSolid(state, world, pos, side);
+		BlockPos otherPos = pos.offset(side);
+		IBlockState otherState = world.getBlockState(otherPos);
+		if (!isBlockStairs(otherState)) {
+			return !otherState.isSideSolid(world, otherPos, side.getOpposite());
 		}
 
-		if (isSideSolid(state, world, pos, side.getOpposite()) &&
-				isSideSolid(world.getBlockState(pos.offset(side.getOpposite())), world,
-						pos.offset(side.getOpposite()), side))
+		if (state.isSideSolid(world, pos, side) &&
+				otherState.isSideSolid(world, otherPos, side.getOpposite()))
 			return false;
 
-		BlockPos ownPos = pos.offset(side.getOpposite());
-		IBlockState ownState = world.getBlockState(ownPos);
 		if (side.getAxis() != Axis.Y)
-//			return !isSameStair(world, pos, ownState);
-			return !func_185709_i(ownState);
+			return state.getValue(FACING) != otherState.getValue(FACING) ||
+					state.getValue(HALF) != otherState.getValue(HALF);
 		else
 			return true;
 	}

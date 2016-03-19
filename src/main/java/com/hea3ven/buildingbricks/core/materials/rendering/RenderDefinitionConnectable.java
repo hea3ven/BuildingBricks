@@ -1,70 +1,113 @@
 package com.hea3ven.buildingbricks.core.materials.rendering;
 
-import java.util.Map;
+import com.google.common.base.Predicate;
 
-import com.google.common.collect.Maps;
-import org.apache.commons.lang3.tuple.Pair;
-
+import net.minecraft.block.BlockWall;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelManager;
 import net.minecraft.client.renderer.block.model.ModelRotation;
+import net.minecraft.client.renderer.block.model.MultipartBakedModel;
+import net.minecraft.client.renderer.block.model.multipart.ICondition;
 
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IModelState;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.MultiModel;
 
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.tools.commonutils.client.BakerUtil;
 
 public class RenderDefinitionConnectable extends RenderDefinition {
 
 	protected String postModelLocation;
+	private String shortPostModel;
 	protected String connModelLocation;
 	protected String itemModelLocation;
 
-	public RenderDefinitionConnectable(String postModel, String connectionModel, String itemModel) {
+	public RenderDefinitionConnectable(String postModel, String shortPostModel, String connectionModel,
+			String itemModel) {
 		postModelLocation = postModel;
+		this.shortPostModel = shortPostModel;
 		connModelLocation = connectionModel;
 		itemModelLocation = itemModel;
 	}
 
 	@Override
-	public IModel getItemModel(Material mat) {
-		return getModelOrDefault(itemModelLocation, mat);
+	public IBakedModel bakeItem(ModelManager modelManager, Material mat) {
+		IModel model = loadModel(modelManager, "item", mat, itemModelLocation);
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		return BakerUtil.bake(model);
 	}
 
 	@Override
-	public IModelState getItemModelState(IModelState modelState) {
-		return ModelRotation.X0_Y90;
+	public IBakedModel bake(ModelManager modelManager, Material mat, IBlockState state) {
+		MultipartBakedModel.Builder builder = new MultipartBakedModel.Builder();
+		IModel model;
+		if (postModelLocation != null) {
+			if (state.getPropertyNames().contains(BlockWall.UP)) {
+				model = loadModel(modelManager, "block", mat, postModelLocation);
+				model = BakerUtil.retexture(mat.getTextures(), model);
+				builder.putModel(new BoolPropertyPredicate(BlockWall.UP), BakerUtil.bake(model));
+				model = loadModel(modelManager, "block", mat, shortPostModel);
+				model = BakerUtil.retexture(mat.getTextures(), model);
+				builder.putModel(new NegBoolPropertyPredicate(BlockWall.UP), BakerUtil.bake(model));
+			} else {
+				model = loadModel(modelManager, "block", mat, postModelLocation);
+				model = BakerUtil.retexture(mat.getTextures(), model);
+				builder.putModel(ICondition.TRUE.getPredicate(state.getBlock().getBlockState()),
+						BakerUtil.bake(model));
+			}
+		}
+
+		model = loadModel(modelManager, "block", mat, connModelLocation);
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new BoolPropertyPredicate(BlockProperties.CONNECT_NORTH), BakerUtil.bake(model));
+
+		model = loadModel(modelManager, "block", mat, connModelLocation);
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new BoolPropertyPredicate(BlockProperties.CONNECT_EAST),
+				BakerUtil.bake(model, ModelRotation.X0_Y90));
+
+		model = loadModel(modelManager, "block", mat, connModelLocation);
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new BoolPropertyPredicate(BlockProperties.CONNECT_SOUTH),
+				BakerUtil.bake(model, ModelRotation.X0_Y180));
+
+		model = loadModel(modelManager, "block", mat, connModelLocation);
+		model = BakerUtil.retexture(mat.getTextures(), model);
+		builder.putModel(new BoolPropertyPredicate(BlockProperties.CONNECT_WEST),
+				BakerUtil.bake(model, ModelRotation.X0_Y270));
+
+		return builder.makeMultipartModel();
 	}
 
-	public IModel getModel(IBlockState state, Material mat) {
-		IModel base = (postModelLocation != null) ? getModelOrDefault(postModelLocation, mat) : null;
-		Map<String, Pair<IModel, IModelState>> parts = Maps.newHashMap();
-		if (BlockProperties.getConnectionNorth(state)) {
-			parts.put("north",
-					Pair.of(getModelOrDefault(connModelLocation, mat), (IModelState) ModelRotation.X0_Y0));
+	class BoolPropertyPredicate implements Predicate<IBlockState> {
+
+		private final IProperty<Boolean> prop;
+
+		public BoolPropertyPredicate(IProperty<Boolean> prop) {
+
+			this.prop = prop;
 		}
-		if (BlockProperties.getConnectionEast(state)) {
-			parts.put("east",
-					Pair.of(getModelOrDefault(connModelLocation, mat), (IModelState) ModelRotation.X0_Y90));
+
+		@Override
+		public boolean apply(IBlockState input) {
+			return input.getValue(prop);
 		}
-		if (BlockProperties.getConnectionSouth(state)) {
-			parts.put("south",
-					Pair.of(getModelOrDefault(connModelLocation, mat), (IModelState) ModelRotation.X0_Y180));
-		}
-		if (BlockProperties.getConnectionWest(state)) {
-			parts.put("west",
-					Pair.of(getModelOrDefault(connModelLocation, mat), (IModelState) ModelRotation.X0_Y270));
-		}
-		return new MultiModel(base, base != null ? base.getDefaultState() : null, parts);
 	}
 
-	public IModelState getModelState(IModelState modelState, IBlockState state) {
-		if (!BlockProperties.getConnectionNorth(state) && !BlockProperties.getConnectionSouth(state) &&
-				BlockProperties.getConnectionEast(state) && BlockProperties.getConnectionWest(state)) {
-			return ModelRotation.X0_Y90;
+	class NegBoolPropertyPredicate implements Predicate<IBlockState> {
+
+		private final IProperty<Boolean> prop;
+
+		public NegBoolPropertyPredicate(IProperty<Boolean> prop) {
+
+			this.prop = prop;
 		}
-		return modelState;
+
+		@Override
+		public boolean apply(IBlockState input) {
+			return !input.getValue(prop);
+		}
 	}
 }

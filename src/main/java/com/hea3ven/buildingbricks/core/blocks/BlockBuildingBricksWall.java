@@ -8,10 +8,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,14 +40,15 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		if (!(state.getBlock() instanceof BlockWall)) {
-			return !state.getBlock().isSideSolid(state,world, pos, side);
+	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos,
+			EnumFacing side) {
+		BlockPos otherPos = pos.offset(side);
+		IBlockState otherState = world.getBlockState(otherPos);
+		if (!(otherState.getBlock() instanceof BlockWall)) {
+			return !otherState.isSideSolid(world, otherPos, side.getOpposite());
 		}
 
-		BlockPos ownPos = pos.offset(side.getOpposite());
-		IBlockState ownState = world.getBlockState(ownPos);
-		return side.getAxis() == Axis.Y || BlockProperties.getConnection(ownState, side);
+		return side.getAxis() == Axis.Y || BlockProperties.getConnection(state, side);
 	}
 
 	@Override

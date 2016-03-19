@@ -1,15 +1,7 @@
 package com.hea3ven.buildingbricks.compat.vanilla.client.renderer.texture;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.PngSizeInfo;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.data.AnimationMetadataSection;
 import net.minecraft.util.ResourceLocation;
 
 public class TextureAtlasSpriteLongGrass extends TextureAtlasSprite {

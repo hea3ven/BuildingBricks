@@ -3,9 +3,7 @@ package com.hea3ven.buildingbricks.core.blocks;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

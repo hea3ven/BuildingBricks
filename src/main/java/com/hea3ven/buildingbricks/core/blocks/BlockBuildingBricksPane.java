@@ -30,7 +30,6 @@ public class BlockBuildingBricksPane extends BlockPane implements BlockBuildingB
 			EnumFacing side) {
 		if (!(state.getBlock() instanceof BlockPane)) {
 			return super.shouldSideBeRendered(state, world, pos, side);
-//			return !state.getBlock().isSideSolid(world, pos, side);
 		}
 		return false;
 	}
