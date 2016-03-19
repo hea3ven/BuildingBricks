@@ -127,7 +127,7 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 								}, false, false)
 						.endCategory()
 						.addCategory("compat")
-						.add(this.<ProxyModBuildingBricksCompatVanilla>getModule("compatvanilla").getConfig())
+						.add(this.getModule("compatvanilla").getConfig())
 						.endCategory()
 						.Update(new Consumer<Configuration>() {
 							@Override

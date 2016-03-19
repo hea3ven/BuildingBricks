@@ -27,20 +27,18 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
-import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.ProxyModModule;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.util.SidedCall;
 import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;
 
-public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
+public class ProxyModBuildingBricksCompatVanilla extends ProxyModModule {
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.CompatVanilla");
 
 	public static Block grassSlab;
 
-	public ProxyModBuildingBricksCompatVanilla(String modId) {
-		super(modId);
-
+	public ProxyModBuildingBricksCompatVanilla() {
 		grassSlab = new BlockGrassSlab().setUnlocalizedName("grass_slab");
 
 		MaterialResourceLoader.addDomain("minecraft");
@@ -58,6 +56,7 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModBase {
 //		});
 	}
 
+	@Override
 	public CategoryConfigManagerBuilder getConfig() {
 		return new CategoryConfigManagerBuilder("vanilla")
 				.addValue("replaceGrassTexture", "true", Type.BOOLEAN,
