@@ -43,7 +43,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	@Override
 	public void setMaterial(ItemStack stack, Material mat) {
-		if (stack.getItemDamage() != 0) {
+		if (stack.getMetadata() != 0) {
 			stack.setItemDamage(0);
 		}
 		if (mat == null) {
@@ -58,7 +58,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	@Override
 	public Material getMaterial(ItemStack stack) {
-		if (stack.getItemDamage() != 0) {
+		if (stack.getMetadata() != 0) {
 			setMaterial(stack, MaterialIdMapping.get().getMaterialById((short) stack.getItemDamage()));
 		}
 

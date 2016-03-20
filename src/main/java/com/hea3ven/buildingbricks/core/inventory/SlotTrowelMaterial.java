@@ -63,6 +63,8 @@ public class SlotTrowelMaterial extends Slot implements SlotCustom {
 
 	@Override
 	public ItemStack provideItemStack() {
+		MaterialStack.set(trowel, null);
+		player.setCurrentItemOrArmor(0, trowel);
 		return null;
 	}
 
