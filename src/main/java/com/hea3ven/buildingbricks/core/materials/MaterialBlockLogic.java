@@ -17,6 +17,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeColorHelper;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -60,6 +61,14 @@ public class MaterialBlockLogic {
 
 	public MaterialBlockType getBlockType() {
 		return blockType;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+		if (!structMat.getColor() || pos == null)
+			return 16777215;
+		else
+			return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
 	}
 
 	public BlockRenderLayer getBlockLayer() {

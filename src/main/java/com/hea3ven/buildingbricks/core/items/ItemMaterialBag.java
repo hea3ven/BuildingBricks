@@ -45,7 +45,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	@Override
 	public void setMaterial(ItemStack stack, Material mat) {
-		if (stack.getItemDamage() != 0) {
+		if (stack.getMetadata() != 0) {
 			stack.setItemDamage(0);
 		}
 		if (mat == null) {

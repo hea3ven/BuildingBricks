@@ -8,12 +8,16 @@ import java.util.function.Consumer;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -26,8 +30,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.compat.vanilla.ProxyModBuildingBricksCompatVanilla;
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
+import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.client.ModelBakerBlockMaterial;
 import com.hea3ven.buildingbricks.core.client.ModelBakerItemMaterial;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
@@ -44,6 +48,7 @@ import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
+import com.hea3ven.tools.commonutils.client.renderer.color.IColorHandler;
 import com.hea3ven.tools.commonutils.inventory.ISimpleGuiHandler;
 import com.hea3ven.tools.commonutils.mod.ProxyModComposite;
 import com.hea3ven.tools.commonutils.mod.config.ConfigManager;
@@ -202,6 +207,28 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 		addModelBaker(new ModelBakerItemMaterial("buildingbricks:item/material_bag",
 				"buildingbricks:material_bag#inventory", new Vector3f(0.25f, 0.3f, 0.4375f /* 0.125f*/),
 				new Vector3f(0.5f, 0.5f, 0.125001f)));
+	}
+
+	@SideOnly(Side.CLIENT)
+	protected void registerColors() {
+		addColors(new IColorHandler() {
+			@Override
+			public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
+				return ((BlockBuildingBricks) state.getBlock()).getBlockLogic()
+						.colorMultiplier(world, pos, tintIndex);
+			}
+
+			@Override
+			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				Material mat = MaterialStack.get(stack);
+				if (mat == null)
+					return 0;
+				else
+					return Minecraft.getMinecraft()
+							.getItemColors()
+							.getColorFromItemstack(mat.getFirstBlock().getStack(), tintIndex);
+			}
+		}, MaterialBlockRegistry.instance.getAllBlocks());
 	}
 
 	@Override

@@ -8,11 +8,15 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStoneSlab;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
@@ -23,10 +27,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.compat.vanilla.client.LongGrassTextureGenerator;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.MaterialStack;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
+import com.hea3ven.tools.commonutils.client.renderer.color.IColorHandler;
 import com.hea3ven.tools.commonutils.mod.ProxyModModule;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.util.SidedCall;
@@ -101,6 +108,29 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModModule {
 	@Override
 	protected void registerCreativeTabs() {
 		grassSlab.setCreativeTab(ModBuildingBricks.proxy.getCreativeTab("buildingBricks"));
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	protected void registerColors() {
+		addColors(new IColorHandler() {
+			@Override
+			public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
+				return ((BlockBuildingBricks) state.getBlock()).getBlockLogic()
+						.colorMultiplier(world, pos, tintIndex);
+			}
+
+			@Override
+			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				Material mat = MaterialStack.get(stack);
+				if (mat == null)
+					return 0;
+				else
+					return Minecraft.getMinecraft()
+							.getItemColors()
+							.getColorFromItemstack(mat.getFirstBlock().getStack(), tintIndex);
+			}
+		}, grassSlab);
 	}
 
 	@Override
