@@ -1,13 +1,17 @@
 package com.hea3ven.buildingbricks.core.client.model;
 
+import javax.vecmath.Matrix4f;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -19,7 +23,7 @@ import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack;
 
-public class ModelItemMaterial implements IBakedModel {
+public class ModelItemMaterial implements IBakedModel, IPerspectiveAwareModel {
 	public HashMap<Material, ModelItemMaterial> cache;
 
 	private IPerspectiveAwareModel base;
@@ -81,7 +85,7 @@ public class ModelItemMaterial implements IBakedModel {
 	}
 
 	@Override
-	public TextureAtlasSprite getParticleTexture(){
+	public TextureAtlasSprite getParticleTexture() {
 		return base.getParticleTexture();
 	}
 
@@ -96,17 +100,13 @@ public class ModelItemMaterial implements IBakedModel {
 		return overrides;
 	}
 
-//	@Override
-//	public IBakedModel handleItemState(ItemStack stack) {
-//		Material mat = MaterialStack.get(stack);
-//		if (mat == null)
-//			return this;
-//		else {
-//			return models.get(mat);
-//		}
-//	}
-
 	public void put(Material material, ModelItemMaterial model) {
 		cache.put(material, model);
+	}
+
+	@Override
+	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
+		Pair<? extends IBakedModel, Matrix4f> result = base.handlePerspective(cameraTransformType);
+		return Pair.of(this, result.getRight());
 	}
 }
