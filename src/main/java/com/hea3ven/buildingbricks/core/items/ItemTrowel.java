@@ -46,9 +46,14 @@ public class ItemTrowel extends Item implements ItemMaterial {
 		if (stack.getItemDamage() != 0) {
 			stack.setItemDamage(0);
 		}
-		if (!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setString("material", mat.getMaterialId());
+		if (mat == null) {
+			if (stack.hasTagCompound())
+				stack.getTagCompound().removeTag("material");
+		} else {
+			if (!stack.hasTagCompound())
+				stack.setTagCompound(new NBTTagCompound());
+			stack.getTagCompound().setString("material", mat.getMaterialId());
+		}
 	}
 
 	@Override
