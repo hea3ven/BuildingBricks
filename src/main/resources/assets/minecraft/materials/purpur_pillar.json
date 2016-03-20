@@ -1,0 +1,14 @@
+{
+	"name": "Purpur Pillar",
+	"id": "minecraft:purpur_pillar",
+	"type": "rock",
+	"hardness": 1.5,
+	"resistance": 10.0,
+	"textures": {
+		"top": "minecraft:blocks/purpur_pillar_top",
+		"side": "minecraft:blocks/purpur_pillar"
+	},
+	"blocks": {
+		"full": "minecraft:purpur_pillar"
+	}
+}
