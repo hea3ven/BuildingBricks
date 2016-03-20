@@ -18,6 +18,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -54,13 +55,13 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModModule {
 	@Override
 	public void onPreInitEvent(FMLPreInitializationEvent event) {
 		super.onPreInitEvent(event);
-//		SidedCall.run(Side.CLIENT, new SidedRunnable() {
-//			@Override
-//			@SideOnly(Side.CLIENT)
-//			public void run() {
-//				MinecraftForge.EVENT_BUS.register(new LongGrassTextureGenerator());
-//			}
-//		});
+		SidedCall.run(Side.CLIENT, new SidedRunnable() {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public void run() {
+				MinecraftForge.EVENT_BUS.register(new LongGrassTextureGenerator());
+			}
+		});
 	}
 
 	@Override

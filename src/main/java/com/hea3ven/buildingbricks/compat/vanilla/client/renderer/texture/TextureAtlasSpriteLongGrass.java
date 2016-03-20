@@ -1,8 +1,19 @@
 package com.hea3ven.buildingbricks.compat.vanilla.client.renderer.texture;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import org.apache.commons.io.IOUtils;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.PngSizeInfo;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class TextureAtlasSpriteLongGrass extends TextureAtlasSprite {
 	private final String topSpriteName;
@@ -19,62 +30,59 @@ public class TextureAtlasSpriteLongGrass extends TextureAtlasSprite {
 
 	@Override
 	public boolean load(IResourceManager manager, ResourceLocation location) {
-//		location = new ResourceLocation(getIconName());
-//		location = new ResourceLocation(location.getResourceDomain(),
-//				"textures/" + location.getResourcePath() + ".png");
+		IResource iresource = null;
+		try {
+			PngSizeInfo pngsizeinfo = PngSizeInfo.makeFromResource(manager.getResource(location));
+			IResource resource = manager.getResource(location);
+			loadSprite(pngsizeinfo, false);
 
-//		int mipmaps = Minecraft.getMinecraft().gameSettings.mipmapLevels;
-//		PngSizeInfo[] image = new PngSizeInfo[1 + mipmaps];
-//		PngSizeInfo topImage;
-//		boolean animation;
-//		try {
-//			IResource resource = manager.getResource(location);
-//			image[0] = PngSizeInfo.makeFromResource(resource);
+			BufferedImage bufferedimage = TextureUtil.readBufferedImage(resource.getInputStream());
 
-//			animation = resource.getMetadata("animation") != null;
+			location = new ResourceLocation(topSpriteName);
+			location = new ResourceLocation(location.getResourceDomain(),
+					"textures/" + location.getResourcePath() + ".png");
+			resource = manager.getResource(location);
+			BufferedImage topImage = TextureUtil.readBufferedImage(resource.getInputStream());
+			editImage(bufferedimage, topImage);
 
-//			location = new ResourceLocation(topSpriteName);
-//			location = new ResourceLocation(location.getResourceDomain(),
-//					"textures/" + location.getResourcePath() + ".png");
-//			resource = manager.getResource(location);
-//			topImage = PngSizeInfo.makeFromResource(resource);
-//		} catch (RuntimeException e) {
-//			return true;
-//		} catch (IOException e) {
-//			return true;
-//		}
+			int mipmaps = Minecraft.getMinecraft().gameSettings.mipmapLevels;
+			int[][] aint = new int[1 + mipmaps][];
+			aint[0] = new int[bufferedimage.getWidth() * bufferedimage.getHeight()];
+			bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), aint[0], 0,
+					bufferedimage.getWidth());
 
-//		editImage(image[0], topImage);
+			this.framesTextureData.add(aint);
 
-//		try {
-//			loadSprite(image[0], animation);
-//		} catch (IOException e) {
-//			return true;
-//		}
-		return false;
+			return false;
+		} catch (IOException e) {
+			FMLClientHandler.instance().trackMissingTexture(location);
+			return true;
+		} finally {
+			IOUtils.closeQuietly(iresource);
+		}
 	}
 
-//	private void editImage(PngSizeInfo sideImage, PngSizeInfo topImage) {
-//		int height = sideImage.pngHeight;
-//		int width = sideImage.pngWidth;
-//		int[] imgData = new int[width * height];
-//		sideImage.getRGB(0, 0, width, height, imgData, 0, width);
-//		int[] topImgData = new int[width * height];
-//		topImage.getRGB(0, 0, width, height, topImgData, 0, width);
+	private void editImage(BufferedImage sideImage, BufferedImage topImage) {
+		int height = sideImage.getHeight();
+		int width = sideImage.getWidth();
+		int[] imgData = new int[width * height];
+		sideImage.getRGB(0, 0, width, height, imgData, 0, width);
+		int[] topImgData = new int[width * height];
+		topImage.getRGB(0, 0, width, height, topImgData, 0, width);
 
-//		 Copy the top half to the bottom half
-//		for (int y = 0; y < height / 2; y++) {
-//			for (int x = 0; x < width; x++) {
-//				imgData[(height / 2 + y) * width + x] = imgData[y * width + x];
-//			}
-//		}
-//		 Copy half of the top image to the top half of the side image
-//		for (int y = 0; y < height / 2; y++) {
-//			for (int x = 0; x < width; x++) {
-//				imgData[y * width + x] = topImgData[y * width + x];
-//			}
-//		}
+		// Copy the top half to the bottom half
+		for (int y = 0; y < height / 2; y++) {
+			for (int x = 0; x < width; x++) {
+				imgData[(height / 2 + y) * width + x] = imgData[y * width + x];
+			}
+		}
+		// Copy half of the top image to the top half of the side image
+		for (int y = 0; y < height / 2; y++) {
+			for (int x = 0; x < width; x++) {
+				imgData[y * width + x] = topImgData[y * width + x];
+			}
+		}
 
-//		sideImage.setRGB(0, 0, width, height, imgData, 0, width);
-//	}
+		sideImage.setRGB(0, 0, width, height, imgData, 0, width);
+	}
 }
