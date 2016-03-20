@@ -1,3 +1,9 @@
+1.9-1.4.3:
+    * Update to Minecraft 1.9.
+    * Add materials for end bricks, purpur block and purpur pillar.
+    * Fix the material bag losing it's material.
+    * Fix wall posts not having textures when using resourcepacks, fixes #40.
+
 1.8.9-1.4.3:
     * Fix the material bag losing it's material.
     * Fix wall posts not having textures when using resourcepacks, fixes #40.

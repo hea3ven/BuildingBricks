@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.core.materials;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import net.minecraft.block.Block;
@@ -14,6 +15,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
 import static org.junit.Assert.*;
 
+@Ignore
 public class MaterialBlockRecipesTest {
 
 	private Block stubBlock;

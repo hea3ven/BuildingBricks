@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import net.minecraft.block.Block;
@@ -11,6 +12,7 @@ import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
+@Ignore
 public class BlockBuildingBricksStepTest extends BlockTestBase {
 
 	@Test
