@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IModelState;
+import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
