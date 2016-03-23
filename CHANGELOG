@@ -1,3 +1,6 @@
+1.8.9-1.4.4:
+    * Fix crash when generateBlocks is false and you break a grass slab.
+
 1.8.9-1.4.3:
     * Fix the material bag losing it's material.
     * Fix wall posts not having textures when using resourcepacks, fixes #40.
