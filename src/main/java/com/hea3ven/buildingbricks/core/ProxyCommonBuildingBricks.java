@@ -29,6 +29,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
@@ -89,6 +91,8 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 
 		super.onInitEvent(event);
 
+		RecipeSorter.register("buildingbricks:trowelbind", RecipeBindTrowel.class, Category.SHAPELESS,
+				"after:minecraft:shapeless");
 		MinecraftForge.EVENT_BUS.register(ModBuildingBricks.materialBag);
 		SidedCall.run(Side.CLIENT, new SidedRunnable() {
 			@Override
