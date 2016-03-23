@@ -1,6 +1,11 @@
+1.9-1.4.4:
+    * Add that material jsons merge when there is more than one for the same material id.
+    * Fix crash when generateBlocks is false and you break a grass slab.
+    * Fix crash with Forge versions higher than 12.16.0.1780.
+
 1.9-1.4.3:
-    * Update to Minecraft 1.9.
     * Add materials for end bricks, purpur block and purpur pillar.
+    * Update to Minecraft 1.9.
     * Fix the material bag losing it's material.
     * Fix wall posts not having textures when using resourcepacks, fixes #40.
 
