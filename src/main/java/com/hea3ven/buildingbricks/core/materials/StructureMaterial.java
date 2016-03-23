@@ -23,8 +23,7 @@ public enum StructureMaterial {
 	CLOTH(Material.cloth, BlockRenderLayer.SOLID, false, SoundType.CLOTH, 0.8f, -1, 0.6f, null,
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER}),
-	GRASS(Material.grass, BlockRenderLayer.CUTOUT_MIPPED, true, SoundType.PLANT, 0.6f, -1, 0.6f,
-			"shovel",
+	GRASS(Material.grass, BlockRenderLayer.CUTOUT_MIPPED, true, SoundType.PLANT, 0.6f, -1, 0.6f, "shovel",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER}),
 	GLASS(Material.glass, BlockRenderLayer.TRANSLUCENT, false, SoundType.GLASS, 0.3f, -1, 0.6f, null,
@@ -35,15 +34,16 @@ public enum StructureMaterial {
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER,
 					MaterialBlockType.WALL, MaterialBlockType.PANE}),
-	PACKED_ICE(Material.packedIce, BlockRenderLayer.SOLID, false, SoundType.GLASS, 0.5f, -1, 0.98f,
-			null,
+	PACKED_ICE(Material.packedIce, BlockRenderLayer.SOLID, false, SoundType.GLASS, 0.5f, -1, 0.98f, null,
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
 					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER,
 					MaterialBlockType.WALL, MaterialBlockType.PANE}),
-	SNOW(Material.craftedSnow, BlockRenderLayer.SOLID, false, SoundType.SNOW, 0.2f, -1, 0.6f,
-			"shovel",
+	SNOW(Material.craftedSnow, BlockRenderLayer.SOLID, false, SoundType.SNOW, 0.2f, -1, 0.6f, "shovel",
 			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
-					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER});
+					MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER}),
+	PLANT(Material.plants, BlockRenderLayer.SOLID, true, SoundType.PLANT, 0.6f, -1, 0.6f, null,
+			new MaterialBlockType[] {MaterialBlockType.FULL, MaterialBlockType.STAIRS, MaterialBlockType.SLAB,
+			MaterialBlockType.VERTICAL_SLAB, MaterialBlockType.STEP, MaterialBlockType.CORNER});
 
 	private Material mcMaterial;
 	private BlockRenderLayer blockLayer;

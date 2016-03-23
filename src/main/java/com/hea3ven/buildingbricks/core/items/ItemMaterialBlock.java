@@ -13,6 +13,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -327,7 +328,8 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 
 	private boolean convertBlock(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
 			ItemStack newStack, IBlockState newState) {
-		if (world.checkNoEntityCollision(newState.getBlock().getSelectedBoundingBox(newState, world, pos))) {
+		AxisAlignedBB box = newState.getBlock().getCollisionBoundingBox(newState, world, pos).offset(pos);
+		if (world.checkNoEntityCollision(box)) {
 			if (((ItemBlock) newStack.getItem()).placeBlockAt(stack, player, world, pos, null, 0.0f, 0.0f,
 					0.0f, newState)) {
 				SoundType soundtype = this.block.getSoundType();

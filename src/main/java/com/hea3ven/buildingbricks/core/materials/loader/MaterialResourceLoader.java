@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.ModContainer;
 
+import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
 
 public class MaterialResourceLoader {
@@ -22,12 +23,26 @@ public class MaterialResourceLoader {
 		for (ResourceLocation materialResLoc : scanner.scan("materials")) {
 			if (domains.contains(materialResLoc.getResourceDomain()) ||
 					isModLoaded(materialResLoc.getResourceDomain())) {
-				try (InputStream matStream = scanner.getResource(materialResLoc)) {
-					MaterialParser.loadMaterialFromStream(matStream);
+				try {
+					for (InputStream matStream : scanner.getAllResources(materialResLoc)) {
+						try(InputStream stream = matStream) {
+							MaterialParser.loadMaterialFromStream(stream);
+						}
+					}
 				} catch (IOException e) {
 					Throwables.propagate(e);
 				}
 			}
+		}
+		for (MaterialBuilderSimple builder : MaterialParser.materials.values()) {
+			Material mat = builder.build();
+			for (MaterialBlockType blockType : mat.getStructureMaterial().getBlockTypes()) {
+				if (mat.getBlock(blockType) == null) {
+					mat.addBlock(new BlockDescription(blockType,
+							MaterialBlockRecipes.getForType(mat.getStructureMaterial(), blockType)));
+				}
+			}
+			MaterialRegistry.registerMaterial(mat);
 		}
 	}
 

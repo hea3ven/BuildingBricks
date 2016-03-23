@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.core.materials;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
@@ -10,7 +11,7 @@ import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 public class Material {
 
 	private String materialId;
-	private HashMap<String, String> textures = new HashMap<>();
+	private Map<String, String> textures = new HashMap<>();
 	private StructureMaterial structureMaterial;
 	private BlockRotation blockRotation;
 	private float hardness = 1.0f;
@@ -29,10 +30,10 @@ public class Material {
 	}
 
 	public void setTexture(String name, String textureLocation) {
-		this.textures.put(name, textureLocation);
+		textures.put(name, textureLocation);
 	}
 
-	public HashMap<String, String> getTextures() {
+	public Map<String, String> getTextures() {
 		return textures;
 	}
 

@@ -30,6 +30,4 @@ public abstract class MaterialBuilder {
 			Map<String, NBTBase> tags, List<MaterialBlockRecipeBuilder> recipes);
 
 	public abstract void addBlock(MaterialBlockType type, List<MaterialBlockRecipeBuilder> recipes);
-
-	public abstract Material[] build();
 }

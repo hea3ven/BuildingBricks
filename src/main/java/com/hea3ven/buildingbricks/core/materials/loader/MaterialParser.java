@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,35 +14,30 @@ import com.google.gson.*;
 
 import net.minecraft.util.JsonUtils;
 
-import com.hea3ven.buildingbricks.core.materials.*;
+import com.hea3ven.buildingbricks.core.materials.Material;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
+import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public class MaterialParser {
 
 	static final Gson GSON =
-			(new GsonBuilder()).registerTypeAdapter(MaterialDefinition.class, new MaterialDeserializer())
+			(new GsonBuilder()).registerTypeAdapter(MaterialBuilder.class, new MaterialDeserializer())
 					.registerTypeAdapter(StructureMaterial.class, new StructureMaterialDeserializer())
 					.create();
 
-	public static void loadMaterialFromStream(InputStream matStream) {
-		MaterialDefinition matDef =
-				GSON.fromJson(new InputStreamReader(matStream, Charsets.UTF_8), MaterialDefinition.class);
+	static Map<String, MaterialBuilderSimple> materials = new HashMap<>();
 
-		for (Material mat : matDef.getMaterials()) {
-			for (MaterialBlockType blockType : mat.getStructureMaterial().getBlockTypes()) {
-				if (mat.getBlock(blockType) == null) {
-					mat.addBlock(new BlockDescription(blockType,
-							MaterialBlockRecipes.getForType(mat.getStructureMaterial(), blockType)));
-				}
-			}
-			MaterialRegistry.registerMaterial(mat);
-		}
+	public static void loadMaterialFromStream(InputStream matStream) {
+		MaterialBuilder matBuilder =
+				GSON.fromJson(new InputStreamReader(matStream, Charsets.UTF_8), MaterialBuilder.class);
 	}
 
-	public static class MaterialDeserializer implements JsonDeserializer<MaterialDefinition> {
+	public static class MaterialDeserializer implements JsonDeserializer<MaterialBuilder> {
 
 		@Override
-		public MaterialDefinition deserialize(JsonElement element, Type typeOfT,
+		public MaterialBuilder deserialize(JsonElement element, Type typeOfT,
 				JsonDeserializationContext context)
 				throws JsonParseException {
 			JsonObject json = element.getAsJsonObject();
@@ -50,18 +46,24 @@ public class MaterialParser {
 				throw new JsonParseException("material does not have an id");
 
 			MaterialBuilder matBuilder;
-			if (!json.has("meta"))
-				matBuilder = new MaterialBuilderSimple(json.get("id").getAsString());
-			else if (json.get("meta").getAsString().equals("dye")) {
-				matBuilder = new MaterialBuilderDyeMeta(json.get("id").getAsString());
+			String matId = json.get("id").getAsString();
+			if (!json.has("meta")) {
+				matBuilder = materials.get(matId);
+				if (matBuilder == null) {
+					matBuilder = new MaterialBuilderSimple(matId);
+					materials.put(matId, (MaterialBuilderSimple) matBuilder);
+				}
+			} else if (json.get("meta").getAsString().equals("dye")) {
+				matBuilder = new MaterialBuilderDyeMeta(materials, matId);
 			} else {
 				throw new JsonParseException("invalid meta specified");
 			}
 
-			if (!json.has("type"))
-				throw new JsonParseException("material does not have a type");
-			StructureMaterial structMat = context.deserialize(json.get("type"), StructureMaterial.class);
-			matBuilder.setStructureMaterial(structMat);
+			StructureMaterial structMat = null;
+			if (json.has("type")) {
+				structMat = context.deserialize(json.get("type"), StructureMaterial.class);
+				matBuilder.setStructureMaterial(structMat);
+			}
 
 			if (json.has("hardness")) {
 				matBuilder.setHardness(json.get("hardness").getAsFloat());
@@ -79,52 +81,58 @@ public class MaterialParser {
 				matBuilder.setSilkHarvestMaterial(json.get("silkHarvest").getAsString());
 			}
 
-			if (!json.has("textures"))
-				throw new JsonParseException("material does not have textures");
-			if (json.get("textures").isJsonPrimitive())
-				matBuilder.setTextures(ImmutableMap.<String, String>builder()
-						.put("all", json.get("textures").getAsString())
-						.build());
-			else {
-				JsonObject textures = json.get("textures").getAsJsonObject();
-				ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
-				for (Map.Entry<String, JsonElement> entry : textures.entrySet()) {
-					builder.put(entry.getKey(), entry.getValue().getAsString());
+			if (json.has("textures")) {
+				if (json.get("textures").isJsonPrimitive())
+					matBuilder.setTextures(ImmutableMap.<String, String>builder()
+							.put("all", json.get("textures").getAsString())
+							.build());
+				else {
+					JsonObject textures = json.get("textures").getAsJsonObject();
+					ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
+					for (Map.Entry<String, JsonElement> entry : textures.entrySet()) {
+						builder.put(entry.getKey(), entry.getValue().getAsString());
+					}
+					matBuilder.setTextures(builder.build());
 				}
-				matBuilder.setTextures(builder.build());
 			}
 
-			for (Map.Entry<String, JsonElement> blockEntry : json.get("blocks")
-					.getAsJsonObject()
-					.entrySet()) {
-				MaterialBlockType type = MaterialBlockType.valueOf(blockEntry.getKey().toUpperCase());
-				if (blockEntry.getValue().isJsonPrimitive()) {
-					String blockName = blockEntry.getValue().getAsString();
-					matBuilder.addBlock(type, blockName, 0, null, null);
-				} else {
-					JsonObject blockJson = blockEntry.getValue().getAsJsonObject();
-
-					List<MaterialBlockRecipeBuilder> recipes = null;
-					if (blockJson.has("recipes")) {
-						recipes = parseRecipes(blockJson.getAsJsonArray("recipes"));
-					}
-
-					if (blockJson.has("id")) {
-						String blockName = blockJson.get("id").getAsString();
-						int meta = blockJson.get("meta").getAsInt();
-						matBuilder.addBlock(type, blockName, meta, null, recipes);
+			if (json.has("blocks")) {
+				for (Map.Entry<String, JsonElement> blockEntry : json.get("blocks")
+						.getAsJsonObject()
+						.entrySet()) {
+					MaterialBlockType type = MaterialBlockType.valueOf(blockEntry.getKey().toUpperCase());
+					if (blockEntry.getValue().isJsonPrimitive()) {
+						String blockName = blockEntry.getValue().getAsString();
+						matBuilder.addBlock(type, blockName, 0, null, null);
 					} else {
-						if (recipes == null)
-							recipes = MaterialBlockRecipes.getForType(structMat, type);
-						if (blockJson.has("recipes_add")) {
-							recipes.addAll(parseRecipes(blockJson.getAsJsonArray("recipes_add")));
+						JsonObject blockJson = blockEntry.getValue().getAsJsonObject();
+
+						List<MaterialBlockRecipeBuilder> recipes = null;
+						if (blockJson.has("recipes")) {
+							recipes = parseRecipes(blockJson.getAsJsonArray("recipes"));
 						}
-						matBuilder.addBlock(type, recipes);
+
+						if (blockJson.has("id")) {
+							String blockName = blockJson.get("id").getAsString();
+							int meta = blockJson.get("meta").getAsInt();
+							matBuilder.addBlock(type, blockName, meta, null, recipes);
+						} else {
+							if (recipes == null) {
+								if (structMat != null)
+									recipes = MaterialBlockRecipes.getForType(structMat, type);
+								else
+									recipes = new ArrayList<>();
+							}
+							if (blockJson.has("recipes_add")) {
+								recipes.addAll(parseRecipes(blockJson.getAsJsonArray("recipes_add")));
+							}
+							matBuilder.addBlock(type, recipes);
+						}
 					}
 				}
 			}
 
-			return new MaterialDefinition(matBuilder.build());
+			return matBuilder;
 		}
 
 		private List<MaterialBlockRecipeBuilder> parseRecipes(JsonArray recipesData) {

@@ -98,8 +98,7 @@ public class MaterialBuilderSimple extends MaterialBuilder {
 		mat.addBlock(new BlockDescription(type, recipes));
 	}
 
-	@Override
-	public Material[] build() {
-		return new Material[] {mat};
+	public Material build() {
+		return mat;
 	}
 }

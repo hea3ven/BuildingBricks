@@ -110,8 +110,7 @@ public class CommandCreateMaterial extends CommandBase {
 					.toJson(mat)
 					.replace("  ", "\t");
 			Path outputPath = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), "config",
-					"BuildingBricks", "resources", "assets", "buildingbricks", "materials",
-					id.split(":")[0]);
+					"BuildingBricks", "resources", "assets", id.split(":")[0], "materials");
 			if (!Files.exists(outputPath))
 				try {
 					Files.createDirectories(outputPath);
