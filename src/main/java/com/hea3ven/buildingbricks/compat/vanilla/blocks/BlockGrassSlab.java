@@ -25,10 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockBuildingBricksSlab;
 import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
-import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
-import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
+import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 
 public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMaterial {
@@ -62,10 +59,9 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		List<ItemStack> stacks = new ArrayList<>();
-		stacks.add(MaterialRegistry.get("minecraft:dirt")
-				.getBlock(MaterialBlockType.SLAB)
-				.getStack()
-				.copy());
+		BlockDescription slabBlock = MaterialRegistry.get("minecraft:dirt").getBlock(MaterialBlockType.SLAB);
+		if (slabBlock != null)
+			stacks.add(slabBlock.getStack().copy());
 		return stacks;
 	}
 
