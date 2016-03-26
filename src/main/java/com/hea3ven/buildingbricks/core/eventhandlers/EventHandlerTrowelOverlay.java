@@ -27,14 +27,14 @@ public class EventHandlerTrowelOverlay {
 
 	@SubscribeEvent
 	public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
-		if (event.type == ElementType.HOTBAR) {
+		if (event.getType() == ElementType.HOTBAR) {
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 			HeldEquipment equipment = PlayerUtil.getHeldEquipment(player, ModBuildingBricks.trowel);
 			if (equipment != null && equipment.stack.getItem() == ModBuildingBricks.trowel) {
 				Material mat = ModBuildingBricks.trowel.getMaterial(equipment.stack);
 				if (mat != null) {
 					MaterialBlockType type = ModBuildingBricks.trowel.getCurrentBlockType(equipment.stack);
-					renderTrowelOverlay(event.resolution, event.partialTicks, mat, type);
+					renderTrowelOverlay(event.getResolution(), event.getPartialTicks(), mat, type);
 				}
 			}
 		}

@@ -38,60 +38,61 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 
 	@SubscribeEvent
 	public void onPopulateChunkPreEvent(PopulateChunkEvent.Pre event) {
-		IChunkProvider chunkProvider = event.world.getChunkProvider();
-		int x = event.chunkX << 4;
-		int z = event.chunkZ << 4;
+		IChunkProvider chunkProvider = event.getWorld().getChunkProvider();
+		int x = event.getChunkX() << 4;
+		int z = event.getChunkZ() << 4;
 		int offX = 16;
 		int offZ = 16;
-		if (chunkProvider.getLoadedChunk(event.chunkX - 1, event.chunkZ) != null) {
+		if (chunkProvider.getLoadedChunk(event.getChunkX() - 1, event.getChunkZ()) != null) {
 			x--;
 			offX++;
 		} else {
 			x++;
 			offX--;
 		}
-		if (chunkProvider.getLoadedChunk(event.chunkX, event.chunkZ - 1) != null) {
+		if (chunkProvider.getLoadedChunk(event.getChunkX(), event.getChunkZ() - 1) != null) {
 			z--;
 			offZ++;
 		} else {
 			z++;
 			offZ--;
 		}
-		if (chunkProvider.getLoadedChunk(event.chunkX + 1, event.chunkZ) != null)
+		if (chunkProvider.getLoadedChunk(event.getChunkX() + 1, event.getChunkZ()) != null)
 			offX++;
 		else
 			offX--;
-		if (chunkProvider.getLoadedChunk(event.chunkX, event.chunkZ + 1) != null)
+		if (chunkProvider.getLoadedChunk(event.getChunkX(), event.getChunkZ() + 1) != null)
 			offZ++;
 		else
 			offZ--;
 		posLoop:
 		for (ModifiableBlockPos pos : BlockPosUtil.getBox(new BlockPos(x, 0, z), offX, 1, offZ)) {
-			while (pos.getY() < 255 && event.world.getBlockState(pos).getBlock() != Blocks.grass) {
+			while (pos.getY() < 255 && event.getWorld().getBlockState(pos).getBlock() != Blocks.grass) {
 				pos.up();
 			}
 			if (pos.getY() >= 255) {
 				continue;
 			}
 
-			if (event.chunkX == -4 && event.chunkZ == 4)
-			for (EnumFacing face : EnumFacing.HORIZONTALS) {
-				pos.offset(face, 1);
-				Block block = event.world.getBlockState(pos).getBlock();
-				if (block.isReplaceable(event.world, pos) ||
-						block == ProxyModBuildingBricksCompatVanilla.grassSlab)
-					continue posLoop;
-				pos.offset(face, -1);
-			}
+			if (event.getChunkX() == -4 && event.getChunkZ() == 4)
+				for (EnumFacing face : EnumFacing.HORIZONTALS) {
+					pos.offset(face, 1);
+					Block block = event.getWorld().getBlockState(pos).getBlock();
+					if (block.isReplaceable(event.getWorld(), pos) ||
+							block == ProxyModBuildingBricksCompatVanilla.grassSlab)
+						continue posLoop;
+					pos.offset(face, -1);
+				}
 
 			pos.up();
 
 			for (EnumFacing face : EnumFacing.HORIZONTALS) {
 				pos.offset(face, 1);
-				if (event.world.getBlockState(pos).getBlock() == Blocks.grass) {
+				if (event.getWorld().getBlockState(pos).getBlock() == Blocks.grass) {
 					pos.offset(face, -1);
-					event.world.setBlockState(pos, ProxyModBuildingBricksCompatVanilla.grassSlab.getDefaultState(),
-							2);
+					event.getWorld()
+							.setBlockState(pos,
+									ProxyModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
 					continue posLoop;
 				}
 				pos.offset(face, -1);

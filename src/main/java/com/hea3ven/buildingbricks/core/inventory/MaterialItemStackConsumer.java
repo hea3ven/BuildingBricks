@@ -69,7 +69,7 @@ public class MaterialItemStackConsumer {
 
 		// Fix for player inventory
 		int inventorySize = inventory.getSlots();
-		if (inventory instanceof InvWrapper && ((InvWrapper) inventory).inv instanceof InventoryPlayer) {
+		if (inventory instanceof InvWrapper && ((InvWrapper) inventory).getInv() instanceof InventoryPlayer) {
 			inventorySize -= 4;
 		}
 		for (int i = 0; i < inventorySize; i++) {

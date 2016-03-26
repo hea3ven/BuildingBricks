@@ -60,7 +60,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 	public void onTextureStichPreEvent(TextureStitchEvent.Pre event) {
 		for (Material mat : MaterialRegistry.getAll()) {
 			particleTextures.put(mat,
-					event.map.registerSprite(new ResourceLocation(mat.getTextures().get("particle"))));
+					event.getMap().registerSprite(new ResourceLocation(mat.getTextures().get("particle"))));
 		}
 	}
 

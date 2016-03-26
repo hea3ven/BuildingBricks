@@ -22,8 +22,8 @@ public class GuiMaterialBag extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		this.fontRendererObj.drawString(String.format("%.2f",
-				((ItemHandlerMaterialBag) ((SlotItemHandler) inventorySlots.inventorySlots.get(
-						0)).itemHandler).getCurrentVolume() / 1000f), 70, 64, 4210752);
+				((ItemHandlerMaterialBag) ((SlotItemHandler) inventorySlots.inventorySlots.get(0))
+						.getItemHandler()).getCurrentVolume() / 1000f), 70, 64, 4210752);
 	}
 
 	@Override

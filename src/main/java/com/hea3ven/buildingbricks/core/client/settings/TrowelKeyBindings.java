@@ -48,7 +48,7 @@ public class TrowelKeyBindings {
 		return new Function<MouseEvent, Boolean>() {
 			@Override
 			public Boolean apply(MouseEvent event) {
-				TrowelRotateBlockTypeMessage.send(event.dwheel < 0, null);
+				TrowelRotateBlockTypeMessage.send(event.getDwheel() < 0, null);
 				return true;
 			}
 		};

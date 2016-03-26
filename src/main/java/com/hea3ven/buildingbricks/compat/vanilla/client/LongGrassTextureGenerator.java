@@ -23,7 +23,7 @@ public class LongGrassTextureGenerator {
 	public void onTextureStichPreEvent(final TextureStitchEvent.Pre event) {
 		if (forceEnabled || (enabled && GrassSlabWorldGen.enabled)) {
 			Map<String, TextureAtlasSprite> map =
-					ReflectionHelper.getPrivateValue(TextureMap.class, event.map, 5);
+					ReflectionHelper.getPrivateValue(TextureMap.class, event.getMap(), 5);
 			map.put("minecraft:blocks/grass_side_overlay",
 					new TextureAtlasSpriteLongGrass("minecraft:blocks/grass_side_overlay",
 							"minecraft:blocks/grass_top"));

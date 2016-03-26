@@ -203,14 +203,14 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		if (event.isCanceled())
 			return;
 
-		ItemStack stack = event.item.getEntityItem();
+		ItemStack stack = event.getItem().getEntityItem();
 		if (stack == null || stack.stackSize <= 0)
 			return;
 		Material mat = MaterialRegistry.getMaterialForStack(stack);
 		if (mat == null)
 			return;
 
-		ItemStack bagStack = findBag(new InvWrapper(event.entityPlayer.inventory), mat);
+		ItemStack bagStack = findBag(new InvWrapper(event.getEntityPlayer().inventory), mat);
 		if (bagStack == null)
 			return;
 
