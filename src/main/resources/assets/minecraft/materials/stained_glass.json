@@ -8,7 +8,7 @@
 	"silkHarvest": "minecraft:stained_glass",
 	"textures": "minecraft:blocks/glass",
 	"blocks": {
-		"full": {"id:": "minecraft:stained_glass", "meta": -1},
+		"full": {"id": "minecraft:stained_glass", "meta": -1},
 		"pane": {"id": "minecraft:stained_glass_pane", "meta": -1}
 	}
 }
