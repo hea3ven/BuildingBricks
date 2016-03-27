@@ -1,3 +1,8 @@
+1.9-1.4.5:
+    * Update to Forge 12.16.0.1811.
+    * Fix the stained glass material generating a duplicate stained glass block.
+    * Fix crash when an item has an invalid material.
+
 1.9-1.4.4:
     * Add that material jsons merge when there is more than one for the same material id.
     * Fix crash when generateBlocks is false and you break a grass slab.

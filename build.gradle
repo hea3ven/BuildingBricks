@@ -28,9 +28,9 @@ apply from: 'mcbuild.gradle'
 import groovy.io.FileType
 
 dependencies {
-	compile project(':CommonUtils')
-	// compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:2.0.1'
-	release 'com.hea3ven.tools.commonutils:h3nt-commonutils:2.0.1'
+	// compile project(':CommonUtils')
+	compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:2.1.0:deobf'
+	release 'com.hea3ven.tools.commonutils:h3nt-commonutils:2.1.0'
 
 	testCompile "junit:junit:4.12"
 }
