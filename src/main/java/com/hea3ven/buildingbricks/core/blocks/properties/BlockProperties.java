@@ -1,12 +1,12 @@
 package com.hea3ven.buildingbricks.core.blocks.properties;
 
+import net.minecraft.block.BlockSlab.EnumBlockHalf;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 
-import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 
 public class BlockProperties {

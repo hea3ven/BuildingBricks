@@ -204,13 +204,10 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 		boolean vertical = state.getValue(BlockProperties.VERTICAL);
 		EnumFacing blockSide = state.getValue(BlockProperties.ROTATION).getSide();
 		if (!vertical) {
-			com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf blockHalf =
-					state.getValue(BlockProperties.HALF);
+			EnumBlockHalf blockHalf = state.getValue(BlockProperties.HALF);
 			boolean join;
-			if ((((blockHalf == com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf.BOTTOM &&
-					hitY >= 0.5f) ||
-					(blockHalf == com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf.TOP &&
-							hitY <= 0.5f)))) {
+			if ((((blockHalf == EnumBlockHalf.BOTTOM && hitY >= 0.5f) ||
+					(blockHalf == EnumBlockHalf.TOP && hitY <= 0.5f)))) {
 				join = (blockSide.getDirectionVec().getX() > 0 && hitX >= 0.5f) ||
 						(blockSide.getDirectionVec().getX() < 0 && hitX <= 0.5f) ||
 						(blockSide.getDirectionVec().getZ() > 0 && hitZ >= 0.5f) ||
@@ -226,7 +223,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 				BlockDescription blockDesc = mat.getBlock(MaterialBlockType.SLAB);
 
 				IBlockState newState = getStateFromStack(blockDesc);
-				newState = newState.withProperty(BlockSlab.HALF, blockHalf.toSlabEnum());
+				newState = newState.withProperty(BlockSlab.HALF, blockHalf);
 				return convertBlock(stack, player, world, pos, blockDesc.getStack(), newState);
 			}
 		} else {
@@ -263,11 +260,9 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 	private boolean tryCombineCorner(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
 			IBlockState state, EnumFacing side, float hitX, float hitY, float hitZ) {
 		EnumFacing blockSide = state.getValue(BlockProperties.ROTATION).getSide();
-		com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf blockHalf =
-				state.getValue(BlockProperties.HALF);
-		if ((((blockHalf == com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf.BOTTOM &&
-				hitY >= 0.5f) || (blockHalf == com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf.TOP &&
-				hitY <= 0.5f)))) {
+		EnumBlockHalf blockHalf = state.getValue(BlockProperties.HALF);
+		if ((((blockHalf == EnumBlockHalf.BOTTOM && hitY >= 0.5f) ||
+				(blockHalf == EnumBlockHalf.TOP && hitY <= 0.5f)))) {
 			boolean join = false;
 			if (blockSide == EnumFacing.NORTH && hitX <= 0.5f && hitZ <= 0.5f) {
 				join = true;
@@ -285,8 +280,7 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 				IBlockState newState = getStateFromStack(blockDesc);
 				newState =
 						newState.withProperty(BlockProperties.ROTATION, EnumRotation.getRotation(blockSide));
-				newState = newState.withProperty(BlockProperties.HALF,
-						com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf.BOTTOM);
+				newState = newState.withProperty(BlockProperties.HALF, EnumBlockHalf.BOTTOM);
 				newState = newState.withProperty(BlockProperties.VERTICAL, true);
 				return convertBlock(stack, player, world, pos, blockDesc.getStack(), newState);
 			}

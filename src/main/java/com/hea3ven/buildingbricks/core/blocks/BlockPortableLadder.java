@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSlab.EnumBlockHalf;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -19,7 +20,6 @@ import net.minecraft.world.World;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
-import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 
 public class BlockPortableLadder extends Block {
 
@@ -42,7 +42,7 @@ public class BlockPortableLadder extends Block {
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState state = getDefaultState();
 		state = BlockProperties.setSide(state, EnumFacing.getHorizontal(meta & 0x3));
-		state = BlockProperties.setHalf(state, EnumBlockHalf.getHalf((meta >> 2) & 0x1));
+		state = BlockProperties.setHalf(state, EnumBlockHalf.values()[(meta >> 2) & 0x1]);
 		return state;
 	}
 

@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core.blocks;
 
+import net.minecraft.block.BlockSlab.EnumBlockHalf;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -14,7 +15,6 @@ import net.minecraft.world.World;
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricksNonSolid;
 import com.hea3ven.tools.commonutils.util.BlockStateUtil;
 import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
-import com.hea3ven.buildingbricks.core.blockstate.EnumBlockHalf;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
@@ -40,7 +40,7 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int meta = 0;
-		meta |= BlockProperties.getHalf(state).getMetaValue() << 2;
+		meta |= BlockProperties.getHalf(state).ordinal() << 2;
 		meta |= BlockProperties.getRotation(state).getMetaValue();
 		return meta;
 	}
@@ -48,7 +48,7 @@ public class BlockBuildingBricksCorner extends BlockBuildingBricksNonSolid {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState state = this.getDefaultState();
-		state = BlockProperties.setHalf(state, EnumBlockHalf.getHalf((meta & 0x4) >> 2));
+		state = BlockProperties.setHalf(state, EnumBlockHalf.values()[(meta & 0x4) >> 2]);
 		state = BlockProperties.setRotation(state, EnumRotation.getRotation(meta & 0x3));
 		return state;
 	}
