@@ -63,14 +63,14 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int meta = 0;
-		meta |= getHalf(state).ordinal();
+		meta |= state.getValue(HALF).ordinal();
 		return meta;
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState state = this.getDefaultState();
-		state = setHalf(state, (meta & 0x1) == 0 ? EnumBlockHalf.BOTTOM : EnumBlockHalf.TOP);
+		state = state.withProperty(HALF, (meta & 0x1) == 1 ? EnumBlockHalf.BOTTOM : EnumBlockHalf.TOP);
 		return state;
 	}
 
