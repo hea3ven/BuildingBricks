@@ -27,6 +27,13 @@ apply from: 'mcbuild.gradle'
 
 import groovy.io.FileType
 
+repositories {
+	maven {
+		name = "amadornes"
+		url = "http://maven.amadornes.com/"
+	}
+}
+
 dependencies {
     release "com.hea3ven.tools.mappings:h3nt-mappings:${version_h3nt_mappings}"
 
@@ -37,6 +44,8 @@ dependencies {
 	// compile project(':CommonUtils')
 	compile "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}:deobf"
 	release "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}"
+
+	deobfCompile "MCMultiPart:MCMultiPart-experimental:1.1.1_57:universal"
 
 	testCompile "junit:junit:4.12"
 }

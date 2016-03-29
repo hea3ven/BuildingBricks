@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagString;
 
@@ -29,6 +30,8 @@ import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;
 public class MaterialBlockRegistry {
 
 	public static MaterialBlockRegistry instance = new MaterialBlockRegistry();
+
+	public static Class<? extends ItemBlock> itemCls = ItemMaterialBlock.class;
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialBlockRegistry");
 

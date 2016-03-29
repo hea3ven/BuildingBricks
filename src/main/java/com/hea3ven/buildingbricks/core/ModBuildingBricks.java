@@ -36,10 +36,11 @@ public class ModBuildingBricks {
 	public static final String MODID = "buildingbricks";
 	public static final String VERSION = "PROJECTVERSION";
 	public static final String FORGE_DEPENDENCY = "Forge@[FORGEVERSION,)";
+	public static final String MCMULTIPART_DEPENDENCY = "mcmultipart@[1.1.1_57,)";
 
 	public static final Logger logger = LogManager.getLogger("BuildingBricks");
 
-	public static ProxyCommonBuildingBricks proxy = new ProxyCommonBuildingBricks();
+	public static ProxyCommonBuildingBricks proxy;
 
 	static ResourceScanner resScanner;
 
@@ -49,6 +50,7 @@ public class ModBuildingBricks {
 
 	@Subscribe
 	public void construction(FMLConstructionEvent event) {
+		proxy = new ProxyCommonBuildingBricks();
 		Path resourcesDir;
 		if (event.getSide() == Side.CLIENT) {
 			resScanner = new ResourceScannerClient();

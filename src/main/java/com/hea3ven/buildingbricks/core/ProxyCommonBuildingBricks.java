@@ -73,6 +73,8 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 
 		addModule("compatvanilla",
 				"com.hea3ven.buildingbricks.compat.vanilla.ProxyModBuildingBricksCompatVanilla");
+		addModule("mcmultipart", "mcmultipart",
+				"com.hea3ven.buildingbricks.compat.mcmultipart.ProxyModBuildingBricksCompatMcMultipart");
 
 		ModBuildingBricks.trowel = (ItemTrowel) new ItemTrowel().
 				setUnlocalizedName("trowel");

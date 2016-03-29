@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import com.hea3ven.tools.commonutils.util.PlaceParams;
 
 public abstract class PlacementHandlerBase implements IBlockPlacementHandler {
-	protected IBlockState placeBlock(World world, EntityLivingBase placer, PlaceParams params,
+	protected IBlockState calculatePlaceState(World world, EntityLivingBase placer, PlaceParams params,
 			ItemStack stack,
 			Block block) {
 		int meta = stack.getItem().getMetadata(stack.getMetadata());

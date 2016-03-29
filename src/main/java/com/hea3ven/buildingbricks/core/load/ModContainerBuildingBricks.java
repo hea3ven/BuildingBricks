@@ -55,7 +55,8 @@ public class ModContainerBuildingBricks extends DummyModContainer {
 	@Override
 	public List<ArtifactVersion> getDependencies() {
 		return Lists.newArrayList(
-				VersionParser.parseVersionReference(ModBuildingBricks.FORGE_DEPENDENCY));
+				VersionParser.parseVersionReference(ModBuildingBricks.FORGE_DEPENDENCY),
+				VersionParser.parseVersionReference(ModBuildingBricks.MCMULTIPART_DEPENDENCY));
 	}
 
 	@Override

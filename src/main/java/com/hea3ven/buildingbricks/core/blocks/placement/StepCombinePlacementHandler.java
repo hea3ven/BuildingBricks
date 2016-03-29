@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -18,6 +19,7 @@ import com.hea3ven.buildingbricks.core.materials.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.tools.commonutils.util.ItemBlockUtil;
 import com.hea3ven.tools.commonutils.util.PlaceParams;
 
 public class StepCombinePlacementHandler extends PlacementHandlerBase {
@@ -29,12 +31,13 @@ public class StepCombinePlacementHandler extends PlacementHandlerBase {
 	}
 
 	@Override
-	public IBlockState place(World world, ItemStack stack, EntityLivingBase placer, Material mat,
+	public EnumActionResult place(World world, ItemStack stack, EntityLivingBase placer, Material mat,
 			IBlockState state, PlaceParams params) {
 
 		if (!(state.getBlock() instanceof BlockBuildingBricksStep))
-			return null;
+			return EnumActionResult.PASS;
 
+		IBlockState newState = null;
 		// TODO: use math
 		boolean vertical = state.getValue(BlockProperties.VERTICAL);
 		EnumFacing blockSide = state.getValue(BlockProperties.ROTATION).getSide();
@@ -66,7 +69,7 @@ public class StepCombinePlacementHandler extends PlacementHandlerBase {
 				}
 			}
 			if (blockDesc != null) {
-				return placeBlock(world, placer, newParams,
+				newState = calculatePlaceState(world, placer, newParams,
 						mat.getBlock(blockDesc.getType().getStackType()).getStack().copy(),
 						blockDesc.getBlock());
 			}
@@ -93,16 +96,21 @@ public class StepCombinePlacementHandler extends PlacementHandlerBase {
 				PlaceParams newParams = new PlaceParams(params.pos, newSide.getOpposite(),
 						new Vec3d(0.5d + 0.5d * newSide.getFrontOffsetX(), 0.5d,
 								0.5d + 0.5d * newSide.getFrontOffsetZ()), 1.0d);
-				return placeBlock(world, placer, newParams,
+				newState = calculatePlaceState(world, placer, newParams,
 						mat.getBlock(MaterialBlockType.VERTICAL_SLAB.getStackType()).getStack().copy(),
 						blockDesc.getBlock());
 			}
 		}
-		return null;
+
+		if(newState == null)
+			return EnumActionResult.PASS;
+		if (ItemBlockUtil.placeBlock(stack, placer, world, params.pos, newState))
+			return EnumActionResult.SUCCESS;
+		return EnumActionResult.PASS;
 	}
 
 	@Override
-	public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing side, EntityPlayer player,
+	public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing side, EntityPlayer placer,
 			ItemStack stack) {
 		Block block = world.getBlockState(pos).getBlock();
 
