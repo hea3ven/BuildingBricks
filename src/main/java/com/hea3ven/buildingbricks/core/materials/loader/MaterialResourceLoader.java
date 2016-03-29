@@ -1,11 +1,8 @@
 package com.hea3ven.buildingbricks.core.materials.loader;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.google.common.base.Throwables;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -25,12 +22,12 @@ public class MaterialResourceLoader {
 					isModLoaded(materialResLoc.getResourceDomain())) {
 				try {
 					for (InputStream matStream : scanner.getAllResources(materialResLoc)) {
-						try(InputStream stream = matStream) {
+						try (InputStream stream = matStream) {
 							MaterialParser.loadMaterialFromStream(stream);
 						}
 					}
-				} catch (IOException e) {
-					Throwables.propagate(e);
+				} catch (Exception e) {
+					throw new RuntimeException("Could not load material from " + materialResLoc, e);
 				}
 			}
 		}
