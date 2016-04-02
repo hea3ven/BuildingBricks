@@ -27,6 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
 import com.hea3ven.buildingbricks.compat.vanilla.client.LongGrassTextureGenerator;
+import com.hea3ven.buildingbricks.compat.vanilla.items.ItemBlockGrassSlab;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
@@ -103,7 +104,7 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModModule {
 
 	@Override
 	protected void registerBlocks() {
-//		addBlock(grassSlab, "grass_slab", ItemBlockGrassSlab.class);
+		addBlock(grassSlab, "grass_slab", ItemBlockGrassSlab.class);
 	}
 
 	@Override
