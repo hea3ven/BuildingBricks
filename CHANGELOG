@@ -1,3 +1,8 @@
+1.9-1.4.6:
+    * Update to Forge 12.16.0.1830.
+    * Fix blocks recipes being all mixed up.
+    * Fix rare crash when loading materials, fixes #46.
+
 1.9-1.4.5:
     * Update to Forge 12.16.0.1811.
     * Fix the stained glass material generating a duplicate stained glass block.
