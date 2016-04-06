@@ -11,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -44,6 +43,7 @@ import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
+import com.hea3ven.buildingbricks.core.items.crafting.RecipeBlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
@@ -93,6 +93,8 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 
 		RecipeSorter.register("buildingbricks:trowelbind", RecipeBindTrowel.class, Category.SHAPELESS,
 				"after:minecraft:shapeless");
+		RecipeSorter.register("buildingbricks:blockmaterial", RecipeBlockMaterial.class, Category.SHAPED,
+				"after:minecraft:shaped");
 		MinecraftForge.EVENT_BUS.register(ModBuildingBricks.materialBag);
 		SidedCall.run(Side.CLIENT, new SidedRunnable() {
 			@Override
