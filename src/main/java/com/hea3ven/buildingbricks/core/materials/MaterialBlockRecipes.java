@@ -97,7 +97,7 @@ public class MaterialBlockRecipes {
 
 		@Override
 		protected IRecipe createShapedRecipe(ItemStack result, Object[] inputs) {
-			return RecipeBlockMaterial.createRecipe(result, inputs);
+			return new RecipeBlockMaterial(result, inputs);
 		}
 	}
 }
