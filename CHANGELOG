@@ -1,3 +1,6 @@
+1.9-1.4.7:
+    * Fix bootstrap using the wrong version of CommonUtils.
+
 1.9-1.4.6:
     * Update to Forge 12.16.0.1830.
     * Fix blocks recipes being all mixed up.

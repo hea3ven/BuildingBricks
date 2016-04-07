@@ -15,21 +15,22 @@
         "1.1.1": "    * Fix startup crash on windows.\n    * Fix invisible faces on stairs when stacked on top of each other."
     },
     "1.9": {
-        "commit": "0ef3e746f6708b3828278e1fb4dc8bcf75e5075d",
+        "commit": "5e3883613138fc0ea7ace71a90544a017ac2c417",
         "1.9-1.4.4": "    * Add that material jsons merge when there is more than one for the same material id.\n    * Fix crash when generateBlocks is false and you break a grass slab.\n    * Fix crash with Forge versions higher than 12.16.0.1780.",
         "1.9-1.4.5": "    * Update to Forge 12.16.0.1811.\n    * Fix the stained glass material generating a duplicate stained glass block.\n    * Fix crash when an item has an invalid material.",
         "1.9-1.4.6": "    * Update to Forge 12.16.0.1830.\n    * Fix blocks recipes being all mixed up.\n    * Fix rare crash when loading materials, fixes #46.",
+        "1.9-1.4.7": "    * Fix bootstrap using the wrong version of CommonUtils.",
         "1.9-1.4.3": "    * Add materials for end bricks, purpur block and purpur pillar.\n    * Update to Minecraft 1.9.\n    * Fix the material bag losing it's material.\n    * Fix wall posts not having textures when using resourcepacks, fixes #40."
     },
     "promos": {
         "1.8-latest": "1.1.2",
-        "1.9-latest": "1.9-1.4.6",
+        "1.9-latest": "1.9-1.4.7",
         "1.8.8-latest": "1.8.8-1.1.2",
         "1.8.9-latest": "1.8.9-1.4.4",
         "1.8-recommended": "1.1.2",
         "1.8.8-recommended": "1.8.8-1.1.2",
         "1.8.9-recommended": "1.8.9-1.4.4",
-        "1.9-recommended": "1.9-1.4.6"
+        "1.9-recommended": "1.9-1.4.7"
     },
     "1.8.8": {
         "1.8.8-1.1.2": "    * Fix crash when a grass slab is destroyed by an explosion.\n    * Fix the grass slab item having the wrong name.\n    * Fix more culling bugs in the stairs.\n    * Fix crash when starting a server on Windows.",
