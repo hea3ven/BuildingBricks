@@ -4,28 +4,13 @@
   "name": "Building Bricks",
   "description": "A mod about building blocks and building tools.",
   "version": "${version}",
-  "mcversion": "${mcversion}",
+  "mcversion": "${version_mc}",
   "url": "https://github.com/hea3ven/BuildingBricks",
   "updateUrl": "",
   "authorList": ["Hea3veN"],
   "credits": "",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": ["required-after:Forge@[${forgeversion},)"]
-},
-{
-  "modid": "buildingbrickscompatvanilla",
-  "name": "Building Bricks Vanilla Compat",
-  "description": "A mod about building blocks and building tools.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "https://github.com/hea3ven/BuildingBricks",
-  "updateUrl": "",
-  "authorList": ["Hea3veN"],
-  "credits": "",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": ["required-after:Forge@[${forgeversion},)"],
-  "parent": "buildingbricks"
+  "dependencies": ["required-after:Forge@[${version_forge},)"]
 }
 ]

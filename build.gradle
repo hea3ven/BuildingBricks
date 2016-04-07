@@ -29,8 +29,8 @@ import groovy.io.FileType
 
 dependencies {
 	// compile project(':CommonUtils')
-	compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:2.1.1:deobf'
-	release 'com.hea3ven.tools.commonutils:h3nt-commonutils:2.1.1'
+	compile "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}:deobf"
+	release "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}"
 
 	testCompile "junit:junit:4.12"
 }
