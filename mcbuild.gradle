@@ -44,6 +44,11 @@ minecraft {
 	version = "${version_mc}-${version_forge}" + (project.hasProperty('version_forge_branch')? '-' + version_forge_branch : '')
 	mappings = version_mappings
 	runDir = 'run'
+
+	if (project.hasProperty('project_coremod')) {
+		coreMod = project_coremod
+	}
+
 	def project_class_path = project_class.replace('.', '/')
 	replaceIn "src/main/java/${project_class_path}.java"
 	replace 'PROJECTVERSION', project.version

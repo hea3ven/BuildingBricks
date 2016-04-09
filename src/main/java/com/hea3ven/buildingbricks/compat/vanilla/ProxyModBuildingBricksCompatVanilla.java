@@ -104,7 +104,7 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModModule {
 
 	@Override
 	protected void registerBlocks() {
-		addBlock(grassSlab, "grass_slab", ItemBlockGrassSlab.class);
+		addBlock(grassSlab, "grass_slab", new ItemBlockGrassSlab(grassSlab));
 	}
 
 	@Override

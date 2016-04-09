@@ -177,7 +177,7 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 		MaterialResourceLoader.loadResources(ModBuildingBricks.resScanner);
 
 		addBlock(ModBuildingBricks.portableLadder, "portable_ladder",
-				BlockPortableLadder.ItemPortableLadder.class);
+				new BlockPortableLadder.ItemPortableLadder(ModBuildingBricks.portableLadder));
 	}
 
 	@Override

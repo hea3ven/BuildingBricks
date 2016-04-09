@@ -147,7 +147,7 @@ public class ItemTrowel extends Item implements ItemMaterial {
 		if (mat == null)
 			return super.getItemStackDisplayName(stack);
 		else
-			return I18n.translateToLocalFormatted("item.trowelBinded.name", mat.getLocalizedName());
+			return I18n.translateToLocalFormatted("item.buildingbricks.trowelBinded.name", mat.getLocalizedName());
 	}
 
 //	@Override

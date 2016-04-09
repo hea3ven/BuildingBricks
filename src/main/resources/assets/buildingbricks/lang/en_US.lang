@@ -1,26 +1,32 @@
 buildingbricks.config.general=General
 buildingbricks.config.general.tooltip=General configuration options.
 buildingbricks.config.general.generateBlocks=Generate missing blocks
-buildingbricks.config.general.replaceGrassTexture=Replace grass texture
+buildingbricks.config.general.generateBlocks.tooltip=Enable to generate the missing blocks for the materials.
+buildingbricks.config.general.blocksInCreative=Show blocks in creative tab
+buildingbricks.config.general.blocksInCreative.tooltip=Enable to add all the generated blocks to the creative menu.
 buildingbricks.config.general.trowelsInCreative=Show trowels in creative tab
+buildingbricks.config.general.trowelsInCreative.tooltip=Enable to add binded trowels for each material to the creative menu
 buildingbricks.config.compat=Compatibility
 buildingbricks.config.compat.tooltip=Configuration options for the compatibility modules.
 buildingbricks.config.compat.vanilla=Vanilla
 buildingbricks.config.compat.vanilla.tooltip=Configuration options for the vanilla compatibility module.
 buildingbricks.config.compat.vanilla.replaceGrassTexture=Replace grass texture
+buildingbricks.config.compat.vanilla.replaceGrassTexture.tooltip=Enable to replace the grass texture with a long grass texture if the generateGrassSlabs is enabled.
 buildingbricks.config.compat.vanilla.replaceGrassTextureForce=Force replace grass texture
+buildingbricks.config.compat.vanilla.replaceGrassTextureForce.tooltip=Enable to replace the grass texture with a long grass texture always.
 buildingbricks.config.compat.vanilla.generateGrassSlabs=Generate grass slabs
+buildingbricks.config.compat.vanilla.generateGrassSlabs.tooltip=Enable to generate grass slabs in the world to smooth out the surface.
 
 buildingbricks.chat.idMappingsInvalid=The BuildingBricks configuration on this client differs from the one on the server, this might cause issues.
 
 itemGroup.buildingBricks=Building Bricks
 
-item.trowel.name=Trowel
-item.trowelBinded.name=Trowel (%s)
-item.materialBag.name=Material Bag
-item.materialBagBinded.name=Material Bag (%s)
+item.buildingbricks.trowel.name=Trowel
+item.buildingbricks.trowelBinded.name=Trowel (%s)
+item.buildingbricks.materialBag.name=Material Bag
+item.buildingbricks.materialBagBinded.name=Material Bag (%s)
 
-tile.portableLadder.name=Portable Ladder
+tile.buildingbricks.portableLadder.name=Portable Ladder
 
 key.categories.trowel=Trowel
 key.trowelNext=Next Block Type

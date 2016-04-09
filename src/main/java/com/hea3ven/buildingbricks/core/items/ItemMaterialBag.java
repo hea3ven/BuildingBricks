@@ -129,7 +129,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		if (mat == null)
 			return super.getItemStackDisplayName(stack);
 		else
-			return I18n.translateToLocalFormatted("item.materialBagBinded.name",
+			return I18n.translateToLocalFormatted("item.buildingbricks.materialBagBinded.name",
 					mat.getLocalizedName());
 	}
 
