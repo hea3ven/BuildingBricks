@@ -80,7 +80,7 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 		if (renderDefinition == null)
 			return;
 
-		ResourceLocation blockName = Block.blockRegistry.getNameForObject(block);
+		ResourceLocation blockName = Block.REGISTRY.getNameForObject(block);
 
 		// Register models in the registry
 		ModelItemMaterialBlock itemBakedModel = new ModelItemMaterialBlock(modelManager.getMissingModel());

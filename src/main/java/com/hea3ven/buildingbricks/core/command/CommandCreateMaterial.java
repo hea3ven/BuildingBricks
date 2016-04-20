@@ -64,7 +64,7 @@ public class CommandCreateMaterial extends CommandBase {
 
 			Block block = ((ItemBlock) blockStack.getItem()).block;
 
-			String id = Block.blockRegistry.getNameForObject(block).toString();
+			String id = Block.REGISTRY.getNameForObject(block).toString();
 			if (args.length > 2)
 				id = id.split(":")[0] + ":" + args[2];
 
@@ -91,11 +91,11 @@ public class CommandCreateMaterial extends CommandBase {
 
 				if (!stack.getHasSubtypes()) {
 					blocks.addProperty(MaterialBlockType.values()[i].toString().toLowerCase(),
-							Item.itemRegistry.getNameForObject(stack.getItem()).toString());
+							Item.REGISTRY.getNameForObject(stack.getItem()).toString());
 				} else {
 					JsonObject blockInfoJson = new JsonObject();
 					blockInfoJson.addProperty("id",
-							Item.itemRegistry.getNameForObject(stack.getItem()).toString());
+							Item.REGISTRY.getNameForObject(stack.getItem()).toString());
 					blockInfoJson.addProperty("meta", stack.getMetadata());
 
 					JsonObject blockJson = new JsonObject();

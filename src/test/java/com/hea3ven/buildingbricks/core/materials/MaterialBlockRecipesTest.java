@@ -31,7 +31,7 @@ public class MaterialBlockRecipesTest {
 
 	@Before
 	public void setUp() {
-		stubBlock = new Block(net.minecraft.block.material.Material.air) {
+		stubBlock = new Block(net.minecraft.block.material.Material.AIR) {
 		};
 		stubItem = new ItemBlock(stubBlock);
 		final ItemStack stack = new ItemStack(stubItem);

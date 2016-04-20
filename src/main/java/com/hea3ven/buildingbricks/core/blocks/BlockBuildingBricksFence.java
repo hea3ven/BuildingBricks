@@ -18,7 +18,7 @@ public class BlockBuildingBricksFence extends BlockFence implements BlockBuildin
 	protected MaterialBlockLogic blockLogic;
 
 	public BlockBuildingBricksFence(StructureMaterial structMat) {
-		super(structMat.getMcMaterial(), MapColor.woodColor);
+		super(structMat.getMcMaterial(), MapColor.WOOD);
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.FENCE);
 		blockLogic.initBlock(this);

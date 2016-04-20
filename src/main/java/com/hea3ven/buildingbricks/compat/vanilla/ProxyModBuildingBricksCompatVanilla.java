@@ -151,7 +151,7 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModModule {
 			IRecipe recipe = recipes.get(i);
 			ItemStack result = recipe.getRecipeOutput();
 			if (result != null && result.getItem() instanceof ItemBlock &&
-					((ItemBlock) result.getItem()).getBlock() == Blocks.stone_slab &&
+					((ItemBlock) result.getItem()).getBlock() == Blocks.STONE_SLAB &&
 					result.getMetadata() == BlockStoneSlab.EnumType.STONE.getMetadata()) {
 				logger.debug("Found original slab recipe");
 				recipes.remove(i);
@@ -160,7 +160,7 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModModule {
 
 		ItemStack stoneSlab = mat.getBlock(MaterialBlockType.SLAB).getStack();
 		ItemStack stoneSlabSlab =
-				new ItemStack(Blocks.stone_slab, 2, BlockStoneSlab.EnumType.STONE.getMetadata());
+				new ItemStack(Blocks.STONE_SLAB, 2, BlockStoneSlab.EnumType.STONE.getMetadata());
 		addRecipe(stoneSlabSlab, "x", "x", 'x', stoneSlab);
 	}
 }
