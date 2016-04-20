@@ -24,7 +24,7 @@ import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 public class BlockPortableLadder extends Block {
 
 	public BlockPortableLadder() {
-		super(Material.iron);
+		super(Material.IRON);
 		setHardness(0.05f);
 
 		IBlockState state = blockState.getBaseState();

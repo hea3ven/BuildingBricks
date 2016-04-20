@@ -67,7 +67,7 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 			offZ--;
 		posLoop:
 		for (ModifiableBlockPos pos : BlockPosUtil.getBox(new BlockPos(x, 0, z), offX, 1, offZ)) {
-			while (pos.getY() < 255 && event.getWorld().getBlockState(pos).getBlock() != Blocks.grass) {
+			while (pos.getY() < 255 && event.getWorld().getBlockState(pos).getBlock() != Blocks.GRASS) {
 				pos.up();
 			}
 			if (pos.getY() >= 255) {
@@ -88,7 +88,7 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 
 			for (EnumFacing face : EnumFacing.HORIZONTALS) {
 				pos.offset(face, 1);
-				if (event.getWorld().getBlockState(pos).getBlock() == Blocks.grass) {
+				if (event.getWorld().getBlockState(pos).getBlock() == Blocks.GRASS) {
 					pos.offset(face, -1);
 					event.getWorld()
 							.setBlockState(pos,

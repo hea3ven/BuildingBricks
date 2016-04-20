@@ -83,9 +83,9 @@ public class BlockGrassSlab extends BlockBuildingBricksSlab implements BlockMate
 		Block blockE = worldIn.getBlockState(pos.east()).getBlock();
 		Block blockW = worldIn.getBlockState(pos.west()).getBlock();
 		return setSnowy(state,
-				blockN == Blocks.snow || blockN == Blocks.snow_layer || blockS == Blocks.snow ||
-						blockS == Blocks.snow_layer || blockE == Blocks.snow || blockE == Blocks.snow_layer ||
-						blockW == Blocks.snow || blockW == Blocks.snow_layer);
+				blockN == Blocks.SNOW || blockN == Blocks.SNOW_LAYER || blockS == Blocks.SNOW ||
+						blockS == Blocks.SNOW_LAYER || blockE == Blocks.SNOW || blockE == Blocks.SNOW_LAYER ||
+						blockW == Blocks.SNOW || blockW == Blocks.SNOW_LAYER);
 	}
 
 	public static boolean getSnowy(IBlockState state) {
