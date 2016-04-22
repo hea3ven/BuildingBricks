@@ -3,11 +3,12 @@ package com.hea3ven.buildingbricks.core.blocks;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumFacing.AxisDirection;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -17,6 +18,7 @@ import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
+import com.hea3ven.tools.commonutils.util.PlaceParams;
 
 public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid {
 
@@ -50,21 +52,17 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 	@Override
 	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer) {
+		PlaceParams params = new PlaceParams(pos, facing, new Vec3d(hitX, hitY, hitZ), 1.0d);
 		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
-
-		if (facing.getHorizontalIndex() != -1 && BlockPlacingUtil.isInnerRing(facing, hitX, hitY, hitZ)) {
-			state = BlockProperties.setSide(state, facing.getOpposite());
+		if (facing.getAxis() == Axis.Y) {
+			return state.withProperty(BlockProperties.SIDE, BlockPlacingUtil.getClosestSide(params));
 		} else {
-			state = BlockProperties.setSide(state, BlockPlacingUtil.getClosestSide(facing, hitX, hitY, hitZ));
+			if (BlockPlacingUtil.isInnerRing(params)) {
+				return state.withProperty(BlockProperties.SIDE, facing.getOpposite());
+			} else {
+				return state.withProperty(BlockProperties.SIDE, BlockPlacingUtil.getClosestSide(params));
+			}
 		}
-
-		//		if (BlockPlacingUtil.isInnerRing(facing, hitX, hitY, hitZ)) {
-		//			state = BlockProperties.setFacingHoriz(state, facing.getOpposite());
-		//		} else {
-		//			state = BlockProperties.setFacingHoriz(state,
-		//					BlockPlacingUtil.getClosestSide(facing, hitX, hitY, hitZ));
-		//		}
-		return state;
 	}
 
 	@Override

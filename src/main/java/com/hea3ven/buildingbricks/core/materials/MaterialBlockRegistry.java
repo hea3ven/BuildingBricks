@@ -9,25 +9,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.color.BlockColors;
-import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.*;
-import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
 import com.hea3ven.tools.commonutils.client.renderer.SimpleItemMeshDefinition;
 import com.hea3ven.tools.commonutils.util.SidedCall;
@@ -73,72 +66,58 @@ public class MaterialBlockRegistry {
 	}
 
 	private void initBlock(ProxyCommonBuildingBricks proxy, MaterialBlockType blockType, Material mat) {
-		Class<? extends Block> cls;
-		switch (blockType) {
-			default:
-			case FULL:
-				cls = BlockMaterialBlock.class;
-				break;
-			case SLAB:
-				cls = BlockMaterialSlab.class;
-				break;
-			case VERTICAL_SLAB:
-				cls = BlockMaterialVerticalSlab.class;
-				break;
-			case STEP:
-				cls = BlockMaterialStep.class;
-				break;
-			case CORNER:
-				cls = BlockMaterialCorner.class;
-				break;
-			case WALL:
-				cls = BlockMaterialWall.class;
-				break;
-			case FENCE:
-				cls = BlockMaterialFence.class;
-				break;
-			case FENCE_GATE:
-				cls = BlockMaterialFenceGate.class;
-				break;
-			case STAIRS:
-				cls = BlockMaterialStairs.class;
-				break;
-			case PANE:
-				cls = BlockMaterialPane.class;
-				break;
-		}
+		StructureMaterial structMat = mat.getStructureMaterial();
+		final Block block = createBlock(blockType, structMat);
 
-		createBlock(proxy, cls, mat.getStructureMaterial(), blockType);
-	}
-
-	private void createBlock(ProxyCommonBuildingBricks proxy, Class<? extends Block> cls,
-			StructureMaterial structMat, MaterialBlockType blockType) {
-		final Block block;
-		try {
-			block = cls.getConstructor(StructureMaterial.class).newInstance(structMat);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
-		block.setUnlocalizedName(structMat.getName() + "_" + blockType.getName())
+		final String blockName = structMat.getName() + "_" + blockType.getName();
+		block.setRegistryName(ModBuildingBricks.MODID, blockName)
+				.setUnlocalizedName(ModBuildingBricks.MODID + "." + blockName)
 				.setCreativeTab(proxy.getCreativeTab("buildingBricks"));
 
 		blocks.put(blockType, structMat, block);
 		if (!blocksMaterials.containsKey(block))
 			blocksMaterials.put(block, new HashSet<Material>());
 
-		Class<? extends ItemBlock> itemCls = ItemMaterialBlock.class;
+		GameRegistry.register(block);
+		if (blockType.isStackType()) {
+			final Item item =
+					new ItemMaterialBlock(block).setRegistryName(ModBuildingBricks.MODID, blockName);
+			GameRegistry.register(item);
+			SidedCall.run(Side.CLIENT, new SidedRunnable() {
+				@Override
+				@SideOnly(Side.CLIENT)
+				public void run() {
+					ModelLoader.setCustomMeshDefinition(item,
+							new SimpleItemMeshDefinition("buildingbricks:" + blockName));
+				}
+			});
+		}
+	}
 
-		final String blockName = structMat.getName() + "_" + blockType.getName();
-		GameRegistry.registerBlock(block, itemCls, blockName);
-		SidedCall.run(Side.CLIENT, new SidedRunnable() {
-			@Override
-			@SideOnly(Side.CLIENT)
-			public void run() {
-				ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(block),
-						new SimpleItemMeshDefinition("buildingbricks:" + blockName + "#inventory"));
-			}
-		});
+	private Block createBlock(MaterialBlockType blockType, StructureMaterial structMat) {
+		switch (blockType) {
+			default:
+			case FULL:
+				return new BlockMaterialBlock(structMat);
+			case SLAB:
+				return new BlockMaterialSlab(structMat);
+			case VERTICAL_SLAB:
+				return new BlockMaterialVerticalSlab(structMat);
+			case STEP:
+				return new BlockMaterialStep(structMat);
+			case CORNER:
+				return new BlockMaterialCorner(structMat);
+			case WALL:
+				return new BlockMaterialWall(structMat);
+			case FENCE:
+				return new BlockMaterialFence(structMat);
+			case FENCE_GATE:
+				return new BlockMaterialFenceGate(structMat);
+			case STAIRS:
+				return new BlockMaterialStairs(structMat);
+			case PANE:
+				return new BlockMaterialPane(structMat);
+		}
 	}
 
 	public Collection<Block> getAllBlocks() {

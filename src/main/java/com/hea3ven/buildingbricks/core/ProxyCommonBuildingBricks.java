@@ -2,6 +2,8 @@ package com.hea3ven.buildingbricks.core;
 
 import javax.vecmath.Vector3f;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 
@@ -11,9 +13,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -33,6 +37,7 @@ import net.minecraftforge.oredict.RecipeSorter.Category;
 
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
+import com.hea3ven.buildingbricks.core.blocks.placement.BlockPlacementManager;
 import com.hea3ven.buildingbricks.core.client.ModelBakerBlockMaterial;
 import com.hea3ven.buildingbricks.core.client.ModelBakerItemMaterial;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
@@ -96,6 +101,7 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 		RecipeSorter.register("buildingbricks:blockmaterial", RecipeBlockMaterial.class, Category.SHAPED,
 				"after:minecraft:shaped");
 		MinecraftForge.EVENT_BUS.register(ModBuildingBricks.materialBag);
+		MinecraftForge.EVENT_BUS.register(BlockPlacementManager.getInstance());
 		SidedCall.run(Side.CLIENT, new SidedRunnable() {
 			@Override
 			@SideOnly(Side.CLIENT)
@@ -217,6 +223,14 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 
 	@SideOnly(Side.CLIENT)
 	protected void registerColors() {
+		List<Block> blocksWithItems = new ArrayList<>();
+		List<Block> blocksWithoutItems = new ArrayList<>();
+		for (Block block : MaterialBlockRegistry.instance.getAllBlocks()) {
+			if (Item.getItemFromBlock(block) != null)
+				blocksWithItems.add(block);
+			else
+				blocksWithoutItems.add(block);
+		}
 		addColors(new IColorHandler() {
 			@Override
 			public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
@@ -234,7 +248,14 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 							.getItemColors()
 							.getColorFromItemstack(mat.getFirstBlock().getStack(), tintIndex);
 			}
-		}, MaterialBlockRegistry.instance.getAllBlocks());
+		}, blocksWithItems);
+		addBlockColors(new IBlockColor() {
+			@Override
+			public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
+				return ((BlockBuildingBricks) state.getBlock()).getBlockLogic()
+						.colorMultiplier(world, pos, tintIndex);
+			}
+		}, blocksWithoutItems);
 	}
 
 	@Override
@@ -245,7 +266,8 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 		ModBuildingBricks.logger.info("Registering trowel's recipes");
 		for (Material mat : MaterialRegistry.getAll()) {
 			for (BlockDescription blockDesc : mat.getBlockRotation().getAll().values()) {
-				addRecipe(new RecipeBindTrowel(mat, blockDesc.getStack()));
+				if (blockDesc.getStack() != null)
+					addRecipe(new RecipeBindTrowel(mat, blockDesc.getStack()));
 			}
 		}
 

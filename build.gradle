@@ -28,6 +28,12 @@ apply from: 'mcbuild.gradle'
 import groovy.io.FileType
 
 dependencies {
+    release "com.hea3ven.tools.mappings:h3nt-mappings:${version_h3nt_mappings}"
+
+    // compile project(':asmtweaks')
+    compile "com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:${version_asmtweaks}"
+    release "com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:${version_asmtweaks}"
+
 	// compile project(':CommonUtils')
 	compile "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}:deobf"
 	release "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}"

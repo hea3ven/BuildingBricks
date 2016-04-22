@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.google.common.eventbus.Subscribe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,41 +28,36 @@ import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.tools.bootstrap.Bootstrap;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
+import com.hea3ven.tools.commonutils.resources.ResourceScannerClient;
+import com.hea3ven.tools.commonutils.resources.ResourceScannerServer;
 
-@Mod(modid = ModBuildingBricks.MODID, name = "Building Bricks", version = ModBuildingBricks.VERSION,
-		dependencies = ModBuildingBricks.DEPENDENCIES,
-		guiFactory = "com.hea3ven.buildingbricks.core.config.BuildingBricksConfigGuiFactory",
-		updateJSON = "https://raw.githubusercontent.com/hea3ven/BuildingBricks/master/media/update.json")
 public class ModBuildingBricks {
-
-	static {
-		Bootstrap.init();
-	}
 
 	public static final String MODID = "buildingbricks";
 	public static final String VERSION = "PROJECTVERSION";
-	public static final String DEPENDENCIES = "required-after:Forge@[FORGEVERSION,)";
+	public static final String FORGE_DEPENDENCY = "Forge@[FORGEVERSION,)";
 
 	public static final Logger logger = LogManager.getLogger("BuildingBricks");
 
 	public static ProxyCommonBuildingBricks proxy = new ProxyCommonBuildingBricks();
 
-	@SidedProxy(serverSide = "com.hea3ven.tools.commonutils.resources.ResourceScannerServer",
-			clientSide = "com.hea3ven.tools.commonutils.resources.ResourceScannerClient")
 	static ResourceScanner resScanner;
 
 	public static ItemTrowel trowel;
 	public static ItemMaterialBag materialBag;
 	public static BlockPortableLadder portableLadder;
 
-	@EventHandler
+	@Subscribe
 	public void construction(FMLConstructionEvent event) {
 		Path resourcesDir;
-		if (event.getSide() == Side.CLIENT)
+		if (event.getSide() == Side.CLIENT) {
+			resScanner = new ResourceScannerClient();
 			resourcesDir = Minecraft.getMinecraft().mcDataDir.toPath();
-		else
+		} else {
+			resScanner = new ResourceScannerServer();
 			resourcesDir =
 					Paths.get(FMLCommonHandler.instance().getSavesDirectory().getAbsoluteFile().getParent());
+		}
 		resourcesDir = resourcesDir.resolve("config").resolve("BuildingBricks").resolve("resources");
 		if (!Files.exists(resourcesDir)) {
 			try {
@@ -74,24 +70,24 @@ public class ModBuildingBricks {
 		resScanner.addModDirectory(resourcesDir);
 	}
 
-	@EventHandler
+	@Subscribe
 	public void preInit(FMLPreInitializationEvent event) {
 		proxy.onPreInitEvent(event);
 	}
 
-	@EventHandler
+	@Subscribe
 	public void init(FMLInitializationEvent event) {
 		IdMappingLoader.save();
 
 		proxy.onInitEvent(event);
 	}
 
-	@EventHandler
+	@Subscribe
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.onPostInitEvent(event);
 	}
 
-	@Mod.EventHandler
+	@Subscribe
 	public void onRemap(FMLMissingMappingsEvent event) {
 		for (MissingMapping missingMapping : event.getAll()) {
 			if (missingMapping.name.toString().equals("buildingbrickscompatvanilla:grass_slab")) {
@@ -100,6 +96,9 @@ public class ModBuildingBricks {
 				else
 					missingMapping.remap(
 							Item.getItemFromBlock(ProxyModBuildingBricksCompatVanilla.grassSlab));
+			} else if (missingMapping.name.startsWith("buildingbricks:") &&
+					missingMapping.name.endsWith("_vertical_slab") && missingMapping.type == Type.ITEM) {
+				missingMapping.ignore();
 			}
 		}
 	}

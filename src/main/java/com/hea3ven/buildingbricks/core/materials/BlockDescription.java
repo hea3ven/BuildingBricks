@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -25,6 +26,8 @@ public class BlockDescription {
 	private Map<String, NBTBase> tags = new HashMap<>();
 	@Nonnull
 	private List<MaterialBlockRecipeBuilder> recipes = new ArrayList<>();
+
+	private boolean stackInit = false;
 
 	public BlockDescription(MaterialBlockType type, Block block, int metadata, Map<String, NBTBase> tags,
 			List<MaterialBlockRecipeBuilder> recipes) {
@@ -53,10 +56,14 @@ public class BlockDescription {
 	}
 
 	public ItemStack getStack() {
-		if (stack == null) {
-			stack = new ItemStack(getBlock(), 1, meta);
-			for (Entry<String, NBTBase> entry : tags.entrySet()) {
-				stack.setTagInfo(entry.getKey(), entry.getValue());
+		if (!stackInit) {
+			stackInit = true;
+			Item item = Item.getItemFromBlock(getBlock());
+			if (item != null) {
+				stack = new ItemStack(item, 1, meta);
+				for (Entry<String, NBTBase> entry : tags.entrySet()) {
+					stack.setTagInfo(entry.getKey(), entry.getValue());
+				}
 			}
 		}
 		return stack;

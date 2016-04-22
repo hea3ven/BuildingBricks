@@ -24,7 +24,7 @@ public class BlockRotation {
 	public MaterialBlockType getFirst() {
 		// TODO: Rewrite this
 		for (MaterialBlockType blockType : MaterialBlockType.values()) {
-			if (items.containsKey(blockType))
+			if (items.containsKey(blockType) && blockType.isStackType())
 				return blockType;
 		}
 		throw new IllegalStateException("no items defined");
@@ -35,7 +35,7 @@ public class BlockRotation {
 		for (int i = 1; i < MaterialBlockType.values().length; i++) {
 			MaterialBlockType nextBlockType = MaterialBlockType.getBlockType(
 					(blockType.ordinal() + i) % MaterialBlockType.values().length);
-			if (items.containsKey(nextBlockType))
+			if (items.containsKey(nextBlockType) && nextBlockType.getStackType() == nextBlockType)
 				return nextBlockType;
 		}
 		return blockType;
@@ -47,7 +47,7 @@ public class BlockRotation {
 			MaterialBlockType nextBlockType = MaterialBlockType.getBlockType(
 					(blockType.ordinal() + MaterialBlockType.values().length - i) %
 							MaterialBlockType.values().length);
-			if (items.containsKey(nextBlockType))
+			if (items.containsKey(nextBlockType) && nextBlockType.isStackType())
 				return nextBlockType;
 		}
 		return blockType;
@@ -67,7 +67,7 @@ public class BlockRotation {
 
 	public BlockDescription get(int slotIndex) {
 		for (MaterialBlockType blockType : MaterialBlockType.values()) {
-			if (items.containsKey(blockType)) {
+			if (items.containsKey(blockType) && blockType.isStackType()) {
 				if (slotIndex-- <= 0) {
 					return items.get(blockType);
 				}
@@ -79,7 +79,7 @@ public class BlockRotation {
 	public int getIndex(MaterialBlockType targetBlockType) {
 		int i = 0;
 		for (MaterialBlockType blockType : MaterialBlockType.values()) {
-			if (items.containsKey(blockType)) {
+			if (items.containsKey(blockType) && blockType.isStackType()) {
 				if (blockType == targetBlockType)
 					return i;
 				i++;

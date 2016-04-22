@@ -36,6 +36,11 @@ public class MaterialRegistry {
 	}
 
 	public static Material getMaterialForStack(ItemStack stack) {
+		Material matStack = MaterialStack.get(stack);
+		if (matStack != null)
+			return matStack;
+
+		// TODO: optimize
 		for (Material mat : materials) {
 			for (BlockDescription blockDesc : mat.getBlockRotation().getAll().values()) {
 				if (ItemStack.areItemsEqual(stack, blockDesc.getStack()) &&

@@ -24,14 +24,9 @@ public class MaterialBlockRecipes {
 			case SLAB:
 				return Lists.newArrayList(
 						new MaterialBlockRecipeBuilder().outputAmount(6).ingredients("xxx", "x", "FULL"),
-						new MaterialBlockRecipeBuilder().outputAmount(1).ingredients("xx", "x", "STEP"),
-						new MaterialBlockRecipeBuilder().outputAmount(3)
-								.ingredients("xxx", "x", "VERTICAL_SLAB"));
+						new MaterialBlockRecipeBuilder().outputAmount(1).ingredients("xx", "x", "STEP"));
 			case VERTICAL_SLAB:
-				return Lists.newArrayList(new MaterialBlockRecipeBuilder().outputAmount(3)
-								.ingredients("x", "x", "x", "x", "SLAB"),
-						new MaterialBlockRecipeBuilder().outputAmount(6)
-								.ingredients("x", "x", "x", "x", "FULL"));
+				return Lists.newArrayList();
 			case STEP:
 				return Lists.newArrayList(
 						new MaterialBlockRecipeBuilder().outputAmount(6).ingredients("xxx", "x", "SLAB"),
@@ -48,7 +43,7 @@ public class MaterialBlockRecipes {
 					case ICE:
 					case PACKED_ICE:
 						return Lists.newArrayList(new MaterialBlockRecipeBuilder().outputAmount(4)
-								.ingredients("xyx", "xyx", "x", "VERTICAL_SLAB", "y", "FULL"));
+								.ingredients("xyx", "xyx", "x", "SLAB", "y", "FULL"));
 				}
 			case FENCE:
 				return Lists.newArrayList(new MaterialBlockRecipeBuilder().outputAmount(6)

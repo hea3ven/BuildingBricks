@@ -5,9 +5,10 @@ import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumFacing.AxisDirection;
 
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
+import com.hea3ven.tools.commonutils.util.PlaceParams;
 
 public class BlockPlacingUtil {
-	private static final float RING_SIZE = 0.22f;
+	private static final double RING_SIZE = 0.22f;
 
 	private static int getRotationIndex(EnumFacing facing) {
 		if (facing == EnumFacing.NORTH) {
@@ -22,7 +23,7 @@ public class BlockPlacingUtil {
 		throw new IllegalArgumentException(facing.getName());
 	}
 
-	private static EnumRotation getRotation(EnumFacing facing) {
+	public static EnumRotation getRotation(EnumFacing facing) {
 		return EnumRotation.getRotation(getRotationIndex(facing));
 	}
 
@@ -30,52 +31,60 @@ public class BlockPlacingUtil {
 		return EnumRotation.getRotation((getRotationIndex(facing) + offset) % 4);
 	}
 
-	public static float getFaceX(EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public static double getFaceX(EnumFacing facing, double hitX, double hitY, double hitZ) {
 		switch (facing.getAxis()) {
-		default:
-		case X:
-			if (facing.getAxisDirection() == AxisDirection.POSITIVE) {
+			default:
+			case X:
+				if (facing.getAxisDirection() == AxisDirection.POSITIVE) {
+					return hitZ;
+				} else {
+					return (1 - hitZ);
+				}
+			case Y:
+				if (facing.getAxisDirection() == AxisDirection.POSITIVE) {
+					return (1 - hitX);
+				} else {
+					return hitX;
+				}
+			case Z:
+				if (facing.getAxisDirection() == AxisDirection.POSITIVE) {
+					return (1 - hitX);
+				} else {
+					return hitX;
+				}
+		}
+	}
+
+	public static double getFaceY(EnumFacing facing, double hitX, double hitY, double hitZ) {
+		switch (facing.getAxis()) {
+			default:
+			case X:
+				return hitY;
+			case Y:
 				return hitZ;
-			} else {
-				return (1 - hitZ);
-			}
-		case Y:
-			if (facing.getAxisDirection() == AxisDirection.POSITIVE) {
-				return (1 - hitX);
-			} else {
-				return hitX;
-			}
-		case Z:
-			if (facing.getAxisDirection() == AxisDirection.POSITIVE) {
-				return (1 - hitX);
-			} else {
-				return hitX;
-			}
+			case Z:
+				return hitY;
 		}
 	}
 
-	public static float getFaceY(EnumFacing facing, float hitX, float hitY, float hitZ) {
-		switch (facing.getAxis()) {
-		default:
-		case X:
-			return hitY;
-		case Y:
-			return hitZ;
-		case Z:
-			return hitY;
-		}
+	public static boolean isInnerRing(PlaceParams params) {
+		return isInnerRing(params.side, params.hit.xCoord, params.hit.yCoord, params.hit.zCoord);
 	}
 
-	public static boolean isInnerRing(EnumFacing facing, float hitX, float hitY, float hitZ) {
-		float faceX = getFaceX(facing, hitX, hitY, hitZ);
-		float faceY = getFaceY(facing, hitX, hitY, hitZ);
+	public static boolean isInnerRing(EnumFacing facing, double hitX, double hitY, double hitZ) {
+		double faceX = getFaceX(facing, hitX, hitY, hitZ);
+		double faceY = getFaceY(facing, hitX, hitY, hitZ);
 		return RING_SIZE <= faceX && faceX <= (1 - RING_SIZE) && RING_SIZE <= faceY
 				&& faceY <= (1 - RING_SIZE);
 	}
 
-	public static EnumFacing getClosestFace(EnumFacing facing, float hitX, float hitY, float hitZ) {
-		float faceX = getFaceX(facing, hitX, hitY, hitZ);
-		float faceY = getFaceY(facing, hitX, hitY, hitZ);
+	public static EnumFacing getClosestFace(PlaceParams params) {
+		return getClosestFace(params.side, params.hit.xCoord, params.hit.yCoord, params.hit.zCoord);
+	}
+
+	public static EnumFacing getClosestFace(EnumFacing facing, double hitX, double hitY, double hitZ) {
+		double faceX = getFaceX(facing, hitX, hitY, hitZ);
+		double faceY = getFaceY(facing, hitX, hitY, hitZ);
 		if (facing.getAxis() == Axis.Y) {
 			if (hitX >= hitZ) {
 				if (hitX < (1 - hitZ)) {
@@ -107,12 +116,16 @@ public class BlockPlacingUtil {
 		}
 	}
 
-	public static EnumFacing getClosestSide(EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public static EnumFacing getClosestSide(PlaceParams params) {
+		return getClosestSide(params.side, params.hit.xCoord, params.hit.yCoord, params.hit.zCoord);
+	}
+
+	public static EnumFacing getClosestSide(EnumFacing facing, double hitX, double hitY, double hitZ) {
 		if (facing.getAxis() == Axis.Y) {
 			return getClosestFace(facing, hitX, hitY, hitZ);
 		} else {
-			float faceX = getFaceX(facing, hitX, hitY, hitZ);
-			float faceY = getFaceY(facing, hitX, hitY, hitZ);
+			double faceX = getFaceX(facing, hitX, hitY, hitZ);
+			double faceY = getFaceY(facing, hitX, hitY, hitZ);
 			if (faceX >= faceY) {
 				return facing.rotateY();
 			} else {
@@ -121,8 +134,12 @@ public class BlockPlacingUtil {
 		}
 	}
 
-	public static EnumRotation getClosestCorner(EnumFacing facing, float hitX, float hitY,
-			float hitZ) {
+	public static EnumRotation getClosestCorner(PlaceParams params) {
+		return getClosestCorner(params.side, params.hit.xCoord, params.hit.yCoord, params.hit.zCoord);
+	}
+
+	public static EnumRotation getClosestCorner(EnumFacing facing, double hitX, double hitY,
+			double hitZ) {
 		if (hitX < 0.5f && hitZ <= 0.5f) {
 			return EnumRotation.ROT0;
 		} else if (hitX >= 0.5f && hitZ < 0.5f) {
@@ -142,8 +159,8 @@ public class BlockPlacingUtil {
 		}
 	}
 
-	public static EnumRotation getRotation(EnumFacing facing, float hitX, float hitY, float hitZ) {
-		float faceX = getFaceX(facing, hitX, hitY, hitZ);
+	public static EnumRotation getRotation(EnumFacing facing, double hitX, double hitY, double hitZ) {
+		double faceX = getFaceX(facing, hitX, hitY, hitZ);
 		if (faceX <= 0.5f) {
 			return getRotation(facing, 3);
 		} else {
@@ -151,9 +168,9 @@ public class BlockPlacingUtil {
 		}
 	}
 
-	public static EnumRotation getRotationHalf(EnumFacing facing, float hitX, float hitY,
-			float hitZ) {
-		float faceX = getFaceX(facing, hitX, hitY, hitZ);
+	public static EnumRotation getRotationHalf(EnumFacing facing, double hitX, double hitY,
+			double hitZ) {
+		double faceX = getFaceX(facing, hitX, hitY, hitZ);
 		if (faceX <= 0.5f) {
 			return getRotation(facing, 3);
 		} else {

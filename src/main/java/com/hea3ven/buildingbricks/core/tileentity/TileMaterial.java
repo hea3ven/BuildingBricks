@@ -50,7 +50,7 @@ public class TileMaterial extends TileEntity {
 	}
 
 	public void setMaterial(Material material) {
-		if(material != null)
+		if (material != null)
 			materialId = material.getMaterialId();
 		this.material = material;
 	}
@@ -125,7 +125,7 @@ public class TileMaterial extends TileEntity {
 
 	public static void onBlockPlacedBy(Block block, World world, BlockPos pos, IBlockState state,
 			EntityLivingBase placer, ItemStack stack) {
-		TileMaterial.getTile(world, pos).setMaterial(MaterialStack.get(stack));
+		TileMaterial.getTile(world, pos).setMaterial(MaterialRegistry.getMaterialForStack(stack));
 	}
 
 	public static ItemStack getPickBlock(Block block, RayTraceResult target, World world,
@@ -167,6 +167,6 @@ public class TileMaterial extends TileEntity {
 		if (itemMat == null)
 			return null;
 
-		return itemMat.getBlock(blockType).getStack().copy();
+		return itemMat.getBlock(blockType.getStackType()).getStack().copy();
 	}
 }

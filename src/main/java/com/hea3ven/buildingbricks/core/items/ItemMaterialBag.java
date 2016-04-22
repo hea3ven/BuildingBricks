@@ -286,7 +286,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		private ItemStack initStack(ItemStack stack) {
 			ModBuildingBricks.materialBag.initUuid(stack);
 			mat = MaterialStack.get(stack);
-			slots = MaterialBlockType.values();
+			slots = MaterialBlockType.getStackValues();
 			return stack;
 		}
 
