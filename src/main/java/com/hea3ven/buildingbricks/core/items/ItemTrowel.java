@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -29,7 +29,6 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack.ItemMaterial;
-import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer.SlotType;
 
@@ -43,9 +42,6 @@ public class ItemTrowel extends Item implements ItemMaterial {
 
 	@Override
 	public void setMaterial(ItemStack stack, Material mat) {
-		if (stack.getMetadata() != 0) {
-			stack.setItemDamage(0);
-		}
 		if (mat == null) {
 			if (stack.hasTagCompound())
 				stack.getTagCompound().removeTag("material");
@@ -58,14 +54,21 @@ public class ItemTrowel extends Item implements ItemMaterial {
 
 	@Override
 	public Material getMaterial(ItemStack stack) {
-		if (stack.getMetadata() != 0) {
-			setMaterial(stack, MaterialIdMapping.get().getMaterialById((short) stack.getMetadata()));
-		}
-
 		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
 			return MaterialRegistry.get(stack.getTagCompound().getString("material"));
 		else
 			return null;
+	}
+
+	@Override
+	public int getMetadata(ItemStack stack) {
+		Material mat = getMaterial(stack);
+		return mat == null ? 0 : MaterialRegistry.getMeta(mat);
+	}
+
+	@Override
+	public int getDamage(ItemStack stack) {
+		return getMetadata(stack);
 	}
 
 	public MaterialBlockType getCurrentBlockType(ItemStack stack) {
@@ -147,7 +150,8 @@ public class ItemTrowel extends Item implements ItemMaterial {
 		if (mat == null)
 			return super.getItemStackDisplayName(stack);
 		else
-			return I18n.translateToLocalFormatted("item.buildingbricks.trowelBinded.name", mat.getLocalizedName());
+			return I18n.translateToLocalFormatted("item.buildingbricks.trowelBinded.name",
+					mat.getLocalizedName());
 	}
 
 //	@Override

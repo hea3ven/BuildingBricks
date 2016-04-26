@@ -27,11 +27,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.common.util.Constants.NBT;
 
 import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.blocks.properties.PropertyMaterial;
 import com.hea3ven.buildingbricks.core.materials.*;
-import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 
 public class TileMaterial extends TileEntity {
 
@@ -79,16 +79,12 @@ public class TileMaterial extends TileEntity {
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		if (nbt.hasKey("material")) {
+		if (nbt.hasKey("material", NBT.TAG_STRING)){
 			String matId = nbt.getString("material");
 			if (!matId.contains(":"))
-				matId = "buildingbrickscompatvanilla:" + matId;
+				matId = "minecraft:" + matId;
 			materialId = matId;
 			setMaterial(MaterialRegistry.get(matId));
-		} else {
-			Material mat = MaterialIdMapping.get().getMaterialById(nbt.getShort("m"));
-			materialId = mat.getMaterialId();
-			setMaterial(mat);
 		}
 	}
 

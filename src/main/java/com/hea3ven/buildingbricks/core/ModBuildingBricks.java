@@ -13,9 +13,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import net.minecraftforge.fml.common.registry.GameRegistry.Type;
@@ -25,8 +22,6 @@ import com.hea3ven.buildingbricks.compat.vanilla.ProxyModBuildingBricksCompatVan
 import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
-import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
-import com.hea3ven.tools.bootstrap.Bootstrap;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
 import com.hea3ven.tools.commonutils.resources.ResourceScannerClient;
 import com.hea3ven.tools.commonutils.resources.ResourceScannerServer;
@@ -79,8 +74,6 @@ public class ModBuildingBricks {
 
 	@Subscribe
 	public void init(FMLInitializationEvent event) {
-		IdMappingLoader.save();
-
 		proxy.onInitEvent(event);
 	}
 
@@ -92,7 +85,7 @@ public class ModBuildingBricks {
 	@Subscribe
 	public void onRemap(FMLMissingMappingsEvent event) {
 		for (MissingMapping missingMapping : event.getAll()) {
-			if (missingMapping.name.toString().equals("buildingbrickscompatvanilla:grass_slab")) {
+			if (missingMapping.name.equals("buildingbrickscompatvanilla:grass_slab")) {
 				if (missingMapping.type == Type.BLOCK)
 					missingMapping.remap(ProxyModBuildingBricksCompatVanilla.grassSlab);
 				else

@@ -4,10 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 
-import com.hea3ven.buildingbricks.core.items.crafting.RecipeBlockMaterial;
 import com.hea3ven.tools.commonutils.item.crafting.RecipeBuilder;
 
 public class MaterialBlockRecipes {
@@ -88,11 +86,6 @@ public class MaterialBlockRecipes {
 					return mat.getBlock(blockType).getStack();
 			}
 			return super.parseIngredient(ingredient);
-		}
-
-		@Override
-		protected IRecipe createShapedRecipe(ItemStack result, Object[] inputs) {
-			return new RecipeBlockMaterial(result, inputs);
 		}
 	}
 }

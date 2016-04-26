@@ -7,7 +7,6 @@ import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.nbt.NBTBase;
 
-import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;

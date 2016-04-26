@@ -22,9 +22,13 @@ public class MaterialRegistry {
 
 	private static Map<String, Material> materialsById = new HashMap<>();
 
+	private static int nextMeta = 1;
+	private static Map<Material, Integer> materialsMeta = new HashMap<>();
+
 	public static void registerMaterial(Material material) {
 		materials.add(material);
 		materialsById.put(material.getMaterialId(), material);
+		materialsMeta.put(material, nextMeta++);
 	}
 
 	public static Set<Material> getAll() {
@@ -50,6 +54,16 @@ public class MaterialRegistry {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Get a numeric id for the material, WARNING, these are not synced between the client and the server.
+	 *
+	 * @param mat the material
+	 * @return the id
+	 */
+	public static int getMeta(Material mat) {
+		return mat != null ? materialsMeta.get(mat) : 0;
 	}
 
 	public static void logStats() {

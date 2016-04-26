@@ -32,7 +32,6 @@ import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack.ItemMaterial;
-import com.hea3ven.buildingbricks.core.materials.mapping.MaterialIdMapping;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer.SlotType;
 import com.hea3ven.tools.commonutils.inventory.SlotItemHandlerBase;
@@ -45,9 +44,6 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	@Override
 	public void setMaterial(ItemStack stack, Material mat) {
-		if (stack.getMetadata() != 0) {
-			stack.setItemDamage(0);
-		}
 		if (mat == null) {
 			if (stack.hasTagCompound())
 				stack.getTagCompound().removeTag("material");
@@ -60,10 +56,6 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 	@Override
 	public Material getMaterial(ItemStack stack) {
-		if (stack.getMetadata() != 0) {
-			setMaterial(stack, MaterialIdMapping.get().getMaterialById((short) stack.getItemDamage()));
-		}
-
 		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
 			return MaterialRegistry.get(stack.getTagCompound().getString("material"));
 		else
@@ -131,24 +123,6 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		else
 			return I18n.translateToLocalFormatted("item.buildingbricks.materialBagBinded.name",
 					mat.getLocalizedName());
-	}
-
-//	@Override
-//	@SideOnly(Side.CLIENT)
-//	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
-//		if (tintIndex == 1)
-//			return super.getColorFromItemStack(stack, tintIndex);
-//		Material mat = getMaterial(stack);
-//		if (mat == null)
-//			return super.getColorFromItemStack(stack, tintIndex);
-
-//		return mat.getFirstBlock().getItem().getColorFromItemStack(stack, tintIndex);
-//	}
-
-	private void updateStack(ItemStack stack) {
-		String matId = stack.getTagCompound().getString("material");
-		stack.getTagCompound().removeTag("material");
-		setMaterial(stack, MaterialRegistry.get(matId));
 	}
 
 	public Container getContainer(EntityPlayer player) {

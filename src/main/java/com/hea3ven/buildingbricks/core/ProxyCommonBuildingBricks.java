@@ -1,7 +1,6 @@
 package com.hea3ven.buildingbricks.core;
 
 import javax.vecmath.Vector3f;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -49,18 +48,14 @@ import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
 import com.hea3ven.buildingbricks.core.items.crafting.RecipeBindTrowel;
-import com.hea3ven.buildingbricks.core.items.crafting.RecipeBlockMaterial;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
-import com.hea3ven.buildingbricks.core.materials.mapping.IdMappingLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
 import com.hea3ven.tools.commonutils.client.renderer.color.IColorHandler;
 import com.hea3ven.tools.commonutils.inventory.ISimpleGuiHandler;
 import com.hea3ven.tools.commonutils.mod.ProxyModComposite;
-import com.hea3ven.tools.commonutils.mod.config.ConfigManager;
-import com.hea3ven.tools.commonutils.mod.config.ConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.mod.config.DirectoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.util.ConfigurationUtil;
@@ -99,8 +94,6 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 
 		RecipeSorter.register("buildingbricks:trowelbind", RecipeBindTrowel.class, Category.SHAPELESS,
 				"after:minecraft:shapeless");
-		RecipeSorter.register("buildingbricks:blockmaterial", RecipeBlockMaterial.class, Category.SHAPED,
-				"after:minecraft:shaped");
 		MinecraftForge.EVENT_BUS.register(ModBuildingBricks.materialBag);
 		MinecraftForge.EVENT_BUS.register(BlockPlacementManager.getInstance());
 		SidedCall.run(Side.CLIENT, new SidedRunnable() {
@@ -147,10 +140,12 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 								"Display the material on the blocks' tooltips", new Consumer<Property>() {
 									@Override
 									public void accept(Property property) {
-										if(property.getBoolean())
-											MinecraftForge.EVENT_BUS.register(EventHandlerShowMaterialTooltip.getInstance());
+										if (property.getBoolean())
+											MinecraftForge.EVENT_BUS.register(
+													EventHandlerShowMaterialTooltip.getInstance());
 										else
-											MinecraftForge.EVENT_BUS.unregister(EventHandlerShowMaterialTooltip.getInstance());
+											MinecraftForge.EVENT_BUS.unregister(
+													EventHandlerShowMaterialTooltip.getInstance());
 									}
 								})
 						.endCategory()
@@ -179,14 +174,7 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 								cfg.removeCategory(worldCat);
 								generalCat.remove("replaceGrassTexture");
 							}
-						}))
-				.addFile(new ConfigManagerBuilder() {
-					@Override
-					public ConfigManager build(String modId, Path path) {
-						IdMappingLoader.init(path.resolve("material_ids.nbt"));
-						return null;
-					}
-				}));
+						})));
 	}
 
 	@Override

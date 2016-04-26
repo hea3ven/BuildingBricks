@@ -16,7 +16,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
-import com.hea3ven.tools.commonutils.util.ItemBlockUtil;
 
 public class BlockPlacementManager {
 
@@ -79,7 +78,9 @@ public class BlockPlacementManager {
 		for (IBlockPlacementHandler handler : getHandlers()) {
 			if (handler.isHandled(event.getStack())) {
 				event.setActionResult(EnumActionResult.FAIL);
-				EnumActionResult result = handler.place(event.getWorld(), event.getStack(), event.getPlayer(), mat, state, event.getPlaceParams());
+				EnumActionResult result =
+						handler.place(event.getWorld(), event.getStack(), event.getPlayer(), mat, state,
+								event.getPlaceParams());
 				if (result != EnumActionResult.PASS) {
 					event.setCanceled(true);
 					event.setActionResult(result);
