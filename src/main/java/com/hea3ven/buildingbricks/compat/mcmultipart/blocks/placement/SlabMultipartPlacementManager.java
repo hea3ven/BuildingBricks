@@ -1,7 +1,12 @@
 package com.hea3ven.buildingbricks.compat.mcmultipart.blocks.placement;
 
 import mcmultipart.MCMultiPartMod;
+import mcmultipart.microblock.IMicroMaterial;
+import mcmultipart.microblock.IMicroblock;
+import mcmultipart.microblock.Microblock;
+import mcmultipart.multipart.IMultipart;
 import mcmultipart.multipart.MultipartHelper;
+import mcmultipart.multipart.PartSlot;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
@@ -20,8 +25,10 @@ import net.minecraft.world.World;
 
 import net.minecraftforge.common.property.IExtendedBlockState;
 
+import com.hea3ven.buildingbricks.compat.mcmultipart.microblock.MicroblockBlockMaterial;
 import com.hea3ven.buildingbricks.compat.mcmultipart.multipart.MultipartBlockMaterial;
 import com.hea3ven.buildingbricks.compat.mcmultipart.multipart.MultipartBlockWrapper;
+import com.hea3ven.buildingbricks.compat.mcmultipart.util.MicroblockUtil;
 import com.hea3ven.buildingbricks.compat.mcmultipart.util.MultipartUtil;
 import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.blocks.placement.PlacementHandlerBase;
@@ -60,14 +67,20 @@ public class SlabMultipartPlacementManager extends PlacementHandlerBase {
 				}
 			}
 		}
+		IMicroMaterial microMat = MicroblockUtil.getMicroMaterial(mat);
+		if(microMat == null)
+			return EnumActionResult.PASS;
 		IBlockState partState = calculatePlaceState(world, placer, params, stack, block);
-		MultipartBlockWrapper part;
-		if (partState.getBlock() instanceof BlockMaterial) {
+//		MultipartBlockWrapper part;
+//		if (partState.getBlock() instanceof BlockMaterial) {
 			partState = ((IExtendedBlockState) partState)
 					.withProperty(TileMaterial.MATERIAL, MaterialRegistry.getMaterialForStack(stack));
-			part = new MultipartBlockMaterial(block, (IExtendedBlockState) partState);
-		} else
-			part = new MultipartBlockWrapper(block, partState);
+//			part = new MultipartBlockMaterial(block, (IExtendedBlockState) partState);
+//		} else
+//			part = new MultipartBlockWrapper(block, partState);
+
+		IMicroblock part = new MicroblockBlockMaterial(microMat, PartSlot.DOWN, 4, world.isRemote, partState);
+
 		if (!MultipartHelper.canAddPart(world, params.pos, part))
 			return EnumActionResult.PASS;
 

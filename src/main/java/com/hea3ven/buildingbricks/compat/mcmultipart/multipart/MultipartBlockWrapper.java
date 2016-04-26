@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
-public class MultipartBlockWrapper extends Microblock {
+public class MultipartBlockWrapper extends Multipart {
 	protected final Block block;
 	protected IBlockState state;
 
