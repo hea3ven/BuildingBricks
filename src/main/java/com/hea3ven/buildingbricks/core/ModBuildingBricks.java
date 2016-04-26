@@ -39,7 +39,7 @@ public class ModBuildingBricks {
 
 	public static final Logger logger = LogManager.getLogger("BuildingBricks");
 
-	public static ProxyCommonBuildingBricks proxy = new ProxyCommonBuildingBricks();
+	public static ProxyCommonBuildingBricks proxy;
 
 	static ResourceScanner resScanner;
 
@@ -49,6 +49,8 @@ public class ModBuildingBricks {
 
 	@Subscribe
 	public void construction(FMLConstructionEvent event) {
+		proxy = new ProxyCommonBuildingBricks();
+
 		Path resourcesDir;
 		if (event.getSide() == Side.CLIENT) {
 			resScanner = new ResourceScannerClient();

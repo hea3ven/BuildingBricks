@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +19,7 @@ import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
+import com.hea3ven.tools.commonutils.util.ItemBlockUtil;
 import com.hea3ven.tools.commonutils.util.PlaceParams;
 
 public class SlabPlacementHandler extends PlacementHandlerBase {
@@ -29,7 +31,7 @@ public class SlabPlacementHandler extends PlacementHandlerBase {
 	}
 
 	@Override
-	public IBlockState place(World world, ItemStack stack, EntityLivingBase placer, Material mat,
+	public EnumActionResult place(World world, ItemStack stack, EntityLivingBase placer, Material mat,
 			IBlockState state, PlaceParams params) {
 		Block block;
 		if (params.side.getAxis() == Axis.Y) {
@@ -51,12 +53,15 @@ public class SlabPlacementHandler extends PlacementHandlerBase {
 			}
 		}
 		if (!world.canBlockBePlaced(block, params.pos, false, params.side, null, stack))
-			return null;
-		return placeBlock(world, placer, params, stack, block);
+			return EnumActionResult.PASS;
+		IBlockState newState = calculatePlaceState(world, placer, params, stack, block);
+		if (ItemBlockUtil.placeBlock(stack, placer, world, params.pos, newState))
+			return EnumActionResult.SUCCESS;
+		return EnumActionResult.PASS;
 	}
 
 	@Override
-	public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing side, EntityPlayer player,
+	public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing side, EntityPlayer placer,
 			ItemStack stack) {
 		Block block = world.getBlockState(pos).getBlock();
 
@@ -65,7 +70,7 @@ public class SlabPlacementHandler extends PlacementHandlerBase {
 			pos = pos.offset(side);
 		}
 
-		if (world.canBlockBePlaced(((ItemBlock) stack.getItem()).block, pos, false, side, null, stack))
+		if (world.canBlockBePlaced(((ItemBlock) stack.getItem()).block, pos, false, side, placer, stack))
 			return true;
 
 		Material mat = MaterialRegistry.getMaterialForStack(stack);
@@ -74,7 +79,6 @@ public class SlabPlacementHandler extends PlacementHandlerBase {
 		BlockDescription blockDesc = mat.getBlock(MaterialBlockType.VERTICAL_SLAB);
 		if (blockDesc == null)
 			return false;
-		return world.canBlockBePlaced(blockDesc.getBlock(), pos, false,
-				side, null, stack);
+		return world.canBlockBePlaced(blockDesc.getBlock(), pos, false, side, placer, stack);
 	}
 }

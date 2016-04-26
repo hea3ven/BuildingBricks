@@ -34,7 +34,8 @@ public class BlockPlacementManager {
 		instance.add(20, new SlabCombinePlacementHandler());
 		instance.add(20, new StepCombinePlacementHandler());
 		instance.add(20, new CornerCombinePlacementHandler());
-		instance.add(100, new SlabPlacementHandler());
+		instance.add(69, new SlabPlacementHandler());
+		instance.add(70, new FirstFallbackPlacementHandler());
 		instance.add(200, new FallbackPlacementHandler());
 	}
 
@@ -77,15 +78,12 @@ public class BlockPlacementManager {
 		IBlockState state = event.getWorld().getBlockState(event.getPlaceParams().pos);
 		for (IBlockPlacementHandler handler : getHandlers()) {
 			if (handler.isHandled(event.getStack())) {
-				event.setCanceled(true);
 				event.setActionResult(EnumActionResult.FAIL);
-				IBlockState newState =
-						handler.place(event.getWorld(), event.getStack(), event.getPlayer(), mat, state,
-								event.getPlaceParams());
-				if (newState != null) {
-					ItemBlockUtil.placeBlock(event.getStack(), event.getPlayer(), event.getWorld(),
-							event.getPlaceParams().pos, newState);
-					event.setActionResult(EnumActionResult.SUCCESS);
+				EnumActionResult result = handler.place(event.getWorld(), event.getStack(), event.getPlayer(), mat, state, event.getPlaceParams());
+				if (result != EnumActionResult.PASS) {
+					event.setCanceled(true);
+					event.setActionResult(result);
+					break;
 				}
 			}
 		}
