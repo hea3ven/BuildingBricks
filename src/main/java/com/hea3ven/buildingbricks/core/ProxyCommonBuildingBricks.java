@@ -44,6 +44,7 @@ import com.hea3ven.buildingbricks.core.client.gui.GuiMaterialBag;
 import com.hea3ven.buildingbricks.core.client.gui.GuiTrowel;
 import com.hea3ven.buildingbricks.core.client.settings.TrowelKeyBindings;
 import com.hea3ven.buildingbricks.core.command.CommandCreateMaterial;
+import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerShowMaterialTooltip;
 import com.hea3ven.buildingbricks.core.eventhandlers.EventHandlerTrowelOverlay;
 import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.items.ItemTrowel;
@@ -142,6 +143,16 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 										ItemTrowel.trowelsInCreative = property.getBoolean();
 									}
 								}, false, false)
+						.addValue("showMaterialInTooltip", "true", Type.BOOLEAN,
+								"Display the material on the blocks' tooltips", new Consumer<Property>() {
+									@Override
+									public void accept(Property property) {
+										if(property.getBoolean())
+											MinecraftForge.EVENT_BUS.register(EventHandlerShowMaterialTooltip.getInstance());
+										else
+											MinecraftForge.EVENT_BUS.unregister(EventHandlerShowMaterialTooltip.getInstance());
+									}
+								})
 						.endCategory()
 						.addCategory("compat")
 						.add(this.getModule("compatvanilla").getConfig())

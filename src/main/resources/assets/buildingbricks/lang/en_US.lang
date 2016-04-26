@@ -6,6 +6,8 @@ buildingbricks.config.general.blocksInCreative=Show blocks in creative tab
 buildingbricks.config.general.blocksInCreative.tooltip=Enable to add all the generated blocks to the creative menu.
 buildingbricks.config.general.trowelsInCreative=Show trowels in creative tab
 buildingbricks.config.general.trowelsInCreative.tooltip=Enable to add binded trowels for each material to the creative menu
+buildingbricks.config.general.showMaterialInTooltip=Show material in tooltips
+buildingbricks.config.general.showMaterialInTooltip.tooltip=Display the material on the blocks' tooltips
 buildingbricks.config.compat=Compatibility
 buildingbricks.config.compat.tooltip=Configuration options for the compatibility modules.
 buildingbricks.config.compat.vanilla=Vanilla
@@ -18,6 +20,8 @@ buildingbricks.config.compat.vanilla.generateGrassSlabs=Generate grass slabs
 buildingbricks.config.compat.vanilla.generateGrassSlabs.tooltip=Enable to generate grass slabs in the world to smooth out the surface.
 
 buildingbricks.chat.idMappingsInvalid=The BuildingBricks configuration on this client differs from the one on the server, this might cause issues.
+
+buildingbricks.tooltip.material=Material: %s (%s)
 
 itemGroup.buildingBricks=Building Bricks
 
