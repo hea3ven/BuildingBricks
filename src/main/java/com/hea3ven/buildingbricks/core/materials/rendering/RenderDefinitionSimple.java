@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelManager;
 
 import net.minecraftforge.client.model.IModel;
+import net.minecraftforge.client.model.IModelUVLock;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -39,6 +40,7 @@ public class RenderDefinitionSimple extends RenderDefinition {
 		IModel model = getModel(modelManager, mat, state);
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		IModelState modelState = getModelState(state);
+		model = BakerUtil.uvlock(model, true);
 		return BakerUtil.bake(model, modelState != null ? modelState : model.getDefaultState());
 	}
 
