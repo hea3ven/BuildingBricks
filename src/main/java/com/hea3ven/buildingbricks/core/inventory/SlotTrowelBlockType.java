@@ -12,13 +12,11 @@ import com.hea3ven.tools.commonutils.util.PlayerUtil;
 import com.hea3ven.tools.commonutils.util.PlayerUtil.HeldEquipment;
 
 public class SlotTrowelBlockType extends Slot {
-	private EntityPlayer player;
 	private HeldEquipment equipment;
 
 	public SlotTrowelBlockType(EntityPlayer player, int index, int xPosition, int yPosition) {
 		super(null, index, xPosition, yPosition);
 
-		this.player = player;
 		this.equipment = PlayerUtil.getHeldEquipment(player, ModBuildingBricks.trowel);
 	}
 

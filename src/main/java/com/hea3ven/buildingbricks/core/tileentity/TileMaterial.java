@@ -29,8 +29,8 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.common.util.Constants.NBT;
 
-import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
-import com.hea3ven.buildingbricks.core.blocks.properties.PropertyMaterial;
+import com.hea3ven.buildingbricks.core.block.base.BlockBuildingBricks;
+import com.hea3ven.buildingbricks.core.block.properties.PropertyMaterial;
 import com.hea3ven.buildingbricks.core.materials.*;
 
 public class TileMaterial extends TileEntity {

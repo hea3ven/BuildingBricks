@@ -49,8 +49,7 @@ public class ItemBlockPlaceOverride implements ASMTweak {
 				editor.addImport("net/minecraftforge/fml/common/eventhandler/Event");
 				editor.addImport("net/minecraftforge/fml/common/eventhandler/EventBus");
 
-				editor.addImport(
-						"com/hea3ven/buildingbricks/core/blocks/placement/ItemBlockUseEvent");
+				editor.addImport("com/hea3ven/buildingbricks/core/block/placement/ItemBlockUseEvent");
 
 				LabelNode lbl = new LabelNode();
 
@@ -102,7 +101,7 @@ public class ItemBlockPlaceOverride implements ASMTweak {
 				editor.addImport("net/minecraftforge/fml/common/eventhandler/EventBus");
 
 				editor.addImport(
-						"com/hea3ven/buildingbricks/core/blocks/placement/ItemBlockCanPlaceBlockOnSideEvent");
+						"com/hea3ven/buildingbricks/core/block/placement/ItemBlockCanPlaceBlockOnSideEvent");
 
 				LabelNode lbl = new LabelNode();
 

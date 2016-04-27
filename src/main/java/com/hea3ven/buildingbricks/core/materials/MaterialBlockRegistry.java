@@ -20,8 +20,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
-import com.hea3ven.buildingbricks.core.blocks.*;
-import com.hea3ven.buildingbricks.core.items.ItemMaterialBlock;
+import com.hea3ven.buildingbricks.core.block.*;
+import com.hea3ven.buildingbricks.core.item.ItemMaterialBlock;
 import com.hea3ven.tools.commonutils.client.renderer.SimpleItemMeshDefinition;
 import com.hea3ven.tools.commonutils.util.SidedCall;
 import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;

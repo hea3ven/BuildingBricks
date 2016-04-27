@@ -25,11 +25,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.compat.vanilla.blocks.BlockGrassSlab;
+import com.hea3ven.buildingbricks.compat.vanilla.block.BlockGrassSlab;
 import com.hea3ven.buildingbricks.compat.vanilla.client.LongGrassTextureGenerator;
-import com.hea3ven.buildingbricks.compat.vanilla.items.ItemBlockGrassSlab;
+import com.hea3ven.buildingbricks.compat.vanilla.item.ItemBlockGrassSlab;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
-import com.hea3ven.buildingbricks.core.blocks.base.BlockBuildingBricks;
+import com.hea3ven.buildingbricks.core.block.base.BlockBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;

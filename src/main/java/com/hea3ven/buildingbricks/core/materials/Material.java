@@ -6,7 +6,7 @@ import java.util.Map;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
-import com.hea3ven.buildingbricks.core.blocks.base.BlockMaterial;
+import com.hea3ven.buildingbricks.core.block.base.BlockMaterial;
 
 public class Material {
 

@@ -93,7 +93,7 @@ public class MaterialBlockLogic {
 		float f = 0.1F;
 
 		double x = pos.getX();
-		AxisAlignedBB blockBb = block.getBoundingBox(state, (IBlockAccess) world, pos);
+		AxisAlignedBB blockBb = block.getBoundingBox(state, world, pos);
 		if (side.getAxis() != Axis.X) {
 			x += rand.nextDouble() * (blockBb.maxX - blockBb.minX - f * 2.0F) +
 					f + blockBb.minX;

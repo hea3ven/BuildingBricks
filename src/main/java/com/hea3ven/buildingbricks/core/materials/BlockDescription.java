@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -29,8 +31,8 @@ public class BlockDescription {
 
 	private boolean stackInit = false;
 
-	public BlockDescription(MaterialBlockType type, Block block, int metadata, Map<String, NBTBase> tags,
-			List<MaterialBlockRecipeBuilder> recipes) {
+	public BlockDescription(MaterialBlockType type, Block block, int metadata,
+			@Nonnull Map<String, NBTBase> tags, @Nonnull List<MaterialBlockRecipeBuilder> recipes) {
 		this.type = type;
 		this.block = block;
 		this.meta = metadata;
@@ -41,8 +43,7 @@ public class BlockDescription {
 	}
 
 	public BlockDescription(MaterialBlockType type, String blockName, int metadata,
-			Map<String, NBTBase> tags,
-			List<MaterialBlockRecipeBuilder> recipes) {
+			@Nonnull Map<String, NBTBase> tags, @Nonnull List<MaterialBlockRecipeBuilder> recipes) {
 		this(type, (Block) null, metadata, tags, recipes);
 		this.blockName = blockName;
 	}

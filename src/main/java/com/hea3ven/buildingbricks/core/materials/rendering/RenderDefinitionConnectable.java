@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.block.model.multipart.ICondition;
 
 import net.minecraftforge.client.model.IModel;
 
-import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
+import com.hea3ven.buildingbricks.core.block.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.tools.commonutils.client.BakerUtil;
 

@@ -11,7 +11,7 @@ import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.hea3ven.buildingbricks.core.blocks.properties.BlockProperties;
+import com.hea3ven.buildingbricks.core.block.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.blockstate.EnumRotation;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 

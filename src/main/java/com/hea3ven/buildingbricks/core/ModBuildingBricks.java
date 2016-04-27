@@ -19,9 +19,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry.Type;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.hea3ven.buildingbricks.compat.vanilla.ProxyModBuildingBricksCompatVanilla;
-import com.hea3ven.buildingbricks.core.blocks.BlockPortableLadder;
-import com.hea3ven.buildingbricks.core.items.ItemMaterialBag;
-import com.hea3ven.buildingbricks.core.items.ItemTrowel;
+import com.hea3ven.buildingbricks.core.block.BlockPortableLadder;
+import com.hea3ven.buildingbricks.core.item.ItemMaterialBag;
+import com.hea3ven.buildingbricks.core.item.ItemTrowel;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
 import com.hea3ven.tools.commonutils.resources.ResourceScannerClient;
 import com.hea3ven.tools.commonutils.resources.ResourceScannerServer;
