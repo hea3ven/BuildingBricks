@@ -40,7 +40,7 @@ public class RenderDefinitionSimple extends RenderDefinition {
 		IModel model = getModel(modelManager, mat, state);
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		IModelState modelState = getModelState(state);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		return BakerUtil.bake(model, modelState != null ? modelState : model.getDefaultState());
 	}
 

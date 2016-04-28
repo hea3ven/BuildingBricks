@@ -13,6 +13,8 @@ import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public abstract class MaterialBuilder {
 
+	private boolean uvlock;
+
 	public abstract MaterialBuilder setStructureMaterial(StructureMaterial type);
 
 	public abstract MaterialBuilder setHardness(float hardness);
@@ -22,6 +24,8 @@ public abstract class MaterialBuilder {
 	public abstract MaterialBuilder setNormalHarvestMaterial(String normalHarvest);
 
 	public abstract MaterialBuilder setSilkHarvestMaterial(String silkHarvest);
+
+	public abstract MaterialBuilder setUvlock(boolean uvlock);
 
 	public abstract void setTextures(ImmutableMap<String, String> textures);
 

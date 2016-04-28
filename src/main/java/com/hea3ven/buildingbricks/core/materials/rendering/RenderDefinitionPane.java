@@ -32,7 +32,7 @@ public class RenderDefinitionPane extends RenderDefinition {
 		IModel model;
 		model = loadModel(modelManager, "block", mat, "pane_post");
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new Predicate<IBlockState>() {
 			@Override
 			public boolean apply(IBlockState input) {
@@ -42,47 +42,47 @@ public class RenderDefinitionPane extends RenderDefinition {
 
 		model = loadModel(modelManager, "block", mat, "pane_side");
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new BoolPropertyPredicate(BlockPane.NORTH), BakerUtil.bake(model));
 
 		model = loadModel(modelManager, "block", mat, "pane_side");
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new BoolPropertyPredicate(BlockPane.EAST),
 				BakerUtil.bake(model, ModelRotation.X0_Y90));
 
 		model = loadModel(modelManager, "block", mat, "pane_side");
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new BoolPropertyPredicate(BlockPane.SOUTH),
 				BakerUtil.bake(model, ModelRotation.X0_Y180));
 
 		model = loadModel(modelManager, "block", mat, "pane_side");
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new BoolPropertyPredicate(BlockPane.WEST),
 				BakerUtil.bake(model, ModelRotation.X0_Y270));
 
 		model = loadModel(modelManager, "block", mat, "pane_noside");
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new NegBoolPropertyPredicate(BlockPane.NORTH), BakerUtil.bake(model));
 
 		model = loadModel(modelManager, "block", mat, "pane_noside");
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new NegBoolPropertyPredicate(BlockPane.EAST),
 				BakerUtil.bake(model, ModelRotation.X0_Y90));
 
 		model = loadModel(modelManager, "block", mat, "pane_noside");
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new NegBoolPropertyPredicate(BlockPane.SOUTH),
 				BakerUtil.bake(model, ModelRotation.X0_Y180));
 
 		model = loadModel(modelManager, "block", mat, "pane_noside");
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new NegBoolPropertyPredicate(BlockPane.WEST),
 				BakerUtil.bake(model, ModelRotation.X0_Y270));
 		return builder.makeMultipartModel();

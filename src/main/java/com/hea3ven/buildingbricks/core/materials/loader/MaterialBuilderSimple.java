@@ -52,6 +52,12 @@ public class MaterialBuilderSimple extends MaterialBuilder {
 	}
 
 	@Override
+	public MaterialBuilder setUvlock(boolean uvlock) {
+		mat.setUvlock(uvlock);
+		return this;
+	}
+
+	@Override
 	public void setTextures(ImmutableMap<String, String> textures) {
 		String baseTexture = textures.containsKey("all") ? textures.get("all") : textures.get("side");
 		for (Entry<String, String> entry : textures.entrySet()) {

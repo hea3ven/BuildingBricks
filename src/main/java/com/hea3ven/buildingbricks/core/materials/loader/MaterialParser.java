@@ -81,6 +81,9 @@ public class MaterialParser {
 				matBuilder.setSilkHarvestMaterial(json.get("silkHarvest").getAsString());
 			}
 
+			if (json.has("uvlock")) {
+				matBuilder.setUvlock(json.get("uvlock").getAsBoolean());
+			}
 			if (json.has("textures")) {
 				if (json.get("textures").isJsonPrimitive())
 					matBuilder.setTextures(ImmutableMap.<String, String>builder()

@@ -76,6 +76,14 @@ public class MaterialBuilderDyeMeta extends MaterialBuilder {
 	}
 
 	@Override
+	public MaterialBuilder setUvlock(boolean uvlock) {
+		for (MaterialBuilder mat : mats) {
+			mat.setUvlock(uvlock);
+		}
+		return this;
+	}
+
+	@Override
 	public void setTextures(ImmutableMap<String, String> textures) {
 		int i = 0;
 		for (MaterialBuilder mat : mats) {
@@ -93,7 +101,7 @@ public class MaterialBuilderDyeMeta extends MaterialBuilder {
 			List<MaterialBlockRecipeBuilder> recipes) {
 		int i = 0;
 		for (MaterialBuilder mat : mats) {
-			mat.addBlock(type, blockName, metadata != -1? metadata : i++, tags, recipes);
+			mat.addBlock(type, blockName, metadata != -1 ? metadata : i++, tags, recipes);
 		}
 	}
 

@@ -4,6 +4,7 @@
     "type": "grass",
     "normalHarvest": "dirt",
     "silkHarvest": "grass",
+    "uvlock": false,
     "textures": {
         "top": "minecraft:blocks/grass_top",
         "bottom": "minecraft:blocks/dirt",

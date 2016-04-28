@@ -18,6 +18,7 @@ public class Material {
 	private float resistance = 5.0f;
 	private String normalHarvestMaterial;
 	private String silkHarvestMaterial = null;
+	private boolean uvlock = true;
 
 	public Material(String materialId) {
 		this.materialId = materialId;
@@ -77,6 +78,14 @@ public class Material {
 		return silkHarvestMaterial;
 	}
 
+	public void setUvlock(boolean uvlock) {
+		this.uvlock = uvlock;
+	}
+
+	public boolean getUvlock() {
+		return uvlock;
+	}
+
 	public BlockRotation getBlockRotation() {
 		return blockRotation;
 	}
@@ -94,7 +103,7 @@ public class Material {
 	}
 
 	public BlockDescription getBlock(ItemStack stack) {
-		if(stack == null)
+		if (stack == null)
 			return null;
 		for (BlockDescription blockDesc : getBlockRotation().getAll().values()) {
 			if (ItemStack.areItemsEqual(stack, blockDesc.getStack()) &&

@@ -48,16 +48,16 @@ public class RenderDefinitionConnectable extends RenderDefinition {
 			if (state.getPropertyNames().contains(BlockWall.UP)) {
 				model = loadModel(modelManager, "block", mat, postModelLocation);
 				model = BakerUtil.retexture(mat.getTextures(), model);
-				model = BakerUtil.uvlock(model, true);
+				model = BakerUtil.uvlock(model, mat.getUvlock());
 				builder.putModel(new BoolPropertyPredicate(BlockWall.UP), BakerUtil.bake(model));
 				model = loadModel(modelManager, "block", mat, shortPostModel);
 				model = BakerUtil.retexture(mat.getTextures(), model);
-				model = BakerUtil.uvlock(model, true);
+				model = BakerUtil.uvlock(model, mat.getUvlock());
 				builder.putModel(new NegBoolPropertyPredicate(BlockWall.UP), BakerUtil.bake(model));
 			} else {
 				model = loadModel(modelManager, "block", mat, postModelLocation);
 				model = BakerUtil.retexture(mat.getTextures(), model);
-				model = BakerUtil.uvlock(model, true);
+				model = BakerUtil.uvlock(model, mat.getUvlock());
 				builder.putModel(ICondition.TRUE.getPredicate(state.getBlock().getBlockState()),
 						BakerUtil.bake(model));
 			}
@@ -65,24 +65,24 @@ public class RenderDefinitionConnectable extends RenderDefinition {
 
 		model = loadModel(modelManager, "block", mat, connModelLocation);
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new BoolPropertyPredicate(BlockProperties.CONNECT_NORTH), BakerUtil.bake(model));
 
 		model = loadModel(modelManager, "block", mat, connModelLocation);
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new BoolPropertyPredicate(BlockProperties.CONNECT_EAST),
 				BakerUtil.bake(model, ModelRotation.X0_Y90));
 
 		model = loadModel(modelManager, "block", mat, connModelLocation);
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new BoolPropertyPredicate(BlockProperties.CONNECT_SOUTH),
 				BakerUtil.bake(model, ModelRotation.X0_Y180));
 
 		model = loadModel(modelManager, "block", mat, connModelLocation);
 		model = BakerUtil.retexture(mat.getTextures(), model);
-		model = BakerUtil.uvlock(model, true);
+		model = BakerUtil.uvlock(model, mat.getUvlock());
 		builder.putModel(new BoolPropertyPredicate(BlockProperties.CONNECT_WEST),
 				BakerUtil.bake(model, ModelRotation.X0_Y270));
 
