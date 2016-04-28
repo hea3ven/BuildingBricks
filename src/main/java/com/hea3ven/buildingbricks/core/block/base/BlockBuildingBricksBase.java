@@ -17,6 +17,7 @@ public class BlockBuildingBricksBase extends Block implements BlockBuildingBrick
 
 	public BlockBuildingBricksBase(StructureMaterial structMat, MaterialBlockType blockType) {
 		super(structMat.getMcMaterial());
+		setSoundType(structMat.getSoundType());
 
 		blockLogic = new MaterialBlockLogic(structMat, blockType);
 		blockLogic.initBlock(this);

@@ -25,6 +25,7 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 
 	public BlockBuildingBricksSlab(StructureMaterial structMat) {
 		super(structMat.getMcMaterial());
+		setSoundType(structMat.getSoundType());
 		useNeighborBrightness = true;
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.SLAB);

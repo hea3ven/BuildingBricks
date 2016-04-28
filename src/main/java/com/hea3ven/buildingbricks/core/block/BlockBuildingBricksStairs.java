@@ -24,6 +24,7 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 	public BlockBuildingBricksStairs(StructureMaterial structMat) {
 		super(new Block(structMat.getMcMaterial()) {
 		}.getDefaultState());
+		setSoundType(structMat.getSoundType());
 		useNeighborBrightness = true;
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.STAIRS);

@@ -20,6 +20,7 @@ public class BlockBuildingBricksPane extends BlockPane implements BlockBuildingB
 
 	public BlockBuildingBricksPane(StructureMaterial structMat) {
 		super(structMat.getMcMaterial(), false);
+		setSoundType(structMat.getSoundType());
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.PANE);
 		blockLogic.initBlock(this);

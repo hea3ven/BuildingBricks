@@ -19,6 +19,7 @@ public class BlockBuildingBricksFenceGate extends BlockFenceGate implements Bloc
 
 	public BlockBuildingBricksFenceGate(StructureMaterial structMat) {
 		super(EnumType.OAK);
+		setSoundType(structMat.getSoundType());
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.FENCE_GATE);
 		blockLogic.initBlock(this);

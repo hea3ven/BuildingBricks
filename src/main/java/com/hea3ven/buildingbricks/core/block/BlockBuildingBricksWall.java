@@ -30,6 +30,7 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 	public BlockBuildingBricksWall(StructureMaterial structMat) {
 		super(new Block(structMat.getMcMaterial()) {
 		});
+		setSoundType(structMat.getSoundType());
 
 		blockLogic = new MaterialBlockLogic(structMat, MaterialBlockType.WALL);
 		blockLogic.initBlock(this);
