@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.nbt.NBTBase;
 
+import com.hea3ven.buildingbricks.core.block.behavior.BlockBehaviorBase;
 import com.hea3ven.buildingbricks.core.materials.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
@@ -24,6 +25,12 @@ public class MaterialBuilderSimple extends MaterialBuilder {
 	@Override
 	public MaterialBuilder setStructureMaterial(StructureMaterial type) {
 		mat.setStructureMaterial(type);
+		return this;
+	}
+
+	@Override
+	public MaterialBuilder setBehavior(BlockBehaviorBase behavior) {
+		mat.setBehavior(behavior);
 		return this;
 	}
 

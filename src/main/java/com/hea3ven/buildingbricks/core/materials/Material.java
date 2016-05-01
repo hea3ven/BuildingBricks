@@ -7,12 +7,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
 import com.hea3ven.buildingbricks.core.block.base.BlockMaterial;
+import com.hea3ven.buildingbricks.core.block.behavior.BlockBehaviorBase;
 
 public class Material {
 
 	private String materialId;
 	private Map<String, String> textures = new HashMap<>();
 	private StructureMaterial structureMaterial;
+	private BlockBehaviorBase behavior = null;
 	private BlockRotation blockRotation;
 	private float hardness = 1.0f;
 	private float resistance = 5.0f;
@@ -44,6 +46,14 @@ public class Material {
 
 	public StructureMaterial getStructureMaterial() {
 		return structureMaterial;
+	}
+
+	public void setBehavior(BlockBehaviorBase behavior) {
+		this.behavior = behavior;
+	}
+
+	public BlockBehaviorBase getBehavior() {
+		return behavior;
 	}
 
 	public void setHardness(float hardness) {

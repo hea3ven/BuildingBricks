@@ -7,15 +7,16 @@ import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.nbt.NBTBase;
 
+import com.hea3ven.buildingbricks.core.block.behavior.BlockBehaviorBase;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 
 public abstract class MaterialBuilder {
 
-	private boolean uvlock;
-
 	public abstract MaterialBuilder setStructureMaterial(StructureMaterial type);
+
+	public abstract MaterialBuilder setBehavior(BlockBehaviorBase behavior);
 
 	public abstract MaterialBuilder setHardness(float hardness);
 

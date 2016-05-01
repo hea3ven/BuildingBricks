@@ -14,6 +14,8 @@ import com.google.gson.*;
 
 import net.minecraft.util.JsonUtils;
 
+import com.hea3ven.buildingbricks.core.block.behavior.BlockBehaviorBase;
+import com.hea3ven.buildingbricks.core.block.behavior.BlockBehaviorRegistry;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
@@ -25,6 +27,7 @@ public class MaterialParser {
 	static final Gson GSON =
 			(new GsonBuilder()).registerTypeAdapter(MaterialBuilder.class, new MaterialDeserializer())
 					.registerTypeAdapter(StructureMaterial.class, new StructureMaterialDeserializer())
+					.registerTypeAdapter(BlockBehaviorBase.class, new BlockBehaviorDeserializer())
 					.create();
 
 	static Map<String, MaterialBuilderSimple> materials = new HashMap<>();
@@ -63,6 +66,12 @@ public class MaterialParser {
 			if (json.has("type")) {
 				structMat = context.deserialize(json.get("type"), StructureMaterial.class);
 				matBuilder.setStructureMaterial(structMat);
+			}
+
+			if (json.has("behavior")) {
+				matBuilder.setBehavior(
+						context.<BlockBehaviorBase>deserialize(json.get("behavior"),
+								BlockBehaviorBase.class));
 			}
 
 			if (json.has("hardness")) {
@@ -162,21 +171,22 @@ public class MaterialParser {
 		@Override
 		public StructureMaterial deserialize(JsonElement json, Type typeOfT,
 				JsonDeserializationContext context) throws JsonParseException {
-			String strucMatName = JsonUtils.getString(json, "type");
+			String strucMatName = json.getAsString();
 			return StructureMaterial.valueOf(strucMatName.toUpperCase());
 		}
 	}
 
-	private static class MaterialDefinition {
-		private final Material[] materials;
+	public static class BlockBehaviorDeserializer implements JsonDeserializer<BlockBehaviorBase> {
 
-		public MaterialDefinition(Material[] materials) {
+		@Override
+		public BlockBehaviorBase deserialize(JsonElement element, Type typeOfT,
+				JsonDeserializationContext context) throws JsonParseException {
+			JsonObject json = element.getAsJsonObject();
 
-			this.materials = materials;
-		}
+			if (!json.has("type"))
+				throw new JsonParseException("the behavior does not have a type");
 
-		public Material[] getMaterials() {
-			return materials;
+			return BlockBehaviorRegistry.create(json.get("type").getAsString(), json);
 		}
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
@@ -25,6 +26,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.core.block.base.BlockMaterial;
+import com.hea3ven.buildingbricks.core.block.behavior.BlockBehaviorBase;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
@@ -69,6 +71,9 @@ public class BlockMaterialWall extends BlockBuildingBricksWall implements BlockM
 			ItemStack stack) {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		TileMaterial.onBlockPlacedBy(this, world, pos, state, placer, stack);
+		Material mat = getMaterial(world, pos);
+		if (mat.getBehavior() != null)
+			mat.getBehavior().onBlockPlacedBy(world, pos, state, placer, stack);
 	}
 
 	@Override
@@ -138,5 +143,26 @@ public class BlockMaterialWall extends BlockBuildingBricksWall implements BlockM
 		if (mat == null)
 			return super.getExplosionResistance(world, pos, exploder, explosion);
 		return mat.getResistance() * 3 / 5;
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock) {
+		BlockBehaviorBase behavior = getMaterial(world, pos).getBehavior();
+		if (behavior != null)
+			behavior.onNeighborBlockChange(world, pos, state, neighborBlock);
+		else
+			super.onNeighborBlockChange(world, pos, state, neighborBlock);
+	}
+
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+		Material mat = getMaterial(world, pos);
+		if (mat == null)
+			return super.getLightValue(state, world, pos);
+		BlockBehaviorBase behavior = mat.getBehavior();
+		if (behavior != null)
+			return behavior.getLightValue(state, world, pos);
+		else
+			return super.getLightValue(state, world, pos);
 	}
 }

@@ -10,6 +10,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.StringUtils;
 
+import com.hea3ven.buildingbricks.core.block.behavior.BlockBehaviorBase;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.StructureMaterial;
@@ -33,6 +34,14 @@ public class MaterialBuilderDyeMeta extends MaterialBuilder {
 	public MaterialBuilder setStructureMaterial(StructureMaterial type) {
 		for (MaterialBuilder mat : mats) {
 			mat.setStructureMaterial(type);
+		}
+		return this;
+	}
+
+	@Override
+	public MaterialBuilder setBehavior(BlockBehaviorBase behavior) {
+		for (MaterialBuilder mat : mats) {
+			mat.setBehavior(behavior);
 		}
 		return this;
 	}

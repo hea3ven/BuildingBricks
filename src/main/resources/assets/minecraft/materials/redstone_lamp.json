@@ -1,0 +1,14 @@
+{
+	"name": "Redstone Lamp",
+	"id": "minecraft:redstone_lamp",
+	"type": "glass",
+	"behavior": {
+		"type": "redstone-light",
+		"light-level": 15
+	},
+	"hardness": 0.3,
+	"textures": "minecraft:blocks/lit_redstone_lamp",
+	"blocks": {
+		"full": "minecraft:redstone_lamp"
+	}
+}

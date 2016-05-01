@@ -1,0 +1,14 @@
+{
+	"name": "Glowstone",
+	"id": "minecraft:glowstone",
+	"type": "glass",
+	"behavior": {
+		"type": "emit-light",
+		"light-level": 15
+	},
+	"hardness": 0.3,
+	"textures": "minecraft:blocks/glowstone",
+	"blocks": {
+		"full": "minecraft:glowstone"
+	}
+}
