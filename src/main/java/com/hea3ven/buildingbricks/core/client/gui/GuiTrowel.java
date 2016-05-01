@@ -14,7 +14,7 @@ import com.hea3ven.tools.commonutils.util.PlayerUtil;
 public class GuiTrowel extends GuiContainer {
 
 	public static final int ID = 0;
-	private static final ResourceLocation BG_RESOURCE =
+	public static final ResourceLocation BG_RESOURCE =
 			new ResourceLocation("buildingbricks:textures/gui/container/trowel.png");
 
 	private EntityPlayer player;

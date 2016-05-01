@@ -79,3 +79,5 @@ material.minecraft.emerald_block=Emerald
 material.minecraft.lapis_block=Lapis Lazuli
 
 tile.stoneSlab.stone.name=Double Stone Slab
+
+gui.buildingbricks.jei.material=Material

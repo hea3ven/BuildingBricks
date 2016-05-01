@@ -27,6 +27,12 @@ apply from: 'mcbuild.gradle'
 
 import groovy.io.FileType
 
+repositories {
+	maven {
+		url "http://dvs1.progwml6.com/files/maven"
+	}
+}
+
 dependencies {
     release "com.hea3ven.tools.mappings:h3nt-mappings:${version_h3nt_mappings}"
 
@@ -37,6 +43,8 @@ dependencies {
 	// compile project(':CommonUtils')
 	compile "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}:deobf"
 	release "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}"
+
+	deobfCompile 'mezz.jei:jei_1.9:3.2.12.188'
 
 	testCompile "junit:junit:4.12"
 }
