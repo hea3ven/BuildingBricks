@@ -14,10 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.hea3ven.buildingbricks.core.block.BlockBuildingBricksVerticalSlab;
-import com.hea3ven.buildingbricks.core.materials.BlockDescription;
-import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
-import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.util.BlockPlacingUtil;
 import com.hea3ven.tools.commonutils.util.ItemBlockUtil;
 import com.hea3ven.tools.commonutils.util.PlaceParams;
@@ -25,7 +22,8 @@ import com.hea3ven.tools.commonutils.util.PlaceParams;
 public class SlabPlacementHandler extends PlacementHandlerBase {
 	@Override
 	public boolean isHandled(ItemStack stack) {
-		return stack.getItem() instanceof ItemBlock &&
+		return MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.VERTICAL_SLAB) &&
+				stack.getItem() instanceof ItemBlock &&
 				((ItemBlock) stack.getItem()).block instanceof BlockSlab &&
 				MaterialRegistry.getMaterialForStack(stack) != null;
 	}

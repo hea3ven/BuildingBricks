@@ -58,6 +58,7 @@ import com.hea3ven.tools.commonutils.inventory.ISimpleGuiHandler;
 import com.hea3ven.tools.commonutils.mod.ProxyModComposite;
 import com.hea3ven.tools.commonutils.mod.config.DirectoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder;
+import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.util.ConfigurationUtil;
 import com.hea3ven.tools.commonutils.util.SidedCall;
 import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;
@@ -111,15 +112,6 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 				.addFile(new FileConfigManagerBuilder().setFileName("general.cfg")
 						.setDesc("Building Bricks Configuration")
 						.addCategory("general")
-						.addValue("generateBlocks", "true", Type.BOOLEAN,
-								"Enable to generate the missing blocks for the materials",
-								new Consumer<Property>() {
-									@Override
-									public void accept(Property property) {
-										MaterialBlockRegistry.instance.enableGenerateBlocks =
-												property.getBoolean();
-									}
-								}, true, true)
 						.addValue("blocksInCreative", "true", Type.BOOLEAN,
 								"Enable to add all the generated blocks to the creative menu",
 								new Consumer<Property>() {
@@ -149,6 +141,36 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 									}
 								})
 						.endCategory()
+						.addCategory("blocks")
+						.addValue("enable", "true", Type.BOOLEAN,
+								"Enable to generate the missing blocks for the materials",
+								new Consumer<Property>() {
+									@Override
+									public void accept(Property property) {
+										MaterialBlockRegistry.instance.enableGenerateBlocks =
+												property.getBoolean();
+									}
+								}, true, true)
+						.addValues(new Consumer<CategoryConfigManagerBuilder>() {
+							@Override
+							public void accept(CategoryConfigManagerBuilder cat) {
+								for (final MaterialBlockType blockType : MaterialBlockType.values()) {
+									String name = "enableGenerate" +
+											Character.toUpperCase(blockType.getName().charAt(0)) +
+											blockType.getName().substring(1);
+									cat = cat.addValue(name, "true", Type.BOOLEAN,
+											"Enable to generate blocks of " + blockType.getName() + " type",
+											new Consumer<Property>() {
+												@Override
+												public void accept(Property property) {
+													MaterialBlockRegistry.instance.enabledBlocks.put(
+															blockType, property.getBoolean());
+												}
+											});
+								}
+							}
+						})
+						.endCategory()
 						.addCategory("compat")
 						.add(this.getModule("compatvanilla").getConfig())
 						.endCategory()
@@ -156,6 +178,7 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 							@Override
 							public void accept(Configuration cfg) {
 								ConfigCategory worldCat = cfg.getCategory("world");
+								ConfigCategory blocksCat = cfg.getCategory("blocks");
 								ConfigCategory generalCat = cfg.getCategory("general");
 
 								ConfigCategory vanillaCompatCat =
@@ -170,9 +193,14 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 									vanillaCompatCat.get("replaceGrassTextureForce")
 											.set(generalCat.get("replaceGrassTexture").getBoolean());
 								}
+								if (generalCat.containsKey("generateBlocks")) {
+									blocksCat.get("enable")
+											.set(generalCat.get("generateBlocks").getBoolean());
+								}
 
 								cfg.removeCategory(worldCat);
 								generalCat.remove("replaceGrassTexture");
+								generalCat.remove("generateBlocks");
 							}
 						})));
 	}

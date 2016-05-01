@@ -33,6 +33,7 @@ public class MaterialBlockRegistry {
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialBlockRegistry");
 
 	public boolean enableGenerateBlocks = true;
+	public Map<MaterialBlockType, Boolean> enabledBlocks = new HashMap<>();
 
 	private Table<MaterialBlockType, StructureMaterial, Block> blocks = HashBasedTable.create();
 	private HashMap<Block, Set<Material>> blocksMaterials = new HashMap<>();
@@ -44,7 +45,7 @@ public class MaterialBlockRegistry {
 		for (Material mat : MaterialRegistry.getAll()) {
 			for (BlockDescription blockDesc : new ArrayList<>(mat.getBlockRotation().getAll().values())) {
 				if (blockDesc.isBlockTemplate()) {
-					if (enableGenerateBlocks)
+					if (enableGenerateBlocks && enabledBlocks.get(blockDesc.getType()))
 						initBlockDesc(proxy, mat, blockDesc);
 					else
 						mat.removeBlock(blockDesc);

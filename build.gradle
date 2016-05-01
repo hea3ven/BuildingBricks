@@ -49,7 +49,7 @@ task updateCommonCode << {
 def updateCommonCodeFrom(String masterCodeFile, regionName) {
 	def commonCode = new ArrayList()
 	def found = false
-	def blocksDir = new File(project.projectDir, "src/main/java/com/hea3ven/buildingbricks/core/blocks");
+	def blocksDir = new File(project.projectDir, "src/main/java/com/hea3ven/buildingbricks/core/block");
 	new File(blocksDir, masterCodeFile).eachLine { line ->
 		if (line.contains("//region " + regionName))
 			found = true
