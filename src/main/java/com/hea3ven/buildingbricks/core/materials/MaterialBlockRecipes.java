@@ -31,6 +31,7 @@ public class MaterialBlockRecipes {
 							new MaterialBlockRecipeBuilder().outputAmount(1).ingredients("xx", "x", "STEP"));
 				break;
 			case VERTICAL_SLAB:
+				break;
 			case STEP:
 				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.SLAB))
 					recipes.add(
