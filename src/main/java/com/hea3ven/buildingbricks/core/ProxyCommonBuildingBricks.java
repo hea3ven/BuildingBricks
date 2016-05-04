@@ -4,7 +4,6 @@ import javax.vecmath.Vector3f;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.function.Consumer;
 
 import org.lwjgl.input.Keyboard;
 
@@ -12,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -24,8 +22,6 @@ import net.minecraft.world.World;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.ConfigCategory;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -58,7 +54,6 @@ import com.hea3ven.tools.commonutils.inventory.ISimpleGuiHandler;
 import com.hea3ven.tools.commonutils.mod.ProxyModComposite;
 import com.hea3ven.tools.commonutils.mod.config.DirectoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder;
-import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.util.ConfigurationUtil;
 import com.hea3ven.tools.commonutils.util.SidedCall;
 import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;
@@ -113,96 +108,71 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 						.setDesc("Building Bricks Configuration")
 						.addCategory("general")
 						.addValue("blocksInCreative", "true", Type.BOOLEAN,
-								"Enable to add all the generated blocks to the creative menu",
-								new Consumer<Property>() {
-									@Override
-									public void accept(Property property) {
-										TileMaterial.blocksInCreative = property.getBoolean();
-									}
+								"Enable to add all the generated blocks to the creative menu", property -> {
+									TileMaterial.blocksInCreative = property.getBoolean();
 								}, false, false)
 						.addValue("trowelsInCreative", "true", Type.BOOLEAN,
 								"Enable to add binded trowels for each material to the creative menu",
-								new Consumer<Property>() {
-									@Override
-									public void accept(Property property) {
-										ItemTrowel.trowelsInCreative = property.getBoolean();
-									}
+								property -> {
+									ItemTrowel.trowelsInCreative = property.getBoolean();
 								}, false, false)
 						.addValue("showMaterialInTooltip", "true", Type.BOOLEAN,
-								"Display the material on the blocks' tooltips", new Consumer<Property>() {
-									@Override
-									public void accept(Property property) {
-										if (property.getBoolean())
-											MinecraftForge.EVENT_BUS.register(
-													EventHandlerShowMaterialTooltip.getInstance());
-										else
-											MinecraftForge.EVENT_BUS.unregister(
-													EventHandlerShowMaterialTooltip.getInstance());
-									}
+								"Display the material on the blocks' tooltips", property -> {
+									if (property.getBoolean())
+										MinecraftForge.EVENT_BUS.register(
+												EventHandlerShowMaterialTooltip.getInstance());
+									else
+										MinecraftForge.EVENT_BUS.unregister(
+												EventHandlerShowMaterialTooltip.getInstance());
 								})
 						.endCategory()
 						.addCategory("blocks")
 						.addValue("enable", "true", Type.BOOLEAN,
-								"Enable to generate the missing blocks for the materials",
-								new Consumer<Property>() {
-									@Override
-									public void accept(Property property) {
-										MaterialBlockRegistry.instance.enableGenerateBlocks =
-												property.getBoolean();
-									}
+								"Enable to generate the missing blocks for the materials", property -> {
+									MaterialBlockRegistry.instance.enableGenerateBlocks =
+											property.getBoolean();
 								}, true, true)
-						.addValues(new Consumer<CategoryConfigManagerBuilder>() {
-							@Override
-							public void accept(CategoryConfigManagerBuilder cat) {
-								for (final MaterialBlockType blockType : MaterialBlockType.values()) {
-									String name = "enableGenerate" +
-											Character.toUpperCase(blockType.getName().charAt(0)) +
-											blockType.getName().substring(1);
-									cat = cat.addValue(name, "true", Type.BOOLEAN,
-											"Enable to generate blocks of " + blockType.getName() + " type",
-											new Consumer<Property>() {
-												@Override
-												public void accept(Property property) {
-													MaterialBlockRegistry.instance.enabledBlocks.put(
-															blockType, property.getBoolean());
-												}
-											});
-								}
+						.addValues(cat -> {
+							for (final MaterialBlockType blockType : MaterialBlockType.values()) {
+								String name = "enableGenerate" +
+										Character.toUpperCase(blockType.getName().charAt(0)) +
+										blockType.getName().substring(1);
+								cat = cat.addValue(name, "true", Type.BOOLEAN,
+										"Enable to generate blocks of " + blockType.getName() + " type",
+										property -> {
+											MaterialBlockRegistry.instance.enabledBlocks.put(blockType,
+													property.getBoolean());
+										});
 							}
 						})
 						.endCategory()
 						.addCategory("compat")
 						.add(this.getModule("compatvanilla").getConfig())
 						.endCategory()
-						.Update(new Consumer<Configuration>() {
-							@Override
-							public void accept(Configuration cfg) {
-								ConfigCategory worldCat = cfg.getCategory("world");
-								ConfigCategory blocksCat = cfg.getCategory("blocks");
-								ConfigCategory generalCat = cfg.getCategory("general");
-								ConfigCategory vanillaCompatCat =
-										ConfigurationUtil.getSubCategory(cfg.getCategory("compat"),
-												"vanilla");
-								assert vanillaCompatCat != null;
-								if (worldCat.containsKey("generateGrassSlabs")) {
-									vanillaCompatCat.get("generateGrassSlabs")
-											.set(worldCat.get("generateGrassSlabs").getBoolean());
-								}
-								if (generalCat.containsKey("replaceGrassTexture")) {
-									vanillaCompatCat.get("replaceGrassTexture")
-											.set(generalCat.get("replaceGrassTexture").getBoolean());
-									vanillaCompatCat.get("replaceGrassTextureForce")
-											.set(generalCat.get("replaceGrassTexture").getBoolean());
-								}
-								if (generalCat.containsKey("generateBlocks")) {
-									blocksCat.get("enable")
-											.set(generalCat.get("generateBlocks").getBoolean());
-								}
-
-								cfg.removeCategory(worldCat);
-								generalCat.remove("replaceGrassTexture");
-								generalCat.remove("generateBlocks");
+						.Update(cfg -> {
+							ConfigCategory worldCat = cfg.getCategory("world");
+							ConfigCategory blocksCat = cfg.getCategory("blocks");
+							ConfigCategory generalCat = cfg.getCategory("general");
+							ConfigCategory vanillaCompatCat =
+									ConfigurationUtil.getSubCategory(cfg.getCategory("compat"), "vanilla");
+							assert vanillaCompatCat != null;
+							if (worldCat.containsKey("generateGrassSlabs")) {
+								vanillaCompatCat.get("generateGrassSlabs")
+										.set(worldCat.get("generateGrassSlabs").getBoolean());
 							}
+							if (generalCat.containsKey("replaceGrassTexture")) {
+								vanillaCompatCat.get("replaceGrassTexture")
+										.set(generalCat.get("replaceGrassTexture").getBoolean());
+								vanillaCompatCat.get("replaceGrassTextureForce")
+										.set(generalCat.get("replaceGrassTexture").getBoolean());
+							}
+							if (generalCat.containsKey("generateBlocks")) {
+								blocksCat.get("enable").set(generalCat.get("generateBlocks").getBoolean());
+							}
+
+							cfg.removeCategory(worldCat);
+							generalCat.remove("replaceGrassTexture");
+							generalCat.remove("generateBlocks");
 						})));
 	}
 
@@ -277,12 +247,9 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 							.getColorFromItemstack(mat.getFirstBlock().getStack(), tintIndex);
 			}
 		}, blocksWithItems);
-		addBlockColors(new IBlockColor() {
-			@Override
-			public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
-				return ((BlockBuildingBricks) state.getBlock()).getBlockLogic()
-						.colorMultiplier(world, pos, tintIndex);
-			}
+		addBlockColors((state, world, pos, tintIndex) -> {
+			return ((BlockBuildingBricks) state.getBlock()).getBlockLogic()
+					.colorMultiplier(world, pos, tintIndex);
 		}, blocksWithoutItems);
 	}
 

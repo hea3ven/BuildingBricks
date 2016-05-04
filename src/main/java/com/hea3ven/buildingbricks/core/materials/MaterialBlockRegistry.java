@@ -77,7 +77,7 @@ public class MaterialBlockRegistry {
 
 		blocks.put(blockType, structMat, block);
 		if (!blocksMaterials.containsKey(block))
-			blocksMaterials.put(block, new HashSet<Material>());
+			blocksMaterials.put(block, new HashSet<>());
 
 		GameRegistry.register(block);
 		if (blockType.isStackType()) {

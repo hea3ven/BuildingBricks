@@ -1,9 +1,6 @@
 package com.hea3ven.buildingbricks.core.materials.rendering;
 
-import com.google.common.base.Predicate;
-
 import net.minecraft.block.BlockPane;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelManager;
@@ -33,88 +30,53 @@ public class RenderDefinitionPane extends RenderDefinition {
 		model = loadModel(modelManager, "block", mat, "pane_post");
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		model = BakerUtil.uvlock(model, mat.getUvlock());
-		builder.putModel(new Predicate<IBlockState>() {
-			@Override
-			public boolean apply(IBlockState input) {
-				return true;
-			}
-		}, BakerUtil.bake(model));
+		builder.putModel(input -> true, BakerUtil.bake(model));
 
 		model = loadModel(modelManager, "block", mat, "pane_side");
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		model = BakerUtil.uvlock(model, mat.getUvlock());
-		builder.putModel(new BoolPropertyPredicate(BlockPane.NORTH), BakerUtil.bake(model));
+		builder.putModel(state1 -> state1.getValue(BlockPane.NORTH), BakerUtil.bake(model));
 
 		model = loadModel(modelManager, "block", mat, "pane_side");
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		model = BakerUtil.uvlock(model, mat.getUvlock());
-		builder.putModel(new BoolPropertyPredicate(BlockPane.EAST),
+		builder.putModel(state1 -> state1.getValue(BlockPane.EAST),
 				BakerUtil.bake(model, ModelRotation.X0_Y90));
 
 		model = loadModel(modelManager, "block", mat, "pane_side");
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		model = BakerUtil.uvlock(model, mat.getUvlock());
-		builder.putModel(new BoolPropertyPredicate(BlockPane.SOUTH),
+		builder.putModel(state1 -> state1.getValue(BlockPane.SOUTH),
 				BakerUtil.bake(model, ModelRotation.X0_Y180));
 
 		model = loadModel(modelManager, "block", mat, "pane_side");
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		model = BakerUtil.uvlock(model, mat.getUvlock());
-		builder.putModel(new BoolPropertyPredicate(BlockPane.WEST),
+		builder.putModel(state1 -> state1.getValue(BlockPane.WEST),
 				BakerUtil.bake(model, ModelRotation.X0_Y270));
 
 		model = loadModel(modelManager, "block", mat, "pane_noside");
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		model = BakerUtil.uvlock(model, mat.getUvlock());
-		builder.putModel(new NegBoolPropertyPredicate(BlockPane.NORTH), BakerUtil.bake(model));
+		builder.putModel(state1 -> !state1.getValue(BlockPane.NORTH), BakerUtil.bake(model));
 
 		model = loadModel(modelManager, "block", mat, "pane_noside");
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		model = BakerUtil.uvlock(model, mat.getUvlock());
-		builder.putModel(new NegBoolPropertyPredicate(BlockPane.EAST),
+		builder.putModel(state1 -> !state1.getValue(BlockPane.EAST),
 				BakerUtil.bake(model, ModelRotation.X0_Y90));
 
 		model = loadModel(modelManager, "block", mat, "pane_noside");
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		model = BakerUtil.uvlock(model, mat.getUvlock());
-		builder.putModel(new NegBoolPropertyPredicate(BlockPane.SOUTH),
+		builder.putModel(state1 -> !state1.getValue(BlockPane.SOUTH),
 				BakerUtil.bake(model, ModelRotation.X0_Y180));
 
 		model = loadModel(modelManager, "block", mat, "pane_noside");
 		model = BakerUtil.retexture(mat.getTextures(), model);
 		model = BakerUtil.uvlock(model, mat.getUvlock());
-		builder.putModel(new NegBoolPropertyPredicate(BlockPane.WEST),
+		builder.putModel(state1 -> !state1.getValue(BlockPane.WEST),
 				BakerUtil.bake(model, ModelRotation.X0_Y270));
 		return builder.makeMultipartModel();
-	}
-
-	class BoolPropertyPredicate implements Predicate<IBlockState> {
-
-		private final IProperty<Boolean> prop;
-
-		public BoolPropertyPredicate(IProperty<Boolean> prop) {
-
-			this.prop = prop;
-		}
-
-		@Override
-		public boolean apply(IBlockState input) {
-			return input.getValue(prop);
-		}
-	}
-
-	class NegBoolPropertyPredicate implements Predicate<IBlockState> {
-
-		private final IProperty<Boolean> prop;
-
-		public NegBoolPropertyPredicate(IProperty<Boolean> prop) {
-
-			this.prop = prop;
-		}
-
-		@Override
-		public boolean apply(IBlockState input) {
-			return !input.getValue(prop);
-		}
 	}
 }

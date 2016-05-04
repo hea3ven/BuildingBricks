@@ -1,4 +1,6 @@
 // Hea3veN's build script for minecraft mods
+// v1.0.6 (2016-05-05):
+//     * Update to java 8
 // v1.0.5 (2016-03-08):
 //     * Add the FMLCorePluginContainsFMLMod attribute to the manifest if there is a coremod
 //     * Add version replacement for kotlin projects
@@ -37,8 +39,8 @@ version = "${version_mc}-${project_version}"
 group = "${project_group}"
 archivesBaseName = "${project_name}"
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 minecraft {
 	version = "${version_mc}-${version_forge}" + (project.hasProperty('version_forge_branch')? '-' + version_forge_branch : '')

@@ -1,13 +1,8 @@
 package com.hea3ven.buildingbricks.core.block.placement;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+import java.util.stream.Collectors;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumActionResult;
@@ -40,19 +35,8 @@ public class BlockPlacementManager {
 
 	public void add(int priority, IBlockPlacementHandler handler) {
 		handlerEntries.add(new PlacementOverrideEntry(priority, handler));
-		Collections.sort(handlerEntries, new Comparator<PlacementOverrideEntry>() {
-			@Override
-			public int compare(PlacementOverrideEntry e1, PlacementOverrideEntry e2) {
-				return Integer.compare(e1.priority, e2.priority);
-			}
-		});
-		handlers = Lists.newArrayList(Iterables.transform(handlerEntries,
-				new Function<PlacementOverrideEntry, IBlockPlacementHandler>() {
-					@Override
-					public IBlockPlacementHandler apply(PlacementOverrideEntry input) {
-						return input.handler;
-					}
-				}));
+		handlerEntries.sort((e1, e2) -> Integer.compare(e1.priority, e2.priority));
+		handlers = handlerEntries.stream().map(input -> input.handler).collect(Collectors.toList());
 	}
 
 	public List<IBlockPlacementHandler> getHandlers() {
@@ -62,12 +46,13 @@ public class BlockPlacementManager {
 	@SubscribeEvent
 	public void onItemBlockCanPlaceBlockOnSide(ItemBlockCanPlaceBlockOnSideEvent event) {
 		for (IBlockPlacementHandler handler : getHandlers()) {
-			if (handler.isHandled(event.getStack())) {
-				event.setCanceled(true);
-				if (handler.canPlaceBlockOnSide(event.getWorld(), event.getPos(), event.getSide(),
-						event.getPlayer(), event.getStack()))
-					event.setCanPlaceBlockOnSide(true);
-			}
+			if (!handler.isHandled(event.getStack()))
+				continue;
+
+			event.setCanceled(true);
+			if (handler.canPlaceBlockOnSide(event.getWorld(), event.getPos(), event.getSide(),
+					event.getPlayer(), event.getStack()))
+				event.setCanPlaceBlockOnSide(true);
 		}
 	}
 

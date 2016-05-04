@@ -19,47 +19,33 @@ import com.hea3ven.tools.commonutils.util.PlayerUtil.HeldEquipment;
 @SideOnly(Side.CLIENT)
 public class TrowelKeyBindings {
 	public static Consumer<KeyInputEvent> getOnTrowelPrev() {
-		return new Consumer<KeyInputEvent>() {
-			@Override
-			public void accept(KeyInputEvent event) {
-				HeldEquipment equipment = PlayerUtil.getHeldEquipment(Minecraft.getMinecraft().thePlayer,
-						ModBuildingBricks.trowel);
-				if (equipment != null && equipment.stack.getItem() != null) {
-					TrowelRotateBlockTypeMessage.send(false, null);
-				}
+		return event -> {
+			HeldEquipment equipment =
+					PlayerUtil.getHeldEquipment(Minecraft.getMinecraft().thePlayer, ModBuildingBricks.trowel);
+			if (equipment != null && equipment.stack.getItem() != null) {
+				TrowelRotateBlockTypeMessage.send(false, null);
 			}
 		};
 	}
 
 	public static Consumer<KeyInputEvent> getOnTrowelNext() {
-		return new Consumer<KeyInputEvent>() {
-			@Override
-			public void accept(KeyInputEvent event) {
-				HeldEquipment equipment = PlayerUtil.getHeldEquipment(Minecraft.getMinecraft().thePlayer,
-						ModBuildingBricks.trowel);
-				if (equipment != null && equipment.stack.getItem() != null) {
-					TrowelRotateBlockTypeMessage.send(true, null);
-				}
+		return event -> {
+			HeldEquipment equipment =
+					PlayerUtil.getHeldEquipment(Minecraft.getMinecraft().thePlayer, ModBuildingBricks.trowel);
+			if (equipment != null && equipment.stack.getItem() != null) {
+				TrowelRotateBlockTypeMessage.send(true, null);
 			}
 		};
 	}
 
 	public static Function<MouseEvent, Boolean> getOnTrowelScroll() {
-		return new Function<MouseEvent, Boolean>() {
-			@Override
-			public Boolean apply(MouseEvent event) {
-				TrowelRotateBlockTypeMessage.send(event.getDwheel() < 0, null);
-				return true;
-			}
+		return event -> {
+			TrowelRotateBlockTypeMessage.send(event.getDwheel() < 0, null);
+			return true;
 		};
 	}
 
 	public static Consumer<KeyInputEvent> getOnTrowelSelect(final MaterialBlockType blockType) {
-		return new Consumer<KeyInputEvent>() {
-			@Override
-			public void accept(KeyInputEvent event) {
-				TrowelRotateBlockTypeMessage.send(false, blockType);
-			}
-		};
+		return event -> TrowelRotateBlockTypeMessage.send(false, blockType);
 	}
 }

@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -25,9 +26,8 @@ public class MaterialRecipeHandler implements IRecipeHandler {
 	public static String uid = "buildingbricks.material";
 
 	public static List<MaterialRecipe> createRecipes() {
-		List<MaterialRecipe> recipes = new ArrayList<>();
-		for (Material mat : MaterialRegistry.getAll())
-			recipes.add(new MaterialRecipe(mat));
+		List<MaterialRecipe> recipes =
+				MaterialRegistry.getAll().stream().map(MaterialRecipe::new).collect(Collectors.toList());
 		return recipes;
 	}
 

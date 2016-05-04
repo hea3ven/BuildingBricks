@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.core.item;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -190,9 +191,8 @@ public class ItemTrowel extends Item implements ItemMaterial {
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		subItems.add(createStack());
 		if (trowelsInCreative) {
-			for (Material mat : MaterialRegistry.getAll()) {
-				subItems.add(createStack(mat));
-			}
+			subItems.addAll(
+					MaterialRegistry.getAll().stream().map(this::createStack).collect(Collectors.toList()));
 		}
 	}
 }
