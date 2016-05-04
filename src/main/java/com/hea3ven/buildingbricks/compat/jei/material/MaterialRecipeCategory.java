@@ -10,9 +10,7 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.block.BlockTallGrass;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 
 import com.hea3ven.buildingbricks.compat.jei.material.MaterialRecipeHandler.MaterialRecipe;

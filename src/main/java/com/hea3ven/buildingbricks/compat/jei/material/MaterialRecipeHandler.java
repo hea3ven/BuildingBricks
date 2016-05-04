@@ -76,7 +76,7 @@ public class MaterialRecipeHandler implements IRecipeHandler {
 					new Function<BlockDescription, ItemStack>() {
 						@Nullable
 						@Override
-						public ItemStack apply(@Nullable BlockDescription input) {
+						public ItemStack apply(BlockDescription input) {
 							return input.getStack();
 						}
 					});
@@ -88,7 +88,7 @@ public class MaterialRecipeHandler implements IRecipeHandler {
 					new Function<BlockDescription, ItemStack>() {
 						@Nullable
 						@Override
-						public ItemStack apply(@Nullable BlockDescription input) {
+						public ItemStack apply(BlockDescription input) {
 							return input.getStack();
 						}
 					});

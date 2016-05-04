@@ -55,7 +55,8 @@ public class BlockMaterialFence extends BlockBuildingBricksFence implements Bloc
 
 	@Override
 	public Material getMaterial(IBlockAccess world, BlockPos pos) {
-		return WorldHelper.<TileMaterial>getTile(world, pos).getMaterial();
+		TileMaterial te = WorldHelper.getTile(world, pos);
+		return te != null ? te.getMaterial() : null;
 	}
 
 	@Override

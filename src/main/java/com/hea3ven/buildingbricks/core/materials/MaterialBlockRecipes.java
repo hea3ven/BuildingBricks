@@ -3,8 +3,6 @@ package com.hea3ven.buildingbricks.core.materials;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.item.crafting.IRecipe;
 
 import com.hea3ven.tools.commonutils.item.crafting.RecipeBuilder;

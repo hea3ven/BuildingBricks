@@ -20,7 +20,7 @@ public class LongGrassTextureGenerator {
 	public static boolean forceEnabled = false;
 
 	@SubscribeEvent
-	public void onTextureStichPreEvent(final TextureStitchEvent.Pre event) {
+	public void onTextureStitchPreEvent(final TextureStitchEvent.Pre event) {
 		if (forceEnabled || (enabled && GrassSlabWorldGen.enabled)) {
 			Map<String, TextureAtlasSprite> map =
 					ReflectionHelper.getPrivateValue(TextureMap.class, event.getMap(), 5);

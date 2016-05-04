@@ -30,7 +30,7 @@ public class ModelItemMaterial implements IBakedModel, IPerspectiveAwareModel {
 	private IPerspectiveAwareModel mat;
 	private Map<EnumFacing, List<BakedQuad>> quads;
 
-	private ItemOverrideList overrides = new ItemOverrideList(ImmutableList.<ItemOverride>of()) {
+	private ItemOverrideList overrides = new ItemOverrideList(ImmutableList.of()) {
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world,
 				EntityLivingBase entity) {

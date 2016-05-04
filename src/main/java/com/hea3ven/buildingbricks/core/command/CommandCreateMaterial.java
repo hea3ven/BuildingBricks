@@ -12,7 +12,6 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -72,16 +71,9 @@ public class CommandCreateMaterial extends CommandBase {
 			mat.addProperty("name", blockStack.getDisplayName());
 			mat.addProperty("id", id);
 			mat.addProperty("type", structMat.getName());
-			try {
-				mat.addProperty("hardness", block.getBlockHardness(block.getDefaultState(), null, null));
-				mat.addProperty("resistance", (block.getExplosionResistance(null) * 5f) / 3f);
-			} catch (NullPointerException e) {
-			}
+			mat.addProperty("hardness", block.getBlockHardness(block.getDefaultState(), null, null));
+			mat.addProperty("resistance", (block.getExplosionResistance(null) * 5f) / 3f);
 			mat.add("textures", new JsonObject());
-			IBakedModel model = Minecraft.getMinecraft()
-					.getBlockRendererDispatcher()
-					.getBlockModelShapes()
-					.getModelForState(block.getDefaultState());
 
 			JsonObject blocks = new JsonObject();
 			for (int i = 0; i < MaterialBlockType.values().length; i++) {
@@ -97,8 +89,6 @@ public class CommandCreateMaterial extends CommandBase {
 					blockInfoJson.addProperty("id",
 							Item.REGISTRY.getNameForObject(stack.getItem()).toString());
 					blockInfoJson.addProperty("meta", stack.getMetadata());
-
-					JsonObject blockJson = new JsonObject();
 					blocks.add(MaterialBlockType.values()[i].toString().toLowerCase(), blockInfoJson);
 				}
 			}

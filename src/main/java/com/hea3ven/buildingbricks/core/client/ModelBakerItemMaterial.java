@@ -56,6 +56,7 @@ public class ModelBakerItemMaterial extends ModelBakerBase {
 			Item item = stack.getItem();
 			List<String> variantNames;
 			try {
+				//noinspection unchecked
 				variantNames =
 						(List<String>) ReflectionHelper.findMethod(ModelBakery.class, event.getModelLoader(),
 								new String[] {"getVariantNames", "func_177596_a"}, Item.class)

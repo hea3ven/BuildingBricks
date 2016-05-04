@@ -3,8 +3,6 @@ package com.hea3ven.buildingbricks.compat.vanilla.client.renderer.texture;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import org.apache.commons.io.IOUtils;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.PngSizeInfo;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -30,36 +28,42 @@ public class TextureAtlasSpriteLongGrass extends TextureAtlasSprite {
 
 	@Override
 	public boolean load(IResourceManager manager, ResourceLocation location) {
-		IResource iresource = null;
-		try {
-			PngSizeInfo pngsizeinfo = PngSizeInfo.makeFromResource(manager.getResource(location));
-			IResource resource = manager.getResource(location);
-			loadSprite(pngsizeinfo, false);
-
-			BufferedImage bufferedimage = TextureUtil.readBufferedImage(resource.getInputStream());
-
-			location = new ResourceLocation(topSpriteName);
-			location = new ResourceLocation(location.getResourceDomain(),
-					"textures/" + location.getResourcePath() + ".png");
-			resource = manager.getResource(location);
-			BufferedImage topImage = TextureUtil.readBufferedImage(resource.getInputStream());
-			editImage(bufferedimage, topImage);
-
-			int mipmaps = Minecraft.getMinecraft().gameSettings.mipmapLevels;
-			int[][] aint = new int[1 + mipmaps][];
-			aint[0] = new int[bufferedimage.getWidth() * bufferedimage.getHeight()];
-			bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), aint[0], 0,
-					bufferedimage.getWidth());
-
-			this.framesTextureData.add(aint);
-
-			return false;
+		try (IResource resource = manager.getResource(location)) {
+			loadSprite(PngSizeInfo.makeFromResource(resource), false);
 		} catch (IOException e) {
 			FMLClientHandler.instance().trackMissingTexture(location);
 			return true;
-		} finally {
-			IOUtils.closeQuietly(iresource);
 		}
+		BufferedImage sideImage;
+		try (IResource resource = manager.getResource(location)) {
+
+			sideImage = TextureUtil.readBufferedImage(resource.getInputStream());
+		} catch (IOException e) {
+			FMLClientHandler.instance().trackMissingTexture(location);
+			return true;
+		}
+
+		location = new ResourceLocation(topSpriteName);
+		location = new ResourceLocation(location.getResourceDomain(),
+				"textures/" + location.getResourcePath() + ".png");
+		BufferedImage topImage;
+		try (IResource resource = manager.getResource(location)) {
+			topImage = TextureUtil.readBufferedImage(resource.getInputStream());
+		} catch (IOException e) {
+			FMLClientHandler.instance().trackMissingTexture(location);
+			return true;
+		}
+		editImage(sideImage, topImage);
+
+		int mipmaps = Minecraft.getMinecraft().gameSettings.mipmapLevels;
+		int[][] framesData = new int[1 + mipmaps][];
+		framesData[0] = new int[sideImage.getWidth() * sideImage.getHeight()];
+		sideImage.getRGB(0, 0, sideImage.getWidth(), sideImage.getHeight(), framesData[0], 0,
+				sideImage.getWidth());
+
+		this.framesTextureData.add(framesData);
+
+		return false;
 	}
 
 	private void editImage(BufferedImage sideImage, BufferedImage topImage) {
@@ -71,17 +75,9 @@ public class TextureAtlasSpriteLongGrass extends TextureAtlasSprite {
 		topImage.getRGB(0, 0, width, height, topImgData, 0, width);
 
 		// Copy the top half to the bottom half
-		for (int y = 0; y < height / 2; y++) {
-			for (int x = 0; x < width; x++) {
-				imgData[(height / 2 + y) * width + x] = imgData[y * width + x];
-			}
-		}
+		System.arraycopy(imgData, 0, imgData, (height / 2) * width, (height / 2) * width);
 		// Copy half of the top image to the top half of the side image
-		for (int y = 0; y < height / 2; y++) {
-			for (int x = 0; x < width; x++) {
-				imgData[y * width + x] = topImgData[y * width + x];
-			}
-		}
+		System.arraycopy(topImgData, 0, imgData, 0, (height / 2) * width);
 
 		sideImage.setRGB(0, 0, width, height, imgData, 0, width);
 	}

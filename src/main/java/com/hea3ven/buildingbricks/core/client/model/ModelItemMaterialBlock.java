@@ -5,7 +5,6 @@ import java.util.HashMap;
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ItemOverride;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -17,7 +16,7 @@ import com.hea3ven.tools.commonutils.client.model.DelegatedSmartModel;
 
 public class ModelItemMaterialBlock extends DelegatedSmartModel implements IBakedModel {
 	private HashMap<String, IBakedModel> cache;
-	private ItemOverrideList overrides = new ItemOverrideList(ImmutableList.<ItemOverride>of()) {
+	private ItemOverrideList overrides = new ItemOverrideList(ImmutableList.of()) {
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world,
 				EntityLivingBase entity) {

@@ -47,16 +47,16 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 		renderDefinitions.put(MaterialBlockType.CORNER,
 				new RenderDefinitionRotHalf(MaterialBlockType.CORNER));
 		renderDefinitions.put(MaterialBlockType.WALL,
-				new RenderDefinitionConnectable("wall_post", "wall_post_short", "wall_connection", "wall"));
+				new RenderDefinitionConnectible("wall_post", "wall_post_short", "wall_connection", "wall"));
 		renderDefinitions.put(MaterialBlockType.FENCE,
-				new RenderDefinitionConnectable("fence_post", null, "fence_connection", "fence"));
+				new RenderDefinitionConnectible("fence_post", null, "fence_connection", "fence"));
 		renderDefinitions.put(MaterialBlockType.FENCE_GATE,
 				new RenderDefinitionFenceGate(MaterialBlockType.FENCE_GATE));
 		renderDefinitions.put(MaterialBlockType.PANE, new RenderDefinitionPane());
 	}
 
 	@Override
-	public void onTextureStichPreEvent(TextureStitchEvent.Pre event) {
+	public void onTextureStitchPreEvent(TextureStitchEvent.Pre event) {
 		for (Material mat : MaterialRegistry.getAll()) {
 			particleTextures.put(mat,
 					event.getMap().registerSprite(new ResourceLocation(mat.getTextures().get("particle"))));

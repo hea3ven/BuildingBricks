@@ -1,13 +1,10 @@
 package com.hea3ven.buildingbricks.core.materials;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -25,9 +22,9 @@ public class BlockDescription {
 	private MaterialBlockType type;
 	private int meta;
 	@Nonnull
-	private Map<String, NBTBase> tags = new HashMap<>();
+	private Map<String, NBTBase> tags;
 	@Nonnull
-	private List<MaterialBlockRecipeBuilder> recipes = new ArrayList<>();
+	private List<MaterialBlockRecipeBuilder> recipes;
 
 	private boolean stackInit = false;
 
@@ -36,10 +33,8 @@ public class BlockDescription {
 		this.type = type;
 		this.block = block;
 		this.meta = metadata;
-		if (tags != null)
-			this.tags = tags;
-		if (recipes != null)
-			this.recipes = recipes;
+		this.tags = tags;
+		this.recipes = recipes;
 	}
 
 	public BlockDescription(MaterialBlockType type, String blockName, int metadata,
@@ -49,7 +44,7 @@ public class BlockDescription {
 	}
 
 	public BlockDescription(MaterialBlockType type, List<MaterialBlockRecipeBuilder> recipes) {
-		this(type, (String) null, 0, null, recipes);
+		this(type, (String) null, 0, new HashMap<>(), recipes);
 	}
 
 	public ItemBlock getItem() {
@@ -92,6 +87,7 @@ public class BlockDescription {
 		return type;
 	}
 
+	@Nonnull
 	public List<MaterialBlockRecipeBuilder> getRecipes() {
 		return recipes;
 	}

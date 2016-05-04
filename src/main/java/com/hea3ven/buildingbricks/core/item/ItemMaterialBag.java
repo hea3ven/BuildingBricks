@@ -247,6 +247,8 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 
 		public ItemHandlerMaterialBag(EntityPlayer player) {
 			equipment = PlayerUtil.getHeldEquipment(player, ModBuildingBricks.materialBag);
+			if(equipment == null)
+				throw new RuntimeException("Player is not holding a material bag");
 			this.player = player;
 			origStack = initStack(equipment.stack);
 		}
@@ -376,7 +378,7 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 					volume -= type.getVolume() * stack.stackSize;
 					if (volume <= 0) {
 						mat = null;
-						ModBuildingBricks.materialBag.setMaterial(bagStack, mat);
+						ModBuildingBricks.materialBag.setMaterial(bagStack, null);
 						ModBuildingBricks.materialBag.setVolume(bagStack, 0);
 					} else {
 						ModBuildingBricks.materialBag.setVolume(bagStack, volume);

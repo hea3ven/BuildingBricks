@@ -79,7 +79,7 @@ public class TileMaterial extends TileEntity {
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		if (nbt.hasKey("material", NBT.TAG_STRING)){
+		if (nbt.hasKey("material", NBT.TAG_STRING)) {
 			String matId = nbt.getString("material");
 			if (!matId.contains(":"))
 				matId = "minecraft:" + matId;
@@ -121,13 +121,16 @@ public class TileMaterial extends TileEntity {
 
 	public static void onBlockPlacedBy(Block block, World world, BlockPos pos, IBlockState state,
 			EntityLivingBase placer, ItemStack stack) {
-		TileMaterial.getTile(world, pos).setMaterial(MaterialRegistry.getMaterialForStack(stack));
+		TileMaterial te = TileMaterial.getTile(world, pos);
+		if (te != null)
+			te.setMaterial(MaterialRegistry.getMaterialForStack(stack));
 	}
 
-	public static ItemStack getPickBlock(Block block, RayTraceResult target, World world,
-			BlockPos pos) {
+	public static ItemStack getPickBlock(Block block, RayTraceResult target, World world, BlockPos pos) {
 		ItemStack stack = new ItemStack(block, 1);
-		MaterialStack.set(stack, TileMaterial.getTile(world, pos).getMaterial());
+		TileMaterial te = TileMaterial.getTile(world, pos);
+		if(te != null)
+			MaterialStack.set(stack, te.getMaterial());
 		return stack;
 	}
 

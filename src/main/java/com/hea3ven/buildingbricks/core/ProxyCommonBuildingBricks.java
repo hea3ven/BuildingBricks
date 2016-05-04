@@ -93,7 +93,7 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 
 		super.onInitEvent(event);
 
-		RecipeSorter.register("buildingbricks:trowelbind", RecipeBindTrowel.class, Category.SHAPELESS,
+		RecipeSorter.register("buildingbricks:trowelBind", RecipeBindTrowel.class, Category.SHAPELESS,
 				"after:minecraft:shapeless");
 		MinecraftForge.EVENT_BUS.register(ModBuildingBricks.materialBag);
 		MinecraftForge.EVENT_BUS.register(BlockPlacementManager.getInstance());
@@ -180,13 +180,14 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 								ConfigCategory worldCat = cfg.getCategory("world");
 								ConfigCategory blocksCat = cfg.getCategory("blocks");
 								ConfigCategory generalCat = cfg.getCategory("general");
-
 								ConfigCategory vanillaCompatCat =
 										ConfigurationUtil.getSubCategory(cfg.getCategory("compat"),
 												"vanilla");
-								if (worldCat.containsKey("generateGrassSlabs"))
+								assert vanillaCompatCat != null;
+								if (worldCat.containsKey("generateGrassSlabs")) {
 									vanillaCompatCat.get("generateGrassSlabs")
 											.set(worldCat.get("generateGrassSlabs").getBoolean());
+								}
 								if (generalCat.containsKey("replaceGrassTexture")) {
 									vanillaCompatCat.get("replaceGrassTexture")
 											.set(generalCat.get("replaceGrassTexture").getBoolean());

@@ -1,7 +1,6 @@
 package com.hea3ven.buildingbricks.core.block;
 
 import net.minecraft.block.BlockFence;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockRenderLayer;
 

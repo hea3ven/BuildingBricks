@@ -12,20 +12,19 @@ import net.minecraft.client.renderer.block.model.MultipartBakedModel;
 import net.minecraft.client.renderer.block.model.multipart.ICondition;
 
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IModelUVLock;
 
 import com.hea3ven.buildingbricks.core.block.properties.BlockProperties;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.tools.commonutils.client.BakerUtil;
 
-public class RenderDefinitionConnectable extends RenderDefinition {
+public class RenderDefinitionConnectible extends RenderDefinition {
 
 	protected String postModelLocation;
 	private String shortPostModel;
 	protected String connModelLocation;
 	protected String itemModelLocation;
 
-	public RenderDefinitionConnectable(String postModel, String shortPostModel, String connectionModel,
+	public RenderDefinitionConnectible(String postModel, String shortPostModel, String connectionModel,
 			String itemModel) {
 		postModelLocation = postModel;
 		this.shortPostModel = shortPostModel;

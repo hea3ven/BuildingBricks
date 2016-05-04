@@ -38,21 +38,10 @@ public class MaterialBlockLogic {
 	}
 
 	public void initBlock(Block block) {
-		// TODO:
-//		block.setStepSound(structMat.getSoundType());
 		block.setHardness(structMat.getHardness());
 		if (structMat.getResistance() > 0)
 			block.setResistance(structMat.getResistance());
 		block.slipperiness = structMat.getSlipperiness();
-
-		// TODO: Register color handler
-//		BlockColors.instance.register()
-//		{
-//			if (!structMat.getColor())
-//				return 16777215;
-//			else
-//				return ColorizerGrass.getGrassColor(0.5D, 1.0D);
-//		}
 	}
 
 	public StructureMaterial getStructureMaterial() {
@@ -139,15 +128,18 @@ public class MaterialBlockLogic {
 				Block.getStateId(state));
 
 		TileMaterial te = TileMaterial.getTile(world, pos);
-
-		particle.setBlockPos(pos).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F);
-		particle.setParticleTexture(ModelBakerBlockMaterial.particleTextures.get(te.getMaterial()));
+		if (te != null) {
+			particle.setBlockPos(pos).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F);
+			particle.setParticleTexture(ModelBakerBlockMaterial.particleTextures.get(te.getMaterial()));
+		}
 		return true;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
 		TileMaterial te = TileMaterial.getTile(world, pos);
+		if (te == null)
+			return true;
 		TextureAtlasSprite texture = ModelBakerBlockMaterial.particleTextures.get(te.getMaterial());
 
 		for (int i = 0; i < 4; ++i) {
