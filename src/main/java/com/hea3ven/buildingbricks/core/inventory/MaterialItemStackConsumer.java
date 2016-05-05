@@ -47,7 +47,7 @@ public class MaterialItemStackConsumer {
 	}
 
 	public boolean failed() {
-		return totalConsumed < blockType.getVolume();
+		return totalConsumed != blockType.getVolume();
 	}
 
 	public void apply(World world, BlockPos pos) {
@@ -58,6 +58,10 @@ public class MaterialItemStackConsumer {
 		int extraVol = totalConsumed - blockType.getVolume();
 		while (extraVol > 0) {
 			MaterialBlockType extraBlockType = MaterialBlockType.getBestForVolume(extraVol);
+			if(extraBlockType == null){
+				extraVol = 0;
+				continue;
+			}
 			ItemStack newStack = mat.getBlock(extraBlockType).getStack();
 			addItemStackToInventory(world, pos, newStack.copy());
 			extraVol -= extraBlockType.getVolume();

@@ -1,5 +1,7 @@
 package com.hea3ven.buildingbricks.core.materials.loader;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -96,7 +98,8 @@ public class MaterialBuilderSimple extends MaterialBuilder {
 	@Override
 	public void addBlock(MaterialBlockType type, String blockName, int metadata, Map<String, NBTBase> tags,
 			List<MaterialBlockRecipeBuilder> recipes) {
-		mat.addBlock(new BlockDescription(type, blockName, metadata, tags, recipes));
+		mat.addBlock(new BlockDescription(type, blockName, metadata, tags != null ? tags : new HashMap<>(),
+				recipes != null ? recipes : new ArrayList<>()));
 	}
 
 	@Override
