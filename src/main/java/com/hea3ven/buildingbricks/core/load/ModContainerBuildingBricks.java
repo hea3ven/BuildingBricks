@@ -1,8 +1,10 @@
 package com.hea3ven.buildingbricks.core.load;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Set;
 
@@ -40,9 +42,14 @@ public class ModContainerBuildingBricks extends DummyModContainer {
 		if ("file".equals(sourceUrl.getProtocol()))
 			source = new File(sourceUrl.getFile()
 					.replace("com/hea3ven/buildingbricks/core/load/ModContainerBuildingBricks.class", ""));
-		else if ("jar".equals(sourceUrl.getProtocol()))
-			source = new File(sourceUrl.getFile().replace("file:", "").replaceFirst("!.*$", ""));
-		else
+		else if ("jar".equals(sourceUrl.getProtocol())) {
+			try {
+				String fileUrl = sourceUrl.getFile().replace("file:", "").replaceFirst("!.*$", "");
+				source = new File(URLDecoder.decode(fileUrl, "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException(e);
+			}
+		} else
 			source = null;
 	}
 
