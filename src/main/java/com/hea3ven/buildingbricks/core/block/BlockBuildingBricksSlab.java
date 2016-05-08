@@ -97,10 +97,10 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 
 		if (state.getValue(HALF) == EnumBlockHalf.BOTTOM)
 			return side != EnumFacing.DOWN || otherState.getMaterial() != state.getMaterial() ||
-					!otherState.isSideSolid(world, pos, side.getOpposite());
+					!otherState.isSideSolid(world, otherPos, side.getOpposite());
 		else
 			return side != EnumFacing.UP || otherState.getMaterial() != state.getMaterial() ||
-					!otherState.isSideSolid(world, pos, side.getOpposite());
+					!otherState.isSideSolid(world, otherPos, side.getOpposite());
 	}
 
 	//region COMMON BLOCK CODE
