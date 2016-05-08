@@ -60,7 +60,7 @@ public class ModBuildingBricks {
 			try {
 				Files.createDirectories(resourcesDir);
 			} catch (IOException e) {
-				logger.error("Could not create resources directory", e);
+				logger.error("Could not get resources directory", e);
 				return;
 			}
 		}

@@ -8,10 +8,12 @@ import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 import com.hea3ven.buildingbricks.core.materials.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack;
+import com.hea3ven.tools.commonutils.inventory.ContainerBase;
+import com.hea3ven.tools.commonutils.inventory.IAdvancedSlot;
 import com.hea3ven.tools.commonutils.util.PlayerUtil;
 import com.hea3ven.tools.commonutils.util.PlayerUtil.HeldEquipment;
 
-public class SlotTrowelBlockType extends Slot {
+public class SlotTrowelBlockType extends Slot implements IAdvancedSlot {
 	private HeldEquipment equipment;
 
 	public SlotTrowelBlockType(EntityPlayer player, int index, int xPosition, int yPosition) {
@@ -21,34 +23,7 @@ public class SlotTrowelBlockType extends Slot {
 	}
 
 	@Override
-	public ItemStack getStack() {
-		Material mat = MaterialStack.get(equipment.stack);
-		if (mat == null)
-			return null;
-		BlockDescription desc = mat.getBlockRotation().get(getSlotIndex());
-		return (desc != null) ? desc.getStack() : null;
-	}
-
-	@Override
-	public boolean canTakeStack(EntityPlayer player) {
-		return true;
-	}
-
-	@Override
-	public void putStack(ItemStack stack) {
-	}
-
-	@Override
-	public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
-	}
-
-	@Override
-	public int getSlotStackLimit() {
-		return 1;
-	}
-
-	@Override
-	public ItemStack decrStackSize(int amount) {
+	public ItemStack onQuickMove(ContainerBase container, EntityPlayer player, int clickedButton) {
 		Material mat = MaterialStack.get(equipment.stack);
 		if (mat == null)
 			return null;
@@ -61,6 +36,104 @@ public class SlotTrowelBlockType extends Slot {
 	}
 
 	@Override
-	public void onSlotChanged() {
+	public ItemStack onPickUp(EntityPlayer player, int clickedButton) {
+		Material mat = MaterialStack.get(equipment.stack);
+		if (mat == null)
+			return null;
+		BlockDescription desc = mat.getBlockRotation().get(getSlotIndex());
+		if (desc == null)
+			return null;
+		ModBuildingBricks.trowel.setCurrentBlockType(equipment.stack, desc.getType());
+		equipment.updatePlayer();
+		return null;
 	}
+
+	@Override
+	public void onSwapPlayerStack(EntityPlayer player, int equipSlot) {
+// TODO: select the equipSlot blockType
+	}
+
+	@Override
+	public void onClone(EntityPlayer player) {
+
+	}
+
+	@Override
+	public void onThrow(EntityPlayer player, int clickedButton) {
+
+	}
+
+	@Override
+	public void onPickUpAll(ContainerBase container, EntityPlayer player, int clickedButton) {
+
+	}
+
+	@Override
+	public boolean canDragIntoSlot() {
+		return false;
+	}
+
+	@Override
+	public boolean canTransferFromSlot() {
+		return false;
+	}
+
+	@Override
+	public boolean transferFrom(IAdvancedSlot slot) {
+		return false;
+	}
+
+	@Override
+	public ItemStack getStack() {
+		Material mat = MaterialStack.get(equipment.stack);
+		if (mat == null)
+			return null;
+		BlockDescription desc = mat.getBlockRotation().get(getSlotIndex());
+		return (desc != null) ? desc.getStack() : null;
+	}
+
+	@Override
+	public ItemStack decrStackSize(int amount) {
+		return null;
+	}
+
+//	@Override
+//	public boolean canTakeStack(EntityPlayer player) {
+//		return true;
+//	}
+
+//	@Override
+//	public void putStack(ItemStack stack) {
+//	}
+
+//	@Override
+//	public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
+//	}
+
+//	@Override
+//	public int getSlotStackLimit() {
+//		return 1;
+//	}
+
+//	@Override
+//	public ItemStack decrStackSize(int amount) {
+//		Material mat = MaterialStack.get(equipment.stack);
+//		if (mat == null)
+//			return null;
+//		BlockDescription desc = mat.getBlockRotation().get(getSlotIndex());
+//		if (desc == null)
+//			return null;
+//		ModBuildingBricks.trowel.setCurrentBlockType(equipment.stack, desc.getType());
+//		equipment.updatePlayer();
+//		return null;
+//	}
+
+//	@Override
+//	public void onSlotChanged() {
+//	}
+
+//	@Override
+//	public boolean isItemValid(ItemStack stack) {
+//		return false;
+//	}
 }

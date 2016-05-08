@@ -31,7 +31,6 @@ import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 import com.hea3ven.buildingbricks.core.materials.MaterialStack.ItemMaterial;
 import com.hea3ven.tools.commonutils.inventory.GenericContainer;
-import com.hea3ven.tools.commonutils.inventory.GenericContainer.SlotType;
 
 public class ItemTrowel extends Item implements ItemMaterial {
 
@@ -155,22 +154,10 @@ public class ItemTrowel extends Item implements ItemMaterial {
 					mat.getLocalizedName());
 	}
 
-//	@Override
-//	@SideOnly(Side.CLIENT)
-//	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
-//		if (tintIndex == 1)
-//			return super.getColorFromItemStack(stack, tintIndex);
-//		Material mat = getMaterial(stack);
-//		if (mat == null)
-//			return super.getColorFromItemStack(stack, tintIndex);
-
-//		return mat.getFirstBlock().getItem().getColorFromItemStack(stack, tintIndex);
-//	}
-
 	public Container getContainer(EntityPlayer player) {
-		return new GenericContainer().addSlots(SlotType.DISPLAY, 0, 44, 36, 1, 1, SlotTrowelMaterial.class,
-				player)
-				.addSlots(SlotType.DISPLAY, 0, 98, 9, 4, 4, SlotTrowelBlockType.class, player)
+		return new GenericContainer()
+				.addGenericSlots(44, 36, 1, 1, (slot, x, y) -> new SlotTrowelMaterial(player, slot, x, y))
+				.addGenericSlots(98, 9, 4, 4, (slot, x, y) -> new SlotTrowelBlockType(player, slot, x, y))
 				.addPlayerSlots(player.inventory);
 	}
 

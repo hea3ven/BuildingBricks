@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.items.SlotItemHandler;
 
-import com.hea3ven.buildingbricks.core.item.ItemMaterialBag.ItemHandlerMaterialBag;
+import com.hea3ven.buildingbricks.core.inventory.ItemHandlerMaterialBag;
 
 public class GuiMaterialBag extends GuiContainer {
 	public static final int ID = 1;

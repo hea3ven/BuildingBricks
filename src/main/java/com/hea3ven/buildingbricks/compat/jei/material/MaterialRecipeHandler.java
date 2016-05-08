@@ -26,9 +26,7 @@ public class MaterialRecipeHandler implements IRecipeHandler {
 	public static String uid = "buildingbricks.material";
 
 	public static List<MaterialRecipe> createRecipes() {
-		List<MaterialRecipe> recipes =
-				MaterialRegistry.getAll().stream().map(MaterialRecipe::new).collect(Collectors.toList());
-		return recipes;
+		return MaterialRegistry.getAll().stream().map(MaterialRecipe::new).collect(Collectors.toList());
 	}
 
 	@Nonnull
