@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import net.minecraftforge.fml.common.registry.GameRegistry.Type;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.compat.vanilla.ProxyModBuildingBricksCompatVanilla;
 import com.hea3ven.buildingbricks.core.block.BlockPortableLadder;
@@ -25,6 +26,8 @@ import com.hea3ven.buildingbricks.core.item.ItemTrowel;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
 import com.hea3ven.tools.commonutils.resources.ResourceScannerClient;
 import com.hea3ven.tools.commonutils.resources.ResourceScannerServer;
+import com.hea3ven.tools.commonutils.util.SidedCall;
+import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;
 
 public class ModBuildingBricks {
 
@@ -46,16 +49,28 @@ public class ModBuildingBricks {
 	public void construction(FMLConstructionEvent event) {
 		proxy = new ProxyCommonBuildingBricks();
 
-		Path resourcesDir;
-		if (event.getSide() == Side.CLIENT) {
-			resScanner = new ResourceScannerClient();
-			resourcesDir = Minecraft.getMinecraft().mcDataDir.toPath();
-		} else {
-			resScanner = new ResourceScannerServer();
-			resourcesDir =
-					Paths.get(FMLCommonHandler.instance().getSavesDirectory().getAbsoluteFile().getParent());
-		}
-		resourcesDir = resourcesDir.resolve("config").resolve("BuildingBricks").resolve("resources");
+		final Path[] gameDir = new Path[1];
+		SidedCall.run(Side.CLIENT, new SidedRunnable() {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public void run() {
+				resScanner = new ResourceScannerClient();
+				gameDir[0] = Minecraft.getMinecraft().mcDataDir.toPath();
+			}
+		});
+		SidedCall.run(Side.SERVER, new SidedRunnable() {
+			@Override
+			@SideOnly(Side.SERVER)
+			public void run() {
+				resScanner = new ResourceScannerServer();
+				gameDir[0] =
+						Paths.get(FMLCommonHandler.instance()
+								.getSavesDirectory()
+								.getAbsoluteFile()
+								.getParent());
+			}
+		});
+		Path resourcesDir = gameDir[0].resolve("config").resolve("BuildingBricks").resolve("resources");
 		if (!Files.exists(resourcesDir)) {
 			try {
 				Files.createDirectories(resourcesDir);

@@ -85,6 +85,11 @@ public class ItemBlockPlaceOverride implements ASMTweak {
 				"(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/item/ItemStack;)Z") {
 
 			@Override
+			public boolean isClientSideOnly() {
+				return true;
+			}
+
+			@Override
 			protected void handle(MethodEditor editor) {
 
 //				ItemBlockCanPlaceBlockOnSideEvent event =
