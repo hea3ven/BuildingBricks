@@ -34,7 +34,7 @@ public class CornerCombinePlacementHandler extends PlacementHandlerBase {
 	public EnumActionResult place(World world, ItemStack stack, EntityLivingBase placer, Material mat,
 			IBlockState state, PlaceParams params) {
 		if (!(state.getBlock() instanceof BlockBuildingBricksCorner))
-			return null;
+			return EnumActionResult.PASS;
 
 		IBlockState newState = null;
 		// TODO: use math
