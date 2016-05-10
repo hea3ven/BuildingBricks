@@ -1,3 +1,23 @@
+1.9-2.0.0:
+    * Add jei recipe handler to display the material of blocks.
+    * Add configuration options to enable each block type (slab, step, corner, etc) individually.
+    * Add the material of blocks to their tooltips.
+    * Add that vertical slabs blocks are placed using the slab item and removed the vertical slab item.
+    * Update to java 8.
+    * Update to Forge 12.16.0.1894 (jriwanek).
+    * Rename buildingbrickscompatvanilla:grass_slab to buildingbricks:grass_slab (this change is not backwards compatible) and merge everything into a single mod.
+    * Improve the error message when a material fails to load from a json file.
+    * Fix grass slabs worldgen running in dimensions other than the overworld, even though it wasn't gonna do anything.
+    * Fix crash when placing a vertical slab next to a slab of the same material, fixes #56.
+    * Fix item dupe in the trowel gui.
+    * Fix crash when using the trowel and there is no way to consume exactly the required volume, fixes #52.
+    * Fix the material bag not having a recipe, fixes #49.
+    * Fix blocks not having the correct sounds.
+    * Fix the fence gate model not being rotated correctly.
+    * Fix the uv mapping of the inner stairs.
+    * Fix the blocks models not being uvlocked.
+    * Fix the generated blocks not being able to be used in normal recipes and remove completely the id mapping.
+
 1.9-1.4.8:
     * Fix crash on startup when Biomes O' Plenty is present.
 
