@@ -3,9 +3,11 @@ package com.hea3ven.buildingbricks.compat.vanilla;
 import java.util.function.Consumer;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.chunk.IChunkProvider;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -38,6 +40,8 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 
 	@SubscribeEvent
 	public void onPopulateChunkPreEvent(PopulateChunkEvent.Pre event) {
+		if(event.getWorld().provider.getDimensionType() != DimensionType.OVERWORLD)
+			return;
 		IChunkProvider chunkProvider = event.getWorld().getChunkProvider();
 		int x = event.getChunkX() << 4;
 		int z = event.getChunkZ() << 4;
@@ -67,7 +71,7 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 			offZ--;
 		posLoop:
 		for (ModifiableBlockPos pos : BlockPosUtil.getBox(new BlockPos(x, 0, z), offX, 1, offZ)) {
-			while (pos.getY() < 255 && event.getWorld().getBlockState(pos).getBlock() != Blocks.GRASS) {
+			while (pos.getY() < 255 && event.getWorld().getBlockState(pos).getMaterial() != Material.GRASS) {
 				pos.up();
 			}
 			if (pos.getY() >= 255) {
