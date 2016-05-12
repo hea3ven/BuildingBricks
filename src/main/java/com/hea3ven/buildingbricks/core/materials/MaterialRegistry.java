@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
 
+import com.hea3ven.buildingbricks.core.ModBuildingBricks;
+
 public class MaterialRegistry {
 
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialRegistry");
@@ -84,6 +86,14 @@ public class MaterialRegistry {
 				if (blockDesc.getBlock() == null) {
 					hasRealBlocks = true;
 					mat.removeBlock(blockDesc);
+					if (MaterialBlockRegistry.instance.enableGenerateBlocks &&
+							MaterialBlockRegistry.instance.enabledBlocks.get(blockDesc.getType())) {
+						mat.addBlock(new BlockDescription(blockDesc.getType(),
+								MaterialBlockRecipes.getForType(mat.getStructureMaterial(),
+										blockDesc.getType())));
+						MaterialBlockRegistry.instance.initBlockDescTmp(ModBuildingBricks.proxy, mat,
+								mat.getBlock(blockDesc.getType()));
+					}
 				} else if (!MaterialBlockRegistry.instance.getAllBlocks().contains(blockDesc.getBlock())) {
 					hasRealBlocks = true;
 					hasExistingRealBlocks = true;

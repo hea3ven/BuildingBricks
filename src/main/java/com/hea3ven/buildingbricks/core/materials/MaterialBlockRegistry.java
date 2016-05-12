@@ -67,6 +67,10 @@ public class MaterialBlockRegistry {
 						.build());
 	}
 
+	void initBlockDescTmp(ProxyCommonBuildingBricks proxy, Material mat, BlockDescription blockDesc) {
+		initBlockDesc(proxy, mat, blockDesc);
+	}
+
 	private void initBlock(ProxyCommonBuildingBricks proxy, MaterialBlockType blockType, Material mat) {
 		StructureMaterial structMat = mat.getStructureMaterial();
 		final Block block = createBlock(blockType, structMat);
@@ -144,7 +148,7 @@ public class MaterialBlockRegistry {
 
 	void removeMaterial(Material mat) {
 		for (Entry<Block, Set<Material>> entry : blocksMaterials.entrySet()) {
-			if(entry.getValue().contains(mat)) {
+			if (entry.getValue().contains(mat)) {
 				entry.getValue().remove(mat);
 			}
 		}
