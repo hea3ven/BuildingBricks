@@ -1,9 +1,6 @@
 package com.hea3ven.buildingbricks.core.materials;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +12,7 @@ public class MaterialRegistry {
 	private static final Logger logger = LogManager.getLogger("BuildingBricks.MaterialRegistry");
 
 	private static Set<Material> materials;
+	private static boolean isFrozen = false;
 
 	static {
 		materials = new HashSet<>();
@@ -26,6 +24,10 @@ public class MaterialRegistry {
 	private static Map<Material, Integer> materialsMeta = new HashMap<>();
 
 	public static void registerMaterial(Material material) {
+		if (isFrozen)
+			throw new RuntimeException(
+					String.format("Trying to register the %s material when the reigstry is frozen",
+							material.getMaterialId()));
 		materials.add(material);
 		materialsById.put(material.getMaterialId(), material);
 		materialsMeta.put(material, nextMeta++);
@@ -68,5 +70,29 @@ public class MaterialRegistry {
 
 	public static void logStats() {
 		logger.info("Registered {} material(s)", materials.size());
+	}
+
+	public static void freeze() {
+		if (isFrozen)
+			return;
+
+		isFrozen = true;
+		for (Material mat : new ArrayList<>(materials)) {
+			boolean hasRealBlocks = false;
+			boolean hasExistingRealBlocks = false;
+			for (BlockDescription blockDesc : new ArrayList<>(mat.getBlockRotation().getAll().values())) {
+				if (blockDesc.getBlock() == null) {
+					hasRealBlocks = true;
+					mat.removeBlock(blockDesc);
+				} else if (!MaterialBlockRegistry.instance.getAllBlocks().contains(blockDesc.getBlock())) {
+					hasRealBlocks = true;
+					hasExistingRealBlocks = true;
+				}
+			}
+			if (!hasExistingRealBlocks && hasRealBlocks) {
+				materials.remove(mat);
+				MaterialBlockRegistry.instance.removeMaterial(mat);
+			}
+		}
 	}
 }

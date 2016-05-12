@@ -80,12 +80,14 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 	public void onPreInitEvent(FMLPreInitializationEvent event) {
 		super.onPreInitEvent(event);
 
+		MaterialResourceLoader.loadResources(ModBuildingBricks.resScanner);
 		MaterialBlockRegistry.instance.generateBlocks(this);
 	}
 
 	@Override
 	public void onInitEvent(FMLInitializationEvent event) {
 		MaterialBlockRegistry.instance.logStats();
+		MaterialRegistry.freeze();
 		MaterialRegistry.logStats();
 
 		super.onInitEvent(event);
@@ -180,8 +182,6 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 
 	@Override
 	protected void registerBlocks() {
-		MaterialResourceLoader.loadResources(ModBuildingBricks.resScanner);
-
 		addBlock(ModBuildingBricks.portableLadder, "portable_ladder",
 				new BlockPortableLadder.ItemPortableLadder(ModBuildingBricks.portableLadder));
 	}

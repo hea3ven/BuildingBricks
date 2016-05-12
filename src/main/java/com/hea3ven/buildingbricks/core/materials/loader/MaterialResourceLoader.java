@@ -33,7 +33,7 @@ public class MaterialResourceLoader {
 		}
 		for (MaterialBuilderSimple builder : MaterialParser.materials.values()) {
 			Material mat = builder.build();
-			if(mat == null)
+			if (mat == null)
 				continue;
 			for (MaterialBlockType blockType : mat.getStructureMaterial().getBlockTypes()) {
 				if (mat.getBlock(blockType) == null) {

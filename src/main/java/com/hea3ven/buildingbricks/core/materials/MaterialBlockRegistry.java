@@ -1,6 +1,7 @@
 package com.hea3ven.buildingbricks.core.materials;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableMap;
@@ -139,5 +140,13 @@ public class MaterialBlockRegistry {
 
 	public Set<Material> getBlockMaterials(Block block) {
 		return blocksMaterials.get(block);
+	}
+
+	void removeMaterial(Material mat) {
+		for (Entry<Block, Set<Material>> entry : blocksMaterials.entrySet()) {
+			if(entry.getValue().contains(mat)) {
+				entry.getValue().remove(mat);
+			}
+		}
 	}
 }
