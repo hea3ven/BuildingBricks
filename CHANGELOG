@@ -1,3 +1,6 @@
+1.9-2.0.1:
+    * Fix crash when material have non existent blocks, fixes #58.
+
 1.9-2.0.0:
     * Add jei recipe handler to display the material of blocks.
     * Add configuration options to enable each block type (slab, step, corner, etc) individually.
