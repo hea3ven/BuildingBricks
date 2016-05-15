@@ -47,18 +47,18 @@ public class MaterialItemStackConsumer {
 	}
 
 	public boolean failed() {
-		return totalConsumed != blockType.getVolume();
+		return totalConsumed < blockType.getVolume();
 	}
 
 	public void apply(World world, BlockPos pos) {
-		itemHandlerConsumer.apply();
-		for (ItemHandlerConsumer subConsumer : subItemHandlerConsumers)
-			subConsumer.apply();
-
 		int extraVol = totalConsumed - blockType.getVolume();
+		for (ItemHandlerConsumer subConsumer : subItemHandlerConsumers)
+			extraVol = subConsumer.apply(extraVol);
+		extraVol = itemHandlerConsumer.apply(extraVol);
+
 		while (extraVol > 0) {
 			MaterialBlockType extraBlockType = MaterialBlockType.getBestForVolume(extraVol);
-			if(extraBlockType == null){
+			if (extraBlockType == null) {
 				extraVol = 0;
 				continue;
 			}
@@ -156,12 +156,41 @@ public class MaterialItemStackConsumer {
 			}
 		}
 
-		public void apply() {
+		public int apply(int extraVol) {
+			boolean consumed = false;
 			for (int slot = 0; slot < consumedStacks.length; slot++) {
 				if (consumedStacks[slot] > 0) {
+					consumed = true;
 					inventory.extractItem(slot, consumedStacks[slot], false);
 				}
 			}
+
+			if (consumed) {
+				while (consumed && extraVol > 0) {
+					consumed = false;
+					MaterialBlockType extraBlockType = MaterialBlockType.getBestForVolume(extraVol);
+					if (extraBlockType == null) {
+						extraVol = 0;
+						continue;
+					}
+					ItemStack newStack = mat.getBlock(extraBlockType).getStack();
+					for (int i = 0; i < inventory.getSlots(); i++) {
+						ItemStack resultStack = inventory.insertItem(i, newStack, false);
+						if (resultStack == null) {
+							consumed = true;
+							extraVol -= extraBlockType.getVolume();
+							break;
+						}
+						if (newStack.stackSize != resultStack.stackSize) {
+							consumed = true;
+							extraVol -=
+									extraBlockType.getVolume() * newStack.stackSize - resultStack.stackSize;
+							break;
+						}
+					}
+				}
+			}
+			return extraVol;
 		}
 	}
 }
