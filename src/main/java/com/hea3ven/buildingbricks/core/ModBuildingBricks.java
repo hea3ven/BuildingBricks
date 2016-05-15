@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.google.common.eventbus.Subscribe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,64 +12,52 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import net.minecraftforge.fml.common.registry.GameRegistry.Type;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.hea3ven.buildingbricks.compat.vanilla.ProxyModBuildingBricksCompatVanilla;
 import com.hea3ven.buildingbricks.core.block.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.item.ItemMaterialBag;
 import com.hea3ven.buildingbricks.core.item.ItemTrowel;
 import com.hea3ven.tools.commonutils.resources.ResourceScanner;
-import com.hea3ven.tools.commonutils.resources.ResourceScannerClient;
-import com.hea3ven.tools.commonutils.resources.ResourceScannerServer;
-import com.hea3ven.tools.commonutils.util.SidedCall;
-import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;
 
+@Mod(modid = ModBuildingBricks.MODID, version = ModBuildingBricks.VERSION,
+		dependencies = ModBuildingBricks.DEPENDENCIES,
+		guiFactory = "com.hea3ven.buildingbricks.core.config.BuildingBricksConfigGuiFactory",
+		updateJSON = "https://raw.githubusercontent.com/hea3ven/BuildingBricks/master/media/update.json")
 public class ModBuildingBricks {
 
 	public static final String MODID = "buildingbricks";
 	public static final String VERSION = "PROJECTVERSION";
-	public static final String FORGE_DEPENDENCY = "Forge@[FORGEVERSION,)";
+	public static final String DEPENDENCIES = "required-after:Forge@[FORGEVERSION,)";
 
 	public static final Logger logger = LogManager.getLogger("BuildingBricks");
 
 	public static ProxyCommonBuildingBricks proxy;
 
+	@SidedProxy(serverSide = "com.hea3ven.tools.commonutils.resources.ResourceScannerServer",
+			clientSide = "com.hea3ven.tools.commonutils.resources.ResourceScannerClient")
 	static ResourceScanner resScanner;
 
 	public static ItemTrowel trowel;
 	public static ItemMaterialBag materialBag;
 	public static BlockPortableLadder portableLadder;
 
-	@Subscribe
+	@Mod.EventHandler
 	public void construction(FMLConstructionEvent event) {
 		proxy = new ProxyCommonBuildingBricks();
 
-		final Path[] gameDir = new Path[1];
-		SidedCall.run(Side.CLIENT, new SidedRunnable() {
-			@Override
-			@SideOnly(Side.CLIENT)
-			public void run() {
-				resScanner = new ResourceScannerClient();
-				gameDir[0] = Minecraft.getMinecraft().mcDataDir.toPath();
-			}
-		});
-		SidedCall.run(Side.SERVER, new SidedRunnable() {
-			@Override
-			@SideOnly(Side.SERVER)
-			public void run() {
-				resScanner = new ResourceScannerServer();
-				gameDir[0] =
-						Paths.get(FMLCommonHandler.instance()
-								.getSavesDirectory()
-								.getAbsoluteFile()
-								.getParent());
-			}
-		});
-		Path resourcesDir = gameDir[0].resolve("config").resolve("BuildingBricks").resolve("resources");
+		Path gameDir;
+		if (event.getSide() == Side.CLIENT)
+			gameDir = Minecraft.getMinecraft().mcDataDir.toPath();
+		else
+			gameDir =
+					Paths.get(FMLCommonHandler.instance().getSavesDirectory().getAbsoluteFile().getParent());
+		Path resourcesDir = gameDir.resolve("config").resolve("BuildingBricks").resolve("resources");
 		if (!Files.exists(resourcesDir)) {
 			try {
 				Files.createDirectories(resourcesDir);
@@ -82,22 +69,22 @@ public class ModBuildingBricks {
 		resScanner.addModDirectory(resourcesDir);
 	}
 
-	@Subscribe
+	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		proxy.onPreInitEvent(event);
 	}
 
-	@Subscribe
+	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.onInitEvent(event);
 	}
 
-	@Subscribe
+	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.onPostInitEvent(event);
 	}
 
-	@Subscribe
+	@Mod.EventHandler
 	public void onRemap(FMLMissingMappingsEvent event) {
 		for (MissingMapping missingMapping : event.getAll()) {
 			if (missingMapping.name.equals("buildingbrickscompatvanilla:grass_slab")) {

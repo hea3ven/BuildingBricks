@@ -21,82 +21,20 @@ import net.minecraftforge.fml.common.versioning.VersionParser;
 import com.hea3ven.buildingbricks.core.ModBuildingBricks;
 
 public class ModContainerBuildingBricks extends DummyModContainer {
-	private final ModBuildingBricks instance;
-	private final File source;
-
 	public ModContainerBuildingBricks() {
 		super(new ModMetadata());
 
-		getMetadata().modId = ModBuildingBricks.MODID;
-		getMetadata().name = "Building Bricks";
-		getMetadata().description = "A mod about building blocks and building tools.";
+		getMetadata().modId = ModBuildingBricks.MODID + "hooks";
+		getMetadata().name = "Building Bricks Hooks";
+		getMetadata().description = "A mod about building blocks and building tools (internal hooks).";
 		getMetadata().version = ModBuildingBricks.VERSION;
 		getMetadata().url = "https://github.com/hea3ven/BuildingBricks";
 		getMetadata().authorList = Lists.newArrayList("Hea3veN");
-		getMetadata().updateJSON =
-				"https://raw.githubusercontent.com/hea3ven/BuildingBricks/master/media/update.json";
-
-		instance = new ModBuildingBricks();
-
-		URL sourceUrl = ModContainerBuildingBricks.class.getProtectionDomain().getCodeSource().getLocation();
-		if ("file".equals(sourceUrl.getProtocol()))
-			source = new File(sourceUrl.getFile()
-					.replace("com/hea3ven/buildingbricks/core/load/ModContainerBuildingBricks.class", ""));
-		else if ("jar".equals(sourceUrl.getProtocol())) {
-			try {
-				String fileUrl = sourceUrl.getFile().replace("file:", "").replaceFirst("!.*$", "");
-				source = new File(URLDecoder.decode(fileUrl, "UTF-8"));
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException(e);
-			}
-		} else
-			source = null;
-	}
-
-	@Override
-	public Set<ArtifactVersion> getRequirements() {
-		return Sets.newHashSet(
-				VersionParser.parseVersionReference(ModBuildingBricks.FORGE_DEPENDENCY));
-	}
-
-	@Override
-	public List<ArtifactVersion> getDependencies() {
-		return Lists.newArrayList(
-				VersionParser.parseVersionReference(ModBuildingBricks.FORGE_DEPENDENCY));
-	}
-
-	@Override
-	public File getSource() {
-		return source;
-	}
-
-	@Override
-	public String getGuiClassName() {
-		return "com.hea3ven.buildingbricks.core.config.BuildingBricksConfigGuiFactory";
-	}
-
-	@Override
-	public Class<?> getCustomResourcePackClass() {
-		try {
-			return Class.forName("net.minecraftforge.fml.client.FMLFileResourcePack", true,
-					getClass().getClassLoader());
-		} catch (ClassNotFoundException e) {
-			return null;
-		}
-	}
-
-	@Override
-	public URL getUpdateUrl() {
-		try {
-			return new URL(getMetadata().updateJSON);
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		}
+		getMetadata().parent = ModBuildingBricks.MODID;
 	}
 
 	@Override
 	public boolean registerBus(EventBus bus, LoadController controller) {
-		bus.register(instance);
 		return true;
 	}
 }
