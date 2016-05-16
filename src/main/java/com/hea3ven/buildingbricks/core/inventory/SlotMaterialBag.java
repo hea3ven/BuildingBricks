@@ -85,9 +85,19 @@ public class SlotMaterialBag extends SlotItemHandlerBase implements IAdvancedSlo
 
 	@Override
 	public boolean transferFrom(IAdvancedSlot slot) {
-		ItemStack srcStack = slot.getStack();
+		ItemStack srcStack = slot.getImmutableStack();
 		ItemStack stack = getItemHandler().insertItem(slotNumber, srcStack, false);
-		slot.decrStackSize(srcStack.stackSize - ((stack != null) ? stack.stackSize : 0));
+		slot.extract(srcStack.stackSize - ((stack != null) ? stack.stackSize : 0));
 		return true;
+	}
+
+	@Override
+	public ItemStack getImmutableStack() {
+		return getStack();
+	}
+
+	@Override
+	public ItemStack extract(int size) {
+		return decrStackSize(size);
 	}
 }

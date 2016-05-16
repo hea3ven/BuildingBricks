@@ -88,9 +88,7 @@ public class SlotTrowelMaterial extends Slot implements IAdvancedSlot {
 
 	@Override
 	public boolean transferFrom(IAdvancedSlot slot) {
-//		MaterialStack.set(equipment.stack, null);
-//		equipment.updatePlayer();
-		Material mat = MaterialRegistry.getMaterialForStack(slot.getStack());
+		Material mat = MaterialRegistry.getMaterialForStack(slot.getImmutableStack());
 		if (mat != null) {
 			MaterialStack.set(equipment.stack, mat);
 			equipment.updatePlayer();
@@ -98,52 +96,20 @@ public class SlotTrowelMaterial extends Slot implements IAdvancedSlot {
 		return false;
 	}
 
-	//	@Override
-//	public void putStack(ItemStack stack) {
-//		Material mat = MaterialRegistry.getMaterialForStack(stack);
-//		if (mat != null) {
-//			MaterialStack.set(equipment.stack, mat);
-//			equipment.updatePlayer();
-//		}
-//	}
-
-//	@Override
-//	public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
-//		MaterialStack.set(equipment.stack, null);
-//		equipment.updatePlayer();
-//	}
-
-//	@Override
-//	public int getSlotStackLimit() {
-//		return 0;
-//	}
-
-//	@Override
-//	public int getItemStackLimit(ItemStack stack) {
-//		return 0;
-//	}
-
 	@Override
 	public ItemStack decrStackSize(int amount) {
+		return extract(amount);
+	}
+
+	@Override
+	public ItemStack extract(int size) {
 		MaterialStack.set(equipment.stack, null);
 		equipment.updatePlayer();
 		return null;
 	}
 
-//	@Override
-//	public void onSlotChanged() {
-//	}
-
-//	@Override
-//	public ItemStack provideItemStack() {
-//		MaterialStack.set(equipment.stack, null);
-//		equipment.updatePlayer();
-//		return null;
-//	}
-
-//	@Override
-//	public boolean receiveItemStack(ItemStack stack) {
-//		putStack(stack);
-//		return true;
-//	}
+	@Override
+	public ItemStack getImmutableStack() {
+		return getStack();
+	}
 }
