@@ -16,6 +16,15 @@ import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBl
 
 public class BlockDescription {
 
+	public static BlockDescription getTemplate(MaterialBlockType type,StructureMaterial structMat) {
+		return new BlockDescription(type, MaterialBlockRecipes.getForType(structMat, type));
+	}
+
+	public static BlockDescription getTemplate(MaterialBlockType type,
+			List<MaterialBlockRecipeBuilder> recipes) {
+		return new BlockDescription(type, recipes);
+	}
+
 	private String blockName;
 	private Block block;
 	private ItemStack stack;
@@ -43,7 +52,7 @@ public class BlockDescription {
 		this.blockName = blockName;
 	}
 
-	public BlockDescription(MaterialBlockType type, List<MaterialBlockRecipeBuilder> recipes) {
+	private BlockDescription(MaterialBlockType type, List<MaterialBlockRecipeBuilder> recipes) {
 		this(type, (String) null, 0, new HashMap<>(), recipes);
 	}
 

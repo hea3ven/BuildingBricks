@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
 
-import com.hea3ven.buildingbricks.core.ModBuildingBricks;
+import com.hea3ven.buildingbricks.core.ProxyCommonBuildingBricks;
 
 public class MaterialRegistry {
 
@@ -74,35 +74,33 @@ public class MaterialRegistry {
 		logger.info("Registered {} material(s)", materials.size());
 	}
 
-	public static void freeze() {
+	public static void freeze(ProxyCommonBuildingBricks proxy) {
 		if (isFrozen)
 			return;
 
 		isFrozen = true;
+		MaterialBlockRegistry matBlockReg = MaterialBlockRegistry.instance;
 		for (Material mat : new ArrayList<>(materials)) {
 			boolean hasRealBlocks = false;
 			boolean hasExistingRealBlocks = false;
 			for (BlockDescription blockDesc : new ArrayList<>(mat.getBlockRotation().getAll().values())) {
-				if (blockDesc.getBlock() == null) {
+				if (!blockDesc.isBlockTemplate()) {
 					hasRealBlocks = true;
-					mat.removeBlock(blockDesc);
-					if (MaterialBlockRegistry.instance.enableGenerateBlocks &&
-							MaterialBlockRegistry.instance.enabledBlocks.get(blockDesc.getType())) {
-						mat.addBlock(new BlockDescription(blockDesc.getType(),
-								MaterialBlockRecipes.getForType(mat.getStructureMaterial(),
-										blockDesc.getType())));
-						MaterialBlockRegistry.instance.initBlockDescTmp(ModBuildingBricks.proxy, mat,
-								mat.getBlock(blockDesc.getType()));
+					if (blockDesc.getBlock() == null) {
+						mat.removeBlock(blockDesc);
+						if (matBlockReg.isEnabled(blockDesc.getType()))
+							mat.addBlock(BlockDescription.getTemplate(blockDesc.getType(),
+									mat.getStructureMaterial()));
 					}
-				} else if (!MaterialBlockRegistry.instance.getAllBlocks().contains(blockDesc.getBlock())) {
-					hasRealBlocks = true;
-					hasExistingRealBlocks = true;
+						else
+							hasExistingRealBlocks = true;
 				}
 			}
 			if (!hasExistingRealBlocks && hasRealBlocks) {
 				materials.remove(mat);
-				MaterialBlockRegistry.instance.removeMaterial(mat);
+				matBlockReg.removeMaterial(mat);
 			}
 		}
+		matBlockReg.generateBlocks(proxy);
 	}
 }

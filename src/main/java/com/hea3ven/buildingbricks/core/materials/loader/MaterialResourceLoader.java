@@ -37,8 +37,7 @@ public class MaterialResourceLoader {
 				continue;
 			for (MaterialBlockType blockType : mat.getStructureMaterial().getBlockTypes()) {
 				if (mat.getBlock(blockType) == null) {
-					mat.addBlock(new BlockDescription(blockType,
-							MaterialBlockRecipes.getForType(mat.getStructureMaterial(), blockType)));
+					mat.addBlock(BlockDescription.getTemplate(blockType,mat.getStructureMaterial() ));
 				}
 			}
 			MaterialRegistry.registerMaterial(mat);

@@ -104,7 +104,7 @@ public class MaterialBuilderSimple extends MaterialBuilder {
 
 	@Override
 	public void addBlock(MaterialBlockType type, List<MaterialBlockRecipeBuilder> recipes) {
-		mat.addBlock(new BlockDescription(type, recipes));
+		mat.addBlock(BlockDescription.getTemplate(type, recipes));
 	}
 
 	public Material build() {

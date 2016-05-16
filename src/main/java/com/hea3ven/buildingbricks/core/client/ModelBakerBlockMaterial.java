@@ -65,8 +65,6 @@ public class ModelBakerBlockMaterial extends ModelBakerBase {
 
 	@Override
 	public void onModelBakeEvent(ModelBakeEvent event) {
-		MaterialRegistry.freeze();
-
 		for (Cell<MaterialBlockType, StructureMaterial, Block> cell : MaterialBlockRegistry.instance.getBlocks()
 				.cellSet()) {
 			bakeBlockModels(event.getModelManager(), event.getModelRegistry(), cell.getRowKey(),

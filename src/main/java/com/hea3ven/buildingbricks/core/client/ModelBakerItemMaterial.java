@@ -44,9 +44,6 @@ public class ModelBakerItemMaterial extends ModelBakerBase {
 
 	@Override
 	public void onModelBakeEvent(ModelBakeEvent event) {
-
-		MaterialRegistry.freeze();
-
 		IModel baseItemModel = getModel(modelLoc);
 		IBakedModel baseBakedItemModel = BakerUtil.bake(baseItemModel, DefaultVertexFormats.ITEM);
 		ModelItemMaterial dynModel = new ModelItemMaterial(baseBakedItemModel);

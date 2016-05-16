@@ -33,7 +33,7 @@ public class ModBuildingBricks {
 
 	public static final String MODID = "buildingbricks";
 	public static final String VERSION = "PROJECTVERSION";
-	public static final String DEPENDENCIES = "required-after:Forge@[FORGEVERSION,)";
+	public static final String DEPENDENCIES = "required-after:Forge@[FORGEVERSION,);after:Quark;after:BiomesOPlenty";
 
 	public static final Logger logger = LogManager.getLogger("BuildingBricks");
 

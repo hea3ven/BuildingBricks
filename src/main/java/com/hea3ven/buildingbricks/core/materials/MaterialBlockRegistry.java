@@ -42,17 +42,21 @@ public class MaterialBlockRegistry {
 	private MaterialBlockRegistry() {
 	}
 
-	public void generateBlocks(ProxyCommonBuildingBricks proxy) {
+	void generateBlocks(ProxyCommonBuildingBricks proxy) {
 		for (Material mat : MaterialRegistry.getAll()) {
 			for (BlockDescription blockDesc : new ArrayList<>(mat.getBlockRotation().getAll().values())) {
 				if (blockDesc.isBlockTemplate()) {
-					if (enableGenerateBlocks && enabledBlocks.get(blockDesc.getType()))
+					if (isEnabled(blockDesc.getType()))
 						initBlockDesc(proxy, mat, blockDesc);
 					else
 						mat.removeBlock(blockDesc);
 				}
 			}
 		}
+	}
+
+	public boolean isEnabled(MaterialBlockType type) {
+		return enableGenerateBlocks && enabledBlocks.get(type);
 	}
 
 	private void initBlockDesc(ProxyCommonBuildingBricks proxy, Material mat, BlockDescription blockDesc) {
@@ -65,10 +69,6 @@ public class MaterialBlockRegistry {
 				ImmutableMap.<String, NBTBase>builder()
 						.put("material", new NBTTagString(mat.getMaterialId()))
 						.build());
-	}
-
-	void initBlockDescTmp(ProxyCommonBuildingBricks proxy, Material mat, BlockDescription blockDesc) {
-		initBlockDesc(proxy, mat, blockDesc);
 	}
 
 	private void initBlock(ProxyCommonBuildingBricks proxy, MaterialBlockType blockType, Material mat) {

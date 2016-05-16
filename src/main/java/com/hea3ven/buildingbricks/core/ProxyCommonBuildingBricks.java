@@ -81,13 +81,12 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 		super.onPreInitEvent(event);
 
 		MaterialResourceLoader.loadResources(ModBuildingBricks.resScanner);
-		MaterialBlockRegistry.instance.generateBlocks(this);
+		MaterialRegistry.freeze(this);
 	}
 
 	@Override
 	public void onInitEvent(FMLInitializationEvent event) {
 		MaterialBlockRegistry.instance.logStats();
-		MaterialRegistry.freeze();
 		MaterialRegistry.logStats();
 
 		super.onInitEvent(event);
