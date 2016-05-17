@@ -3,6 +3,9 @@ package com.hea3ven.buildingbricks.core.tileentity;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
@@ -35,6 +38,8 @@ import com.hea3ven.buildingbricks.core.materials.*;
 
 public class TileMaterial extends TileEntity {
 
+	private static final Logger logger = LogManager.getLogger("BuildingBricks.TileMaterial");
+
 	public static final PropertyMaterial MATERIAL = new PropertyMaterial();
 
 	public static boolean blocksInCreative = true;
@@ -52,6 +57,8 @@ public class TileMaterial extends TileEntity {
 	public void setMaterial(Material material) {
 		if (material != null)
 			materialId = material.getMaterialId();
+		else
+			logger.error("The material of a block was directly set to null");
 		this.material = material;
 	}
 
@@ -72,7 +79,8 @@ public class TileMaterial extends TileEntity {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setString("material", materialId);
+		if (materialId != null)
+			nbt.setString("material", materialId);
 	}
 
 	@Override
@@ -85,6 +93,8 @@ public class TileMaterial extends TileEntity {
 				matId = "minecraft:" + matId;
 			materialId = matId;
 			setMaterial(MaterialRegistry.get(matId));
+		} else {
+			logger.error("Could not load the material of a block");
 		}
 	}
 
@@ -129,7 +139,7 @@ public class TileMaterial extends TileEntity {
 	public static ItemStack getPickBlock(Block block, RayTraceResult target, World world, BlockPos pos) {
 		ItemStack stack = new ItemStack(block, 1);
 		TileMaterial te = TileMaterial.getTile(world, pos);
-		if(te != null)
+		if (te != null)
 			MaterialStack.set(stack, te.getMaterial());
 		return stack;
 	}
