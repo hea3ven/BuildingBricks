@@ -26,14 +26,14 @@ public class TrowelRotateBlockTypeMessage implements IMessage {
 		public IMessage onMessage(TrowelRotateBlockTypeMessage message, MessageContext ctx) {
 			EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 			HeldEquipment equipment = PlayerUtil.getHeldEquipment(player, ModBuildingBricks.trowel);
-			if (equipment != null && equipment.stack.getItem() != null) {
+			if (equipment != null && equipment.getStack().getItem() != null) {
 				if (message.blockType != null) {
-					ModBuildingBricks.trowel.setCurrentBlockType(equipment.stack, message.blockType);
+					ModBuildingBricks.trowel.setCurrentBlockType(equipment.getStack(), message.blockType);
 				} else {
 					if (message.forward) {
-						ModBuildingBricks.trowel.setNextBlockRotation(equipment.stack);
+						ModBuildingBricks.trowel.setNextBlockRotation(equipment.getStack());
 					} else {
-						ModBuildingBricks.trowel.setPrevBlockRotation(equipment.stack);
+						ModBuildingBricks.trowel.setPrevBlockRotation(equipment.getStack());
 					}
 				}
 			}

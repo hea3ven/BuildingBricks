@@ -21,7 +21,7 @@ public class ItemHandlerMaterialBag implements IItemHandler {
 		equipment = PlayerUtil.getHeldEquipment(player, ModBuildingBricks.materialBag);
 		if (equipment == null)
 			throw new RuntimeException("Player is not holding a material bag");
-		origStack = initStack(equipment.stack);
+		origStack = initStack(equipment.getStack());
 	}
 
 	public ItemHandlerMaterialBag(ItemStack stack) {
@@ -37,9 +37,9 @@ public class ItemHandlerMaterialBag implements IItemHandler {
 
 	private ItemStack getBagStack() {
 		if (equipment != null) {
-			ItemStack playerStack = equipment.getCurrent();
+			ItemStack playerStack = equipment.getStack();
 
-			if (ModBuildingBricks.materialBag.areSameStack(equipment.stack, playerStack)) {
+			if (ModBuildingBricks.materialBag.areSameStack(equipment.getStack(), playerStack)) {
 				return playerStack;
 			}
 		}

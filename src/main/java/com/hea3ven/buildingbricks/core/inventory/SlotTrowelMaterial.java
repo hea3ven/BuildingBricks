@@ -24,14 +24,13 @@ public class SlotTrowelMaterial extends Slot implements IAdvancedSlot {
 
 	@Override
 	public ItemStack getStack() {
-		Material mat = MaterialStack.get(equipment.stack);
+		Material mat = MaterialStack.get(equipment.getStack());
 		return mat != null ? mat.getFirstBlock().getStack().copy() : null;
 	}
 
 	@Override
 	public ItemStack onQuickMove(ContainerBase container, EntityPlayer player, int clickedButton) {
-		MaterialStack.set(equipment.stack, null);
-		equipment.updatePlayer();
+		MaterialStack.set(equipment.getStack(), null);
 		return null;
 	}
 
@@ -41,13 +40,12 @@ public class SlotTrowelMaterial extends Slot implements IAdvancedSlot {
 		if (playerStack != null) {
 			Material mat = MaterialRegistry.getMaterialForStack(playerStack);
 			if (mat != null)
-				MaterialStack.set(equipment.stack, mat);
+				MaterialStack.set(equipment.getStack(), mat);
 			else
-				MaterialStack.set(equipment.stack, null);
+				MaterialStack.set(equipment.getStack(), null);
 		} else {
-			MaterialStack.set(equipment.stack, null);
+			MaterialStack.set(equipment.getStack(), null);
 		}
-		equipment.updatePlayer();
 		return null;
 	}
 
@@ -56,8 +54,7 @@ public class SlotTrowelMaterial extends Slot implements IAdvancedSlot {
 		ItemStack equipStack = player.inventory.getStackInSlot(equipSlot);
 		Material mat = MaterialStack.get(equipStack);
 		if (mat != null) {
-			MaterialStack.set(equipment.stack, mat);
-			equipment.updatePlayer();
+			MaterialStack.set(equipment.getStack(), mat);
 		}
 	}
 
@@ -90,8 +87,7 @@ public class SlotTrowelMaterial extends Slot implements IAdvancedSlot {
 	public boolean transferFrom(IAdvancedSlot slot) {
 		Material mat = MaterialRegistry.getMaterialForStack(slot.getImmutableStack());
 		if (mat != null) {
-			MaterialStack.set(equipment.stack, mat);
-			equipment.updatePlayer();
+			MaterialStack.set(equipment.getStack(), mat);
 		}
 		return false;
 	}
@@ -103,8 +99,7 @@ public class SlotTrowelMaterial extends Slot implements IAdvancedSlot {
 
 	@Override
 	public ItemStack extract(int size) {
-		MaterialStack.set(equipment.stack, null);
-		equipment.updatePlayer();
+		MaterialStack.set(equipment.getStack(), null);
 		return null;
 	}
 

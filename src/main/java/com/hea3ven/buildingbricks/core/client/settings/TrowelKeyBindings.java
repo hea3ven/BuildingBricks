@@ -22,7 +22,7 @@ public class TrowelKeyBindings {
 		return event -> {
 			HeldEquipment equipment =
 					PlayerUtil.getHeldEquipment(Minecraft.getMinecraft().thePlayer, ModBuildingBricks.trowel);
-			if (equipment != null && equipment.stack.getItem() != null) {
+			if (equipment != null && equipment.getStack().getItem() != null) {
 				TrowelRotateBlockTypeMessage.send(false, null);
 			}
 		};
@@ -32,7 +32,7 @@ public class TrowelKeyBindings {
 		return event -> {
 			HeldEquipment equipment =
 					PlayerUtil.getHeldEquipment(Minecraft.getMinecraft().thePlayer, ModBuildingBricks.trowel);
-			if (equipment != null && equipment.stack.getItem() != null) {
+			if (equipment != null && equipment.getStack().getItem() != null) {
 				TrowelRotateBlockTypeMessage.send(true, null);
 			}
 		};

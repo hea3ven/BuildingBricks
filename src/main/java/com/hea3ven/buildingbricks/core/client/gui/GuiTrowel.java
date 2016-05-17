@@ -38,7 +38,7 @@ public class GuiTrowel extends GuiContainer {
 		HeldEquipment equip = PlayerUtil.getHeldEquipment(player, ModBuildingBricks.trowel);
 		if(equip == null)
 			return;
-		ItemStack stack = equip.stack;
+		ItemStack stack = equip.getStack();
 		Material mat = MaterialStack.get(stack);
 		if (mat != null) {
 			int i = mat.getBlockRotation().getIndex(ModBuildingBricks.trowel.getCurrentBlockType(stack));

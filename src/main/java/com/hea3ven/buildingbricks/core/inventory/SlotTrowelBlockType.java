@@ -24,27 +24,25 @@ public class SlotTrowelBlockType extends Slot implements IAdvancedSlot {
 
 	@Override
 	public ItemStack onQuickMove(ContainerBase container, EntityPlayer player, int clickedButton) {
-		Material mat = MaterialStack.get(equipment.stack);
+		Material mat = MaterialStack.get(equipment.getStack());
 		if (mat == null)
 			return null;
 		BlockDescription desc = mat.getBlockRotation().get(getSlotIndex());
 		if (desc == null)
 			return null;
-		ModBuildingBricks.trowel.setCurrentBlockType(equipment.stack, desc.getType());
-		equipment.updatePlayer();
+		ModBuildingBricks.trowel.setCurrentBlockType(equipment.getStack(), desc.getType());
 		return null;
 	}
 
 	@Override
 	public ItemStack onPickUp(EntityPlayer player, int clickedButton) {
-		Material mat = MaterialStack.get(equipment.stack);
+		Material mat = MaterialStack.get(equipment.getStack());
 		if (mat == null)
 			return null;
 		BlockDescription desc = mat.getBlockRotation().get(getSlotIndex());
 		if (desc == null)
 			return null;
-		ModBuildingBricks.trowel.setCurrentBlockType(equipment.stack, desc.getType());
-		equipment.updatePlayer();
+		ModBuildingBricks.trowel.setCurrentBlockType(equipment.getStack(), desc.getType());
 		return null;
 	}
 
@@ -95,7 +93,7 @@ public class SlotTrowelBlockType extends Slot implements IAdvancedSlot {
 
 	@Override
 	public ItemStack getImmutableStack() {
-		Material mat = MaterialStack.get(equipment.stack);
+		Material mat = MaterialStack.get(equipment.getStack());
 		if (mat == null)
 			return null;
 		BlockDescription desc = mat.getBlockRotation().get(getSlotIndex());
