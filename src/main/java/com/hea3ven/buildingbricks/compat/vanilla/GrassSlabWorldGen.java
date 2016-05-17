@@ -4,17 +4,21 @@ import java.util.function.Consumer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
+import com.hea3ven.buildingbricks.compat.vanilla.block.BlockGrassSlab;
 import com.hea3ven.tools.commonutils.util.BlockPosUtil;
 import com.hea3ven.tools.commonutils.util.ModifiableBlockPos;
 
@@ -22,6 +26,9 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 
 	private static GrassSlabWorldGen instance;
 	public static boolean enabled = true;
+
+	@ObjectHolder("buildingbricks:grass_slab")
+	public static final BlockGrassSlab grassSlab = new BlockGrassSlab();
 
 	public static GrassSlabWorldGen get() {
 		if (instance == null)
@@ -40,9 +47,10 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 
 	@SubscribeEvent
 	public void onPopulateChunkPreEvent(PopulateChunkEvent.Pre event) {
-		if(event.getWorld().provider.getDimensionType() != DimensionType.OVERWORLD)
+		World world = event.getWorld();
+		if (world.provider.getDimensionType() != DimensionType.OVERWORLD)
 			return;
-		IChunkProvider chunkProvider = event.getWorld().getChunkProvider();
+		IChunkProvider chunkProvider = world.getChunkProvider();
 		int x = event.getChunkX() << 4;
 		int z = event.getChunkZ() << 4;
 		int offX = 16;
@@ -71,7 +79,7 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 			offZ--;
 		posLoop:
 		for (ModifiableBlockPos pos : BlockPosUtil.getBox(new BlockPos(x, 0, z), offX, 1, offZ)) {
-			while (pos.getY() < 255 && event.getWorld().getBlockState(pos).getMaterial() != Material.GRASS) {
+			while (pos.getY() < 255 && world.getBlockState(pos).getMaterial() != Material.GRASS) {
 				pos.up();
 			}
 			if (pos.getY() >= 255) {
@@ -81,22 +89,28 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 			if (event.getChunkX() == -4 && event.getChunkZ() == 4)
 				for (EnumFacing face : EnumFacing.HORIZONTALS) {
 					pos.offset(face, 1);
-					Block block = event.getWorld().getBlockState(pos).getBlock();
-					if (block.isReplaceable(event.getWorld(), pos) ||
-							block == ProxyModBuildingBricksCompatVanilla.grassSlab)
+					Block block = world.getBlockState(pos).getBlock();
+					if (block.isReplaceable(world, pos) || block == grassSlab)
 						continue posLoop;
 					pos.offset(face, -1);
 				}
 
 			pos.up();
+			IBlockState replaceState = world.getBlockState(pos);
+			if (!replaceState.getBlock().isReplaceable(world, pos))
+				continue;
 
 			for (EnumFacing face : EnumFacing.HORIZONTALS) {
 				pos.offset(face, 1);
-				if (event.getWorld().getBlockState(pos).getBlock() == Blocks.GRASS) {
+				if (world.getBlockState(pos).getBlock() == Blocks.GRASS) {
 					pos.offset(face, -1);
-					event.getWorld()
-							.setBlockState(pos,
-									ProxyModBuildingBricksCompatVanilla.grassSlab.getDefaultState(), 2);
+					world.setBlockState(pos, grassSlab.getDefaultState(), 2);
+					pos.up();
+					IBlockState upperBlockState = world.getBlockState(pos);
+					if (!upperBlockState.getBlock().isAir(upperBlockState, world, pos) &&
+							replaceState.getBlock() == upperBlockState.getBlock()) {
+						world.setBlockToAir(pos);
+					}
 					continue posLoop;
 				}
 				pos.offset(face, -1);
