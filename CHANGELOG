@@ -1,3 +1,11 @@
+1.9-2.0.2:
+    * Fix grass slabs worldgen wrongly placing slabs in very steep terrains.
+    * Fix crash when a material block has not loaded properly, fixes #61.
+    * Fix the grass slabs worldgen leaving the top half of double tall grass and double flowers.
+    * Fix crash on the trowel/material bag gui, fixes #59.
+    * Fix trowel only consuming only exact matches of the block being placed.
+    * Fix another crash when materials have some non existent blocks, fixes #58.
+
 1.9-2.0.1:
     * Fix crash when material have non existent blocks, fixes #58.
 
