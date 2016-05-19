@@ -86,14 +86,13 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 				continue;
 			}
 
-			if (event.getChunkX() == -4 && event.getChunkZ() == 4)
-				for (EnumFacing face : EnumFacing.HORIZONTALS) {
-					pos.offset(face, 1);
-					Block block = world.getBlockState(pos).getBlock();
-					if (block.isReplaceable(world, pos) || block == grassSlab)
-						continue posLoop;
-					pos.offset(face, -1);
-				}
+			for (EnumFacing face : EnumFacing.HORIZONTALS) {
+				pos.offset(face, 1);
+				Block block = world.getBlockState(pos).getBlock();
+				if (block.isReplaceable(world, pos) || block == grassSlab)
+					continue posLoop;
+				pos.offset(face, -1);
+			}
 
 			pos.up();
 			IBlockState replaceState = world.getBlockState(pos);
