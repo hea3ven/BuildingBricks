@@ -1,3 +1,6 @@
+1.9-2.0.3:
+    * Fix crash when using the trowel, fixes #62.
+
 1.9-2.0.2:
     * Fix grass slabs worldgen wrongly placing slabs in very steep terrains.
     * Fix crash when a material block has not loaded properly, fixes #61.
