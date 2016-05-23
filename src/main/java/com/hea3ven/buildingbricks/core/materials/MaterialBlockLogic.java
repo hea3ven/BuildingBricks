@@ -4,8 +4,8 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.EffectRenderer;
-import net.minecraft.client.particle.EntityDiggingFX;
+import net.minecraft.client.particle.ParticleDigging;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -73,7 +73,7 @@ public class MaterialBlockLogic {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(World world, RayTraceResult target, EffectRenderer effectRenderer) {
+	public boolean addHitEffects(World world, RayTraceResult target, ParticleManager effectRenderer) {
 		BlockPos pos = target.getBlockPos();
 		IBlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
@@ -123,7 +123,7 @@ public class MaterialBlockLogic {
 			}
 		}
 
-		EntityDiggingFX particle = (EntityDiggingFX) effectRenderer.spawnEffectParticle(
+		ParticleDigging particle = (ParticleDigging) effectRenderer.spawnEffectParticle(
 				EnumParticleTypes.BLOCK_CRACK.getParticleID(), x, y, z, 0.0D, 0.0D, 0.0D,
 				Block.getStateId(state));
 
@@ -136,7 +136,7 @@ public class MaterialBlockLogic {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
+	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager effectRenderer) {
 		TileMaterial te = TileMaterial.getTile(world, pos);
 		if (te == null)
 			return true;
@@ -148,7 +148,7 @@ public class MaterialBlockLogic {
 					double x = pos.getX() + (i + 0.5d) / 4;
 					double y = pos.getY() + (j + 0.5d) / 4;
 					double z = pos.getZ() + (k + 0.5d) / 4;
-					EntityDiggingFX particle = (EntityDiggingFX) effectRenderer.spawnEffectParticle(
+					ParticleDigging particle = (ParticleDigging) effectRenderer.spawnEffectParticle(
 							EnumParticleTypes.BLOCK_CRACK.getParticleID(), x, y, z, x - pos.getX() - 0.5d,
 							y - pos.getY() - 0.5d, z - pos.getZ() - 0.5d,
 							Block.getStateId(world.getBlockState(pos)));

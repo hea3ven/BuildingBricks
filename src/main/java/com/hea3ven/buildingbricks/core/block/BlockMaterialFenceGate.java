@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,6 +20,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -107,13 +108,13 @@ public class BlockMaterialFenceGate extends BlockBuildingBricksFenceGate impleme
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean addHitEffects(IBlockState state, World world, RayTraceResult target,
-			EffectRenderer effectRenderer) {
+			ParticleManager effectRenderer) {
 		return blockLogic.addHitEffects(world, target, effectRenderer);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
+	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager effectRenderer) {
 		return blockLogic.addDestroyEffects(world, pos, effectRenderer);
 	}
 

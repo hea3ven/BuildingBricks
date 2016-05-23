@@ -76,11 +76,12 @@ public class TileMaterial extends TileEntity {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		nbt = super.writeToNBT(nbt);
 
 		if (materialId != null)
 			nbt.setString("material", materialId);
+		return nbt;
 	}
 
 	@Override
@@ -101,13 +102,6 @@ public class TileMaterial extends TileEntity {
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		return oldState.getBlock() != newSate.getBlock();
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		writeToNBT(nbt);
-		return new SPacketUpdateTileEntity(pos, 1, nbt);
 	}
 
 	@Override
