@@ -33,24 +33,16 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setString("material", mat.getMaterialId());
+		stack.setItemDamage(MaterialRegistry.getMeta(mat));
 	}
 
 	@Override
 	public Material getMaterial(ItemStack stack) {
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING))
-			return MaterialRegistry.get(stack.getTagCompound().getString("material"));
-		else
+		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("material", NBT.TAG_STRING)) {
+			Material mat = MaterialRegistry.get(stack.getTagCompound().getString("material"));
+			stack.setItemDamage(mat == null ? 0 : MaterialRegistry.getMeta(mat));
+			return mat;
+		} else
 			return null;
-	}
-
-	@Override
-	public int getMetadata(ItemStack stack) {
-		Material mat = getMaterial(stack);
-		return mat == null ? 0 : MaterialRegistry.getMeta(mat);
-	}
-
-	@Override
-	public int getDamage(ItemStack stack) {
-		return getMetadata(stack);
 	}
 }

@@ -65,7 +65,7 @@ public class MaterialBlockRegistry {
 
 		Block block = blocks.get(blockDesc.getType(), mat.getStructureMaterial());
 		blocksMaterials.get(block).add(mat);
-		blockDesc.setBlock(block, 0,
+		blockDesc.setBlock(block, MaterialRegistry.getMeta(mat),
 				ImmutableMap.<String, NBTBase>builder()
 						.put("material", new NBTTagString(mat.getMaterialId()))
 						.build());
