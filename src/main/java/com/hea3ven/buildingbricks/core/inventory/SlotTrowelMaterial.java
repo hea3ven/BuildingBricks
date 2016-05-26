@@ -107,4 +107,8 @@ public class SlotTrowelMaterial extends Slot implements IAdvancedSlot {
 	public ItemStack getImmutableStack() {
 		return getStack();
 	}
+
+	@Override
+	public void putStack(ItemStack stack) {
+	}
 }

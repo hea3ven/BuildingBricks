@@ -173,7 +173,7 @@ public class MaterialItemStackConsumer {
 						extraVol = 0;
 						continue;
 					}
-					ItemStack newStack = mat.getBlock(extraBlockType).getStack();
+					ItemStack newStack = mat.getBlock(extraBlockType).getStack().copy();
 					for (int i = 0; i < inventory.getSlots(); i++) {
 						ItemStack resultStack = inventory.insertItem(i, newStack, false);
 						if (resultStack == null) {

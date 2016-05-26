@@ -100,4 +100,8 @@ public class SlotMaterialBag extends SlotItemHandlerBase implements IAdvancedSlo
 	public ItemStack extract(int size) {
 		return decrStackSize(size);
 	}
+
+	@Override
+	public void putStack(ItemStack stack) {
+	}
 }

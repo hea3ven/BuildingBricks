@@ -104,4 +104,8 @@ public class SlotTrowelBlockType extends Slot implements IAdvancedSlot {
 	public ItemStack extract(int size) {
 		return null;
 	}
+
+	@Override
+	public void putStack(ItemStack stack) {
+	}
 }
