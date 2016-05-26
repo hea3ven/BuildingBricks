@@ -1,7 +1,8 @@
 {
     "1.9.4": {
+        "1.9.4-2.0.4": "    * Fix issues with the metadata on the material blocks items.\n    * Fix error spam when opening the trowel/material bag gui.",
         "1.9.4-2.0.3": "    * Update to Minecraft 1.9.4.",
-        "commit": "3ea33eb69e183447634a4c18394d25c789c62821"
+        "commit": "29b1b492888655649ebe1c940c6403e401b496bf"
     },
     "1.8": {
         "1.0.0-beta4": "    * Fix crash when holding a grass slab.",
@@ -40,9 +41,9 @@
         "1.8-recommended": "1.1.2",
         "1.8.8-recommended": "1.8.8-1.1.2",
         "1.8.9-recommended": "1.8.9-1.4.4",
-        "1.9.4-recommended": "1.9.4-2.0.3",
-        "1.9.4-latest": "1.9.4-2.0.3",
-        "1.9-recommended": "1.9-2.0.4"
+        "1.9.4-recommended": "1.9.4-2.0.4",
+        "1.9-recommended": "1.9-2.0.4",
+        "1.9.4-latest": "1.9.4-2.0.4"
     },
     "1.8.8": {
         "1.8.8-1.1.2": "    * Fix crash when a grass slab is destroyed by an explosion.\n    * Fix the grass slab item having the wrong name.\n    * Fix more culling bugs in the stairs.\n    * Fix crash when starting a server on Windows.",
