@@ -5,6 +5,10 @@
 1.9.4-2.0.3:
     * Update to Minecraft 1.9.4.
 
+1.9-2.0.5:
+    * Fix crash on TileMaterial.getPickBlock, fixes #71.
+	* Fix the portable ladder blocks being able to be moved with pistons, fixes #70.
+
 1.9-2.0.4:
     * Fix issues with the metadata on the material blocks items.
     * Fix error spam when opening the trowel/material bag gui.

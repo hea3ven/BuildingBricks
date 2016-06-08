@@ -2,6 +2,7 @@ package com.hea3ven.buildingbricks.core.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab.EnumBlockHalf;
+import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -163,5 +164,10 @@ public class BlockPortableLadder extends Block {
 				return EnumActionResult.SUCCESS;
 			}
 		}
+	}
+
+	@Override
+	public EnumPushReaction getMobilityFlag(IBlockState state) {
+		return EnumPushReaction.BLOCK;
 	}
 }

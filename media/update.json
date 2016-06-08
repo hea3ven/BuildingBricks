@@ -20,29 +20,30 @@
         "1.1.1": "    * Fix startup crash on windows.\n    * Fix invisible faces on stairs when stacked on top of each other."
     },
     "1.9": {
+        "commit": "baa8163bca9ed86dc6d897d895cf0b0a36916941",
+        "1.9-1.4.4": "    * Add that material jsons merge when there is more than one for the same material id.\n    * Fix crash when generateBlocks is false and you break a grass slab.\n    * Fix crash with Forge versions higher than 12.16.0.1780.",
+        "1.9-1.4.5": "    * Update to Forge 12.16.0.1811.\n    * Fix the stained glass material generating a duplicate stained glass block.\n    * Fix crash when an item has an invalid material.",
+        "1.9-1.4.6": "    * Update to Forge 12.16.0.1830.\n    * Fix blocks recipes being all mixed up.\n    * Fix rare crash when loading materials, fixes #46.",
+        "1.9-1.4.7": "    * Fix bootstrap using the wrong version of CommonUtils.",
+        "1.9-1.4.3": "    * Add materials for end bricks, purpur block and purpur pillar.\n    * Update to Minecraft 1.9.\n    * Fix the material bag losing it's material.\n    * Fix wall posts not having textures when using resourcepacks, fixes #40.",
         "1.9-1.4.8": "    * Fix crash on startup when Biomes O' Plenty is present.",
         "1.9-2.0.1": "    * Fix crash when material have non existent blocks, fixes #58.",
         "1.9-2.0.2": "    * Fix grass slabs worldgen wrongly placing slabs in very steep terrains.\n    * Fix crash when a material block has not loaded properly, fixes #61.\n    * Fix the grass slabs worldgen leaving the top half of double tall grass and double flowers.\n    * Fix crash on the trowel/material bag gui, fixes #59.\n    * Fix trowel only consuming only exact matches of the block being placed.\n    * Fix another crash when materials have some non existent blocks, fixes #58.",
         "1.9-2.0.0": "    * Add jei recipe handler to display the material of blocks.\n    * Add configuration options to enable each block type (slab, step, corner, etc) individually.\n    * Add the material of blocks to their tooltips.\n    * Add that vertical slabs blocks are placed using the slab item and removed the vertical slab item.\n    * Update to java 8.\n    * Update to Forge 12.16.0.1894 (jriwanek).\n    * Rename buildingbrickscompatvanilla:grass_slab to buildingbricks:grass_slab (this change is not backwards compatible) and merge everything into a single mod.\n    * Improve the error message when a material fails to load from a json file.\n    * Fix grass slabs worldgen running in dimensions other than the overworld, even though it wasn't gonna do anything.\n    * Fix crash when placing a vertical slab next to a slab of the same material, fixes #56.\n    * Fix item dupe in the trowel gui.\n    * Fix crash when using the trowel and there is no way to consume exactly the required volume, fixes #52.\n    * Fix the material bag not having a recipe, fixes #49.\n    * Fix blocks not having the correct sounds.\n    * Fix the fence gate model not being rotated correctly.\n    * Fix the uv mapping of the inner stairs.\n    * Fix the blocks models not being uvlocked.\n    * Fix the generated blocks not being able to be used in normal recipes and remove completely the id mapping.",
-        "commit": "9f2ee89252eb28b505346657fc79c19664534a8b",
-        "1.9-1.4.4": "    * Add that material jsons merge when there is more than one for the same material id.\n    * Fix crash when generateBlocks is false and you break a grass slab.\n    * Fix crash with Forge versions higher than 12.16.0.1780.",
-        "1.9-1.4.5": "    * Update to Forge 12.16.0.1811.\n    * Fix the stained glass material generating a duplicate stained glass block.\n    * Fix crash when an item has an invalid material.",
-        "1.9-1.4.6": "    * Update to Forge 12.16.0.1830.\n    * Fix blocks recipes being all mixed up.\n    * Fix rare crash when loading materials, fixes #46.",
+        "1.9-2.0.5": "    * Fix crash on TileMaterial.getPickBlock, fixes #71.\n    * Fix the portable ladder blocks being able to be moved with pistons, fixes #70.",
         "1.9-2.0.3": "    * Fix crash when using the trowel, fixes #62.",
-        "1.9-1.4.7": "    * Fix bootstrap using the wrong version of CommonUtils.",
-        "1.9-2.0.4": "    * Fix issues with the metadata on the material blocks items.\n    * Fix error spam when opening the trowel/material bag gui.",
-        "1.9-1.4.3": "    * Add materials for end bricks, purpur block and purpur pillar.\n    * Update to Minecraft 1.9.\n    * Fix the material bag losing it's material.\n    * Fix wall posts not having textures when using resourcepacks, fixes #40."
+        "1.9-2.0.4": "    * Fix issues with the metadata on the material blocks items.\n    * Fix error spam when opening the trowel/material bag gui."
     },
     "promos": {
         "1.8-latest": "1.1.2",
-        "1.9-latest": "1.9-2.0.4",
+        "1.9-latest": "1.9-2.0.5",
         "1.8.8-latest": "1.8.8-1.1.2",
         "1.8.9-latest": "1.8.9-1.4.4",
         "1.8-recommended": "1.1.2",
         "1.8.8-recommended": "1.8.8-1.1.2",
         "1.8.9-recommended": "1.8.9-1.4.4",
         "1.9.4-recommended": "1.9.4-2.0.4",
-        "1.9-recommended": "1.9-2.0.4",
+        "1.9-recommended": "1.9-2.0.5",
         "1.9.4-latest": "1.9.4-2.0.4"
     },
     "1.8.8": {
