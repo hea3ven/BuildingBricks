@@ -139,8 +139,9 @@ public class TileMaterial extends TileEntity {
 	public static ItemStack getPickBlock(Block block, RayTraceResult target, World world, BlockPos pos) {
 		ItemStack stack = new ItemStack(block, 1);
 		TileMaterial te = TileMaterial.getTile(world, pos);
-		if (te != null)
-			MaterialStack.set(stack, te.getMaterial());
+		if (te == null || te.getMaterial() == null)
+			return null;
+		MaterialStack.set(stack, te.getMaterial());
 		return stack;
 	}
 
