@@ -105,6 +105,13 @@ public class TileMaterial extends TileEntity {
 	}
 
 	@Override
+	public NBTTagCompound getUpdateTag() {
+		NBTTagCompound nbt = super.getUpdateTag();
+		nbt = writeToNBT(nbt);
+		return nbt;
+	}
+
+	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		readFromNBT(pkt.getNbtCompound());
 	}
