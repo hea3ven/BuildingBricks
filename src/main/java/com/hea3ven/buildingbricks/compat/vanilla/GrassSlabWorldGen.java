@@ -108,7 +108,7 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 					IBlockState upperBlockState = world.getBlockState(pos);
 					if (!upperBlockState.getBlock().isAir(upperBlockState, world, pos) &&
 							replaceState.getBlock() == upperBlockState.getBlock()) {
-						world.setBlockToAir(pos);
+						world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
 					}
 					continue posLoop;
 				}
