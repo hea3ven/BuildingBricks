@@ -51,10 +51,11 @@
         "commit": "9809e2a1dc54bd5c5edf053cef389d985ac87b63"
     },
     "1.9.4": {
-        "1.9.4-2.0.4": "    * Fix issues with the metadata on the material blocks items.\n    * Fix error spam when opening the trowel/material bag gui.",
         "1.9.4-2.0.3": "    * Update to Minecraft 1.9.4.",
-        "commit": "631f23a1380283c1e99c668fd227c18f9a7a53f4",
-        "1.9.4-2.0.5": "    * Fix crash on TileMaterial.getPickBlock, fixes #71.\n    * Fix the portable ladder blocks being able to be moved with pistons, fixes #70.\n    * Fix blocks not loading after a world restart, fixes #76."
+        "1.9.4-2.0.4": "    * Fix issues with the metadata on the material blocks items.\n    * Fix error spam when opening the trowel/material bag gui.",
+        "1.9.4-2.0.5": "    * Fix crash on TileMaterial.getPickBlock, fixes #71.\n    * Fix the portable ladder blocks being able to be moved with pistons, fixes #70.\n    * Fix blocks not loading after a world restart, fixes #76.",
+        "1.9.4-2.0.6": "    * Fix conflicting vanilla recipes for the mossy/chiseled/cracked stairs and slabs, fixes #68.\n    * Fix grass slabs being generated under water, fixes #64.\n    * Fix block name collision with the grass_slab, fixes #65.\n    * Fix infinite recursion error on the item colors of blocks, fixes #74.\n    * Fix getPickBlock returning invalid stacks for vertical slabs.\n    * Fix IllegalStateException crash with the grass slabs worldgen, fixes #73.",
+        "commit": "2329cb815af24c92308c1660e1d749fea70cbd4c"
     },
     "homepage": "https://github.com/hea3ven/BuildingBricks",
     "promos": {
@@ -66,7 +67,7 @@
         "1.8.9-recommended": "1.8.9-1.4.4",
         "1.9-latest": "1.9-2.0.6",
         "1.9-recommended": "1.9-2.0.6",
-        "1.9.4-recommended": "1.9.4-2.0.5",
-        "1.9.4-latest": "1.9.4-2.0.5"
+        "1.9.4-latest": "1.9.4-2.0.6",
+        "1.9.4-recommended": "1.9.4-2.0.6"
     }
 }
