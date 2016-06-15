@@ -96,7 +96,7 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 
 			pos.up();
 			IBlockState replaceState = world.getBlockState(pos);
-			if (!replaceState.getBlock().isReplaceable(world, pos))
+			if (!replaceState.getBlock().isReplaceable(world, pos) || replaceState.getBlock() == Blocks.WATER)
 				continue;
 
 			for (EnumFacing face : EnumFacing.HORIZONTALS) {
