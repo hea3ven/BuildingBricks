@@ -1,4 +1,6 @@
 // Hea3veN's build script for minecraft mods
+// v1.0.8 (2016-06-12):
+//     * Sort the entries in the update.json
 // v1.0.7 (2016-05-09):
 //     * Remove the code to update the README
 // v1.0.6 (2016-05-05):
@@ -217,16 +219,20 @@ class UpdateFile {
 	}
 
 	def save(File file) {
-		Map<String, Object> data = new HashMap()
+		def data = [:]
 		data.put('homepage', homepage)
+		promotions = promotions.sort { it.key }
 		data.put('promos', promotions)
+		versions = versions.sort { it.key }
 		versions.each { mcVersion, v ->
-			data[mcVersion] = new HashMap()
+			data[mcVersion] = [:]
 			data[mcVersion]['commit'] = commits[mcVersion]
 			v.each { version, changelog ->
 				data[mcVersion][version] = changelog.save()
 			}
+			data[mcVersion] = data[mcVersion].sort { it.key }
 		}
+		data = data.sort { it.key }
 		file.setText(new JsonBuilder(data).toPrettyString())
 	}
 

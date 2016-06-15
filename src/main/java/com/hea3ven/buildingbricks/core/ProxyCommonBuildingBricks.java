@@ -4,6 +4,7 @@ import javax.vecmath.Vector3f;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import org.lwjgl.input.Keyboard;
 
@@ -34,6 +35,7 @@ import net.minecraftforge.oredict.RecipeSorter.Category;
 
 import com.hea3ven.buildingbricks.core.block.BlockPortableLadder;
 import com.hea3ven.buildingbricks.core.block.base.BlockBuildingBricks;
+import com.hea3ven.buildingbricks.core.block.base.BlockMaterial;
 import com.hea3ven.buildingbricks.core.block.placement.BlockPlacementManager;
 import com.hea3ven.buildingbricks.core.client.ModelBakerBlockMaterial;
 import com.hea3ven.buildingbricks.core.client.ModelBakerItemMaterial;
@@ -242,10 +244,20 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 				Material mat = MaterialStack.get(stack);
 				if (mat == null)
 					return 0;
-				else
-					return Minecraft.getMinecraft()
-							.getItemColors()
-							.getColorFromItemstack(mat.getFirstBlock().getStack(), tintIndex);
+				else {
+					Optional<BlockDescription> stackBlockDesc = mat.getBlockRotation()
+							.getAll()
+							.values()
+							.stream()
+							.filter(blockDesc -> !(blockDesc.getBlock() instanceof BlockMaterial))
+							.findFirst();
+					if (stackBlockDesc.isPresent())
+						return Minecraft.getMinecraft()
+								.getItemColors()
+								.getColorFromItemstack(stackBlockDesc.get().getStack(), tintIndex);
+					else
+						return 0;
+				}
 			}
 		}, blocksWithItems);
 		addBlockColors(new IBlockColor() {

@@ -10,6 +10,14 @@
 1.9.4-2.0.3:
     * Update to Minecraft 1.9.4.
 
+1.9-2.0.6:
+    * Fix conflicting vanilla recipes for the mossy/chiseled/cracked stairs and slabs, fixes #68.
+    * Fix grass slabs being generated under water, fixes #64.
+    * Fix block name collision with the grass_slab, fixes #65.
+    * Fix infinite recursion error on the item colors of blocks, fixes #74.
+    * Fix getPickBlock returning invalid stacks for vertical slabs.
+    * Fix IllegalStateException crash with the grass slabs worldgen, fixes #73.
+
 1.9-2.0.5:
     * Fix crash on TileMaterial.getPickBlock, fixes #71.
     * Fix the portable ladder blocks being able to be moved with pistons, fixes #70.

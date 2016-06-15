@@ -75,7 +75,11 @@ public class MaterialBlockRegistry {
 		StructureMaterial structMat = mat.getStructureMaterial();
 		final Block block = createBlock(blockType, structMat);
 
-		final String blockName = structMat.getName() + "_" + blockType.getName();
+		final String blockName;
+		if (structMat != StructureMaterial.GRASS || blockType != MaterialBlockType.SLAB)
+			blockName = structMat.getName() + "_" + blockType.getName();
+		else
+			blockName = "turf_slab";
 		block.setRegistryName(ModBuildingBricks.MODID, blockName)
 				.setUnlocalizedName(ModBuildingBricks.MODID + "." + blockName)
 				.setCreativeTab(proxy.getCreativeTab("buildingBricks"));

@@ -1,71 +1,72 @@
 {
+    "1.8": {
+        "1.0.0": "    * Improve face culling, fixes #1.\n    * Fix material loading when running on servers, fixes #14.\n    * Fix the particles when running on a block being the missing texture.",
+        "1.0.0-beta1": "    * Initial release.",
+        "1.0.0-beta2": "    * Fix grass slabs not having a name and creative tab.\n    * Fix the trowel not placing the blocks client-side, fixes #4.\n    * Fix crash when running on servers, fixes #5.\n    * Fix blocks third-person rendering size.",
+        "1.0.0-beta3": "    * Add keybindings to switch the trowel's block type, fixes #3.\n    * Change the way the trowel consumes blocks to be more smart, fixes #10.\n    * Fix block breaking particles not having textures, fixes #7.\n    * Fix crash when placing blocks, fixes #13.\n    * Fix crash when looking up the recipe for the double slabs.\n    * Fix blocks dropping items when breaking them in creative mode, fixes #9.\n    * Fix silk touching blocks and their drops, fixes #8.\n    * Fix the trowel not respecting the top/side/bottom textures of materials, fixes #6.",
+        "1.0.0-beta4": "    * Fix crash when holding a grass slab.",
+        "1.0.1": "    * Remove usage of javax.vecmath which is not available on servers, fixes #15.\n    * Fix crash when placing a double slab blcok next to a slab block, fixes #16.",
+        "1.0.2": "    * Reduce memory usage in the grass slabs world gen.\n    * Fix glass slabs making the sides of other slabs next to them invisible, fixes #17.\n    * Fix crash when you place a wall on top of another wall.\n    * Fix not being able to place torches on top of walls.",
+        "1.0.3": "    * Fix crash when using forge versions higher than 1521.",
+        "1.0.4": "    * Add materials for the stone variants and the prismarine blocks, fixes #21.\n    * Fix vertical slabs culling when placed next to each other, fixes #18.",
+        "1.1.0": "    * Add a portable ladder block.\n    * Add materials for coarse dirt, podzol and mycelium, fixes #25.\n    * Add compatibility for thaumcraft blocks.\n    * Add fence and fence gate block types.\n    * Add a GUI for the trowel when you shift-right click on the air, fixes #23.\n    * Add a model for the trowel.\n    * Reduced significantly the blocks' space usage on disk and made it able to better handle removing/adding materials from existing worlds.\n    * Blocks now have the block hardness and explosion resistance of their material.\n    * Fix grass slabs world gen generating chunks recursively, fixes #22.",
+        "1.1.1": "    * Fix startup crash on windows.\n    * Fix invisible faces on stairs when stacked on top of each other.",
+        "1.1.2": "    * Fix crash when a grass slab is destroyed by an explosion.\n    * Fix the grass slab item having the wrong name.\n    * Fix more culling bugs in the stairs.\n    * Fix crash when starting a server on Windows.",
+        "commit": null
+    },
+    "1.8.8": {
+        "1.8.8-1.1.0": "    * Add a portable ladder block.\n    * Add materials for coarse dirt, podzol and mycelium, fixes #25.\n    * Add compatibility for thaumcraft blocks.\n    * Add fence and fence gate block types.\n    * Add a GUI for the trowel when you shift-right click on the air, fixes #23.\n    * Add a model for the trowel.\n    * Updated to Minecraft Forge version 1.8.8.\n    * Reduced significantly the blocks' space usage on disk and made it able to better handle removing/adding materials from existing worlds.\n    * Blocks now have the block hardness and explosion resistance of their material.\n    * Fix grass slabs world gen generating chunks recursively, fixes #22.",
+        "1.8.8-1.1.1": "    * Fix startup crash on windows.\n    * Fix invisible faces on stairs when stacked on top of each other.",
+        "1.8.8-1.1.2": "    * Fix crash when a grass slab is destroyed by an explosion.\n    * Fix the grass slab item having the wrong name.\n    * Fix more culling bugs in the stairs.\n    * Fix crash when starting a server on Windows.",
+        "commit": null
+    },
+    "1.8.9": {
+        "1.8.9-1.2.0": "    * Add a Material Bag item that can hold 27 stacks of blocks of a single material, which the trowel can use as a source of materials.\n    * Add: blocks now combine with themselves if possible when being placed (i.e. placing a step next to another one will convert into a slab), fixes #11.\n    * Add keybindings for the trowel to directly select block types (by default numpad 0 = full block, numpad 1 = stairs, numpad 2 = slab, etc.), fixes #24.\n    * Add a validation of the material id mapping of the clients when they connect to servers, fixes #28.\n    * Fix portable ladder not having localization.\n    * Fix portable ladder not having a texture for the break particles.\n    * Fix the trowel not showing the binded block in the item model.\n    * Fix localization issue with the double stone slabs.\n    * Fix blocks being consumed by the trowel binding recipe.",
+        "1.8.9-1.2.1": "    * Fix crash when placing a grass slab on top of another grass slab, fixes #32.\n    * Fix NPE sometimes when a player connects to a server, fixes #31.",
+        "1.8.9-1.3.0": "    * Add config option to show binded trowels for all materials in the creative tab.\n    * Add compatibility with Biomes O' Plenty.\n    * Add compatibility with AdobeBlocks.\n    * Add a config option to replace the grass texture with a long grass texture, fixes #26.\n    * Add config option to disable the generation of the missing blocks for materials.\n    * Add command to generate material json files.\n    * Add the ability for the trowel to use any item with an ItemHandler capability as source of material and implement the ItemHandler capability in the material bag.\n    * Material bags now insert items as you pick them up from the ground.\n    * Allow materials to be loaded from a sub directory of the configuration directory.\n    * Improve the material bag inventory handling, fixes a dupe bug with it.\n    * Fix oclussion issue with transparent stairs and slabs.",
+        "1.8.9-1.3.1": "    * Fix crash on server startup, fixes #33.",
+        "1.8.9-1.3.2": "    * Fix stairs crafting recipe giving only 2 stairs in stead of 4.",
+        "1.8.9-1.3.3": "    * Fix items converting when shift-clicking between containers.",
+        "1.8.9-1.4.0": "    * Add a way to generate materials for dyed blocks and add stained glass materials.\n    * Add the ability to override/add recipes in the material json, and change the recipe for glass walls, fixes #35.\n    * Add pane block type.\n    * Add config option to show/hide the generated blocks in the creative tab.\n    * Deprecated the material id mapping, it was an overengineered solution to a non-problem. DO NOT remove the config file \"config/BuildingBricks/material_ids.nbt\", it is needed to convert the worlds.\n    * Fix crash when breaking blocks, fixes #36.\n    * Fix some blocks having a missing textrure in the bottom side.\n    * Fix glass blocks not dropping when harvested with silk touch.\n    * Fix compatibility issue in the trowel binding recipe.",
+        "1.8.9-1.4.1": "    * Fix crash on servers, fixes #38.",
+        "1.8.9-1.4.2": "    * Fix crash when disabling the generateBlocks config option, fixes #39.\n    * Fix crash when opening the trowel/material bag gui.",
+        "1.8.9-1.4.3": "    * Fix the material bag losing it's material.\n    * Fix wall posts not having textures when using resourcepacks, fixes #40.",
+        "1.8.9-1.4.4": "    * Fix crash when generateBlocks is false and you break a grass slab.",
+        "commit": "82410f26b398bca9a0212ea04f16d2c0a26f87ad"
+    },
+    "1.9": {
+        "1.9-1.4.3": "    * Add materials for end bricks, purpur block and purpur pillar.\n    * Update to Minecraft 1.9.\n    * Fix the material bag losing it's material.\n    * Fix wall posts not having textures when using resourcepacks, fixes #40.",
+        "1.9-1.4.4": "    * Add that material jsons merge when there is more than one for the same material id.\n    * Fix crash when generateBlocks is false and you break a grass slab.\n    * Fix crash with Forge versions higher than 12.16.0.1780.",
+        "1.9-1.4.5": "    * Update to Forge 12.16.0.1811.\n    * Fix the stained glass material generating a duplicate stained glass block.\n    * Fix crash when an item has an invalid material.",
+        "1.9-1.4.6": "    * Update to Forge 12.16.0.1830.\n    * Fix blocks recipes being all mixed up.\n    * Fix rare crash when loading materials, fixes #46.",
+        "1.9-1.4.7": "    * Fix bootstrap using the wrong version of CommonUtils.",
+        "1.9-1.4.8": "    * Fix crash on startup when Biomes O' Plenty is present.",
+        "1.9-2.0.0": "    * Add jei recipe handler to display the material of blocks.\n    * Add configuration options to enable each block type (slab, step, corner, etc) individually.\n    * Add the material of blocks to their tooltips.\n    * Add that vertical slabs blocks are placed using the slab item and removed the vertical slab item.\n    * Update to java 8.\n    * Update to Forge 12.16.0.1894 (jriwanek).\n    * Rename buildingbrickscompatvanilla:grass_slab to buildingbricks:grass_slab (this change is not backwards compatible) and merge everything into a single mod.\n    * Improve the error message when a material fails to load from a json file.\n    * Fix grass slabs worldgen running in dimensions other than the overworld, even though it wasn't gonna do anything.\n    * Fix crash when placing a vertical slab next to a slab of the same material, fixes #56.\n    * Fix item dupe in the trowel gui.\n    * Fix crash when using the trowel and there is no way to consume exactly the required volume, fixes #52.\n    * Fix the material bag not having a recipe, fixes #49.\n    * Fix blocks not having the correct sounds.\n    * Fix the fence gate model not being rotated correctly.\n    * Fix the uv mapping of the inner stairs.\n    * Fix the blocks models not being uvlocked.\n    * Fix the generated blocks not being able to be used in normal recipes and remove completely the id mapping.",
+        "1.9-2.0.1": "    * Fix crash when material have non existent blocks, fixes #58.",
+        "1.9-2.0.2": "    * Fix grass slabs worldgen wrongly placing slabs in very steep terrains.\n    * Fix crash when a material block has not loaded properly, fixes #61.\n    * Fix the grass slabs worldgen leaving the top half of double tall grass and double flowers.\n    * Fix crash on the trowel/material bag gui, fixes #59.\n    * Fix trowel only consuming only exact matches of the block being placed.\n    * Fix another crash when materials have some non existent blocks, fixes #58.",
+        "1.9-2.0.3": "    * Fix crash when using the trowel, fixes #62.",
+        "1.9-2.0.4": "    * Fix issues with the metadata on the material blocks items.\n    * Fix error spam when opening the trowel/material bag gui.",
+        "1.9-2.0.5": "    * Fix crash on TileMaterial.getPickBlock, fixes #71.\n    * Fix the portable ladder blocks being able to be moved with pistons, fixes #70.",
+        "1.9-2.0.6": "    * Fix conflicting vanilla recipes for the mossy/chiseled/cracked stairs and slabs, fixes #68.\n    * Fix grass slabs being generated under water, fixes #64.\n    * Fix block name collision with the grass_slab, fixes #65.\n    * Fix infinite recursion error on the item colors of blocks, fixes #74.\n    * Fix getPickBlock returning invalid stacks for vertical slabs.\n    * Fix IllegalStateException crash with the grass slabs worldgen, fixes #73.",
+        "commit": "9809e2a1dc54bd5c5edf053cef389d985ac87b63"
+    },
     "1.9.4": {
         "1.9.4-2.0.4": "    * Fix issues with the metadata on the material blocks items.\n    * Fix error spam when opening the trowel/material bag gui.",
         "1.9.4-2.0.3": "    * Update to Minecraft 1.9.4.",
         "commit": "631f23a1380283c1e99c668fd227c18f9a7a53f4",
         "1.9.4-2.0.5": "    * Fix crash on TileMaterial.getPickBlock, fixes #71.\n    * Fix the portable ladder blocks being able to be moved with pistons, fixes #70.\n    * Fix blocks not loading after a world restart, fixes #76."
     },
-    "1.8": {
-        "1.0.0-beta4": "    * Fix crash when holding a grass slab.",
-        "1.0.0-beta1": "    * Initial release.",
-        "1.0.0-beta3": "    * Add keybindings to switch the trowel's block type, fixes #3.\n    * Change the way the trowel consumes blocks to be more smart, fixes #10.\n    * Fix block breaking particles not having textures, fixes #7.\n    * Fix crash when placing blocks, fixes #13.\n    * Fix crash when looking up the recipe for the double slabs.\n    * Fix blocks dropping items when breaking them in creative mode, fixes #9.\n    * Fix silk touching blocks and their drops, fixes #8.\n    * Fix the trowel not respecting the top/side/bottom textures of materials, fixes #6.",
-        "1.0.0-beta2": "    * Fix grass slabs not having a name and creative tab.\n    * Fix the trowel not placing the blocks client-side, fixes #4.\n    * Fix crash when running on servers, fixes #5.\n    * Fix blocks third-person rendering size.",
-        "commit": null,
-        "1.0.3": "    * Fix crash when using forge versions higher than 1521.",
-        "1.1.2": "    * Fix crash when a grass slab is destroyed by an explosion.\n    * Fix the grass slab item having the wrong name.\n    * Fix more culling bugs in the stairs.\n    * Fix crash when starting a server on Windows.",
-        "1.0.4": "    * Add materials for the stone variants and the prismarine blocks, fixes #21.\n    * Fix vertical slabs culling when placed next to each other, fixes #18.",
-        "1.0.0": "    * Improve face culling, fixes #1.\n    * Fix material loading when running on servers, fixes #14.\n    * Fix the particles when running on a block being the missing texture.",
-        "1.0.1": "    * Remove usage of javax.vecmath which is not available on servers, fixes #15.\n    * Fix crash when placing a double slab blcok next to a slab block, fixes #16.",
-        "1.1.0": "    * Add a portable ladder block.\n    * Add materials for coarse dirt, podzol and mycelium, fixes #25.\n    * Add compatibility for thaumcraft blocks.\n    * Add fence and fence gate block types.\n    * Add a GUI for the trowel when you shift-right click on the air, fixes #23.\n    * Add a model for the trowel.\n    * Reduced significantly the blocks' space usage on disk and made it able to better handle removing/adding materials from existing worlds.\n    * Blocks now have the block hardness and explosion resistance of their material.\n    * Fix grass slabs world gen generating chunks recursively, fixes #22.",
-        "1.0.2": "    * Reduce memory usage in the grass slabs world gen.\n    * Fix glass slabs making the sides of other slabs next to them invisible, fixes #17.\n    * Fix crash when you place a wall on top of another wall.\n    * Fix not being able to place torches on top of walls.",
-        "1.1.1": "    * Fix startup crash on windows.\n    * Fix invisible faces on stairs when stacked on top of each other."
-    },
-    "1.9": {
-        "commit": "baa8163bca9ed86dc6d897d895cf0b0a36916941",
-        "1.9-1.4.4": "    * Add that material jsons merge when there is more than one for the same material id.\n    * Fix crash when generateBlocks is false and you break a grass slab.\n    * Fix crash with Forge versions higher than 12.16.0.1780.",
-        "1.9-1.4.5": "    * Update to Forge 12.16.0.1811.\n    * Fix the stained glass material generating a duplicate stained glass block.\n    * Fix crash when an item has an invalid material.",
-        "1.9-1.4.6": "    * Update to Forge 12.16.0.1830.\n    * Fix blocks recipes being all mixed up.\n    * Fix rare crash when loading materials, fixes #46.",
-        "1.9-1.4.7": "    * Fix bootstrap using the wrong version of CommonUtils.",
-        "1.9-1.4.3": "    * Add materials for end bricks, purpur block and purpur pillar.\n    * Update to Minecraft 1.9.\n    * Fix the material bag losing it's material.\n    * Fix wall posts not having textures when using resourcepacks, fixes #40.",
-        "1.9-1.4.8": "    * Fix crash on startup when Biomes O' Plenty is present.",
-        "1.9-2.0.1": "    * Fix crash when material have non existent blocks, fixes #58.",
-        "1.9-2.0.2": "    * Fix grass slabs worldgen wrongly placing slabs in very steep terrains.\n    * Fix crash when a material block has not loaded properly, fixes #61.\n    * Fix the grass slabs worldgen leaving the top half of double tall grass and double flowers.\n    * Fix crash on the trowel/material bag gui, fixes #59.\n    * Fix trowel only consuming only exact matches of the block being placed.\n    * Fix another crash when materials have some non existent blocks, fixes #58.",
-        "1.9-2.0.0": "    * Add jei recipe handler to display the material of blocks.\n    * Add configuration options to enable each block type (slab, step, corner, etc) individually.\n    * Add the material of blocks to their tooltips.\n    * Add that vertical slabs blocks are placed using the slab item and removed the vertical slab item.\n    * Update to java 8.\n    * Update to Forge 12.16.0.1894 (jriwanek).\n    * Rename buildingbrickscompatvanilla:grass_slab to buildingbricks:grass_slab (this change is not backwards compatible) and merge everything into a single mod.\n    * Improve the error message when a material fails to load from a json file.\n    * Fix grass slabs worldgen running in dimensions other than the overworld, even though it wasn't gonna do anything.\n    * Fix crash when placing a vertical slab next to a slab of the same material, fixes #56.\n    * Fix item dupe in the trowel gui.\n    * Fix crash when using the trowel and there is no way to consume exactly the required volume, fixes #52.\n    * Fix the material bag not having a recipe, fixes #49.\n    * Fix blocks not having the correct sounds.\n    * Fix the fence gate model not being rotated correctly.\n    * Fix the uv mapping of the inner stairs.\n    * Fix the blocks models not being uvlocked.\n    * Fix the generated blocks not being able to be used in normal recipes and remove completely the id mapping.",
-        "1.9-2.0.5": "    * Fix crash on TileMaterial.getPickBlock, fixes #71.\n    * Fix the portable ladder blocks being able to be moved with pistons, fixes #70.",
-        "1.9-2.0.3": "    * Fix crash when using the trowel, fixes #62.",
-        "1.9-2.0.4": "    * Fix issues with the metadata on the material blocks items.\n    * Fix error spam when opening the trowel/material bag gui."
-    },
+    "homepage": "https://github.com/hea3ven/BuildingBricks",
     "promos": {
         "1.8-latest": "1.1.2",
-        "1.9-latest": "1.9-2.0.5",
-        "1.8.8-latest": "1.8.8-1.1.2",
-        "1.8.9-latest": "1.8.9-1.4.4",
         "1.8-recommended": "1.1.2",
+        "1.8.8-latest": "1.8.8-1.1.2",
         "1.8.8-recommended": "1.8.8-1.1.2",
+        "1.8.9-latest": "1.8.9-1.4.4",
         "1.8.9-recommended": "1.8.9-1.4.4",
+        "1.9-latest": "1.9-2.0.6",
+        "1.9-recommended": "1.9-2.0.6",
         "1.9.4-recommended": "1.9.4-2.0.5",
-        "1.9-recommended": "1.9-2.0.5",
         "1.9.4-latest": "1.9.4-2.0.5"
-    },
-    "1.8.8": {
-        "1.8.8-1.1.2": "    * Fix crash when a grass slab is destroyed by an explosion.\n    * Fix the grass slab item having the wrong name.\n    * Fix more culling bugs in the stairs.\n    * Fix crash when starting a server on Windows.",
-        "commit": null,
-        "1.8.8-1.1.0": "    * Add a portable ladder block.\n    * Add materials for coarse dirt, podzol and mycelium, fixes #25.\n    * Add compatibility for thaumcraft blocks.\n    * Add fence and fence gate block types.\n    * Add a GUI for the trowel when you shift-right click on the air, fixes #23.\n    * Add a model for the trowel.\n    * Updated to Minecraft Forge version 1.8.8.\n    * Reduced significantly the blocks' space usage on disk and made it able to better handle removing/adding materials from existing worlds.\n    * Blocks now have the block hardness and explosion resistance of their material.\n    * Fix grass slabs world gen generating chunks recursively, fixes #22.",
-        "1.8.8-1.1.1": "    * Fix startup crash on windows.\n    * Fix invisible faces on stairs when stacked on top of each other."
-    },
-    "1.8.9": {
-        "commit": "82410f26b398bca9a0212ea04f16d2c0a26f87ad",
-        "1.8.9-1.3.3": "    * Fix items converting when shift-clicking between containers.",
-        "1.8.9-1.4.2": "    * Fix crash when disabling the generateBlocks config option, fixes #39.\n    * Fix crash when opening the trowel/material bag gui.",
-        "1.8.9-1.4.3": "    * Fix the material bag losing it's material.\n    * Fix wall posts not having textures when using resourcepacks, fixes #40.",
-        "1.8.9-1.4.4": "    * Fix crash when generateBlocks is false and you break a grass slab.",
-        "1.8.9-1.2.0": "    * Add a Material Bag item that can hold 27 stacks of blocks of a single material, which the trowel can use as a source of materials.\n    * Add: blocks now combine with themselves if possible when being placed (i.e. placing a step next to another one will convert into a slab), fixes #11.\n    * Add keybindings for the trowel to directly select block types (by default numpad 0 = full block, numpad 1 = stairs, numpad 2 = slab, etc.), fixes #24.\n    * Add a validation of the material id mapping of the clients when they connect to servers, fixes #28.\n    * Fix portable ladder not having localization.\n    * Fix portable ladder not having a texture for the break particles.\n    * Fix the trowel not showing the binded block in the item model.\n    * Fix localization issue with the double stone slabs.\n    * Fix blocks being consumed by the trowel binding recipe.",
-        "1.8.9-1.2.1": "    * Fix crash when placing a grass slab on top of another grass slab, fixes #32.\n    * Fix NPE sometimes when a player connects to a server, fixes #31.",
-        "1.8.9-1.3.0": "    * Add config option to show binded trowels for all materials in the creative tab.\n    * Add compatibility with Biomes O' Plenty.\n    * Add compatibility with AdobeBlocks.\n    * Add a config option to replace the grass texture with a long grass texture, fixes #26.\n    * Add config option to disable the generation of the missing blocks for materials.\n    * Add command to generate material json files.\n    * Add the ability for the trowel to use any item with an ItemHandler capability as source of material and implement the ItemHandler capability in the material bag.\n    * Material bags now insert items as you pick them up from the ground.\n    * Allow materials to be loaded from a sub directory of the configuration directory.\n    * Improve the material bag inventory handling, fixes a dupe bug with it.\n    * Fix oclussion issue with transparent stairs and slabs.",
-        "1.8.9-1.3.1": "    * Fix crash on server startup, fixes #33.",
-        "1.8.9-1.4.0": "    * Add a way to generate materials for dyed blocks and add stained glass materials.\n    * Add the ability to override/add recipes in the material json, and change the recipe for glass walls, fixes #35.\n    * Add pane block type.\n    * Add config option to show/hide the generated blocks in the creative tab.\n    * Deprecated the material id mapping, it was an overengineered solution to a non-problem. DO NOT remove the config file \"config/BuildingBricks/material_ids.nbt\", it is needed to convert the worlds.\n    * Fix crash when breaking blocks, fixes #36.\n    * Fix some blocks having a missing textrure in the bottom side.\n    * Fix glass blocks not dropping when harvested with silk touch.\n    * Fix compatibility issue in the trowel binding recipe.",
-        "1.8.9-1.3.2": "    * Fix stairs crafting recipe giving only 2 stairs in stead of 4.",
-        "1.8.9-1.4.1": "    * Fix crash on servers, fixes #38."
-    },
-    "homepage": "https://github.com/hea3ven/BuildingBricks"
+    }
 }

@@ -138,12 +138,14 @@ public class TileMaterial extends TileEntity {
 	}
 
 	public static ItemStack getPickBlock(Block block, RayTraceResult target, World world, BlockPos pos) {
-		ItemStack stack = new ItemStack(block, 1);
 		TileMaterial te = TileMaterial.getTile(world, pos);
-		if (te == null || te.getMaterial() == null)
+		if (te == null)
 			return null;
-		MaterialStack.set(stack, te.getMaterial());
-		return stack;
+		Material mat = te.getMaterial();
+		if (mat == null)
+			return null;
+		MaterialBlockType blockType = ((BlockBuildingBricks) block).getBlockLogic().getBlockType();
+		return mat.getBlock(blockType.getStackType()).getStack().copy();
 	}
 
 	public static void getSubBlocks(Block block, Item item, CreativeTabs tab, List<ItemStack> list) {
