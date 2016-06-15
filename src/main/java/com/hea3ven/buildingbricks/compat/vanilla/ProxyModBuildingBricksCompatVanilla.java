@@ -6,7 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.BlockStoneSlab;
+import net.minecraft.block.BlockStoneSlab.EnumType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
@@ -38,6 +40,7 @@ import com.hea3ven.tools.commonutils.mod.ProxyModModule;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 import com.hea3ven.tools.commonutils.util.SidedCall;
 import com.hea3ven.tools.commonutils.util.SidedCall.SidedRunnable;
+import static net.minecraft.block.BlockStoneSlab.*;
 
 public class ProxyModBuildingBricksCompatVanilla extends ProxyModModule {
 
@@ -139,11 +142,19 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModModule {
 		for (int i = 0; i < recipes.size(); i++) {
 			IRecipe recipe = recipes.get(i);
 			ItemStack result = recipe.getRecipeOutput();
-			if (result != null && result.getItem() instanceof ItemBlock &&
-					((ItemBlock) result.getItem()).getBlock() == Blocks.STONE_SLAB &&
-					result.getMetadata() == BlockStoneSlab.EnumType.STONE.getMetadata()) {
-				logger.debug("Found original slab recipe");
-				recipes.remove(i);
+			if (result != null && result.getItem() instanceof ItemBlock) {
+				if (((ItemBlock) result.getItem()).getBlock() == Blocks.STONE_SLAB) {
+					if (result.getMetadata() == EnumType.STONE.getMetadata()) {
+						logger.debug("Found original slab recipe");
+						recipes.remove(i);
+					} else if (result.getMetadata() == EnumType.SMOOTHBRICK.getMetadata()) {
+						logger.debug("Found original stone bricks slab recipe");
+						recipes.remove(i);
+					}
+				} else if (((ItemBlock) result.getItem()).getBlock() == Blocks.STONE_BRICK_STAIRS) {
+					logger.debug("Found original stone bricks stairs recipe");
+					recipes.remove(i);
+				}
 			}
 		}
 
@@ -151,5 +162,11 @@ public class ProxyModBuildingBricksCompatVanilla extends ProxyModModule {
 		ItemStack stoneSlabSlab =
 				new ItemStack(Blocks.STONE_SLAB, 2, BlockStoneSlab.EnumType.STONE.getMetadata());
 		addRecipe(stoneSlabSlab, "x", "x", 'x', stoneSlab);
+		ItemStack stoneBrick =
+				new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.EnumType.DEFAULT.getMetadata());
+		ItemStack stoneBrickSlab =
+				new ItemStack(Blocks.STONE_SLAB, 6, EnumType.SMOOTHBRICK.getMetadata());
+		addRecipe(stoneBrickSlab, "###", '#', stoneBrick);
+		this.addRecipe(new ItemStack(Blocks.STONE_BRICK_STAIRS, 4), "#  ", "## ", "###", '#', stoneBrick);
 	}
 }
