@@ -61,6 +61,7 @@ public class MaterialBlockRecipes {
 									.ingredients("xyx", "xyx", "x", "SLAB", "y", "FULL"));
 						break;
 				}
+				break;
 			case FENCE:
 				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.FULL))
 					recipes.add(new MaterialBlockRecipeBuilder().outputAmount(6)
