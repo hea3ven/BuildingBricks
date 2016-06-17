@@ -1,3 +1,7 @@
+1.9.4-2.0.7:
+    * Fix dupe bug when placing blocks, fixes #79.
+    * Fix walls having a fence like recipe.
+
 1.9.4-2.0.6:
     * Fix conflicting vanilla recipes for the mossy/chiseled/cracked stairs and slabs, fixes #68.
     * Fix grass slabs being generated under water, fixes #64.
