@@ -36,6 +36,11 @@ public class CornerCombinePlacementHandler extends PlacementHandlerBase {
 		if (!(state.getBlock() instanceof BlockBuildingBricksCorner))
 			return EnumActionResult.PASS;
 
+		ItemStack targetStack = state.getBlock().getPickBlock(state, null, world, params.pos, null);
+		Material targetMat = MaterialRegistry.getMaterialForStack(targetStack);
+		if(mat != targetMat)
+			return EnumActionResult.PASS;
+
 		IBlockState newState = null;
 		// TODO: use math
 		EnumFacing blockSide = state.getValue(BlockProperties.ROTATION).getSide();

@@ -13,10 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.hea3ven.buildingbricks.core.block.BlockBuildingBricksVerticalSlab;
-import com.hea3ven.buildingbricks.core.materials.BlockDescription;
-import com.hea3ven.buildingbricks.core.materials.Material;
-import com.hea3ven.buildingbricks.core.materials.MaterialBlockType;
-import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
+import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.tools.commonutils.util.ItemBlockUtil;
 import com.hea3ven.tools.commonutils.util.PlaceParams;
 
@@ -34,6 +31,12 @@ public class SlabCombinePlacementHandler extends PlacementHandlerBase {
 		if (!(state.getBlock() instanceof BlockSlab) &&
 				!(state.getBlock() instanceof BlockBuildingBricksVerticalSlab))
 			return EnumActionResult.PASS;
+
+		ItemStack targetStack = state.getBlock().getPickBlock(state, null, world, params.pos, null);
+		Material targetMat = MaterialRegistry.getMaterialForStack(targetStack);
+		if(mat != targetMat)
+			return EnumActionResult.PASS;
+
 		BlockDescription blockDesc = mat.getBlock(MaterialBlockType.FULL);
 		ItemStack placeStack = blockDesc.getStack();
 		Block block = ((ItemBlock) placeStack.getItem()).getBlock();

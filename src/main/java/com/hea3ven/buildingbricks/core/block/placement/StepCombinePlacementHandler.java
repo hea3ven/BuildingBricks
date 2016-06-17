@@ -37,6 +37,11 @@ public class StepCombinePlacementHandler extends PlacementHandlerBase {
 		if (!(state.getBlock() instanceof BlockBuildingBricksStep))
 			return EnumActionResult.PASS;
 
+		ItemStack targetStack = state.getBlock().getPickBlock(state, null, world, params.pos, null);
+		Material targetMat = MaterialRegistry.getMaterialForStack(targetStack);
+		if(mat != targetMat)
+			return EnumActionResult.PASS;
+
 		IBlockState newState = null;
 		// TODO: use math
 		boolean vertical = state.getValue(BlockProperties.VERTICAL);
