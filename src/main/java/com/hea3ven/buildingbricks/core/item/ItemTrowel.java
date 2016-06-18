@@ -3,6 +3,8 @@ package com.hea3ven.buildingbricks.core.item;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.ImmutableSet;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -158,7 +160,7 @@ public class ItemTrowel extends Item implements ItemMaterial {
 		return new GenericContainer()
 				.addGenericSlots(44, 36, 1, 1, (slot, x, y) -> new SlotTrowelMaterial(player, slot, x, y))
 				.addGenericSlots(98, 9, 4, 4, (slot, x, y) -> new SlotTrowelBlockType(player, slot, x, y))
-				.addPlayerSlots(player.inventory);
+				.addPlayerSlots(player.inventory, ImmutableSet.of(player.inventory.currentItem));
 	}
 
 	public ItemStack createStack() {
