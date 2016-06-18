@@ -51,11 +51,11 @@ public class BlockBuildingBricksStairs extends BlockStairs implements BlockBuild
 		BlockPos otherPos = pos.offset(side);
 		IBlockState otherState = world.getBlockState(otherPos);
 		if (!isBlockStairs(otherState)) {
-			return !otherState.isSideSolid(world, otherPos, side.getOpposite());
+			return !otherState.doesSideBlockRendering(world, otherPos, side.getOpposite());
 		}
 
-		if (state.isSideSolid(world, pos, side) &&
-				otherState.isSideSolid(world, otherPos, side.getOpposite()))
+		if (state.doesSideBlockRendering(world, pos, side) &&
+				otherState.doesSideBlockRendering(world, otherPos, side.getOpposite()))
 			return false;
 
 		if (side.getAxis() != Axis.Y)
