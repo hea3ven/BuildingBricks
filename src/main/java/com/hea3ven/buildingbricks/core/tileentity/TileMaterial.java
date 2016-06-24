@@ -75,18 +75,13 @@ public class TileMaterial extends TileEntity {
 		return tile;
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-
+	private NBTTagCompound serializeMaterialData(NBTTagCompound nbt) {
 		if (materialId != null)
 			nbt.setString("material", materialId);
+		return nbt;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-
+	private void deserializeMaterialData(NBTTagCompound nbt) {
 		if (nbt.hasKey("material", NBT.TAG_STRING)) {
 			String matId = nbt.getString("material");
 			if (!matId.contains(":"))
@@ -99,20 +94,37 @@ public class TileMaterial extends TileEntity {
 	}
 
 	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		serializeMaterialData(nbt);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		deserializeMaterialData(nbt);
+	}
+
+	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		return oldState.getBlock() != newSate.getBlock();
 	}
 
 	@Override
+	public NBTTagCompound getTileData() {
+		return serializeMaterialData(new NBTTagCompound());
+	}
+
+	@Override
 	public Packet getDescriptionPacket() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		writeToNBT(nbt);
-		return new SPacketUpdateTileEntity(pos, 1, nbt);
+		return new SPacketUpdateTileEntity(pos, 0, serializeMaterialData(new NBTTagCompound()));
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.getNbtCompound());
+		deserializeMaterialData(pkt.getNbtCompound());
 	}
 
 	public static BlockStateContainer createBlockState(BlockStateContainer superState) {
