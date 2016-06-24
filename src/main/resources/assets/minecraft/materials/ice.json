@@ -4,7 +4,7 @@
     "type": "ice",
     "hardness": 0.5,
     "normalHarvest": "",
-    "silkHarvest": "ice",
+    "silkHarvest": "minecraft:ice",
     "textures": "minecraft:blocks/ice",
     "blocks": {
         "full": "minecraft:ice"

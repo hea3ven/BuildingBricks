@@ -4,7 +4,7 @@
     "type": "packed_ice",
     "hardness": 0.5,
     "normalHarvest": "",
-    "silkHarvest": "packed_ice",
+    "silkHarvest": "minecraft:packed_ice",
     "textures": "minecraft:blocks/ice_packed",
     "blocks": {
         "full": "minecraft:packed_ice"
