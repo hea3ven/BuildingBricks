@@ -50,12 +50,13 @@ public class RenderDefinitionStairs extends RenderDefinitionSimple {
 	@Override
 	protected IModelState getModelState(IBlockState state) {
 		EnumShape shape = state.getValue(BlockStairs.SHAPE);
-		int offset = (shape != EnumShape.INNER_LEFT && shape != EnumShape.OUTER_LEFT) ? 0 : -90;
 		if (state.getValue(BlockStairs.HALF) == BlockStairs.EnumHalf.BOTTOM) {
 			int angle = getAngle(state.getValue(BlockStairs.FACING));
+			int offset = (shape != EnumShape.INNER_LEFT && shape != EnumShape.OUTER_LEFT) ? 0 : -90;
 			return ModelRotation.getModelRotation(0, angle + offset);
 		} else {
 			int angle = getAngle(state.getValue(BlockStairs.FACING));
+			int offset = (shape != EnumShape.OUTER_RIGHT && shape != EnumShape.INNER_RIGHT) ? 0 : -90;
 			return ModelRotation.getModelRotation(180, angle - offset);
 		}
 	}
