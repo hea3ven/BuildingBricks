@@ -46,7 +46,7 @@ public class BlockBuildingBricksWall extends BlockWall implements BlockBuildingB
 		BlockPos otherPos = pos.offset(side);
 		IBlockState otherState = world.getBlockState(otherPos);
 		if (!(otherState.getBlock() instanceof BlockWall)) {
-			return !otherState.isSideSolid(world, otherPos, side.getOpposite());
+			return !otherState.doesSideBlockRendering(world, otherPos, side.getOpposite());
 		}
 
 		return side.getAxis() == Axis.Y || BlockProperties.getConnection(state, side);

@@ -89,7 +89,7 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 		if (side.getAxis() != Axis.Y) {
 			if (!(otherState.getBlock() instanceof BlockSlab) ||
 					((BlockSlab) otherState.getBlock()).isDouble())
-				return !otherState.isSideSolid(world, otherPos, side.getOpposite());
+				return !otherState.doesSideBlockRendering(world, otherPos, side.getOpposite());
 			else
 				return otherState.getValue(HALF) != state.getValue(HALF) ||
 						otherState.getMaterial() != state.getMaterial();
@@ -97,10 +97,10 @@ public class BlockBuildingBricksSlab extends BlockSlab implements BlockBuildingB
 
 		if (state.getValue(HALF) == EnumBlockHalf.BOTTOM)
 			return side != EnumFacing.DOWN || otherState.getMaterial() != state.getMaterial() ||
-					!otherState.isSideSolid(world, otherPos, side.getOpposite());
+					!otherState.doesSideBlockRendering(world, otherPos, side.getOpposite());
 		else
 			return side != EnumFacing.UP || otherState.getMaterial() != state.getMaterial() ||
-					!otherState.isSideSolid(world, otherPos, side.getOpposite());
+					!otherState.doesSideBlockRendering(world, otherPos, side.getOpposite());
 	}
 
 	//region COMMON BLOCK CODE

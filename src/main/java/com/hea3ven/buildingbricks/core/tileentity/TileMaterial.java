@@ -1,5 +1,6 @@
 package com.hea3ven.buildingbricks.core.tileentity;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,7 +20,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -75,19 +75,13 @@ public class TileMaterial extends TileEntity {
 		return tile;
 	}
 
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		nbt = super.writeToNBT(nbt);
-
+	private NBTTagCompound serializeMaterialData(NBTTagCompound nbt) {
 		if (materialId != null)
 			nbt.setString("material", materialId);
 		return nbt;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-
+	private void deserializeMaterialData(NBTTagCompound nbt) {
 		if (nbt.hasKey("material", NBT.TAG_STRING)) {
 			String matId = nbt.getString("material");
 			if (!matId.contains(":"))
@@ -100,20 +94,51 @@ public class TileMaterial extends TileEntity {
 	}
 
 	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt = serializeMaterialData(nbt);
+		return nbt;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		deserializeMaterialData(nbt);
+	}
+
+	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		return oldState.getBlock() != newSate.getBlock();
 	}
 
 	@Override
+	public NBTTagCompound getTileData() {
+		return serializeMaterialData(new NBTTagCompound());
+	}
+
+	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound nbt = super.getUpdateTag();
-		nbt = writeToNBT(nbt);
+		nbt = serializeMaterialData(nbt);
 		return nbt;
 	}
 
 	@Override
+	public void handleUpdateTag(NBTTagCompound nbt) {
+		deserializeMaterialData(nbt);
+	}
+
+	@Nullable
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(pos, 0, serializeMaterialData(new NBTTagCompound()));
+	}
+
+	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.getNbtCompound());
+		deserializeMaterialData(pkt.getNbtCompound());
 	}
 
 	public static BlockStateContainer createBlockState(BlockStateContainer superState) {

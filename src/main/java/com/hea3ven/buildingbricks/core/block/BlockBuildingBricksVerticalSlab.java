@@ -77,8 +77,9 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 	}
 
 	@Override
-	public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return side == BlockProperties.getSide(world.getBlockState(pos));
+	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos,
+			EnumFacing side) {
+		return state.getMaterial().isOpaque() && isSideSolid(state, world, pos, side);
 	}
 
 	@Override
@@ -87,7 +88,7 @@ public class BlockBuildingBricksVerticalSlab extends BlockBuildingBricksNonSolid
 		BlockPos otherPos = pos.offset(side);
 		IBlockState otherState = world.getBlockState(otherPos);
 		if (!(otherState.getBlock() instanceof BlockBuildingBricksVerticalSlab)) {
-			return !otherState.getBlock().isSideSolid(otherState, world, otherPos, side);
+			return !otherState.getBlock().doesSideBlockRendering(otherState, world, otherPos, side);
 		}
 
 		if (side.getAxis() == Axis.Y) {
