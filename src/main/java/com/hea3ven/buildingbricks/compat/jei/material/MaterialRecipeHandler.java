@@ -18,11 +18,12 @@ import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import com.hea3ven.buildingbricks.compat.jei.material.MaterialRecipeHandler.MaterialRecipe;
 import com.hea3ven.buildingbricks.core.materials.BlockDescription;
 import com.hea3ven.buildingbricks.core.materials.Material;
 import com.hea3ven.buildingbricks.core.materials.MaterialRegistry;
 
-public class MaterialRecipeHandler implements IRecipeHandler {
+public class MaterialRecipeHandler implements IRecipeHandler<MaterialRecipe> {
 	public static String uid = "buildingbricks.material";
 
 	public static List<MaterialRecipe> createRecipes() {
@@ -43,13 +44,19 @@ public class MaterialRecipeHandler implements IRecipeHandler {
 
 	@Nonnull
 	@Override
-	public IRecipeWrapper getRecipeWrapper(@Nonnull Object recipe) {
-		return (IRecipeWrapper) recipe;
+	public String getRecipeCategoryUid(@Nonnull MaterialRecipe recipe) {
+		return uid;
+	}
+
+	@Nonnull
+	@Override
+	public IRecipeWrapper getRecipeWrapper(@Nonnull MaterialRecipe recipe) {
+		return recipe;
 	}
 
 	@Override
-	public boolean isRecipeValid(@Nonnull Object recipe) {
-		return recipe instanceof MaterialRecipe;
+	public boolean isRecipeValid(@Nonnull MaterialRecipe recipe) {
+		return true;
 	}
 
 	static class MaterialRecipe implements IRecipeWrapper {

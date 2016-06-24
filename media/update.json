@@ -58,7 +58,8 @@
         "1.9.4-2.0.5": "    * Fix crash on TileMaterial.getPickBlock, fixes #71.\n    * Fix the portable ladder blocks being able to be moved with pistons, fixes #70.\n    * Fix blocks not loading after a world restart, fixes #76.",
         "1.9.4-2.0.6": "    * Fix conflicting vanilla recipes for the mossy/chiseled/cracked stairs and slabs, fixes #68.\n    * Fix grass slabs being generated under water, fixes #64.\n    * Fix block name collision with the grass_slab, fixes #65.\n    * Fix infinite recursion error on the item colors of blocks, fixes #74.\n    * Fix getPickBlock returning invalid stacks for vertical slabs.\n    * Fix IllegalStateException crash with the grass slabs worldgen, fixes #73.",
         "1.9.4-2.0.7": "    * Fix dupe bug when placing blocks, fixes #79.\n    * Fix walls having a fence like recipe.",
-        "commit": "2d7754ffa36ab6dd2c51b5ba822197106255a859"
+        "1.9.4-2.0.8": "    * Fix crash when using the trowel and there's no block for the remainder volume.\n    * Fix grass slabs dropping nothing when harvested with silk touch, fixes #82.\n    * Fix upside down corner stairs having the wrong rotation.\n    * Fix blocks placed by other players not having the material set client-side, fixes #83.\n    * Fix culling issues caused by using the wrong method.\n    * Fix being able to pick up the trowel while on it's gui, fixes #80.",
+        "commit": "bebfe7655a0ee71dfc6d00ac50a5f3f7d264cd36"
     },
     "homepage": "https://github.com/hea3ven/BuildingBricks",
     "promos": {
@@ -70,9 +71,8 @@
         "1.8.9-recommended": "1.8.9-1.4.4",
         "1.9-latest": "1.9-2.0.8",
         "1.9-recommended": "1.9-2.0.8",
-        "1.9.4-latest": "1.9.4-2.0.7",
-        "1.9.4-recommended": "1.9.4-2.0.7",
+        "1.9.4-latest": "1.9.4-2.0.8",
+        "1.9.4-recommended": "1.9.4-2.0.8",
         "reserved": "0"
     }
 }
-
