@@ -44,7 +44,7 @@ dependencies {
 	deobfCompile "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}"
 	release "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}"
 
-	deobfCompile "mezz.jei:jei_$version_mc:$version_jei"
+	deobfCompile "mezz.jei:jei_1.9.4:$version_jei"
 
 	testCompile "junit:junit:4.12"
 }
