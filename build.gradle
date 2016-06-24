@@ -11,7 +11,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
 		classpath 'com.matthewprenger:CurseGradle:1.0-SNAPSHOT'
 		classpath 'org.ajoberstar:grgit:1.4.1'
 	}
@@ -44,7 +44,7 @@ dependencies {
 	deobfCompile "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}"
 	release "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}"
 
-	deobfCompile 'mezz.jei:jei_1.9:3.2.12.188'
+	deobfCompile "mezz.jei:jei_$version_mc:$version_jei"
 
 	testCompile "junit:junit:4.12"
 }

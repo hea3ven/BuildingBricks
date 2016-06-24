@@ -22,6 +22,14 @@
 1.9.4-2.0.3:
     * Update to Minecraft 1.9.4.
 
+1.9-2.0.8:
+    * Fix crash when using the trowel and there's no block for the remainder volume.
+    * Fix grass slabs dropping nothing when harvested with silk touch, fixes #82.
+    * Fix upside down corner stairs having the wrong rotation.
+    * Fix blocks placed by other players not having the material set client-side, fixes #83.
+    * Fix culling issues caused by using the wrong method.
+    * Fix being able to pick up the trowel while on it's gui, fixes #80.
+
 1.9-2.0.7:
     * Fix dupe bug when placing blocks, fixes #79.
     * Fix walls having a fence like recipe.

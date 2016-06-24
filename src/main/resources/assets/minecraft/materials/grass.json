@@ -2,8 +2,8 @@
     "name": "Grass",
     "id": "minecraft:grass",
     "type": "grass",
-    "normalHarvest": "dirt",
-    "silkHarvest": "grass",
+    "normalHarvest": "minecraft:dirt",
+    "silkHarvest": "minecraft:grass",
     "uvlock": false,
     "textures": {
         "top": "minecraft:blocks/grass_top",
