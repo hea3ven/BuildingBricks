@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.translation.I18n;
@@ -21,6 +22,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -52,7 +54,7 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileMaterial();
+		return new TileMaterial((IExtendedBlockState) state);
 	}
 
 	@Override
@@ -67,10 +69,11 @@ public class BlockMaterialVerticalSlab extends BlockBuildingBricksVerticalSlab
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
-			ItemStack stack) {
-		super.onBlockPlacedBy(world, pos, state, placer, stack);
-		TileMaterial.onBlockPlacedBy(this, world, pos, state, placer, stack);
+	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer) {
+		IBlockState state = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+		state = TileMaterial.onBlockPlaced(state, worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+		return state;
 	}
 
 	@Override
