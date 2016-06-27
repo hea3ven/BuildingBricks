@@ -2,6 +2,8 @@ package com.hea3ven.buildingbricks.core.materials;
 
 import java.util.*;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +25,7 @@ public class MaterialRegistry {
 	private static Map<String, Material> materialsById = new HashMap<>();
 
 	private static int nextMeta = 1;
-	private static Map<Material, Integer> materialsMeta = new HashMap<>();
+	private static BiMap<Material, Integer> materialsMeta = HashBiMap.create();
 
 	public static void registerMaterial(Material material) {
 		if (isFrozen)
@@ -70,6 +72,9 @@ public class MaterialRegistry {
 		return mat != null ? materialsMeta.get(mat) : 0;
 	}
 
+	public static Material getFromMeta(int meta) {
+		return materialsMeta.inverse().get(meta);
+	}
 	public static void logStats() {
 		logger.info("Registered {} material(s)", materials.size());
 	}

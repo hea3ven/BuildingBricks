@@ -22,6 +22,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -46,6 +47,15 @@ public class TileMaterial extends TileEntity {
 
 	private Material material;
 	private String materialId;
+
+	public TileMaterial() {
+		super();
+	}
+
+	public TileMaterial(IExtendedBlockState state) {
+		this();
+		setMaterial(state.getValue(MATERIAL));
+	}
 
 	public Material getMaterial() {
 		if (material != null)
@@ -139,6 +149,13 @@ public class TileMaterial extends TileEntity {
 		if (tile == null || tile.getMaterial() == null)
 			return state;
 		return TileMaterial.setStateMaterial((IExtendedBlockState) state, tile.getMaterial());
+	}
+
+	public static IBlockState onBlockPlaced(IBlockState state, World worldIn, BlockPos pos, EnumFacing facing,
+			float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer) {
+		state = ((IExtendedBlockState) state).withProperty(MATERIAL, MaterialRegistry.getFromMeta(meta));
+		return state;
 	}
 
 	public static void onBlockPlacedBy(Block block, World world, BlockPos pos, IBlockState state,
