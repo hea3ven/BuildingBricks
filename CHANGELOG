@@ -1,4 +1,7 @@
-<<<<<<< HEAD
+1.9.4-2.0.9:
+    * Fix infinite recursion error in the grass slabs worldgen.
+    * Fix issues with block placement.
+
 1.9.4-2.0.8:
     * Fix crash when using the trowel and there's no block for the remainder volume.
     * Fix grass slabs dropping nothing when harvested with silk touch, fixes #82.
