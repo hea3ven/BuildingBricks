@@ -57,17 +57,13 @@ public class GrassSlabWorldGen implements Consumer<Property> {
 		int offZ = 16;
 		if (chunkProvider.getLoadedChunk(event.getChunkX() - 1, event.getChunkZ()) != null) {
 			x--;
-			offX++;
 		} else {
 			x++;
-			offX--;
 		}
 		if (chunkProvider.getLoadedChunk(event.getChunkX(), event.getChunkZ() - 1) != null) {
 			z--;
-			offZ++;
 		} else {
 			z++;
-			offZ--;
 		}
 		if (chunkProvider.getLoadedChunk(event.getChunkX() + 1, event.getChunkZ()) != null)
 			offX++;

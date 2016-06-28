@@ -28,7 +28,7 @@ import com.hea3ven.tools.commonutils.resources.ResourceScanner;
 @Mod(modid = ModBuildingBricks.MODID, version = ModBuildingBricks.VERSION,
 		dependencies = ModBuildingBricks.DEPENDENCIES,
 		guiFactory = "com.hea3ven.buildingbricks.core.config.BuildingBricksConfigGuiFactory",
-		updateJSON = "https://raw.githubusercontent.com/hea3ven/BuildingBricks/master/media/update.json")
+		updateJSON = "https://raw.githubusercontent.com/hea3ven/BuildingBricks/version/media/update.json")
 public class ModBuildingBricks {
 
 	public static final String MODID = "buildingbricks";

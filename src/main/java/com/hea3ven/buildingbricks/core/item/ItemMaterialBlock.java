@@ -45,4 +45,9 @@ public class ItemMaterialBlock extends ItemBlock implements ItemMaterial {
 		} else
 			return null;
 	}
+
+	@Override
+	public int getMetadata(int damage) {
+		return damage;
+	}
 }
