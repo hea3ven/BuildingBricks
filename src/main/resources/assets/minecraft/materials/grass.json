@@ -13,6 +13,12 @@
     },
     "blocks": {
         "full": "minecraft:grass",
-        "slab": "buildingbricks:grass_slab"
+        "slab": {
+            "id":"buildingbricks:grass_slab",
+            "recipes": [
+                { "output": 6, "ingredients": ["xxx", "x", "FULL"] },
+                { "output": 1, "ingredients": ["xx", "x", "STEP"] }
+            ]
+        }
     }
 }

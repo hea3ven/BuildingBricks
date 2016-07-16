@@ -50,6 +50,7 @@ import com.hea3ven.buildingbricks.core.item.ItemTrowel;
 import com.hea3ven.buildingbricks.core.item.crafting.RecipeBindTrowel;
 import com.hea3ven.buildingbricks.core.materials.*;
 import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder;
+import com.hea3ven.buildingbricks.core.materials.MaterialBlockRecipes.MaterialBlockRecipeBuilder.DisabledMaterialBlockRecipe;
 import com.hea3ven.buildingbricks.core.materials.loader.MaterialResourceLoader;
 import com.hea3ven.buildingbricks.core.network.TrowelRotateBlockTypeMessage;
 import com.hea3ven.buildingbricks.core.tileentity.TileMaterial;
@@ -289,7 +290,10 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 					.getAll()
 					.entrySet()) {
 				for (MaterialBlockRecipeBuilder builder : entry.getValue().getRecipes()) {
-					addRecipe(builder.output(entry.getKey()).bind(mat).build());
+					try {
+						addRecipe(builder.output(entry.getKey()).bind(mat).build());
+					} catch (DisabledMaterialBlockRecipe e) {
+					}
 				}
 			}
 		}

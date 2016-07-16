@@ -117,7 +117,7 @@ public class MaterialParser {
 
 						if (blockJson.has("id")) {
 							String blockName = blockJson.get("id").getAsString();
-							int meta = blockJson.get("meta").getAsInt();
+							int meta = (blockJson.has("meta")) ? blockJson.get("meta").getAsInt() : 0;
 							matBuilder.addBlock(type, blockName, meta, null, recipes);
 						} else {
 							if (recipes == null) {
