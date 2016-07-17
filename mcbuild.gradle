@@ -240,7 +240,7 @@ class UpdateFile {
 
 	def saveChangelog(File file) {
 		def changelogText = ''
-		versions.sort { k1, k2 -> compareVersions(k1.key, k2.key) }.collect { it.value }.reverseEach {
+		versions.sort { lhs, rhs -> sortVersions(lhs.key, rhs.key) }.collect { it.value }.reverseEach {
 			def sortedChangelogs = [:]
 			it.sort {
 				lhs, rhs -> sortVersions(lhs.key + ((!lhs.key.contains('-beta') && !lhs.key.contains('-alpha')) ? '-release' : ''),

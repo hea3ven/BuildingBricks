@@ -1,4 +1,7 @@
-<<<<<<< HEAD
+1.10.2-2.0.10:
+    * Fix grass slabs not having recipes, fixes #87.
+    * Fix crash when placing vertical slabs when quark is present, fixes #84.
+
 1.10-2.0.9:
     * Fix infinite recursion error in the grass slabs worldgen.
     * Fix issues with block placement.

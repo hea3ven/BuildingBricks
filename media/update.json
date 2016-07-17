@@ -70,6 +70,10 @@
         "1.10-2.0.9": "    * Fix infinite recursion error in the grass slabs worldgen.\n    * Fix issues with block placement.",
         "commit": "9e89114fc28d4e27a9aeb4f016e5b35aa6f77600"
     },
+    "1.10.2": {
+        "1.10.2-2.0.10": "    * Fix grass slabs not having recipes, fixes #87.\n    * Fix crash when placing vertical slabs when quark is present, fixes #84.",
+        "commit": "506c79a4951feda517c33b3dee85dc52ece1f75c"
+    },
     "homepage": "https://github.com/hea3ven/BuildingBricks",
     "promos": {
         "1.8-latest": "1.1.2",
@@ -84,6 +88,8 @@
         "1.9.4-recommended": "1.9.4-2.0.10",
         "1.10-latest": "1.10-2.0.9",
         "1.10-recommended": "1.10-2.0.9",
+        "1.10.2-latest": "1.10.2-2.0.10",
+        "1.10.2-recommended": "1.10.2-2.0.10",
         "reserved": "0"
     }
 }
