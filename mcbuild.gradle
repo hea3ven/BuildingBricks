@@ -221,18 +221,18 @@ class UpdateFile {
 	def save(File file) {
 		def data = [:]
 		data.put('homepage', homepage)
-		promotions = promotions.sort { it.key }
+		promotions = promotions.sort { lhs, rhs -> sortVersions(lhs.key, rhs.key) }
 		data.put('promos', promotions)
-		versions = versions.sort { it.key }
+		versions = versions.sort { lhs, rhs -> sortVersions(lhs.key, rhs.key) }
 		versions.each { mcVersion, v ->
 			data[mcVersion] = [:]
 			data[mcVersion]['commit'] = commits[mcVersion]
 			v.each { version, changelog ->
 				data[mcVersion][version] = changelog.save()
 			}
-			data[mcVersion] = data[mcVersion].sort { it.key }
+			data[mcVersion] = data[mcVersion].sort { lhs, rhs -> sortVersions(lhs.key, rhs.key) }
 		}
-		data = data.sort { it.key }
+		data = data.sort { lhs, rhs -> sortVersions(lhs.key, rhs.key) }
 		file.setText(new JsonBuilder(data).toPrettyString())
 	}
 
@@ -241,13 +241,42 @@ class UpdateFile {
 		versions.sort { it.key }.collect { it.value }.reverseEach {
 			def sortedChangelogs = [:]
 			it.sort {
-				it.key + ((!it.key.contains('-beta') && !it.key.contains('-alpha')) ? '-release' : '')
+				lhs, rhs -> sortVersions(lhs.key + ((!lhs.key.contains('-beta') && !lhs.key.contains('-alpha')) ? '-release' : ''),
+										rhs.key + ((!rhs.key.contains('-beta') && !rhs.key.contains('-alpha')) ? '-release' : ''))
 			}.reverseEach { sortedChangelogs[it.key] = it.value }
 			sortedChangelogs.each {
 				version, changelog -> changelogText += version + ':\n' + changelog.save() + '\n\n'
 			}
 		}
 		file.setText(changelogText)
+	}
+
+	def sortVersions(String lhs, String rhs) {
+		def i = 0
+
+		while (i < lhs.size() && i < rhs.size()) {
+			if (!lhs.charAt(i).isDigit() || !rhs.charAt(i).isDigit()) {
+				if (lhs.charAt(i) != rhs.charAt(i))
+					return lhs[i] <=> rhs[i]
+				i++
+				continue
+			}
+			def endL = i + 1
+			while (endL < lhs.size() && lhs.charAt(endL).isDigit())
+				endL++
+			def endR = i + 1
+			while (endR < rhs.size() && rhs.charAt(endR).isDigit())
+				endR++
+
+			def numL = lhs.substring(i, endL) as Integer
+			def numR = rhs.substring(i, endR) as Integer
+			if (numL == numR) {
+				i = endL
+				continue
+			}
+			return numL <=> numR
+		}
+		return lhs <=> rhs
 	}
 }
 

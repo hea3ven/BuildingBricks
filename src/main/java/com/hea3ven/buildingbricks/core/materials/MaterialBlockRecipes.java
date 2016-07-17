@@ -13,69 +13,51 @@ public class MaterialBlockRecipes {
 		List<MaterialBlockRecipeBuilder> recipes = new ArrayList<>();
 		switch (blockType) {
 			case FULL:
-				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.SLAB))
-					recipes.add(new MaterialBlockRecipeBuilder().outputAmount(2)
-							.ingredients("xx", "xx", "x", "SLAB"));
+				recipes.add(new MaterialBlockRecipeBuilder().outputAmount(2)
+						.ingredients("xx", "xx", "x", "SLAB"));
 				break;
 			case STAIRS:
-				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.FULL))
-					recipes.add(new MaterialBlockRecipeBuilder().outputAmount(4)
-							.ingredients("x  ", "xx ", "xxx", "x", "FULL"));
+				recipes.add(new MaterialBlockRecipeBuilder().outputAmount(4)
+						.ingredients("x  ", "xx ", "xxx", "x", "FULL"));
 				break;
 			case SLAB:
-				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.FULL))
-					recipes.add(
-							new MaterialBlockRecipeBuilder().outputAmount(6).ingredients("xxx", "x", "FULL"));
-				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.STEP))
-					recipes.add(
-							new MaterialBlockRecipeBuilder().outputAmount(1).ingredients("xx", "x", "STEP"));
+				recipes.add(new MaterialBlockRecipeBuilder().outputAmount(6).ingredients("xxx", "x", "FULL"));
+				recipes.add(new MaterialBlockRecipeBuilder().outputAmount(1).ingredients("xx", "x", "STEP"));
 				break;
 			case VERTICAL_SLAB:
 				break;
 			case STEP:
-				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.SLAB))
-					recipes.add(
-							new MaterialBlockRecipeBuilder().outputAmount(6).ingredients("xxx", "x", "SLAB"));
-				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.CORNER))
-					recipes.add(new MaterialBlockRecipeBuilder().outputAmount(1)
-							.ingredients("xx", "x", "CORNER"));
+				recipes.add(new MaterialBlockRecipeBuilder().outputAmount(6).ingredients("xxx", "x", "SLAB"));
+				recipes.add(
+						new MaterialBlockRecipeBuilder().outputAmount(1).ingredients("xx", "x", "CORNER"));
 				break;
 			case CORNER:
-				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.STEP))
-					recipes.add(
-							new MaterialBlockRecipeBuilder().outputAmount(6).ingredients("xxx", "x", "STEP"));
+				recipes.add(new MaterialBlockRecipeBuilder().outputAmount(6).ingredients("xxx", "x", "STEP"));
 				break;
 			case WALL:
 				switch (structMat) {
 					default:
-						if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.FULL))
-							recipes.add(new MaterialBlockRecipeBuilder().outputAmount(6)
-									.ingredients("xxx", "xxx", "x", "FULL"));
+						recipes.add(new MaterialBlockRecipeBuilder().outputAmount(6)
+								.ingredients("xxx", "xxx", "x", "FULL"));
 						break;
 					case GLASS:
 					case ICE:
 					case PACKED_ICE:
-						if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.FULL) &&
-								MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.SLAB))
-							recipes.add(new MaterialBlockRecipeBuilder().outputAmount(4)
-									.ingredients("xyx", "xyx", "x", "SLAB", "y", "FULL"));
+						recipes.add(new MaterialBlockRecipeBuilder().outputAmount(4)
+								.ingredients("xyx", "xyx", "x", "SLAB", "y", "FULL"));
 						break;
 				}
 				break;
 			case FENCE:
-				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.FULL))
-					recipes.add(new MaterialBlockRecipeBuilder().outputAmount(6)
-							.ingredients("xyx", "xyx", "x", "FULL", "y", "stickWood"));
+				recipes.add(new MaterialBlockRecipeBuilder().outputAmount(6)
+						.ingredients("xyx", "xyx", "x", "FULL", "y", "stickWood"));
 				break;
 			case FENCE_GATE:
-				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.FULL))
-					recipes.add(
-							new MaterialBlockRecipeBuilder().ingredients("xyx", "xyx", "x", "stickWood", "y",
-									"FULL"));
+				recipes.add(new MaterialBlockRecipeBuilder().ingredients("xyx", "xyx", "x", "stickWood", "y",
+						"FULL"));
 				break;
 			case PANE:
-				if (MaterialBlockRegistry.instance.enabledBlocks.get(MaterialBlockType.FULL))
-					recipes.add(new MaterialBlockRecipeBuilder().ingredients("xxx", "xxx", "x", "FULL"));
+				recipes.add(new MaterialBlockRecipeBuilder().ingredients("xxx", "xxx", "x", "FULL"));
 				break;
 			default:
 				throw new UnsupportedOperationException("Missing recipes for block type " + blockType);
@@ -107,10 +89,18 @@ public class MaterialBlockRecipes {
 		@Override
 		protected Object parseIngredient(String ingredient) {
 			for (MaterialBlockType blockType : MaterialBlockType.values()) {
-				if (blockType.toString().equals(ingredient))
-					return mat.getBlock(blockType).getStack();
+				if (blockType.toString().equals(ingredient)) {
+					if (MaterialBlockRegistry.instance.enabledBlocks.get(blockType)) {
+						return mat.getBlock(blockType).getStack();
+					} else {
+						throw new DisabledMaterialBlockRecipe();
+					}
+				}
 			}
 			return super.parseIngredient(ingredient);
+		}
+
+		public class DisabledMaterialBlockRecipe extends RuntimeException {
 		}
 	}
 }
