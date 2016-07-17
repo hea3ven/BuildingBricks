@@ -62,7 +62,8 @@
         "1.9.4-2.0.7": "    * Fix dupe bug when placing blocks, fixes #79.\n    * Fix walls having a fence like recipe.",
         "1.9.4-2.0.8": "    * Fix crash when using the trowel and there's no block for the remainder volume.\n    * Fix grass slabs dropping nothing when harvested with silk touch, fixes #82.\n    * Fix upside down corner stairs having the wrong rotation.\n    * Fix blocks placed by other players not having the material set client-side, fixes #83.\n    * Fix culling issues caused by using the wrong method.\n    * Fix being able to pick up the trowel while on it's gui, fixes #80.",
         "1.9.4-2.0.9": "    * Fix infinite recursion error in the grass slabs worldgen.\n    * Fix issues with block placement.",
-        "commit": "6c6cd0cfddabc38a951295429f929204fcdbb20e"
+        "1.9.4-2.0.10": "    * Fix grass slabs not having recipes, fixes #87.\n    * Fix crash when placing vertical slabs when quark is present, fixes #84.",
+        "commit": "d6d125907da0394f994990288a156fea9f985b1e"
     },
     "homepage": "https://github.com/hea3ven/BuildingBricks",
     "promos": {
@@ -72,10 +73,10 @@
         "1.8.8-recommended": "1.8.8-1.1.2",
         "1.8.9-latest": "1.8.9-1.4.4",
         "1.8.9-recommended": "1.8.9-1.4.4",
-        "1.9-latest": "1.9-2.0.9",
-        "1.9-recommended": "1.9-2.0.9",
         "1.9-latest": "1.9-2.0.10",
         "1.9-recommended": "1.9-2.0.10",
+        "1.9.4-latest": "1.9.4-2.0.10",
+        "1.9.4-recommended": "1.9.4-2.0.10",
         "reserved": "0"
     }
 }
