@@ -170,13 +170,15 @@ public class ItemMaterialBag extends Item implements ItemMaterial {
 		Material mat = MaterialRegistry.getMaterialForStack(stack);
 		if (mat == null)
 			return;
+		BlockDescription desc = mat.getBlock(stack);
+		if(desc == null)
+			return;
 
 		ItemStack bagStack = findBag(new InvWrapper(event.getEntityPlayer().inventory), mat);
 		if (bagStack == null)
 			return;
 
 		int volume = getVolume(bagStack);
-		BlockDescription desc = mat.getBlock(stack);
 
 		if (volume + desc.getType().getVolume() * stack.stackSize <= BAG_VOLUME) {
 			setVolume(bagStack, volume + desc.getType().getVolume() * stack.stackSize);
