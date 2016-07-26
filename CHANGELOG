@@ -1,3 +1,7 @@
+1.9.4-2.0.12:
+    * Fix crash when picking up a trowel when you have a material bag in your inventory, fixes #88.
+    * Fix crash when placing grass slabs, fixes #89.
+
 1.9.4-2.0.10:
     * Fix grass slabs not having recipes, fixes #87.
     * Fix crash when placing vertical slabs when quark is present, fixes #84.
