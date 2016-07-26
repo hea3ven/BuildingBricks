@@ -1,4 +1,6 @@
 // Hea3veN's build script for minecraft mods
+// v1.0.9 (2016-07-25):
+//     * Disable the up-to-date check of processResources
 // v1.0.9 (2016-06-24):
 //     * Improve the sorting
 // v1.0.8 (2016-06-12):
@@ -114,6 +116,8 @@ processResources {
 		exclude 'mcmod.info'
 		exclude project_bootstrap_file
 	}
+
+	outputs.upToDateWhen { false }
 }
 
 class McBuildPlugin implements Plugin<Project> {

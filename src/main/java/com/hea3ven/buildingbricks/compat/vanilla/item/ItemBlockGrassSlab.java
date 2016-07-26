@@ -20,6 +20,11 @@ public class ItemBlockGrassSlab extends ItemMaterialBlock {
 	}
 
 	@Override
+	public int getMetadata(int damage) {
+		return MaterialRegistry.getMeta(getMaterial(null));
+	}
+
+	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		return I18n.translateToLocalFormatted("blockType.slab",
 				getMaterial(stack).getLocalizedName());

@@ -14,6 +14,10 @@
     * Fix culling issues caused by using the wrong method.
     * Fix being able to pick up the trowel while on it's gui, fixes #80.
 
+1.9.4-2.0.12:
+    * Fix crash when picking up a trowel when you have a material bag in your inventory, fixes #88.
+    * Fix crash when placing grass slabs, fixes #89.
+
 1.9.4-2.0.10:
     * Fix grass slabs not having recipes, fixes #87.
     * Fix crash when placing vertical slabs when quark is present, fixes #84.
@@ -53,6 +57,10 @@
 
 1.9.4-2.0.3:
     * Update to Minecraft 1.9.4.
+
+1.9-2.0.11:
+    * Fix crash when picking up a trowel when you have a material bag in your inventory, fixes #88.
+    * Fix crash when placing grass slabs, fixes #89.
 
 1.9-2.0.10:
     * Fix grass slabs not having recipes, fixes #87.
