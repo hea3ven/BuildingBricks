@@ -83,6 +83,8 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 	public void onPreInitEvent(FMLPreInitializationEvent event) {
 		super.onPreInitEvent(event);
 
+		MaterialResourceLoader.addDomain("adobeblocks");
+		MaterialResourceLoader.addDomain("biomesoplenty");
 		MaterialResourceLoader.loadResources(ModBuildingBricks.resScanner);
 		MaterialRegistry.freeze(this);
 	}

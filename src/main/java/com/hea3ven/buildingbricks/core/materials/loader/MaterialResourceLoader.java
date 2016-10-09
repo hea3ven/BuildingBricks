@@ -18,8 +18,8 @@ public class MaterialResourceLoader {
 
 	public static void loadResources(ResourceScanner scanner) {
 		for (ResourceLocation materialResLoc : scanner.scan("materials")) {
-			if (domains.contains(materialResLoc.getResourceDomain()) ||
-					isModLoaded(materialResLoc.getResourceDomain())) {
+			if (domains.contains(materialResLoc.getResourceDomain())) {
+//					isModLoaded(materialResLoc.getResourceDomain())) {
 				try {
 					for (InputStream matStream : scanner.getAllResources(materialResLoc)) {
 						try (InputStream stream = matStream) {
