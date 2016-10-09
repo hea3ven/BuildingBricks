@@ -313,7 +313,7 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 			@SideOnly(Side.CLIENT)
 			public Gui createGui(EntityPlayer player, World world, BlockPos pos) {
 				for (ItemStack stack : player.getHeldEquipment()) {
-					if (stack.getItem() == ModBuildingBricks.trowel)
+					if (stack != null && stack.getItem() == ModBuildingBricks.trowel)
 						return new GuiTrowel(player, stack);
 				}
 				throw new RuntimeException();
