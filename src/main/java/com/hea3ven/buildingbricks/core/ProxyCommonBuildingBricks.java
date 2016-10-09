@@ -350,12 +350,18 @@ public class ProxyCommonBuildingBricks extends ProxyModComposite {
 				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.STAIRS));
 		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectSlab", Keyboard.KEY_NUMPAD2,
 				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.SLAB));
-		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectVertSlab", Keyboard.KEY_NUMPAD3,
-				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.VERTICAL_SLAB));
-		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectStep", Keyboard.KEY_NUMPAD4,
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectStep", Keyboard.KEY_NUMPAD3,
 				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.STEP));
-		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectCorner", Keyboard.KEY_NUMPAD5,
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectCorner", Keyboard.KEY_NUMPAD4,
 				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.CORNER));
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectCorner", Keyboard.KEY_NUMPAD5,
+				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.WALL));
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectCorner", Keyboard.KEY_NUMPAD6,
+				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.FENCE));
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectCorner", Keyboard.KEY_NUMPAD7,
+				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.FENCE_GATE));
+		addItemKeyBinding(ModBuildingBricks.trowel, "key.trowel.selectCorner", Keyboard.KEY_NUMPAD8,
+				"key.trowel", TrowelKeyBindings.getOnTrowelSelect(MaterialBlockType.PANE));
 	}
 
 	@Override

@@ -51,7 +51,7 @@ public class EventHandlerTrowelOverlay {
 		mc.ingameGUI.drawTexturedModalRect(xPos + 18, yPos - 3, 181, 0, 1, 22);
 
 		ItemStack stack1 = mat.getBlock(type).getStack();
-		if (stack1.getItem() != null)
+		if (stack1 != null && stack1.getItem() != null)
 			renderItem(partialTicks, xPos, yPos, stack1);
 	}
 

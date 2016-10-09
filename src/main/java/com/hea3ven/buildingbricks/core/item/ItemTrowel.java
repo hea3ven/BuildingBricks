@@ -87,6 +87,10 @@ public class ItemTrowel extends Item implements ItemMaterial {
 			blockType = mat.getBlockRotation().getNext(blockType);
 			setCurrentBlockType(stack, blockType);
 		}
+		if (mat != null && !blockType.isStackType()) {
+			blockType = blockType.getStackType();
+			setCurrentBlockType(stack, blockType);
+		}
 		return blockType;
 	}
 
