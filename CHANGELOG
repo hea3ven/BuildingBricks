@@ -1,3 +1,8 @@
+1.10.2-2.0.13:
+    * Fix crash when opening the trowel on the off-hand and the main hand is empty, fixes #91.
+    * Fix crash when using the numpad keybindings, fixes #92.
+    * Fix loading crash when run with tinkers construct, fixes #95.
+
 1.10.2-2.0.12:
     * Fix crash when picking up a trowel when you have a material bag in your inventory, fixes #88.
     * Fix crash when placing grass slabs, fixes #89.

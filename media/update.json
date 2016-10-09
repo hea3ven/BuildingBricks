@@ -75,7 +75,8 @@
     "1.10.2": {
         "1.10.2-2.0.10": "    * Fix grass slabs not having recipes, fixes #87.\n    * Fix crash when placing vertical slabs when quark is present, fixes #84.",
         "1.10.2-2.0.12": "    * Fix crash when picking up a trowel when you have a material bag in your inventory, fixes #88.\n    * Fix crash when placing grass slabs, fixes #89.",
-        "commit": "c52619974a750394020d66f7c72ef5bd6fc65df0"
+        "1.10.2-2.0.13": "    * Fix crash when opening the trowel on the off-hand and the main hand is empty, fixes #91.\n    * Fix crash when using the numpad keybindings, fixes #92.\n    * Fix loading crash when run with tinkers construct, fixes #95.",
+        "commit": "cfa113780eb4418049da80e8715d0904bcb4c57a"
     },
     "homepage": "https://github.com/hea3ven/BuildingBricks",
     "promos": {
@@ -91,8 +92,8 @@
         "1.9.4-recommended": "1.9.4-2.0.12",
         "1.10-latest": "1.10-2.0.9",
         "1.10-recommended": "1.10-2.0.9",
-        "1.10.2-latest": "1.10.2-2.0.12",
-        "1.10.2-recommended": "1.10.2-2.0.12",
+        "1.10.2-latest": "1.10.2-2.0.13",
+        "1.10.2-recommended": "1.10.2-2.0.13",
         "reserved": "0"
     }
 }
