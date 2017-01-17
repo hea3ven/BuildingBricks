@@ -1,6 +1,12 @@
 buildscript {
 	repositories {
+		mavenLocal()
+		mavenCentral()
 		jcenter()
+		maven {
+			name = "Hea3veN"
+			url = "https://raw.github.com/hea3ven/mvn-repo/master"
+		}
 		maven {
 			name = "forge"
 			url = "http://files.minecraftforge.net/maven"
@@ -11,6 +17,9 @@ buildscript {
 		}
 	}
 	dependencies {
+		classpath 'com.hea3ven.tools.gradle.bootstrap:h3nt-gradle-bootstrap:1.0.0'
+		classpath 'com.hea3ven.tools.gradle.automc:h3nt-gradle-automc:1.0.0'
+		classpath 'com.hea3ven.tools.gradle.grlog:h3nt-gradle-grlog:1.0.0'
 		classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
 		classpath 'com.matthewprenger:CurseGradle:1.0-SNAPSHOT'
 		classpath 'org.ajoberstar:grgit:1.4.1'
@@ -22,12 +31,19 @@ plugins {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.hea3ven.tools.gradle.bootstrap'
+apply plugin: 'com.hea3ven.tools.gradle.automc'
+apply plugin: 'com.hea3ven.tools.gradle.grlog'
 apply plugin: 'com.matthewprenger.cursegradle'
 apply from: 'mcbuild.gradle'
 
 import groovy.io.FileType
 
 repositories {
+	maven {
+		name = "Hea3veN"
+		url = "https://raw.github.com/hea3ven/mvn-repo/master"
+	}
 	maven {
 		url "http://dvs1.progwml6.com/files/maven"
 	}
@@ -48,6 +64,17 @@ dependencies {
 
 	testCompile "junit:junit:4.12"
 }
+
+bootstrap {
+	file 'assets/BuildingBricks/bootstrap.json'
+}
+
+// changelog {
+	// plainTextChangelog {
+		// file "CHANGELOG"
+		// lineFormat "    %s."
+	// }
+// }
 
 task updateCommonCode << {
 	updateCommonCodeFrom("base/BlockBuildingBricksBase.java", "COMMON BLOCK CODE")

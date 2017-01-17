@@ -1,6 +1,4 @@
 // Hea3veN's build script for minecraft mods
-// v1.0.9 (2016-07-25):
-//     * Disable the up-to-date check of processResources
 // v1.0.9 (2016-06-24):
 //     * Improve the sorting
 // v1.0.8 (2016-06-12):
@@ -34,8 +32,6 @@ buildscript {
 	}
 }
 
-apply plugin: McBuildPlugin
-
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import org.ajoberstar.grgit.Grgit
@@ -43,32 +39,6 @@ import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClientBuilder
 
-version = "${version_mc}-${project_version}"
-group = "${project_group}"
-archivesBaseName = "${project_name}"
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-minecraft {
-	version = "${version_mc}-${version_forge}" + (project.hasProperty('version_forge_branch')? '-' + version_forge_branch : '')
-	mappings = version_mappings
-	runDir = 'run'
-
-	if (project.hasProperty('project_coremod')) {
-		coreMod = project_coremod
-	}
-
-	def project_class_path = project_class.replace('.', '/')
-	replaceIn "src/main/java/${project_class_path}.java"
-	replace 'PROJECTVERSION', project.version
-	replace 'MCVERSION', project.minecraft.version
-	replace 'FORGEVERSION', version_forge
-}
-
-if (project.hasProperty('project_coremod')) {
-	jar.manifest.attributes.put('FMLCorePluginContainsFMLMod', 'true')
-}
 
 if (project.hasProperty('project_curseforge_id')) {
 	curseforge {
@@ -85,80 +55,22 @@ if (project.hasProperty('project_curseforge_id')) {
 	}
 }
 
-repositories {
-	mavenLocal()
-	maven {
-		url "https://raw.github.com/hea3ven/mvn-repo/master"
-	}
-//	maven {
-//		name "JEI"
-//		url "http://dvs1.progwml6.com/files/maven"
-//	}
-}
-
-configurations {
-	runmods
-}
-
-dependencies {
-//	deobfCompile "mezz.jei:jei_1.8.9:2.24.0.109"
-}
-
 processResources {
 	from(sourceSets.main.resources.srcDirs) {
 		include 'mcmod.info'
-		include project_bootstrap_file
+		include 'src/main/resources/buildingbricks/bootstrap.java'
 		expand project.properties
 		expand 'version': project.version, 'mcversion': project.minecraft.version
 	}
 
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
-		exclude project_bootstrap_file
+		exclude 'src/main/resources/buildingbricks/bootstrap.java'
 	}
 
 	outputs.upToDateWhen { false }
 }
 
-class McBuildPlugin implements Plugin<Project> {
-	void apply(Project project) {
-		project.configurations.create('release')
-		project.configurations.release.transitive = false
-	}
-}
-
-if (project.hasProperty('project_bootstrap_file')) {
-
-	sourceSets.main.java.srcDirs += 'src/bootstrap/java'
-
-	jar {
-		manifest {
-			attributes("H3NTBootstrap": project_bootstrap_file)
-		}
-		into('libs') {
-			from configurations.release
-		}
-	}
-}
-
-task copyRunMods(type: Copy) {
-	from configurations.runmods.files
-	into minecraft.runDir + "/mods/"
-}
-setupDecompWorkspace.dependsOn copyRunMods
-
-if (tasks.findByPath('compileKotlin') != null) {
-	task updateMainKotlinFile << {
-		def mainFile = new File('src/main/java/' + project_class.replace('.', '/') + '.kt')
-		if (mainFile.exists()) {
-			def content = mainFile.text.
-					replaceAll(/val VERSION = "[^"]*"/, 'val VERSION = "' + project.version + '"').
-					replaceAll(/Forge@\[[^,]*,\)/, "Forge@[$version_forge,)")
-			mainFile.withWriter { w -> w << content }
-		}
-	}
-	compileKotlin.dependsOn updateMainKotlinFile
-}
 
 task updateChangelog << {
 	UpdateFile updateFile = UpdateFile.load(new File(projectDir, project_update_file))
@@ -227,28 +139,27 @@ class UpdateFile {
 	def save(File file) {
 		def data = [:]
 		data.put('homepage', homepage)
-		promotions = promotions.sort { lhs, rhs -> sortVersions(lhs.key, rhs.key) }
+		promotions = promotions.sort { k1, k2 -> compareVersions(k1.key, k2.key) }
 		data.put('promos', promotions)
-		versions = versions.sort { lhs, rhs -> sortVersions(lhs.key, rhs.key) }
+		versions = versions.sort { k1, k2 -> compareVersions(k1.key, k2.key) }
 		versions.each { mcVersion, v ->
 			data[mcVersion] = [:]
 			data[mcVersion]['commit'] = commits[mcVersion]
 			v.each { version, changelog ->
 				data[mcVersion][version] = changelog.save()
 			}
-			data[mcVersion] = data[mcVersion].sort { lhs, rhs -> sortVersions(lhs.key, rhs.key) }
+			data[mcVersion] = data[mcVersion].sort { k1, k2 -> compareVersions(k1.key, k2.key) }
 		}
-		data = data.sort { lhs, rhs -> sortVersions(lhs.key, rhs.key) }
+		data = data.sort { k1, k2 -> compareVersions(k1.key, k2.key) }
 		file.setText(new JsonBuilder(data).toPrettyString())
 	}
 
 	def saveChangelog(File file) {
 		def changelogText = ''
-		versions.sort { lhs, rhs -> sortVersions(lhs.key, rhs.key) }.collect { it.value }.reverseEach {
+		versions.sort { k1, k2 -> compareVersions(k1.key, k2.key) }.collect { it.value }.reverseEach {
 			def sortedChangelogs = [:]
 			it.sort {
-				lhs, rhs -> sortVersions(lhs.key + ((!lhs.key.contains('-beta') && !lhs.key.contains('-alpha')) ? '-release' : ''),
-										rhs.key + ((!rhs.key.contains('-beta') && !rhs.key.contains('-alpha')) ? '-release' : ''))
+				it.key + ((!it.key.contains('-beta') && !it.key.contains('-alpha')) ? '-release' : '')
 			}.reverseEach { sortedChangelogs[it.key] = it.value }
 			sortedChangelogs.each {
 				version, changelog -> changelogText += version + ':\n' + changelog.save() + '\n\n'
@@ -257,32 +168,30 @@ class UpdateFile {
 		file.setText(changelogText)
 	}
 
-	def sortVersions(String lhs, String rhs) {
+	def compareVersions(String v1, String v2) {
+		String[] parts1 = v1.split(/[.-]/)
+		String[] parts2 = v2.split(/[.-]/)
 		def i = 0
-
-		while (i < lhs.size() && i < rhs.size()) {
-			if (!lhs.charAt(i).isDigit() || !rhs.charAt(i).isDigit()) {
-				if (lhs.charAt(i) != rhs.charAt(i))
-					return lhs[i] <=> rhs[i]
-				i++
-				continue
+		while (parts1.length > i && parts2.length > i) {
+			if (parts1[i].isInteger() && parts2[i].isInteger()) {
+				def cmp = parts1[i] as int <=> parts2[i] as int
+				if (cmp != 0)
+					return cmp
+			} else {
+				if (i > 0 && parts1[i].isInteger())
+					return 1
+				else if (i > 0 && parts2[i].isInteger())
+					return -1
+				else
+					return parts1[i] <=> parts2[i]
 			}
-			def endL = i + 1
-			while (endL < lhs.size() && lhs.charAt(endL).isDigit())
-				endL++
-			def endR = i + 1
-			while (endR < rhs.size() && rhs.charAt(endR).isDigit())
-				endR++
-
-			def numL = lhs.substring(i, endL) as Integer
-			def numR = rhs.substring(i, endR) as Integer
-			if (numL == numR) {
-				i = endL
-				continue
-			}
-			return numL <=> numR
+			i++
 		}
-		return lhs <=> rhs
+		if (parts1.length > parts2.length)
+			return 1
+		if (parts1.length < parts2.length)
+			return -1
+		return 0
 	}
 }
 

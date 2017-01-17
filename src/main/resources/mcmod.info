@@ -3,7 +3,7 @@
   "modid": "buildingbricks",
   "name": "Building Bricks",
   "description": "A mod about building blocks and building tools.",
-  "version": "${version}",
+  "version": "${project_version}",
   "mcversion": "${version_mc}",
   "url": "https://github.com/hea3ven/BuildingBricks",
   "updateUrl": "",
